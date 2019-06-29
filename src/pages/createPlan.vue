@@ -5,200 +5,34 @@
 
     <h2></h2>
 
-    <el-form ref="form" :model="form" label-width="80px">
-
-      <h2 >健康计划内容</h2>
-
-      <el-row :gutter="15">
-        <el-col :span="2" style="line-height: 40px;text-align: left ">
-          用药情况 :
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="15">
-        <el-col :span="2" style="line-height: 40px;text-align: left ">
-          限烟限酒 :
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="15">
-        <el-col :span="2" style="line-height: 40px;text-align: left ">
-          运动情况 :
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="15">
-        <el-col :span="2" style="line-height: 40px;text-align: left ">
-          饮食情况 :
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7" :offset="2">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="15">
-        <el-col :span="2" style="line-height: 40px;text-align: left ">
-          用药情况 :
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="7">
-          <el-form-item label="请选择 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option label="是" value="1"></el-option>
-              <el-option label="否" value="2"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="15">
-        <el-col :span="2" style="line-height: 40px;text-align: left ">
-          并发症 :
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="请选择 : ">
-            <el-radio-group v-model="form.resource">
-              <el-radio label="是"></el-radio>
-              <el-radio label="否"></el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
+    <el-form ref="form" :model="form" label-width="100px">
+      <h2>疾病计划分类</h2>
+      <el-row>
+          <el-col :span="24" v-for="(v,i) in planList" :key="i">
+              <el-form-item :label="v.label">
+                  <el-input
+                      type="textarea"
+                      v-model="v.content"
+                      placeholder="请输入建议"
+                  ></el-input>
+              </el-form-item>
+          </el-col>
       </el-row>
 
-      <el-form-item label="健康教育:" :label-position="top" label-width="80px">
-        <el-input type="textarea" v-model="form.desc"></el-input>
-      </el-form-item>
+      <h2>疾病必测体征项</h2>
 
-      <el-form-item label="注意事项:">
-        <el-input type="textarea" v-model="form.desc"></el-input>
-      </el-form-item>
+      <el-checkbox-group v-model="slectedBodySignList">
+        <el-checkbox :label="v.bodySignId" v-for="(v,i) in bodySignList" :key="i">
+          {{ v.bodySignType }}
+        </el-checkbox>
+      </el-checkbox-group>
 
-      <h2>其他项目</h2>
+      <h2>疾病管理计划时间</h2>
+        <el-date-picker v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
 
-      <el-form-item label="随访备注:">
-        <el-input type="textarea" v-model="form.desc"></el-input>
-      </el-form-item>
-
-      <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit">完成随访</el-button>
-        <el-button>取消</el-button>
-      </el-form-item>
+      <el-button type="success" @click="onSubmit" class="submitBtn">发布</el-button>
     </el-form>
-
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <span>确认要删除该用户的信息么？</span>
-      <span slot="footer" class="dialog-footer">
-    <el-button @click="dialogVisible = false">取 消</el-button>
-    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-  </span>
-    </el-dialog>
 
   </div>
 </template>
@@ -216,44 +50,126 @@
       tabHeader
     },
     name: 'createPlan',
-    data() {
+    data () {
       return {
+        date: '',
+        user: {},
+        planList: [
+          {
+            'value': 1,
+            'label': '用药建议'
+          },
+          {
+            'value': 2,
+            'label': '饮食建议'
+          },
+          {
+            'value': 3,
+            'label': '运动建议'
+          },
+          {
+            'value': 4,
+            'label': '戒烟限酒建议'
+          },
+          {
+            'value': 5,
+            'label': '心理建议'
+          },
+          {
+            'value': 6,
+            'label': '康复建议'
+          },
+          {
+            'value': 7,
+            'label': '其他'
+          }
+        ],
+        bodySignList: [],
+        slectedBodySignList: [],
         form: {
-          name1: '',
-          name2: '',
-          name3: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
         },
-        personInfoId:"",
-        personInfo:{},
-        dialogVisible: false
+        // 患者信息
+        personInfo: {}
       }
     },
-    created(){
-      var that = this;
-      console.log( that.$route.params.info);
-      that.personInfoId = that.$route.params.id;
-      that.personInfo = that.$route.params.info;
+    created () {
+      this.personInfo = this.$route.params.info
+      this.user = JSON.parse(sessionStorage.getItem('loginUser'))
     },
-    mounted(){
-
+    mounted () {
+      this.getPlanList()
+      this.getBodySignList()
     },
     methods: {
-      onSubmit() {
-        console.log('submit!');
+      // 获取计划分类
+      getPlanList () {
+        this.$http
+          .get(`/api/plan/getPlanItem`)
+          .then(res => {
+            this.planList = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
       },
-      handleClose(done) {
+      // 获取体征列表
+      getBodySignList () {
+        this.$http
+          .get(`/api/bodySignRecord/getBodySignList`)
+          .then(res => {
+            this.bodySignList = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+      onSubmit () {
+        let list = this.planList.map((v, i) => {
+          return {
+            detailType: v.value,
+            content: v.content,
+            sort: v.value
+          }
+        })
+        console.log(this.date)
+        const params = {
+          'createDate': this.date ? this.date[0] : '',
+          'endDate': this.date ? this.date[1] : '',
+          'patientId': this.personInfo.id,
+          'doctorId': this.user.id,
+          'monitorItem': this.slectedBodySignList.join(','),
+          'item': list
+        }
+        console.log(params)
+        this.$http
+          .post(`/api/plan/addPlan`, params)
+          .then(res => {
+            if (res.data) {
+              this.$message({
+                type: 'success',
+                message: '新增计划成功',
+                duration: 1000,
+                onClose: () => {
+                  this.$router.push({
+                    name: 'EssentialInfo',
+                    params: { selectId: 'jhxx' }
+                  })
+                }
+              })
+            } else {
+              this.$message.error('新增科室失败')
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+      handleClose (done) {
         this.$confirm('确认关闭？')
           .then(_ => {
-            done();
+            done()
           })
-          .catch(_ => {});
+          .catch(_ => {})
       }
     }
 
@@ -295,6 +211,12 @@
 
   .cp_titleTag{
     margin-left: 30px;
+  }
+
+  .submitBtn{
+    margin-top: 30px;
+    margin-bottom: 30px;
+    float: right;
   }
 
 </style>

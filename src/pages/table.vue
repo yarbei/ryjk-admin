@@ -86,6 +86,14 @@
             round
             type="text"
             style="color: #52a3d7"
+            @click="createPlan(scope.$index, scope.row)"
+          >
+            <i class="el-icon-circle-plus-outline" style="margin-right: 5px"></i>创建计划
+          </el-button>
+          <el-button
+            round
+            type="text"
+            style="color: #52a3d7"
             @click="essentialInfo(scope.$index, scope.row)"
           >
             <i class="el-icon-search" style="margin-right: 5px"></i>查看详情
@@ -257,51 +265,51 @@
 
 <script>
 export default {
-  data() {
+  data () {
     var checkIdCard = (rule, value, callback) => {
-      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
       if (!reg.test(value)) {
-        callback(new Error("请输入正确的身份证号"));
-        return false;
+        callback(new Error('请输入正确的身份证号'))
+        return false
       } else {
         callback();
       }
-    };
+    }
     var checkPhone = (rule, value, callback) => {
-      var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
-      var telReg = reg.test(value);
-      if (telReg == false) {
-        callback(new Error("请输入正确的手机号"));
-        return false;
+      var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      var telReg = reg.test(value)
+      if (telReg === false) {
+        callback(new Error('请输入正确的手机号'))
+        return false
       } else {
         callback();
       }
-    };
+    }
     return {
       filters: {
-        name: ""
+        name: ''
       },
       groupNameList: [
         {
-          groupId: "",
-          groupName: ""
+          groupId: '',
+          groupName: ''
         }
       ],
-      groupNameChoose: "",
-      value: "",
+      groupNameChoose: '',
+      value: '',
       total: 20,
       page: 1,
       listLoading: false,
-      sels: [], //列表选中列
+      sels: [], // 列表选中列
       usersList: [],
-      editFormVisible: false, //编辑界面是否显示
+      editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
       editFormRules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }]
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
       },
-      //编辑界面数据
+      // 编辑界面数据
       editForm: {},
-      addFormVisible: false, //新增界面是否显示
+      addFormVisible: false, // 新增界面是否显示
       addFormVisible1: false,
       addLoading: false,
       addFormRules: {
@@ -319,9 +327,9 @@ export default {
       user: null,
       pageTotal: 0,
       pageSize: 0,
-      newGroupName: "",
+      newGroupName: '',
       getPatientId: null
-    };
+    }
   },
   methods: {
     addGroup() {
@@ -334,36 +342,36 @@ export default {
         params: { id: index, info: row }
       });
     },
-    //查看详情
-    essentialInfo(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row));
-      this.$router.push({ name: "EssentialInfo" });
+    // 查看详情
+    essentialInfo (index, row) {
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
+      this.$router.push({ name: 'EssentialInfo' })
     },
-    //修改组别获取组别id
-    editGroup(value) {
-      var that = this;
-      that.editForm.groupId = value;
+    // 修改组别获取组别id
+    editGroup (value) {
+      var that = this
+      that.editForm.groupId = value
     },
-    //获取修改患者信息
-    editInfo(index, row) {
-      var that = this;
-      that.editFormVisible = true;
-      that.getPatientId = row.id;
+    // 获取修改患者信息
+    editInfo (index, row) {
+      var that = this
+      that.editFormVisible = true
+      that.getPatientId = row.id
 
-      that.editForm = Object.assign({}, row);
+      that.editForm = Object.assign({}, row)
       if (row.groupId != null) {
-        that.editForm.groupId = row.groupId.groupId;
+        that.editForm.groupId = row.groupId.groupId
       } else {
-        that.editForm.groupId = row.groupId;
+        that.editForm.groupId = row.groupId
       }
     },
-    //提交修改组别
-    editSubmit() {
-      var that = this;
-      that.$confirm("确认提交吗？", "提示", {}).then(() => {
-        that.editLoading = true;
+    // 提交修改组别
+    editSubmit () {
+      var that = this
+      that.$confirm('确认提交吗？', '提示', {}).then(() => {
+        that.editLoading = true
         that.$http
-          .post("/api" + `/patient/updateGroup`, {
+          .post('/api' + `/patient/updateGroup`, {
             userId: that.getPatientId,
             groupId: that.editForm.groupId
           })
@@ -371,207 +379,207 @@ export default {
             if (res.data) {
               that.$message({
                 showClose: true,
-                message: "修改组别成功",
-                type: "success"
-              });
-              that.editLoading = false;
-              that.editFormVisible = false;
-              that.getUsers();
+                message: '修改组别成功',
+                type: 'success'
+              })
+              that.editLoading = false
+              that.editFormVisible = false
+              that.getUsers()
             } else {
               that.$message({
                 showClose: true,
-                message: "修改组别失败",
-                type: "error"
-              });
-              that.editLoading = false;
-              that.editFormVisible = false;
+                message: '修改组别失败',
+                type: 'error'
+              })
+              that.editLoading = false
+              that.editFormVisible = false
             }
           })
           .catch(err => {
-            console.log(err);
-          });
-      });
+            console.log(err)
+          })
+      })
     },
-    //新增随访
-    createVisit(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row));
+    // 新增随访
+    createVisit (index, row) {
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
       this.$router.replace({
-        name: "EssentialInfo",
-        params: { selectId: "jhxx" }
-      });
+        name: 'EssentialInfo',
+        params: { selectId: 'jhxx' }
+      })
     },
-    //性别显示转换
-    formatSex: function(row, column) {
-      return row.sex == 1 ? "男" : row.sex == 2 ? "女" : "未知";
+    // 性别显示转换
+    formatSex: function (row, column) {
+      return row.sex === 1 ? '男' : row.sex === 2 ? '女' : '未知'
     },
-    handleCurrentChange(val) {
-      var that = this;
-      console.log(val, "2333333333333");
+    handleCurrentChange (val) {
+      var that = this
+      console.log(val, '2333333333333')
     },
-    //获取患者列表
-    getUsers() {
-      var that = this;
-      that.user = JSON.parse(sessionStorage.getItem("loginUser"));
+    // 获取患者列表
+    getUsers () {
+      var that = this
+      that.user = JSON.parse(sessionStorage.getItem('loginUser'))
       that.$http
         .get(
           "/api" +
             `/patient/getPatientList?hospitalId=${that.user.hospitalId.id}&keywords=${that.filters.name}`
         )
         .then(res => {
-          that.pageTotal = res.data.total;
-          that.pageSize = res.data.size;
-          that.usersList = res.data.list;
+          that.pageTotal = res.data.total
+          that.pageSize = res.data.size
+          that.usersList = res.data.list
         })
         .catch(err => {
-          console.log(err);
-        });
-    },
-    //删除
-    handleDel: function(index, row) {
-      this.$confirm("确认删除该记录吗?", "提示", {
-        type: "warning"
-      })
-        .then(() => {
-          this.listLoading = true;
-          //NProgress.start();
-          let para = { id: row.id };
-          removeUser(para).then(res => {
-            this.listLoading = false;
-            //NProgress.done();
-            this.$message({
-              message: "删除成功",
-              type: "success"
-            });
-            this.getUsers();
-          });
+          console.log(err)
         })
-        .catch(() => {});
     },
-    //显示编辑界面
-    handleEdit: function(index, row) {
-      this.editFormVisible = true;
-      this.editForm = Object.assign({}, row);
+    // 删除
+    // handleDel: function (index, row) {
+    //   this.$confirm('确认删除该记录吗?', '提示', {
+    //     type: 'warning'
+    //   })
+    //     .then(() => {
+    //       this.listLoading = true
+    //       // NProgress.start();
+    //       let para = { id: row.id }
+    //       removeUser(para).then(res => {
+    //         this.listLoading = false
+    //         // NProgress.done();
+    //         this.$message({
+    //           message: '删除成功',
+    //           type: 'success'
+    //         })
+    //         this.getUsers()
+    //       })
+    //     })
+    //     .catch(() => {})
+    // },
+    // 显示编辑界面
+    handleEdit: function (index, row) {
+      this.editFormVisible = true
+      this.editForm = Object.assign({}, row)
     },
     //显示新增界面
     addPatient: function() {
       this.addFormVisible = true;
       console.log(this.addFormVisible);
       this.addForm = {
-        name: "",
+        name: '',
         sex: -1,
         age: 0,
-        idCard: "",
-        groupId: "",
-        remark: "",
-        phone: ""
-      };
+        idCard: '',
+        groupId: '',
+        remark: '',
+        phone: ''
+      }
     },
-    //新增
-    addSubmit: function() {
-      var that = this;
+    // 新增
+    addSubmit: function () {
+      var that = this
 
       that.$refs.addForm.validate(valid => {
         if (valid) {
-          that.addForm.hospitalId = that.user.hospitalId.id;
-          that.addForm.doctorId = that.user.id;
-          that.$confirm("确认提交吗？", "提示", {}).then(() => {
-            if (that.addForm.sex == -1) {
+          that.addForm.hospitalId = that.user.hospitalId.id
+          that.addForm.doctorId = that.user.id
+          that.$confirm('确认提交吗？', '提示', {}).then(() => {
+            if (that.addForm.sex === -1) {
               that.$message({
                 showClose: true,
-                message: "您还未选择性别",
-                type: "error"
-              });
-              return;
+                message: '您还未选择性别',
+                type: 'error'
+              })
+              return
             }
             if (that.addForm.groupId == "") {
               that.$message({
                 showClose: true,
-                message: "您还未选择组别",
-                type: "error"
-              });
-              return;
+                message: '您还未选择组别',
+                type: 'error'
+              })
+              return
             }
-            that.addLoading = true;
+            that.addLoading = true
             that.$http
-              .post("/api" + `/patient/addPatient`, that.addForm)
+              .post('/api' + `/patient/addPatient`, that.addForm)
               .then(res => {
                 if (res.data) {
                   that.$message({
                     showClose: true,
-                    message: "患者添加成功",
-                    type: "success"
-                  });
-                  that.getUsers();
-                  that.addFormVisible = false;
-                  that.$refs.addForm.resetFields();
+                    message: '患者添加成功',
+                    type: 'success'
+                  })
+                  that.getUsers()
+                  that.addFormVisible = false
+                  that.$refs.addForm.resetFields()
                 } else {
                   that.$message({
                     showClose: true,
-                    message: "患者添加失败",
-                    type: "error"
-                  });
-                  that.addFormVisible = false;
-                  that.$refs.addForm.resetFields();
+                    message: '患者添加失败',
+                    type: 'error'
+                  })
+                  that.addFormVisible = false
+                  that.$refs.addForm.resetFields()
                 }
               })
               .catch(err => {
-                console.log(err);
-              });
-          });
+                console.log(err)
+              })
+          })
         }
-      });
-    },
-    //关闭新增
-    addClose() {
-      this.addFormVisible = false;
-      this.editFormVisible = false;
-      this.$refs.addForm.resetFields();
-    },
-    closeDialog() {
-      this.$refs.addForm.resetFields();
-    },
-    selsChange: function(sels) {
-      this.sels = sels;
-    },
-    //批量删除
-    batchRemove: function() {
-      var ids = this.sels.map(item => item.id).toString();
-      this.$confirm("确认删除选中记录吗？", "提示", {
-        type: "warning"
       })
-        .then(() => {
-          this.listLoading = true;
-          //NProgress.start();
-          let para = { ids: ids };
-          batchRemoveUser(para).then(res => {
-            this.listLoading = false;
-            //NProgress.done();
-            this.$message({
-              message: "删除成功",
-              type: "success"
-            });
-            this.getUsers();
-          });
-        })
-        .catch(() => {});
     },
-    //获取组名
-    getGroupName() {
-      var that = this;
+    // 关闭新增
+    addClose () {
+      this.addFormVisible = false
+      this.editFormVisible = false
+      this.$refs.addForm.resetFields()
+    },
+    closeDialog () {
+      this.$refs.addForm.resetFields()
+    },
+    selsChange: function (sels) {
+      this.sels = sels
+    },
+    // 批量删除
+    // batchRemove: function () {
+    //   var ids = this.sels.map(item => item.id).toString()
+    //   this.$confirm('确认删除选中记录吗？', '提示', {
+    //     type: 'warning'
+    //   })
+    //     .then(() => {
+    //       this.listLoading = true
+    //       // NProgress.start();
+    //       let para = { ids: ids }
+    //       batchRemoveUser(para).then(res => {
+    //         this.listLoading = false
+    //         // NProgress.done();
+    //         this.$message({
+    //           message: '删除成功',
+    //           type: 'success'
+    //         })
+    //         this.getUsers()
+    //       })
+    //     })
+    //     .catch(() => {})
+    // },
+    // 获取组名
+    getGroupName () {
+      var that = this
       that.$http
-        .get("/api" + `/groups/getGroupListByDoctorId?doctorId=${that.user.id}`)
+        .get('/api' + `/groups/getGroupListByDoctorId?doctorId=${that.user.id}`)
         .then(res => {
-          that.groupNameList = res.data;
+          that.groupNameList = res.data
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    //新建组
-    addNewGroup() {
-      var that = this;
+    // 新建组
+    addNewGroup () {
+      var that = this
       that.$http
-        .post("/api" + `/groups/addGroup`, {
+        .post('/api' + `/groups/addGroup`, {
           groupName: that.newGroupName,
           doctorId: that.user.id
         })
@@ -579,30 +587,30 @@ export default {
           if (res.data) {
             that.$message({
               showClose: true,
-              message: "新建组别成功",
-              type: "success"
-            });
-            that.addFormVisible1 = false;
-            that.getGroupName();
-            that.newGroupName = "";
+              message: '新建组别成功',
+              type: 'success'
+            })
+            that.addFormVisible1 = false
+            that.getGroupName()
+            that.newGroupName = ''
           } else {
             that.$message({
               showClose: true,
-              message: "新建组别失败",
-              type: "error"
-            });
-            that.addFormVisible1 = false;
+              message: '新建组别失败',
+              type: 'error'
+            })
+            that.addFormVisible1 = false
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    //根据组名查患者列表
-    getUsersByGroup() {
-      var that = this;
-      if (that.groupNameChoose == "") {
-        that.getUsers();
+    // 根据组名查患者列表
+    getUsersByGroup () {
+      var that = this
+      if (that.groupNameChoose === '') {
+        that.getUsers()
       } else {
         that.$http
           .get(
@@ -610,23 +618,23 @@ export default {
               `/patient/getPatientList?hospitalId=${that.user.hospitalId.id}&groupId=${that.groupNameChoose}`
           )
           .then(res => {
-            that.pageTotal = res.data.total;
-            that.pageSize = res.data.size;
-            that.usersList = res.data.list;
-            console.log(res, "23333333333333333333333");
+            that.pageTotal = res.data.total
+            that.pageSize = res.data.size
+            that.usersList = res.data.list
+            console.log(res, '23333333333333333333333')
           })
           .catch(err => {
-            console.log(err);
-          });
+            console.log(err)
+          })
       }
     }
   },
-  mounted() {
-    var that = this;
-    that.getUsers();
-    that.getGroupName();
+  mounted () {
+    var that = this
+    that.getUsers()
+    that.getGroupName()
   }
-};
+}
 </script>
 
 <style scoped>
