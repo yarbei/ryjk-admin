@@ -9,6 +9,16 @@
       <h2>疾病计划名称</h2>
       <el-input type="textarea" v-model="name" placeholder="请输入名称"></el-input>
 
+      <h2>管理总数</h2>
+      <el-select v-model="dose" placeholder="请选择">
+        <el-option
+          v-for="item in number"
+          :key="item.value"
+          :label="item.value"
+          :value="item.value">
+        </el-option>
+      </el-select>
+
       <h2>疾病计划分类</h2>
       <el-row>
           <el-col :span="24" v-for="(v,i) in planList" :key="i">
@@ -30,9 +40,9 @@
         </el-checkbox>
       </el-checkbox-group>
 
-      <h2>疾病管理计划时间</h2>
+      <!-- <h2>疾病管理计划时间</h2>
         <el-date-picker v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd">
-        </el-date-picker>
+        </el-date-picker> -->
 
       <el-button type="success" @click="onSubmit" class="submitBtn">发布</el-button>
     </el-form>
@@ -55,6 +65,16 @@
     name: 'createPlan',
     data () {
       return {
+        dose: '',
+        number: [{
+          value: '1'
+        }, {
+          value: '2'
+        }, {
+          value: '4'
+        }, {
+          value: '5'
+        }],
         name: '',
         date: '',
         user: {},
@@ -97,14 +117,44 @@
       }
     },
     created () {
-      this.personInfo = this.$route.params.info
+      // url存在planId时表示修改计划，没有则为新增计划
+      const planId = this.$route.query.planId
+      if (planId) {
+        this.getPlanInfo(planId)
+      } else {
+        this.getPlanList()
+      }
+      // this.personInfo = this.$route.params.info
+      this.personInfo = JSON.parse(sessionStorage.getItem('personInfo'))
       this.user = JSON.parse(sessionStorage.getItem('loginUser'))
     },
     mounted () {
-      this.getPlanList()
       this.getBodySignList()
     },
     methods: {
+      getPlanInfo (id) {
+        this.$http
+          .get(`/api/plan/getPlanDetail?planId=${id}`)
+          .then(res => {
+            // console.log(res.data)
+            const data = res.data
+            this.name = data.name
+            this.date = [
+              data.createDate,
+              data.endDate
+            ]
+            this.planList = data.item.map((v, i) => {
+              return {
+                label: v.detailType,
+                content: v.content
+              }
+            })
+            console.log(this.planList)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
       // 获取计划分类
       getPlanList () {
         this.$http
@@ -131,12 +181,12 @@
         let list = this.planList.map((v, i) => {
           return {
             detailType: v.value,
-            content: v.content,
-            sort: v.value
+            content: v.content
           }
         })
         console.log(this.date)
         const params = {
+          'dose': this.dose,
           'name': this.name,
           'createDate': this.date ? this.date[0] : '',
           'endDate': this.date ? this.date[1] : '',

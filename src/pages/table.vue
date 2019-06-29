@@ -254,38 +254,38 @@
 
 <script>
 export default {
-  data() {
+  data () {
     var checkIdCard = (rule, value, callback) => {
-      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
       if (!reg.test(value)) {
-        callback(new Error("请输入正确的身份证号"));
-        return false;
+        callback(new Error('请输入正确的身份证号'))
+        return false
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     var checkPhone = (rule, value, callback) => {
-      var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
-      var telReg = reg.test(value);
+      var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
+      var telReg = reg.test(value)
       if (telReg === false) {
-        callback(new Error("请输入正确的手机号"));
-        return false;
+        callback(new Error('请输入正确的手机号'))
+        return false
       } else {
-        callback();
+        callback()
       }
-    };
+    }
     return {
       filters: {
-        name: ""
+        name: ''
       },
       groupNameList: [
         {
-          groupId: "",
-          groupName: ""
+          groupId: '',
+          groupName: ''
         }
       ],
-      groupNameChoose: "",
-      value: "",
+      groupNameChoose: '',
+      value: '',
       total: 20,
       page: 1,
       listLoading: false,
@@ -294,7 +294,7 @@ export default {
       editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
       editFormRules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }]
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
       },
       // 编辑界面数据
       editForm: {},
@@ -302,46 +302,47 @@ export default {
       addFormVisible1: false,
       addLoading: false,
       addFormRules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
-        idCard: [{ required: true, validator: checkIdCard, trigger: "blur" }],
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        phone: [{ required: true, validator: checkPhone, trigger: 'blur' }],
+        sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+        idCard: [{ required: true, validator: checkIdCard, trigger: 'blur' }],
         telName: [
-          { required: true, message: "请输入联系人姓名", trigger: "blur" }
+          { required: true, message: '请输入联系人姓名', trigger: 'blur' }
         ],
         relationPhone: [
-          { required: true, validator: checkPhone, trigger: "blur" }
+          { required: true, validator: checkPhone, trigger: 'blur' }
         ],
         relation: [
-          { required: true, message: "请选择与患者关系", trigger: "change" }
+          { required: true, message: '请选择与患者关系', trigger: 'change' }
         ],
-        groupId: [{ required: true, message: "请选择分组", trigger: "change" }]
+        groupId: [{ required: true, message: '请选择分组', trigger: 'change' }]
       },
-      //新增界面数据
+      // 新增界面数据
       addForm: {},
       user: null,
       pageTotal: 0,
       pageSize: 0,
-      newGroupName: "",
+      newGroupName: '',
       getPatientId: null
-    };
+    }
   },
   methods: {
-    //新建分组
-    addGroup() {
-      this.addFormVisible1 = true;
+    // 新建分组
+    addGroup () {
+      this.addFormVisible1 = true
     },
-    //新建计划
-    createPlan(index, row) {
+    // 新建计划
+    createPlan (index, row) {
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
       this.$router.push({
-        name: "createPlan",
+        name: 'createPlan',
         params: { id: index, info: row }
-      });
+      })
     },
     // 查看详情
-    essentialInfo(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row));
-      this.$router.push({ name: "EssentialInfo" });
+    essentialInfo (index, row) {
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
+      this.$router.push({ name: 'EssentialInfo' })
     },
     // 修改组别获取组别id
     editGroup(value) {
@@ -389,56 +390,55 @@ export default {
             }
           })
           .catch(err => {
-            console.log(err);
-          });
-      });
+            console.log(err)
+          })
+      })
     },
     // 新增随访
-    createVisit(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row));
+    createVisit (index, row) {
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
       this.$router.replace({
-        name: "EssentialInfo",
-        params: { selectId: "jhxx" }
-      });
+        name: 'EssentialInfo',
+        params: { selectId: 'jhxx' }
+      })
     },
-    //删除患者
-    deletePatient(index, row) {
-      console.log(index, row);
+    // 删除患者
+    deletePatient (index, row) {
+      console.log(index, row)
       if (row.sourceType === 1) {
-        this.$confirm("此操作将删除该患者, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
+        this.$confirm('此操作将删除该患者, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
         })
           .then(() => {
             this.$http.post('/api' +'patient/deletePatientById?id='+row.id).then(res=>{
               this.getUsers();
               this.$message({
-              type: "success",
-              message: "删除成功!"
-            });
-            }).catch(err=>{
-              console.log(err);
+                type: 'success',
+                message: '删除成功!'
+              })
+            }).catch(err => {
+              console.log(err)
               this.$message({
-              type: "warning",
-              message: "删除失败!"
-            });
+                type: 'warning',
+                message: '删除失败!'
+              })
             })
-
           })
           .catch(() => {
             this.$message({
-              type: "info",
-              message: "已取消删除"
-            });
-          });
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
       } else {
-        this.$message.warning("该患者不可删除！");
+        this.$message.warning('该患者不可删除！')
       }
     },
     // 性别显示转换
-    formatSex: function(row, column) {
-      return row.sex === 1 ? "男" : row.sex === 2 ? "女" : "未知";
+    formatSex: function (row, column) {
+      return row.sex === 1 ? '男' : row.sex === 2 ? '女' : '未知'
     },
 
     handleCurrentChange(val) {
@@ -458,27 +458,27 @@ export default {
           this.usersList = res.data.list;
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 显示编辑界面
-    handleEdit: function(index, row) {
-      this.editFormVisible = true;
-      this.editForm = Object.assign({}, row);
+    handleEdit: function (index, row) {
+      this.editFormVisible = true
+      this.editForm = Object.assign({}, row)
     },
-    //显示新增界面
-    addPatient: function() {
-      this.addFormVisible = true;
-      console.log(this.addFormVisible);
+    // 显示新增界面
+    addPatient: function () {
+      this.addFormVisible = true
+      console.log(this.addFormVisible)
       this.addForm = {
-        name: "",
+        name: '',
         sex: -1,
         age: 0,
-        idCard: "",
-        groupId: "",
-        remark: "",
-        phone: ""
-      };
+        idCard: '',
+        groupId: '',
+        remark: '',
+        phone: ''
+      }
     },
     // 新增
     addSubmit: function() {
@@ -490,18 +490,18 @@ export default {
             if (this.addForm.sex === -1) {
               this.$message({
                 showClose: true,
-                message: "您还未选择性别",
-                type: "error"
-              });
-              return;
+                message: '您还未选择性别',
+                type: 'error'
+              })
+              return
             }
             if (this.addForm.groupId == "") {
               this.$message({
                 showClose: true,
-                message: "您还未选择组别",
-                type: "error"
-              });
-              return;
+                message: '您还未选择组别',
+                type: 'error'
+              })
+              return
             }
             this.addLoading = true;
             this.$http
@@ -527,23 +527,23 @@ export default {
                 }
               })
               .catch(err => {
-                console.log(err);
-              });
-          });
+                console.log(err)
+              })
+          })
         }
-      });
+      })
     },
     // 关闭新增
-    addClose() {
-      this.addFormVisible = false;
-      this.editFormVisible = false;
-      this.$refs.addForm.resetFields();
+    addClose () {
+      this.addFormVisible = false
+      this.editFormVisible = false
+      this.$refs.addForm.resetFields()
     },
-    closeDialog() {
-      this.$refs.addForm.resetFields();
+    closeDialog () {
+      this.$refs.addForm.resetFields()
     },
-    selsChange: function(sels) {
-      this.sels = sels;
+    selsChange: function (sels) {
+      this.sels = sels
     },
     // 批量删除
     // batchRemove: function () {
@@ -575,8 +575,8 @@ export default {
           this.groupNameList = res.data;
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 新建组
     addNewGroup() {
@@ -605,8 +605,8 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 根据组名查患者列表
     getUsersByGroup() {
@@ -625,8 +625,8 @@ export default {
             console.log(res, "23333333333333333333333");
           })
           .catch(err => {
-            console.log(err);
-          });
+            console.log(err)
+          })
       }
     }
   },
@@ -634,7 +634,7 @@ export default {
     this.getUsers();
     this.getGroupName();
   }
-};
+}
 </script>
 
 <style scoped>

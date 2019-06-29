@@ -40,26 +40,26 @@
 
 
 <script>
-import Default from "./template/default.vue";
+import Default from './template/default.vue'
 
 export default {
   components: {
     Default
   },
-  name: "createVisit",
-  data() {
-    return{
-      templateName:'default'
+  name: 'createVisit',
+  data () {
+    return {
+      templateName: 'default'
     }
   },
-  created() {},
-  mounted() {},
+  created () {},
+  mounted () {},
   methods: {
-    handleClick(tab, event) {
-        console.log(tab, event);
-      }
+    handleClick (tab, event) {
+      console.log(tab, event)
+    }
   }
-};
+}
 </script>
 
 <style type="text/css" scoped>
