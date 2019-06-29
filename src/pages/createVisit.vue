@@ -1,12 +1,12 @@
 <template>
   <div class="cr_container">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <!-- <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="公共模板" name="first">用户管理</el-tab-pane>
       <el-tab-pane label="2" name="second">2</el-tab-pane>
       <el-tab-pane label="3" name="third">3</el-tab-pane>
       <el-tab-pane label="4" name="fourth">4</el-tab-pane>
-    </el-tabs>
+    </el-tabs> -->
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-row :gutter="80">
         <el-col :span="8">
