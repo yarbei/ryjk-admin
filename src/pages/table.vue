@@ -32,21 +32,17 @@
             </template>
           </el-input>
         </el-form-item>
-
-        <!--<el-form-item>-->
-        <!--<el-button type="primary" v-on:click="getUsers"><i class="el-icon-search" style="margin-right: 5px"></i>搜索</el-button>-->
-        <!--</el-form-item>-->
         <el-form-item>
           <el-button
             type="primary"
-            @click="handleAdd1"
+            @click="addGroup"
             style="background-color: #52a3d7; border: 0; font-size: 14px"
           >新建组别</el-button>
         </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
-            @click="handleAdd"
+            @click="addPatient"
             style="background-color: #52d7ac; border: 0; font-size: 14px"
           >新建患者</el-button>
         </el-form-item>
@@ -100,7 +96,7 @@
             style="color: #f8b14b"
             @click="editInfo(scope.$index, scope.row)"
           >
-            <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改组名
+            <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改分组
           </el-button>
           <el-button
             round
@@ -110,24 +106,32 @@
           >
             <i class="el-icon-circle-plus-outline" style="margin-right: 5px"></i>新增随访
           </el-button>
+          <el-button
+            round
+            type="text"
+            style="color: #7de1c1"
+            @click="deletePatient(scope.$index, scope.row)"
+          >
+            <i class="el-icon-delete" style="margin-right: 5px"></i>删除患者
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!--分页工具条-->
-    <el-col :span="24" class="toolbar toolbar_page" v-if="pageSize>10">
-      <!--<el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>-->
+    <!-- <el-col :span="24" class="toolbar toolbar_page" v-if="pageSize>10">
+      <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
       <el-pagination
         layout="prev, pager, next"
         @current-change="handleCurrentChange"
         :page-size="pageSize"
         :total="pageTotal"
       ></el-pagination>
-    </el-col>
+    </el-col>-->
 
-    <!--修改患者界面-->
+    <!--修改患者分组界面-->
     <el-dialog
-      title="修改患者"
+      title="修改患者分组"
       :visible.sync="editFormVisible"
       :modal-append-to-body="false"
       :close-on-click-modal="false"
@@ -141,9 +145,6 @@
             <el-radio class="radio" :label="1">男</el-radio>
             <el-radio class="radio" :label="2">女</el-radio>
           </el-radio-group>
-        </el-form-item>
-        <el-form-item label="年龄">
-          <el-input-number disabled v-model="editForm.age" :min="0" :max="200"></el-input-number>
         </el-form-item>
         <el-form-item label="患者手机号">
           <el-input disabled v-model="editForm.phone" auto-complete="off"></el-input>
@@ -176,20 +177,15 @@
 
     <!--新建患者界面-->
     <el-dialog title="新建患者" :visible.sync="addFormVisible" :modal-append-to-body="false">
-      <el-form :model="addForm" label-width="80px" :rules="addFormRules" ref="addForm">
+      <el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
         <el-form-item label="姓名" prop="name">
           <el-input v-model="addForm.name" auto-complete="off"></el-input>
         </el-form-item>
-
         <el-form-item label="患者性别" prop="sex">
           <el-radio-group v-model="addForm.sex">
             <el-radio :label="1">男</el-radio>
             <el-radio :label="2">女</el-radio>
           </el-radio-group>
-        </el-form-item>
-
-        <el-form-item label="患者年龄" prop="age">
-          <el-input-number v-model="addForm.age" :min="0" :max="200"></el-input-number>
         </el-form-item>
 
         <el-form-item label="患者电话" prop="phone">
@@ -198,6 +194,23 @@
 
         <el-form-item label="身份证号" prop="idCard">
           <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人姓名" prop="telName">
+          <el-input v-model="addForm.telName" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="联系人电话" prop="relationPhone">
+          <el-input v-model="addForm.relationPhone" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="与患者关系" prop="relation">
+          <el-select v-model="addForm.relation" placeholder="请选择">
+            <el-option value="父母" label="父母"></el-option>
+            <el-option value="子女" label="子女"></el-option>
+            <el-option value="配偶" label="配偶"></el-option>
+            <el-option value="朋友" label="朋友"></el-option>
+            <el-option value="同事" label="同事"></el-option>
+            <el-option value="同学" label="同学"></el-option>
+            <el-option value="其他" label="其他"></el-option>
+          </el-select>
         </el-form-item>
 
         <el-form-item label="分组" prop="groupId">
@@ -251,7 +264,6 @@ export default {
         callback(new Error("请输入正确的身份证号"));
         return false;
       } else {
-        console.log("66666");
         callback();
       }
     };
@@ -262,7 +274,6 @@ export default {
         callback(new Error("请输入正确的手机号"));
         return false;
       } else {
-        console.log("66666");
         callback();
       }
     };
@@ -295,20 +306,16 @@ export default {
       addLoading: false,
       addFormRules: {
         name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        phone: [{ validator: checkPhone, trigger: "blur" }],
-        sex: [{ required: true, message: "请输选择性别", trigger: "change" }],
-        idCard: [{ validator: checkIdCard, trigger: "blur" }]
+        phone: [{required: true,  validator: checkPhone, trigger: "blur" }],
+        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
+        idCard: [{required: true,  validator: checkIdCard, trigger: "blur" }],
+        telName: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
+        relationPhone: [{required: true, validator: checkPhone, trigger: "blur" }],
+        relation: [{ required: true, message: "请选择与患者关系", trigger: "change" }],
+        groupId: [{ required: true, message: "请选择分组", trigger: "change" }],
       },
       //新增界面数据
-      addForm: {
-        name: "",
-        sex: -1,
-        age: 0,
-        idCard: "",
-        groupId: "",
-        remark: "",
-        phone: ""
-      },
+      addForm: {},
       user: null,
       pageTotal: 0,
       pageSize: 0,
@@ -317,12 +324,15 @@ export default {
     };
   },
   methods: {
-    handleAdd1() {
+    addGroup() {
       this.addFormVisible1 = true;
     },
     //新建计划
     createPlan(index, row) {
-      this.$router.push({ name: "createPlan", params: { id: index, info: row } });
+      this.$router.push({
+        name: "createPlan",
+        params: { id: index, info: row }
+      });
     },
     //查看详情
     essentialInfo(index, row) {
@@ -405,9 +415,7 @@ export default {
       that.$http
         .get(
           "/api" +
-            `/patient/getPatientList?hospitalId=${
-              that.user.hospitalId.id
-            }&keywords=${that.filters.name}`
+            `/patient/getPatientList?hospitalId=${that.user.hospitalId.id}&keywords=${that.filters.name}`
         )
         .then(res => {
           that.pageTotal = res.data.total;
@@ -445,7 +453,7 @@ export default {
       this.editForm = Object.assign({}, row);
     },
     //显示新增界面
-    handleAdd: function() {
+    addPatient: function() {
       this.addFormVisible = true;
       console.log(this.addFormVisible);
       this.addForm = {
@@ -471,14 +479,6 @@ export default {
               that.$message({
                 showClose: true,
                 message: "您还未选择性别",
-                type: "error"
-              });
-              return;
-            }
-            if (that.addForm.age == "") {
-              that.$message({
-                showClose: true,
-                message: "您还未输入年龄",
                 type: "error"
               });
               return;
@@ -607,9 +607,7 @@ export default {
         that.$http
           .get(
             "/api" +
-              `/patient/getPatientList?hospitalId=${
-                that.user.hospitalId.id
-              }&groupId=${that.groupNameChoose}`
+              `/patient/getPatientList?hospitalId=${that.user.hospitalId.id}&groupId=${that.groupNameChoose}`
           )
           .then(res => {
             that.pageTotal = res.data.total;

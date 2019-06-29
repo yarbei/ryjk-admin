@@ -41,7 +41,7 @@
             </el-col>
             <el-col :span="8">
               <el-form-item label="联系人电话">
-                <el-input v-model="form1.phone" disabled></el-input>
+                <el-input v-model="form1.relationPhone" disabled></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -49,7 +49,7 @@
           <el-row :gutter="100">
             <el-col :span="8"  :offset="4">
               <el-form-item label="病人电话">
-                <el-input v-model="form1.relationPhone" disabled></el-input>
+                <el-input v-model="form1.phone" disabled></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
