@@ -384,9 +384,7 @@ export default {
     },
     //新增随访
     createVisit(index, row) {
-      //旧版本为直接跳转新增随访页面，之后改为先跳转计划页面再选择去随访
-      // sessionStorage.setItem("personInfo", JSON.stringify(row));
-      // this.$router.push({ name: "createVisit", params: { id: index, info: row } });
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.replace({
         name: "EssentialInfo",
         params: { selectId: "jhxx" }
