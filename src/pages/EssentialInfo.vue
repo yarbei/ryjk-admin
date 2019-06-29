@@ -672,13 +672,6 @@ var option = {
     font-size: 16px;
     margin: 0 10px;
   }
-
-  .grtz_content{
-    /*width: 100%;*/
-    /*height: 400px;*/
-    /*background-color: #00ff00;*/
-  }
-
   .grtz_content p span{
     margin-right: 150px;
   }

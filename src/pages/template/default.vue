@@ -5,29 +5,35 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="随访状态 : ">
-            <el-select v-model="form.status" placeholder="请选择随访状态">
-              <el-option label="已完成" :value="1"></el-option>
-              <el-option label="未完成" :value="0"></el-option>
-            </el-select>
+            <el-cascader
+              v-model="form.status"
+              placeholder="请选择随访状态"
+              :options="sfstatus"
+              :props="{emitPath: false}"
+              @change="handleChange"
+            ></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访结果 : ">
-            <el-select v-model="form.result" placeholder="请选择随访结果">
-              <el-option label="有效随访" :value="1"></el-option>
-              <el-option label="非有效随访" :value="0"></el-option>
-              <el-option label="勿访" :value="2"></el-option>
-              <el-option label="终止随访" :value="3"></el-option>
-            </el-select>
+            <el-cascader
+              v-model="form.result"
+              placeholder="请选择随访结果"
+              :options="sfresult"
+              :props="{emitPath: false}"
+              @change="handleChange"
+            ></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访方式 : ">
-            <el-select v-model="form.type" placeholder="请选择随访方式">
-              <el-option label="电话随访" :value="1"></el-option>
-              <el-option label="在线随访" :value="2"></el-option>
-              <el-option label="短信随访" :value="3"></el-option>
-            </el-select>
+            <el-cascader
+              v-model="form.type"
+              placeholder="请选择随访方式"
+              :options="sftype"
+              :props="{emitPath: false}"
+              @change="handleChange"
+            ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
@@ -35,27 +41,21 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="出院/转出情况:">
-            <el-select v-model="form.dischargeStatus" placeholder="请选择出院/转出情况">
-              <el-option label="其他市级医院" :value="0"></el-option>
-              <el-option label="乡镇卫生院治疗" :value="1"></el-option>
-              <el-option label="村卫生室治疗" :value="2"></el-option>
-              <el-option label="回家康复" :value="3"></el-option>
-              <el-option label="痊愈回家" :value="4"></el-option>
-            </el-select>
+            <el-cascader
+              v-model="form.dischargeStatus"
+              placeholder="请选择出院/转出情况"
+              :options="sfdischargeStatus"
+              :props="{emitPath: false}"
+              @change="handleChange"
+            ></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="本次随访评估:">
-            <!--<el-select v-model="form.assessment" placeholder="请选择本次随访评估">-->
-            <!--<el-option label="控制满意" :value="4"></el-option>-->
-            <!--<el-option label="控制不满意" :value="3"></el-option>-->
-            <!--<el-option label="相关指标控制不佳" :value="2"></el-option>-->
-            <!--<el-option label="并发症" :value="1"></el-option>-->
-            <!--<el-option label="不良生活方式未改善" :value="0"></el-option>-->
-            <!--</el-select>-->
             <el-cascader
               v-model="form.assessment"
-              :options="bcsfpg"
+              placeholder="请选择本次随访评估"
+              :options="sfassessment"
               :props="{emitPath: false}"
               @change="handleChange"
             ></el-cascader>
@@ -70,7 +70,7 @@
           <el-form-item label="请选择症状 : ">
             <el-cascader
               v-model="form.symptom"
-              :options="zz"
+              :options="sfsymptom"
               :props="{emitPath: false}"
               @change="handleChange"
             ></el-cascader>
@@ -83,8 +83,12 @@
         <el-col :span="8">
           <el-form-item label="总体评估 : ">
             <el-select v-model="form.lifeAssessment" placeholder="请选择">
-              <el-option label="有改善" :value="1"></el-option>
-              <el-option label="未改善" :value="0"></el-option>
+              <el-cascader
+              v-model="form.lifeAssessment"
+              :options="sflifeAssessment"
+              :props="{emitPath: false}"
+              @change="handleChange"
+            ></el-cascader>
             </el-select>
           </el-form-item>
         </el-col>
@@ -216,11 +220,6 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <!--<el-col :span="8">-->
-        <!--<el-form-item label="不良反应">-->
-        <!--<el-input v-model="form.name3" placeholder="用药不良反应"></el-input>-->
-        <!--</el-form-item>-->
-        <!--</el-col>-->
       </el-row>
 
       <h2>异常化验项目</h2>
@@ -387,6 +386,50 @@ export default {
         motionNum: 0,
         motionLength: 0
       },
+      //随访状态
+      sfstatus: [
+        { value: "0", label: "未完成" },
+        { value: "1", label: "已完成" }
+      ],
+      //随访结果
+      sfresult: [
+        { value: "0", label: "非有效随访" },
+        { value: "1", label: "有效随访" },
+        { value: "2", label: "勿访" },
+        { value: "3", label: "终止随访" }
+      ],
+      //随访方式
+      sftype: [
+        { value: "1", label: "电话随访" },
+        { value: "2", label: "在线随访" },
+        { value: "3", label: "短信随访" }
+      ],
+      //出院/转院情况
+      sfdischargeStatus: [
+        { value: "0", label: "其他市级医院" },
+        { value: "1", label: "乡镇卫生医院治疗" },
+        { value: "2", label: "村卫生室治疗" },
+        { value: "3", label: "回家康复" },
+        { value: "4", label: "痊愈回家" }
+      ],
+      //随访评估
+      sfassessment:[
+        { value: "1", label: "并发症" },
+        { value: "2", label: "相关指标控制不住" },
+        { value: "3", label: "控制不满意" },
+        { value: "4", label: "控制满意" },
+        { value: "5", label: "不良生活方式未改善" },
+      ],
+      //症状
+      sfsymptom: [
+        { value: 0, label: "无症状" },
+        { value: 1, label: "有症状", children: [] }
+      ],
+      //总体评估
+      sflifeAssessment:[
+        { value: 0, label: "无改善" },
+        { value: 1, label: "有改善" },
+      ],
       personInfoId: "",
       personInfo: {},
       dialogVisible: false,
@@ -439,10 +482,6 @@ export default {
           children: []
         }
       ],
-      zz: [
-        { value: 0, label: "无症状" },
-        { value: 1, label: "有症状", children: [] }
-      ],
       yyks: [
         { value: 0, label: "否" },
         { value: 1, label: "是", children: [] }
@@ -452,7 +491,7 @@ export default {
   },
   created() {
     this.personInfoId = this.$route.params.id;
-    this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
+    this.personInfo = JSON.parse(sessionStorage.getItem("personInfo")); //从session中获取患者信息
     this.getMedicalList(); //获取科室列表
     this.getSymptomList(); //获取症状列表
     this.getComplicationList(); //获取并发症列表
@@ -462,14 +501,14 @@ export default {
     //点击完成随访
     onSubmit() {
       console.log(this.personInfo);
-      if (this.form.type == undefined) {
-        this.$message.error("随访方式未选择！");
+      if (this.form.type === "") {
+        this.$message.warning("随访方式未选择！");
         return;
       }
 
       var formData = this.form;
-      formData.patientId = this.personInfo.id;
-      formData.visitAuthor = this.$store.state.user.user.id;
+      formData.patientId = this.personInfo.id; //患者ID，必传
+      formData.visitAuthor = this.$store.state.user.user.id; //从store中获取用户ID，在这被作为随访人员ID
 
       //int类型转换
       formData.motionLength = Number(this.form.motionLength);
@@ -537,7 +576,7 @@ export default {
       this.$http
         .get("/api" + `/common/getDataList?dataType=1`)
         .then(res => {
-          this.zz[1].children = res.data;
+          this.sfsymptom[1].children = res.data;
         })
         .catch(err => {
           console.log(err);
