@@ -130,6 +130,9 @@
         <!--计划管理-->
       <el-tab-pane label="计划管理" name="jhxx" >
           <tab-header :personInfo="personInfo"></tab-header>
+          <div style="text-align:right;margin:30px 0;">
+            <el-button type="primary" @click="jhxxAdd">追加计划</el-button>
+          </div>
 
           <el-card class="box-card jhxx_box" v-for="item in jhglArray" :key="item.id">
             <div slot="header" class="clearfix jhxx_title">
@@ -154,7 +157,7 @@
             </div>
             <div class="jhxx_btn">
               <el-row>
-                <!--<el-button type="primary" @click="jhxxAdd(item.planId)">追加计划</el-button>-->
+                <el-button type="primary" :disabled="item.status==1?true:false" @click="jhxxEdit(item.planId)">修改计划</el-button>
                 <el-button type="danger" :disabled="item.status==1?true:false" @click="showjhxxStop(item.planId)">{{item.status == 1?"已终止":"终止计划"}}</el-button>
               </el-row>
             </div>
@@ -422,8 +425,18 @@ export default {
         this.page.size
       )
     },
-    jhxxAdd (id) {
-      console.log(id)
+    // 追加计划
+    jhxxAdd () {
+      this.$router.push('/createPlan')
+    },
+    // 修改计划
+    jhxxEdit (id) {
+      this.$router.push({
+        path: '/createPlan',
+        query: {
+          planId: id
+        }
+      })
     },
     showjhxxStop (id) {
       this.jhxxStopdialog = true
@@ -466,9 +479,6 @@ export default {
     },
     handleClick (tab, event) {
       console.log(tab, event)
-    },
-    onSubmit () {
-      console.log('submit!')
     },
     handleClose (done) {
       this.$confirm('确认关闭？')
@@ -585,7 +595,6 @@ export default {
     },
     // 去随访
     createVisit () {
-      console.log(111)
       this.$router.push('/createVisit')
     }
   }

@@ -272,7 +272,7 @@ export default {
         callback(new Error('请输入正确的身份证号'))
         return false
       } else {
-        callback();
+        callback()
       }
     }
     var checkPhone = (rule, value, callback) => {
@@ -282,7 +282,7 @@ export default {
         callback(new Error('请输入正确的手机号'))
         return false
       } else {
-        callback();
+        callback()
       }
     }
     return {
@@ -313,16 +313,16 @@ export default {
       addFormVisible1: false,
       addLoading: false,
       addFormRules: {
-        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
-        phone: [{required: true,  validator: checkPhone, trigger: "blur" }],
-        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
-        idCard: [{required: true,  validator: checkIdCard, trigger: "blur" }],
-        telName: [{ required: true, message: "请输入联系人姓名", trigger: "blur" }],
-        relationPhone: [{required: true, validator: checkPhone, trigger: "blur" }],
-        relation: [{ required: true, message: "请选择与患者关系", trigger: "change" }],
-        groupId: [{ required: true, message: "请选择分组", trigger: "change" }],
+        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        phone: [{required: true, validator: checkPhone, trigger: 'blur' }],
+        sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+        idCard: [{required: true, validator: checkIdCard, trigger: 'blur' }],
+        telName: [{ required: true, message: '请输入联系人姓名', trigger: 'blur' }],
+        relationPhone: [{required: true, validator: checkPhone, trigger: 'blur' }],
+        relation: [{ required: true, message: '请选择与患者关系', trigger: 'change' }],
+        groupId: [{ required: true, message: '请选择分组', trigger: 'change' }]
       },
-      //新增界面数据
+      // 新增界面数据
       addForm: {},
       user: null,
       pageTotal: 0,
@@ -332,15 +332,16 @@ export default {
     }
   },
   methods: {
-    addGroup() {
-      this.addFormVisible1 = true;
+    addGroup () {
+      this.addFormVisible1 = true
     },
-    //新建计划
-    createPlan(index, row) {
+    // 新建计划
+    createPlan (index, row) {
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
       this.$router.push({
-        name: "createPlan",
+        name: 'createPlan',
         params: { id: index, info: row }
-      });
+      })
     },
     // 查看详情
     essentialInfo (index, row) {
@@ -422,7 +423,7 @@ export default {
       that.user = JSON.parse(sessionStorage.getItem('loginUser'))
       that.$http
         .get(
-          "/api" +
+          '/api' +
             `/patient/getPatientList?hospitalId=${that.user.hospitalId.id}&keywords=${that.filters.name}`
         )
         .then(res => {
@@ -460,10 +461,10 @@ export default {
       this.editFormVisible = true
       this.editForm = Object.assign({}, row)
     },
-    //显示新增界面
-    addPatient: function() {
-      this.addFormVisible = true;
-      console.log(this.addFormVisible);
+    // 显示新增界面
+    addPatient: function () {
+      this.addFormVisible = true
+      console.log(this.addFormVisible)
       this.addForm = {
         name: '',
         sex: -1,
@@ -491,7 +492,7 @@ export default {
               })
               return
             }
-            if (that.addForm.groupId == "") {
+            if (that.addForm.groupId === '') {
               that.$message({
                 showClose: true,
                 message: '您还未选择组别',
@@ -614,7 +615,7 @@ export default {
       } else {
         that.$http
           .get(
-            "/api" +
+            '/api' +
               `/patient/getPatientList?hospitalId=${that.user.hospitalId.id}&groupId=${that.groupNameChoose}`
           )
           .then(res => {
