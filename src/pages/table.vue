@@ -321,12 +321,12 @@ export default {
       this.addFormVisible1 = true;
     },
     //新建计划
-    createPlan(s1, s2) {
-      this.$router.push({ name: "createPlan", params: { id: s1, info: s2 } });
+    createPlan(index, row) {
+      this.$router.push({ name: "createPlan", params: { id: index, info: row } });
     },
     //查看详情
-    essentialInfo(s1, s2) {
-      sessionStorage.setItem("personInfo", JSON.stringify(s2));
+    essentialInfo(index, row) {
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.push({ name: "EssentialInfo" });
     },
     //修改组别获取组别id
@@ -335,16 +335,16 @@ export default {
       that.editForm.groupId = value;
     },
     //获取修改患者信息
-    editInfo(s1, s2) {
+    editInfo(index, row) {
       var that = this;
       that.editFormVisible = true;
-      that.getPatientId = s2.id;
+      that.getPatientId = row.id;
 
-      that.editForm = Object.assign({}, s2);
-      if (s2.groupId != null) {
-        that.editForm.groupId = s2.groupId.groupId;
+      that.editForm = Object.assign({}, row);
+      if (row.groupId != null) {
+        that.editForm.groupId = row.groupId.groupId;
       } else {
-        that.editForm.groupId = s2.groupId;
+        that.editForm.groupId = row.groupId;
       }
     },
     //提交修改组别
