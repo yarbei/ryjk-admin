@@ -1,12 +1,6 @@
 <template>
-  <div class="cr_container">
+  <div>
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="公共模板" name="first">用户管理</el-tab-pane>
-      <el-tab-pane label="2" name="second">2</el-tab-pane>
-      <el-tab-pane label="3" name="third">3</el-tab-pane>
-      <el-tab-pane label="4" name="fourth">4</el-tab-pane>
-    </el-tabs>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-row :gutter="80">
         <el-col :span="8">
@@ -371,22 +365,12 @@
         <el-button @click="cancelBtn">取消</el-button>
       </el-form-item>
     </el-form>
-
-    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
-      <span>确认要删除该用户的信息么？</span>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-      </span>
-    </el-dialog>
   </div>
 </template>
-
-
 <script>
-import ElCol from 'element-ui/packages/col/src/col'
-import ElButton from '../../node_modules/element-ui/packages/button/src/button.vue'
-import tabHeader from '../components/tabHeader'
+import ElCol from "element-ui/packages/col/src/col";
+import ElButton from "../../../node_modules/element-ui/packages/button/src/button.vue";
+import tabHeader from "../../components/tabHeader";
 
 export default {
   components: {
@@ -394,192 +378,189 @@ export default {
     ElCol,
     tabHeader
   },
-  name: 'createPlan',
-  data () {
+  name: "default",
+  data() {
     return {
-      templateName: 'first',
       form: {
-        visitAuthor: '',
-        patientId: '',
+        visitAuthor: "",
+        patientId: "",
         motionNum: 0,
         motionLength: 0
       },
-      personInfoId: '',
+      personInfoId: "",
       personInfo: {},
       dialogVisible: false,
       options: [
-        { value: '1', label: '饮食指导' },
+        { value: "1", label: "饮食指导" },
         {
-          value: '2',
-          label: '用药指导'
+          value: "2",
+          label: "用药指导"
         },
         {
-          value: '3',
-          label: '注意事项'
+          value: "3",
+          label: "注意事项"
         },
         {
-          value: '4',
-          label: '心理指导'
+          value: "4",
+          label: "心理指导"
         },
         {
-          value: '5',
-          label: '睡眠指导'
+          value: "5",
+          label: "睡眠指导"
         },
         {
-          value: '6',
-          label: '康复指导'
+          value: "6",
+          label: "康复指导"
         },
         {
-          value: '7',
-          label: '戒烟限酒指导'
+          value: "7",
+          label: "戒烟限酒指导"
         }
       ],
-      value1: '',
+      value1: "",
       bcsfpg: [
-        { value: 4, label: '控制满意' },
+        { value: 4, label: "控制满意" },
         {
           value: 3,
-          label: '控制不满意',
+          label: "控制不满意",
           children: [
-            { value: 5, label: '不良生活方式未改善' },
-            { value: 1, label: '并发症 ' },
-            { value: 2, label: '相关指标控制不佳 ' }
+            { value: 5, label: "不良生活方式未改善" },
+            { value: 1, label: "并发症 " },
+            { value: 2, label: "相关指标控制不佳 " }
           ]
         }
       ],
       bfz: { multiple: true },
       sfyzz: [
-        { value: 0, label: '无并发症' },
+        { value: 0, label: "无并发症" },
         {
           value: 1,
-          label: '有并发症 ',
+          label: "有并发症 ",
           children: []
         }
       ],
       zz: [
-        { value: 0, label: '无症状' },
-        { value: 1, label: '有症状', children: [] }
+        { value: 0, label: "无症状" },
+        { value: 1, label: "有症状", children: [] }
       ],
       yyks: [
-        { value: 0, label: '否' },
-        { value: 1, label: '是', children: [] }
+        { value: 0, label: "否" },
+        { value: 1, label: "是", children: [] }
       ],
       bcsfpgValue: null
-    }
+    };
   },
-  created () {
-    this.personInfoId = this.$route.params.id
-    this.personInfo = JSON.parse(sessionStorage.getItem('personInfo'))
-    this.getMedicalList() // 获取科室列表
-    this.getSymptomList() // 获取症状列表
-    this.getComplicationList() // 获取并发症列表
+  created() {
+    this.personInfoId = this.$route.params.id;
+    this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
+    this.getMedicalList(); //获取科室列表
+    this.getSymptomList(); //获取症状列表
+    this.getComplicationList(); //获取并发症列表
   },
-  mounted () {},
+  mounted() {},
   methods: {
-    // 点击完成随访
-    onSubmit () {
-      console.log(this.personInfo)
-      if (this.form.type === undefined) {
-        this.$message.error('随访方式未选择！')
-        return
+    //点击完成随访
+    onSubmit() {
+      console.log(this.personInfo);
+      if (this.form.type == undefined) {
+        this.$message.error("随访方式未选择！");
+        return;
       }
 
-      var formData = this.form
-      formData.patientId = this.personInfo.id
-      formData.visitAuthor = this.$store.state.user.user.id
+      var formData = this.form;
+      formData.patientId = this.personInfo.id;
+      formData.visitAuthor = this.$store.state.user.user.id;
 
-      // int类型转换
-      formData.motionLength = Number(this.form.motionLength)
-      formData.motionNum = Number(this.form.motionNum)
+      //int类型转换
+      formData.motionLength = Number(this.form.motionLength);
+      formData.motionNum = Number(this.form.motionNum);
 
-      // 数组转字符串
+      //数组转字符串
       if (formData.healthGuidanceContent instanceof Array) {
         formData.healthGuidanceContent = this.form.healthGuidanceContent.join(
-          ','
-        )
+          ","
+        );
       }
-      // 发送新增随访请求
+      //发送新增随访请求
       this.$http
-        .post('/api' + `/visitRecord/insertVisitRecord`, formData)
+        .post("/api" + `/visitRecord/insertVisitRecord`, formData)
         .then(res => {
-          formData.healthGuidanceContent = []
+          formData.healthGuidanceContent = [];
           if (res.data) {
-            this.$message.success('新增随访成功！')
+            this.$message.success("新增随访成功！");
             setTimeout(() => {
               this.$router.replace({
-                name: 'EssentialInfo',
-                params: { selectId: 'sfjl' }
-              })
-            }, 1500)
+                name: "EssentialInfo",
+                params: { selectId: "sfjl" }
+              });
+            }, 1500);
           } else {
-            this.$message.error('新增随访失败！')
+            this.$message.error("新增随访失败！");
           }
         })
         .catch(err => {
-          this.$message.error('随访新增失败！')
-          formData.healthGuidanceContent = []
-          console.log(err)
-        })
+          this.$message.error("随访新增失败！");
+          formData.healthGuidanceContent = [];
+          console.log(err);
+        });
     },
     // 返回按钮
-    cancelBtn () {
-      this.$router.go(-1)
+    cancelBtn() {
+      this.$router.go(-1);
     },
-    handleClose (done) {
-      this.$confirm('确认关闭？')
+    handleClose(done) {
+      this.$confirm("确认关闭？")
         .then(_ => {
-          done()
+          done();
         })
-        .catch(_ => {})
+        .catch(_ => {});
     },
-    handleChange (value) {
-      console.log(value)
+    handleChange(value) {
+      console.log(value);
     },
     // 获取科室方法
-    getMedicalList () {
+    getMedicalList() {
       this.$http
         .get(
-          '/api' +
-            `/medicalSections/getMedicalSectionsList?hospitalId=${
-              this.$store.state.user.user.hospitalId.id
-            }`
+          "/api" +
+            `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
         )
         .then(res => {
-          this.yyks[1].children = res.data
+          this.yyks[1].children = res.data;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    // 获取症状方法
-    getSymptomList () {
+    //获取症状方法
+    getSymptomList() {
       this.$http
-        .get('/api' + `/common/getDataList?dataType=1`)
+        .get("/api" + `/common/getDataList?dataType=1`)
         .then(res => {
-          this.zz[1].children = res.data
+          this.zz[1].children = res.data;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    // 获取并发症方法
-    getComplicationList () {
+    //获取并发症方法
+    getComplicationList() {
       this.$http
-        .get('/api' + `/common/getDataList?dataType=2`)
+        .get("/api" + `/common/getDataList?dataType=2`)
         .then(res => {
-          console.log(res)
-          this.sfyzz[1].children = res.data
-          console.log(this.sfyzz)
+          console.log(res);
+          this.sfyzz[1].children = res.data;
+          console.log(this.sfyzz);
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-    handleClick (tab, event) {
-      console.log(tab, event)
+    handleClick(tab, event) {
+      console.log(tab, event);
     }
   }
-}
+};
 </script>
 
 <style type="text/css" scoped>

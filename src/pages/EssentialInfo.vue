@@ -552,7 +552,6 @@ var option = {
       },
       //去随访
       createVisit(){
-
         this.$router.push({name:"createVisit"})
       }
     }

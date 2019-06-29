@@ -6,8 +6,7 @@
     <h2></h2>
 
     <el-form ref="form" :model="form" label-width="100px">
-
-      <h2 >健康计划内容</h2>
+      <h2>疾病计划分类</h2>
       <el-row>
           <el-col :span="24" v-for="(v,i) in planList" :key="i">
               <el-form-item :label="v.label">
@@ -20,13 +19,18 @@
           </el-col>
       </el-row>
 
-      <h2>需要定期监测的体征</h2>
+      <h2>疾病必测体征项</h2>
 
       <el-checkbox-group v-model="slectedBodySignList">
         <el-checkbox :label="v.bodySignId" v-for="(v,i) in bodySignList" :key="i">
           {{ v.bodySignType }}
         </el-checkbox>
       </el-checkbox-group>
+
+      <h2>疾病管理计划时间</h2>
+        <el-date-picker v-model="date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="yyyy-MM-dd">
+        </el-date-picker>
+
       <el-button type="success" @click="onSubmit" class="submitBtn">发布</el-button>
     </el-form>
 
@@ -48,6 +52,7 @@
     name: 'createPlan',
     data () {
       return {
+        date: '',
         user: {},
         planList: [
           {
@@ -126,7 +131,10 @@
             sort: v.value
           }
         })
+        console.log(this.date)
         const params = {
+          'createDate': this.date ? this.date[0] : '',
+          'endDate': this.date ? this.date[1] : '',
           'patientId': this.personInfo.id,
           'doctorId': this.user.id,
           'monitorItem': this.slectedBodySignList.join(','),
@@ -137,7 +145,17 @@
           .post(`/api/plan/addPlan`, params)
           .then(res => {
             if (res.data) {
-              this.$message.success('新增计划成功')
+              this.$message({
+                type: 'success',
+                message: '新增计划成功',
+                duration: 1000,
+                onClose: () => {
+                  this.$router.push({
+                    name: 'EssentialInfo',
+                    params: { selectId: 'jhxx' }
+                  })
+                }
+              })
             } else {
               this.$message.error('新增科室失败')
             }

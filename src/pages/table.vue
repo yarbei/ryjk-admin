@@ -266,7 +266,7 @@ export default {
     var checkPhone = (rule, value, callback) => {
       var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
       var telReg = reg.test(value)
-      if (telReg == false) {
+      if (telReg === false) {
         callback(new Error('请输入正确的手机号'))
         return false
       } else {
@@ -392,9 +392,7 @@ export default {
     },
     // 新增随访
     createVisit (index, row) {
-      // 旧版本为直接跳转新增随访页面，之后改为先跳转计划页面再选择去随访
-      // sessionStorage.setItem("personInfo", JSON.stringify(row));
-      // this.$router.push({ name: "createVisit", params: { id: index, info: row } });
+      sessionStorage.setItem('personInfo', JSON.stringify(row))
       this.$router.replace({
         name: 'EssentialInfo',
         params: { selectId: 'jhxx' }
@@ -402,7 +400,7 @@ export default {
     },
     // 性别显示转换
     formatSex: function (row, column) {
-      return row.sex == 1 ? '男' : row.sex == 2 ? '女' : '未知'
+      return row.sex === 1 ? '男' : row.sex === 2 ? '女' : '未知'
     },
     handleCurrentChange (val) {
       var that = this
@@ -429,26 +427,26 @@ export default {
         })
     },
     // 删除
-    handleDel: function (index, row) {
-      this.$confirm('确认删除该记录吗?', '提示', {
-        type: 'warning'
-      })
-        .then(() => {
-          this.listLoading = true
-          // NProgress.start();
-          let para = { id: row.id }
-          removeUser(para).then(res => {
-            this.listLoading = false
-            // NProgress.done();
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.getUsers()
-          })
-        })
-        .catch(() => {})
-    },
+    // handleDel: function (index, row) {
+    //   this.$confirm('确认删除该记录吗?', '提示', {
+    //     type: 'warning'
+    //   })
+    //     .then(() => {
+    //       this.listLoading = true
+    //       // NProgress.start();
+    //       let para = { id: row.id }
+    //       removeUser(para).then(res => {
+    //         this.listLoading = false
+    //         // NProgress.done();
+    //         this.$message({
+    //           message: '删除成功',
+    //           type: 'success'
+    //         })
+    //         this.getUsers()
+    //       })
+    //     })
+    //     .catch(() => {})
+    // },
     // 显示编辑界面
     handleEdit: function (index, row) {
       this.editFormVisible = true
@@ -477,7 +475,7 @@ export default {
           that.addForm.hospitalId = that.user.hospitalId.id
           that.addForm.doctorId = that.user.id
           that.$confirm('确认提交吗？', '提示', {}).then(() => {
-            if (that.addForm.sex == -1) {
+            if (that.addForm.sex === -1) {
               that.$message({
                 showClose: true,
                 message: '您还未选择性别',
@@ -485,7 +483,7 @@ export default {
               })
               return
             }
-            if (that.addForm.age == '') {
+            if (that.addForm.age === '') {
               that.$message({
                 showClose: true,
                 message: '您还未输入年龄',
@@ -493,7 +491,7 @@ export default {
               })
               return
             }
-            if (that.addForm.groupId == '') {
+            if (that.addForm.groupId === '') {
               that.$message({
                 showClose: true,
                 message: '您还未选择组别',
@@ -544,27 +542,27 @@ export default {
       this.sels = sels
     },
     // 批量删除
-    batchRemove: function () {
-      var ids = this.sels.map(item => item.id).toString()
-      this.$confirm('确认删除选中记录吗？', '提示', {
-        type: 'warning'
-      })
-        .then(() => {
-          this.listLoading = true
-          // NProgress.start();
-          let para = { ids: ids }
-          batchRemoveUser(para).then(res => {
-            this.listLoading = false
-            // NProgress.done();
-            this.$message({
-              message: '删除成功',
-              type: 'success'
-            })
-            this.getUsers()
-          })
-        })
-        .catch(() => {})
-    },
+    // batchRemove: function () {
+    //   var ids = this.sels.map(item => item.id).toString()
+    //   this.$confirm('确认删除选中记录吗？', '提示', {
+    //     type: 'warning'
+    //   })
+    //     .then(() => {
+    //       this.listLoading = true
+    //       // NProgress.start();
+    //       let para = { ids: ids }
+    //       batchRemoveUser(para).then(res => {
+    //         this.listLoading = false
+    //         // NProgress.done();
+    //         this.$message({
+    //           message: '删除成功',
+    //           type: 'success'
+    //         })
+    //         this.getUsers()
+    //       })
+    //     })
+    //     .catch(() => {})
+    // },
     // 获取组名
     getGroupName () {
       var that = this
@@ -611,7 +609,7 @@ export default {
     // 根据组名查患者列表
     getUsersByGroup () {
       var that = this
-      if (that.groupNameChoose == '') {
+      if (that.groupNameChoose === '') {
         that.getUsers()
       } else {
         that.$http
