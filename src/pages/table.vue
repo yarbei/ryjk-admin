@@ -126,17 +126,6 @@
       </el-table-column>
     </el-table>
 
-    <!--分页工具条-->
-    <!-- <el-col :span="24" class="toolbar toolbar_page" v-if="pageSize>10">
-      <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
-      <el-pagination
-        layout="prev, pager, next"
-        @current-change="handleCurrentChange"
-        :page-size="pageSize"
-        :total="pageTotal"
-      ></el-pagination>
-    </el-col>-->
-
     <!--修改患者分组界面-->
     <el-dialog
       title="修改患者分组"
@@ -314,12 +303,18 @@ export default {
       addLoading: false,
       addFormRules: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-        phone: [{required: true, validator: checkPhone, trigger: 'blur' }],
+        phone: [{ required: true, validator: checkPhone, trigger: 'blur' }],
         sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        idCard: [{required: true, validator: checkIdCard, trigger: 'blur' }],
-        telName: [{ required: true, message: '请输入联系人姓名', trigger: 'blur' }],
-        relationPhone: [{required: true, validator: checkPhone, trigger: 'blur' }],
-        relation: [{ required: true, message: '请选择与患者关系', trigger: 'change' }],
+        idCard: [{ required: true, validator: checkIdCard, trigger: 'blur' }],
+        telName: [
+          { required: true, message: '请输入联系人姓名', trigger: 'blur' }
+        ],
+        relationPhone: [
+          { required: true, validator: checkPhone, trigger: 'blur' }
+        ],
+        relation: [
+          { required: true, message: '请选择与患者关系', trigger: 'change' }
+        ],
         groupId: [{ required: true, message: '请选择分组', trigger: 'change' }]
       },
       // 新增界面数据
@@ -332,6 +327,7 @@ export default {
     }
   },
   methods: {
+    // 新建分组
     addGroup () {
       this.addFormVisible1 = true
     },
@@ -409,10 +405,45 @@ export default {
         params: { selectId: 'jhxx' }
       })
     },
+    // 删除患者
+    deletePatient (index, row) {
+      console.log(index, row)
+      if (row.sourceType === 1) {
+        this.$confirm('此操作将删除该患者, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+          .then(() => {
+            this.$http.post('/api' + 'patient/deletePatientById?id=' + row.id).then(res => {
+              this.getUsers()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              })
+            }).catch(err => {
+              console.log(err)
+              this.$message({
+                type: 'warning',
+                message: '删除失败!'
+              })
+            })
+          })
+          .catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            })
+          })
+      } else {
+        this.$message.warning('该患者不可删除！')
+      }
+    },
     // 性别显示转换
     formatSex: function (row, column) {
       return row.sex === 1 ? '男' : row.sex === 2 ? '女' : '未知'
     },
+
     handleCurrentChange (val) {
       var that = this
       console.log(val, '2333333333333')
@@ -435,27 +466,6 @@ export default {
           console.log(err)
         })
     },
-    // 删除
-    // handleDel: function (index, row) {
-    //   this.$confirm('确认删除该记录吗?', '提示', {
-    //     type: 'warning'
-    //   })
-    //     .then(() => {
-    //       this.listLoading = true
-    //       // NProgress.start();
-    //       let para = { id: row.id }
-    //       removeUser(para).then(res => {
-    //         this.listLoading = false
-    //         // NProgress.done();
-    //         this.$message({
-    //           message: '删除成功',
-    //           type: 'success'
-    //         })
-    //         this.getUsers()
-    //       })
-    //     })
-    //     .catch(() => {})
-    // },
     // 显示编辑界面
     handleEdit: function (index, row) {
       this.editFormVisible = true
