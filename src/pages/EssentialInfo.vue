@@ -160,6 +160,16 @@
             </div>
           </el-card>
 
+          <el-pagination
+              @size-change="handlePageSizeChange"
+              @current-change="handlePageCurrentChange"
+              :current-page="page.current"
+              :page-sizes="page.sizes"
+              :page-size="page.size"
+              :layout="page.layout"
+              :total="page.total"
+          ></el-pagination>
+
         <el-card class="box-card jhxx_box" v-if="getPlanStatus">
           <h2 style="text-align: center; color: #999;">暂无数据！</h2>
         </el-card>
@@ -224,6 +234,7 @@
 </template>
 
 <script>
+import { pagination } from '@/mixins'
 import ElCol from 'element-ui/packages/col/src/col'
 import ElButton from '../../node_modules/element-ui/packages/button/src/button.vue'
 import tabHeader from '../components/tabHeader'
@@ -328,6 +339,7 @@ var option = {
 }
 
 export default {
+  mixins: [pagination],
   components: {
     ElRow,
     ElContainer,
@@ -382,7 +394,10 @@ export default {
     this.getSummary()
     this.getSign()
     this.getPlan()
-    this.getHealthPlan()
+    this.getHealthPlan(
+      this.page.current,
+      this.page.size
+    )
   },
   mounted () {
     if (this.$route.params.selectId == 'sfjl') {
@@ -393,6 +408,20 @@ export default {
     }
   },
   methods: {
+    handleSearch () {
+      this.getHealthPlan(
+        1,
+        this.page.size
+      )
+    },
+    // 分页
+    handlePageCurrentChange (val) {
+      this.page.current = val
+      this.getHealthPlan(
+        this.page.current,
+        this.page.size
+      )
+    },
     jhxxAdd (id) {
       console.log(id)
     },
@@ -407,7 +436,10 @@ export default {
           if (res.data) {
             this.$message.success('终止计划成功')
             this.jhxxStopdialog = false
-            this.getHealthPlan()
+            this.getHealthPlan(
+              this.page.current,
+              this.page.size
+            )
           } else {
             this.$message.error('终止计划失败')
             this.jhxxStopdialog = false
@@ -536,13 +568,15 @@ export default {
         })
     },
     // 获取健康计划列表
-    getHealthPlan () {
-      this.$http.get('/api' + `/plan/getPlanByPatientId?patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`)
+    getHealthPlan (page, pageSize) {
+      this.$http.get('/api' + `/plan/getPlanByPatientId?patientId=${this.personInfo.id}&pageNum=${page}&pageSize=${pageSize}`)
         .then(res => {
           if (res.data.list.length === 0) {
             this.getPlanStatus = true
+            this.page.total = 0
           } else {
             this.jhglArray = res.data.list
+            this.page.total = res.data.total
           }
         })
         .catch(err => {
