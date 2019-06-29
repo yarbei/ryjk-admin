@@ -5,7 +5,10 @@
 
     <h2></h2>
 
-    <el-form ref="form" :model="form" label-width="100px">
+    <el-form ref="form" label-width="100px">
+      <h2>疾病计划名称</h2>
+      <el-input type="textarea" v-model="name" placeholder="请输入名称"></el-input>
+
       <h2>疾病计划分类</h2>
       <el-row>
           <el-col :span="24" v-for="(v,i) in planList" :key="i">
@@ -52,6 +55,7 @@
     name: 'createPlan',
     data () {
       return {
+        name: '',
         date: '',
         user: {},
         planList: [
@@ -133,6 +137,7 @@
         })
         console.log(this.date)
         const params = {
+          'name': this.name,
           'createDate': this.date ? this.date[0] : '',
           'endDate': this.date ? this.date[1] : '',
           'patientId': this.personInfo.id,
