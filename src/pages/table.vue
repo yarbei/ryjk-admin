@@ -192,6 +192,11 @@
         <el-form-item label="身份证号" prop="idCard">
           <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
         </el-form-item>
+        <el-form-item label="选择科室 : ">
+          <el-select v-model="addForm.departmentName" placeholder="请选择">
+            <el-option v-for="item in ksdepartmentName" :key="item.value" :value="item.label" :label="item.label"></el-option>
+          </el-select>
+          </el-form-item>
         <el-form-item label="联系人姓名" prop="telName">
           <el-input v-model="addForm.telName" auto-complete="off"></el-input>
         </el-form-item>
@@ -284,6 +289,7 @@ export default {
           groupName: ''
         }
       ],
+      ksdepartmentName:[],//科室
       groupNameChoose: '',
       value: '',
       total: 20,
@@ -318,12 +324,14 @@ export default {
         groupId: [{ required: true, message: '请选择分组', trigger: 'change' }]
       },
       // 新增界面数据
-      addForm: {},
+      addForm: {
+        departmentName:[]
+      },
       user: null,
       pageTotal: 0,
       pageSize: 0,
       newGroupName: '',
-      getPatientId: null
+      getPatientId: null,
     }
   },
   methods: {
@@ -442,7 +450,22 @@ export default {
     },
 
     handleCurrentChange(val) {
-      console.log(val, "2333333333333");
+      console.log(val);
+    },
+    // 获取科室方法
+    getMedicalList() {
+      this.$http
+        .get(
+          "/api" +
+            `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
+        )
+        .then(res => {
+          this.ksdepartmentName=res.data
+          console.log(this.ksdepartmentName)
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 获取患者列表
     getUsers() {
@@ -468,8 +491,7 @@ export default {
     },
     // 显示新增界面
     addPatient: function () {
-      this.addFormVisible = true
-      console.log(this.addFormVisible)
+      this.addFormVisible = true;
       this.addForm = {
         name: '',
         sex: -1,
@@ -545,28 +567,6 @@ export default {
     selsChange: function (sels) {
       this.sels = sels
     },
-    // 批量删除
-    // batchRemove: function () {
-    //   var ids = this.sels.map(item => item.id).toString()
-    //   this.$confirm('确认删除选中记录吗？', '提示', {
-    //     type: 'warning'
-    //   })
-    //     .then(() => {
-    //       this.listLoading = true
-    //       // NProgress.start();
-    //       let para = { ids: ids }
-    //       batchRemoveUser(para).then(res => {
-    //         this.listLoading = false
-    //         // NProgress.done();
-    //         this.$message({
-    //           message: '删除成功',
-    //           type: 'success'
-    //         })
-    //         this.getUsers()
-    //       })
-    //     })
-    //     .catch(() => {})
-    // },
     // 获取组名
     getGroupName() {
       this.$http
@@ -622,7 +622,6 @@ export default {
             this.pageTotal = res.data.total;
             this.pageSize = res.data.size;
             this.usersList = res.data.list;
-            console.log(res, "23333333333333333333333");
           })
           .catch(err => {
             console.log(err)
@@ -630,17 +629,15 @@ export default {
       }
     }
   },
-  mounted() {
+  created(){
+      this.getMedicalList();
     this.getUsers();
     this.getGroupName();
-  }
+  },
 }
 </script>
 
 <style scoped>
-.table_container {
-  /*padding: 30px 30px 60px 30px;*/
-}
 
 .toolbar_page {
   margin-top: 20px;
