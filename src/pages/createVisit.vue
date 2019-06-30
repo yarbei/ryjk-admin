@@ -5,34 +5,34 @@
         <default></default>
       </el-tab-pane>
       <el-tab-pane label="产后" name="postpartum">
-        <default></default>
+        <postpartum></postpartum>
       </el-tab-pane>
       <el-tab-pane label="肝病" name="hepatopathy">
-        <default></default>
+        <hepatopathy></hepatopathy>
       </el-tab-pane>
       <el-tab-pane label="类风湿" name="rheumatoid">
-        <default></default>
+        <rheumatoid></rheumatoid>
       </el-tab-pane>
       <el-tab-pane label="慢阻肺" name="copd">
-        <default></default>
+        <copd></copd>
       </el-tab-pane>
       <el-tab-pane label="脑卒中" name="apoplexy">
-        <default></default>
+        <apoplexy></apoplexy>
       </el-tab-pane>
       <el-tab-pane label="内分泌" name="endocrine">
-        <default></default>
+        <endocrine></endocrine>
       </el-tab-pane>
       <el-tab-pane label="痛风" name="gout">
-        <default></default>
+        <gout></gout>
       </el-tab-pane>
       <el-tab-pane label="消化道出血" name="dige">
-        <default></default>
+        <dige></dige>
       </el-tab-pane>
       <el-tab-pane label="心内科疾病" name="heart">
-        <default></default>
+        <heart></heart>
       </el-tab-pane>
       <el-tab-pane label="肿瘤" name="tumour">
-        <default></default>
+        <tumour></tumour>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -40,44 +40,64 @@
 
 
 <script>
-import Default from './template/default.vue'
+import Default from "./template/default.vue";
+import Postpartum from "./template/postpartum.vue";
+import Hepatopathy from "./template/hepatopathy.vue";
+import Rheumatoid from "./template/rheumatoid.vue";
+import Copd from "./template/copd.vue";
+import Apoplexy from "./template/apoplexy.vue";
+import Endocrine from "./template/endocrine.vue";
+import Gout from "./template/gout.vue";
+import Dige from "./template/dige.vue";
+import Heart from "./template/heart.vue";
+import Tumour from "./template/tumour.vue";
 
 export default {
   components: {
-    Default
+    Default,
+    Postpartum,
+    Hepatopathy,
+    Rheumatoid,
+    Copd,
+    Apoplexy,
+    Endocrine,
+    Gout,
+    Dige,
+    Heart,
+    Tumour
   },
-  name: 'createVisit',
-  data () {
+  name: "createVisit",
+  data() {
     return {
-      templateName: 'default'
-    }
+      templateName: "default"
+    };
   },
-  created () {},
-  mounted () {},
+  created() {},
+  mounted() {},
   methods: {
-    handleClick (tab, event) {
-      console.log(tab, event)
+    handleClick(tab, event) {
+      console.log(tab, event);
     }
   }
-}
+};
 </script>
 
 <style type="text/css" scoped>
-.el-tabs{
-    width: 100%;
-    padding: 10px 30px !important;
-    /*margin: 20px auto;*/
-  }
+.el-tabs {
+  width: 100%;
+  padding: 10px 30px !important;
+  /*margin: 20px auto;*/
+}
 
-  .el_tab>>>.is-active{
-    color: #4bd88a !important;
-  }
+.el_tab >>> .is-active {
+  color: #4bd88a !important;
+}
 
-  .el_tab>>>.el-tabs__item:hover{
-    color: #4bd88a !important;
-  }
+.el_tab >>> .el-tabs__item:hover {
+  color: #4bd88a !important;
+}
 
-  .el_tab>>>.el-tabs__active-bar{
-    background-color: #4bd88a !important;
-  }
+.el_tab >>> .el-tabs__active-bar {
+  background-color: #4bd88a !important;
+}
 </style>

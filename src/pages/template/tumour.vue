@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>1通用模板</h1>
+    <h1>11肿瘤模板</h1>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-row :gutter="80">
