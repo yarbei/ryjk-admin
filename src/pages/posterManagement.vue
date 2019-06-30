@@ -115,184 +115,181 @@
 <script>
 
 export default {
-    data() {
-      return {
-        filters: {
-          name: ''
-        },
-        value:"",
-        total: 20,
-        page: 1,
-        headers:{
-          "Content-Type": "multipart/form-data"
-        },
-        size:1,
-        currentPage:1,
-        listLoading: false,
-        ggArray:[],
-        addFormVisible: false,//新增界面是否显示,
-        //新增界面数据
-        addForm: {
-          pca: null
-        },
+  data () {
+    return {
+      filters: {
+        name: ''
+      },
+      value: '',
+      total: 20,
+      page: 1,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      },
+      size: 1,
+      currentPage: 1,
+      listLoading: false,
+      ggArray: [],
+      addFormVisible: false, // 新增界面是否显示,
+      // 新增界面数据
+      addForm: {
+        pca: null
+      },
 
-        editFormVisible: false, //修改界面是否显示,
-        //修改界面数据
-        editForm: {},
+      editFormVisible: false, // 修改界面是否显示,
+      // 修改界面数据
+      editForm: {}
+    }
+  },
+  methods: {
+    // 生产环境和开发环境的判断
+    uploadUrl () {
+      var url = process.env.apiUrl + '/common/upload'
+      console.log(url)
+      return url
+    },
+    // 上传失败
+
+    // 上传成功
+    uploadSuccess (res, file) {
+      if (this.activeName == '1') {
+        this.imageUrl = URL.createObjectURL(file.raw)
+        this.showNoticeUploading = false
+        this.noticeImageUrl = res
+        this.noteInform.templatePicture = res
+      } else if (this.activeName == '3') {
+        this.markingpic = URL.createObjectURL(file.raw)
+        this.showMarkingUploading = false
+        this.marketImageUrl = res
+        this.marketingInform.templatePicture = res
       }
     },
-    methods: {
-      // 生产环境和开发环境的判断
-      uploadUrl() {
-        var url = process.env.apiUrl + "/common/upload"
-        console.log(url)
-        return url
-      },
-      // 上传失败
+    // 上传之前
+    beforeUpload (file) {
+      var that = this
+      that.showNoticeUploading = true
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+        return
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+        return
+      }
 
-      // 上传成功
-      uploadSuccess(res, file){
-        if (this.activeName == '1') {
-          this.imageUrl = URL.createObjectURL(file.raw)
-          this.showNoticeUploading = false
-          this.noticeImageUrl = res
-          this.noteInform.templatePicture = res
-        } else if (this.activeName == '3') {
-          this.markingpic = URL.createObjectURL(file.raw)
-          this.showMarkingUploading = false
-          this.marketImageUrl = res
-          this.marketingInform.templatePicture = res
-        }
-      },
-      // 上传之前
-      beforeUpload(file) {
-        var that = this;
-        that.showNoticeUploading = true
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!')
-          return
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!')
-          return
-        }
+      event.preventDefault()
+      let formData = new FormData()
+      formData.append('file', file)
+      console.log(formData, '文件！')
+      that.$http.post('/api' + '/common/upload', formData)
+        .then(res => {
+          if (res.data != null) {
+            that.$message.success('上传成功！')
+          } else {
+            that.$message.error('上传失败！')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 获取广告广告列表
+    getyyList () {
+      var that = this
+      that.$http.get('/api' + `/notice/getNoticeList?userId=${that.$store.state.user.user.id}`)
+        .then(res => {
+          console.log(res.data, '获取广告列表')
+          //            that.ggArray = res.data.list;
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 新增广告弹窗
+    handleAdd: function () {
+      this.addFormVisible = true
+    },
+    // 新增广告
+    addDepartment: function () {
+      var that = this
+      that.$http.post('/api' + `/common/upload`, that.addForm)
+        .then(res => {
 
-        event.preventDefault();
-        let formData = new FormData();
-        formData.append("file", file);
-        console.log(formData,"文件！")
-        that.$http.post('/api'+'/common/upload', formData)
-          .then(res=>{
-            if (res.data != null){
-              that.$message.success("上传成功！")
-            }else {
-              that.$message.error("上传失败！")
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 删除广告
+    delDepartment (s1, s2) {
+      var that = this
+      this.$confirm('此操作将删除该广告, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'error'
+      }).then(() => {
+        that.$http.post('/api' + `/hospital/deleteHospital`, {id: s2.id})
+          .then(res => {
+            if (res.data) {
+              that.$message.success('删除广告成功')
+              that.getyyList()
+              that.addFormVisible = false
+            } else {
+              that.$message.error('删除广告失败')
+              that.addFormVisible = false
             }
           })
-          .catch(err=>{
+          .catch(err => {
             console.log(err)
-          });
-
-
-      },
-      //获取广告广告列表
-      getyyList() {
-        var that = this;
-        that.$http.get('/api'+`/notice/getNoticeList?userId=${that.$store.state.user.user.id}`)
-          .then(res=>{
-            console.log(res.data,"获取广告列表");
-//            that.ggArray = res.data.list;
           })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      //新增广告弹窗
-      handleAdd: function () {
-        this.addFormVisible = true;
-      },
-      //新增广告
-      addDepartment: function () {
-        var that = this;
-        that.$http.post('/api'+`/common/upload`,that.addForm)
-          .then(res=>{
-
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      //删除广告
-      delDepartment(s1,s2) {
-        var that = this;
-        this.$confirm('此操作将删除该广告, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'error'
-        }).then(() => {
-          that.$http.post('/api'+`/hospital/deleteHospital`,{id:s2.id})
-            .then(res=>{
-              if (res.data){
-                that.$message.success("删除广告成功");
-                that.getyyList();
-                that.addFormVisible = false;
-              }else {
-                that.$message.error("删除广告失败");
-                that.addFormVisible = false;
-              }
-            })
-            .catch(err=>{
-              console.log(err);
-            })
-
-        }).catch(() => {
-        });
-      },
-      //修改广告弹窗
-      handleEdit: function (s1,s2) {
-        var that = this;
-        that.editFormVisible = true;
-        that.editForm = s2;
-        that.editForm.pca=[s2.province,s2.city,s2.area]
-      },
-      //修改广告
-      upDateDepartment(){
-        var that = this;
-        that.editForm.province = that.editForm.pca[0];
-        that.editForm.city = that.editForm.pca[1];
-        that.editForm.area = that.editForm.pca[2];
-        that.$http.post('/api'+`/hospital/updateHospital`,that.editForm)
-          .then(res=>{
-            if (res.data){
-              that.$message.success("修改广告成功");
-              that.getyyList();
-              that.editFormVisible = false;
-            }else {
-              that.$message.error("修改广告失败");
-              that.editFormVisible = false;
-            }
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      handleSizeChange(){},
-      handleCurrentChange(){},
-      handleRemove(file, fileList) {
-        console.log(file, fileList);
-      },
-      handlePreview(file) {
-        console.log(file);
-      }
+      }).catch(() => {
+      })
     },
-    mounted() {
-      var that = this;
-      that.uploadUrl();
+    // 修改广告弹窗
+    handleEdit: function (s1, s2) {
+      var that = this
+      that.editFormVisible = true
+      that.editForm = s2
+      that.editForm.pca = [s2.province, s2.city, s2.area]
     },
-    created(){}
-  }
+    // 修改广告
+    upDateDepartment () {
+      var that = this
+      that.editForm.province = that.editForm.pca[0]
+      that.editForm.city = that.editForm.pca[1]
+      that.editForm.area = that.editForm.pca[2]
+      that.$http.post('/api' + `/hospital/updateHospital`, that.editForm)
+        .then(res => {
+          if (res.data) {
+            that.$message.success('修改广告成功')
+            that.getyyList()
+            that.editFormVisible = false
+          } else {
+            that.$message.error('修改广告失败')
+            that.editFormVisible = false
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    handleSizeChange () {},
+    handleCurrentChange () {},
+    handleRemove (file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview (file) {
+      console.log(file)
+    }
+  },
+  mounted () {
+    var that = this
+    that.uploadUrl()
+  },
+  created () {}
+}
 
 </script>
 

@@ -141,7 +141,7 @@ Cutter.prototype.toBase64 = function (mime, quality) {
   })
 }
 
-const imgcutter = new ImgCutter
+const imgcutter = new ImgCutter()
 export {
   imgcutter as default,
   image,

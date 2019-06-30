@@ -386,51 +386,51 @@ export default {
         motionNum: 0,
         motionLength: 0
       },
-      //随访状态
+      // 随访状态
       sfstatus: [
-        { value: "0", label: "未完成" },
-        { value: "1", label: "已完成" }
+        { value: '0', label: '未完成' },
+        { value: '1', label: '已完成' }
       ],
-      //随访结果
+      // 随访结果
       sfresult: [
-        { value: "0", label: "非有效随访" },
-        { value: "1", label: "有效随访" },
-        { value: "2", label: "勿访" },
-        { value: "3", label: "终止随访" }
+        { value: '0', label: '非有效随访' },
+        { value: '1', label: '有效随访' },
+        { value: '2', label: '勿访' },
+        { value: '3', label: '终止随访' }
       ],
-      //随访方式
+      // 随访方式
       sftype: [
-        { value: "1", label: "电话随访" },
-        { value: "2", label: "在线随访" },
-        { value: "3", label: "短信随访" }
+        { value: '1', label: '电话随访' },
+        { value: '2', label: '在线随访' },
+        { value: '3', label: '短信随访' }
       ],
-      //出院/转院情况
+      // 出院/转院情况
       sfdischargeStatus: [
-        { value: "0", label: "其他市级医院" },
-        { value: "1", label: "乡镇卫生医院治疗" },
-        { value: "2", label: "村卫生室治疗" },
-        { value: "3", label: "回家康复" },
-        { value: "4", label: "痊愈回家" }
+        { value: '0', label: '其他市级医院' },
+        { value: '1', label: '乡镇卫生医院治疗' },
+        { value: '2', label: '村卫生室治疗' },
+        { value: '3', label: '回家康复' },
+        { value: '4', label: '痊愈回家' }
       ],
-      //随访评估
-      sfassessment:[
-        { value: "1", label: "并发症" },
-        { value: "2", label: "相关指标控制不住" },
-        { value: "3", label: "控制不满意" },
-        { value: "4", label: "控制满意" },
-        { value: "5", label: "不良生活方式未改善" },
+      // 随访评估
+      sfassessment: [
+        { value: '1', label: '并发症' },
+        { value: '2', label: '相关指标控制不住' },
+        { value: '3', label: '控制不满意' },
+        { value: '4', label: '控制满意' },
+        { value: '5', label: '不良生活方式未改善' }
       ],
-      //症状
+      // 症状
       sfsymptom: [
-        { value: 0, label: "无症状" },
-        { value: 1, label: "有症状", children: [] }
+        { value: 0, label: '无症状' },
+        { value: 1, label: '有症状', children: [] }
       ],
-      //总体评估
-      sflifeAssessment:[
-        { value: 0, label: "无改善" },
-        { value: 1, label: "有改善" },
+      // 总体评估
+      sflifeAssessment: [
+        { value: 0, label: '无改善' },
+        { value: 1, label: '有改善' }
       ],
-      personInfoId: "",
+      personInfoId: '',
       personInfo: {},
       dialogVisible: false,
       options: [
@@ -489,26 +489,26 @@ export default {
       bcsfpgValue: null
     }
   },
-  created() {
-    this.personInfoId = this.$route.params.id;
-    this.personInfo = JSON.parse(sessionStorage.getItem("personInfo")); //从session中获取患者信息
-    this.getMedicalList(); //获取科室列表
-    this.getSymptomList(); //获取症状列表
-    this.getComplicationList(); //获取并发症列表
+  created () {
+    this.personInfoId = this.$route.params.id
+    this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息
+    this.getMedicalList() // 获取科室列表
+    this.getSymptomList() // 获取症状列表
+    this.getComplicationList() // 获取并发症列表
   },
   mounted () {},
   methods: {
-    //点击完成随访
-    onSubmit() {
-      console.log(this.personInfo);
-      if (this.form.type === "") {
-        this.$message.warning("随访方式未选择！");
-        return;
+    // 点击完成随访
+    onSubmit () {
+      console.log(this.personInfo)
+      if (this.form.type === '') {
+        this.$message.warning('随访方式未选择！')
+        return
       }
 
-      var formData = this.form;
-      formData.patientId = this.personInfo.id; //患者ID，必传
-      formData.visitAuthor = this.$store.state.user.user.id; //从store中获取用户ID，在这被作为随访人员ID
+      var formData = this.form
+      formData.patientId = this.personInfo.id // 患者ID，必传
+      formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
 
       // int类型转换
       formData.motionLength = Number(this.form.motionLength)
@@ -576,7 +576,7 @@ export default {
       this.$http
         .get('/api' + `/common/getDataList?dataType=1`)
         .then(res => {
-          this.sfsymptom[1].children = res.data;
+          this.sfsymptom[1].children = res.data
         })
         .catch(err => {
           console.log(err)

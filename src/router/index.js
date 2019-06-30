@@ -30,7 +30,9 @@ export default new Router({
         { path: '/queryVisit', name: 'queryVisit', component: page('queryVisit') },
         { path: '/departManagement', name: 'departManagement', component: page('departManagement') },
         { path: '/hospitalManagement', name: 'hospitalManagement', component: page('hospitalManagement') },
+        { path: '/addHospital', name: 'addHospital', component: page('addHospital') },
         { path: '/noticeManagement', name: 'noticeManagement', component: page('noticeManagement') },
+        { path: '/addNotice', name: 'addNotice', component: page('addNotice') },
         { path: '/posterManagement', name: 'posterManagement', component: page('posterManagement') }
       ]
     },

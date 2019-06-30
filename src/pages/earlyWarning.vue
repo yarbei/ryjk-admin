@@ -47,93 +47,93 @@
 <script>
 
   export default {
-    data() {
+    data () {
       return {
         filters: {
           name: ''
         },
-        value:"",
+        value: '',
         users: [
-          {index:"1",name:"斯蒂芬",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:20,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"2",name:"史蒂夫",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:21,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"3",name:"阿庆嫂",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:22,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"4",name:"X森",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:23,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"5",name:"X森森",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:24,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"6",name:"X森森森",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:25,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"1",name:"斯蒂芬",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:20,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"2",name:"史蒂夫",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:21,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"3",name:"阿庆嫂",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:22,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"4",name:"X森",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:23,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"5",name:"X森森",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:24,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"6",name:"X森森森",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:25,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"1",name:"斯蒂芬",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:20,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"2",name:"史蒂夫",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:21,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"3",name:"阿庆嫂",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:22,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"4",name:"X森",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:23,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"5",name:"X森森",groupName:"出来打球",sex:1,idCard:"123456654321123456",age:24,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
-          {index:"6",name:"X森森森",groupName:"出来打球",sex:2,idCard:"123456654321123456",age:25,phone:"18813104868",department:"内科",doctor:"蔡徐坤"},
+          {index: '1', name: '斯蒂芬', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 20, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '2', name: '史蒂夫', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 21, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '3', name: '阿庆嫂', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 22, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '4', name: 'X森', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 23, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '5', name: 'X森森', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 24, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '6', name: 'X森森森', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 25, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '1', name: '斯蒂芬', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 20, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '2', name: '史蒂夫', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 21, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '3', name: '阿庆嫂', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 22, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '4', name: 'X森', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 23, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '5', name: 'X森森', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 24, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '6', name: 'X森森森', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 25, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '1', name: '斯蒂芬', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 20, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '2', name: '史蒂夫', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 21, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '3', name: '阿庆嫂', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 22, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '4', name: 'X森', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 23, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '5', name: 'X森森', groupName: '出来打球', sex: 1, idCard: '123456654321123456', age: 24, phone: '18813104868', department: '内科', doctor: '蔡徐坤'},
+          {index: '6', name: 'X森森森', groupName: '出来打球', sex: 2, idCard: '123456654321123456', age: 25, phone: '18813104868', department: '内科', doctor: '蔡徐坤'}
         ],
         total: 20,
         page: 1,
-        size:1,
-        currentPage:1,
+        size: 1,
+        currentPage: 1,
         listLoading: false,
-        usersList:[],
-        user:null,
-        ewArray:[]
+        usersList: [],
+        user: null,
+        ewArray: []
       }
     },
     methods: {
-      //获取体征预警列表
-      getEwList() {
-        var that = this;
-        that.$http.get('/api'+`/notice/getDoctorNoticeList?userId=${that.$store.state.user.user.id}&titleType=${2}&name=${that.filters.name}`)
-          .then(res=>{
-            that.ewArray = res.data.list;
-            that.total = res.data.total;
-            that.size = res.data.size;
-            that.currentPage = res.data.pages;
+      // 获取体征预警列表
+      getEwList () {
+        var that = this
+        that.$http.get('/api' + `/notice/getDoctorNoticeList?userId=${that.$store.state.user.user.id}&titleType=${2}&name=${that.filters.name}`)
+          .then(res => {
+            that.ewArray = res.data.list
+            that.total = res.data.total
+            that.size = res.data.size
+            that.currentPage = res.data.pages
           })
-          .catch(err=>{
-            console.log(err);
+          .catch(err => {
+            console.log(err)
           })
       },
-      handleSizeChange(){
+      handleSizeChange () {
 
       },
-      handleCurrentChange(){
+      handleCurrentChange () {
 
       },
-      formatSatus(row, column){
-        return row.status == 0? '已完成' : row.status == 1 ? '未完成' : '无';
+      formatSatus (row, column) {
+        return row.status == 0 ? '已完成' : row.status == 1 ? '未完成' : '无'
       },
-      changelInfo(s1,s2){
-        var that = this;
+      changelInfo (s1, s2) {
+        var that = this
 
-        if (s2.status == 0){
-          that.$message.warning("状态已更改,请勿重复操作！");
+        if (s2.status == 0) {
+          that.$message.warning('状态已更改,请勿重复操作！')
           return
         }
 
-        that.$http.post('/api'+`/notice/updateStatus`,{messageId: s2.id})
-          .then(res=>{
-            if (res.data){
-              that.$message.success("操作成功");
-              that.getEwList();
-            }else {
-              that.$message.error("操作失败");
+        that.$http.post('/api' + `/notice/updateStatus`, {messageId: s2.id})
+          .then(res => {
+            if (res.data) {
+              that.$message.success('操作成功')
+              that.getEwList()
+            } else {
+              that.$message.error('操作失败')
             }
           })
-          .catch(err=>{
-            console.log(err);
+          .catch(err => {
+            console.log(err)
           })
         console.log(s2)
       }
     },
-    mounted() {
-      var that = this;
-      that.getEwList();
-    }
+    mounted () {
+      var that = this
+      that.getEwList()
+  }
   }
 
 </script>

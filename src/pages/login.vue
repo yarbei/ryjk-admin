@@ -38,16 +38,16 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 
 export default {
-  name: "login",
-  data() {
+  name: 'login',
+  data () {
     return {
-      username: "",
-      password: "",
-      selectStr: "",
-      roleType: "",
+      username: '',
+      password: '',
+      selectStr: '',
+      roleType: '',
       isLoging: false,
       author: window.APP_INFO.author,
       version: window.APP_INFO.version,
@@ -55,68 +55,68 @@ export default {
       options: [
         {
           value: 2,
-          label: "疾病管理师 "
+          label: '疾病管理师 '
         },
         {
           value: 3,
-          label: "医生"
+          label: '医生'
         }
       ]
-    };
+    }
   },
   methods: {
-    ...mapActions(["login"]),
-    userLogin() {
-      var that = this;
+    ...mapActions(['login']),
+    userLogin () {
+      var that = this
       if (!this.username || !this.password) {
-        return this.$message.error("用户名和密码不能为空");
+        return this.$message.error('用户名和密码不能为空')
       }
-      if (that.roleType == "") {
-        return this.$message.error("未选择医院");
+      if (that.roleType == '') {
+        return this.$message.error('未选择医院')
       }
 
-      that.isLoging = true;
+      that.isLoging = true
       that.$http
         .get(
-          "/api" +
+          '/api' +
             `/user/login?userAccount=${that.username}&password=${that.password}&roleType=${that.roleType}`
         )
         .then(res => {
           if (res.data) {
-            that.$message.success("登录成功");
+            that.$message.success('登录成功')
 
-            sessionStorage.setItem("loginUser", JSON.stringify(res.data));
+            sessionStorage.setItem('loginUser', JSON.stringify(res.data))
 
-            that.$store.commit("SET_LOGIN_USER", res.data);
+            that.$store.commit('SET_LOGIN_USER', res.data)
 
             that.$store.commit(
-              "SET_LOGIN_TOKEN",
-              "4eea90fd-2752-481d-ae67-c75f8641a94a"
-            );
+              'SET_LOGIN_TOKEN',
+              '4eea90fd-2752-481d-ae67-c75f8641a94a'
+            )
 
-            that.isLoging = false;
+            that.isLoging = false
 
-            that.$router.push({ name: "home" });
+            that.$router.push({ name: 'home' })
           } else {
             that.$message({
-              message: "登录失败！",
-              type: "error"
-            });
-            that.isLoging = false;
+              message: '登录失败！',
+              type: 'error'
+            })
+            that.isLoging = false
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     }
   },
-  created() {
-    var that = this;
-    sessionStorage.removeItem("loginUser");
-    sessionStorage.removeItem("token");
-    that.$store.commit("SET_LOGIN_USER", null);
+  created () {
+    var that = this
+    sessionStorage.removeItem('loginUser')
+    sessionStorage.removeItem('token')
+    that.$store.commit('SET_LOGIN_USER', null)
   }
-};
+}
 </script>
 
 

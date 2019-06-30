@@ -96,142 +96,141 @@
 <script>
 
 export default {
-    data() {
-      return {
-        filters: {
-          name: ''
-        },
-        value:"",
-        total: 20,
-        page: 1,
-        size:1,
-        currentPage:1,
-        listLoading: false,
-        usersList:[],
-        user:null,
-        ksArray:[],
-        addFormVisible: false,//新增界面是否显示,
-        //新增界面数据
-        addForm: {
-          name: '',
-          description:""
-        },
+  data () {
+    return {
+      filters: {
+        name: ''
+      },
+      value: '',
+      total: 20,
+      page: 1,
+      size: 1,
+      currentPage: 1,
+      listLoading: false,
+      usersList: [],
+      user: null,
+      ksArray: [],
+      addFormVisible: false, // 新增界面是否显示,
+      // 新增界面数据
+      addForm: {
+        name: '',
+        description: ''
+      },
 
-        editFormVisible: false, //修改界面是否显示,
-        //修改界面数据
-        editForm: {
-          name:'',
-          description:""
-        },
+      editFormVisible: false, // 修改界面是否显示,
+      // 修改界面数据
+      editForm: {
+        name: '',
+        description: ''
       }
-    },
-    methods: {
-      //获取医院科室列表
-      getksList() {
-        var that = this;
-        that.$http.get('/api'+`/medicalSections/getMedicalSectionsPage?hospitalId=${that.$store.state.user.user.hospitalId.id}&name=${that.filters.name}`)
-          .then(res=>{
-            console.log(res.data,"获取医院科室列表");
-            that.ksArray = res.data.list;
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      //新增科室弹窗
-      handleAdd: function () {
-        this.addFormVisible = true;
-      },
-      //新增科室
-      addDepartment: function () {
-        var that = this;
-        that.addForm.hospitalId = that.$store.state.user.user.hospitalId.id;
-        that.$http.post('/api'+`/medicalSections/addMedicalSections`,that.addForm)
-          .then(res=>{
-            if (res.data){
-              that.$message.success("新增科室成功");
-              that.getksList();
-              that.addFormVisible = false;
-            }else {
-              that.$message.error("新增科室失败");
-              that.addFormVisible = false;
-            }
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      //删除科室
-      delDepartment(s1,s2) {
-        var that = this;
-        this.$confirm('此操作将删除该科室, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'error'
-        }).then(() => {
-          that.$http.post('/api'+`/medicalSections/deleteMedicalSections`,{id:s2.id})
-            .then(res=>{
-              if (res.data){
-                that.$message.success("删除科室成功");
-                that.getksList();
-                that.addFormVisible = false;
-              }else {
-                that.$message.error("删除科室失败");
-                that.addFormVisible = false;
-              }
-            })
-            .catch(err=>{
-              console.log(err);
-            })
-
-        }).catch(() => {
-        });
-      },
-      //修改科室弹窗
-      handleEdit: function (s1,s2) {
-        var that = this;
-        that.editFormVisible = true;
-        that.editForm = s2;
-      },
-      //修改科室
-      upDateDepartment(){
-        var that = this;
-        that.$http.post('/api'+`/medicalSections/updateMedicalSections`,that.editForm)
-          .then(res=>{
-            if (res.data){
-              that.$message.success("修改科室成功");
-              that.getksList();
-              that.editFormVisible = false;
-            }else {
-              that.$message.error("修改科室失败");
-              that.editFormVisible = false;
-            }
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      handleSizeChange(){
-
-      },
-      handleCurrentChange(){
-
-      },
-      formatSatus(row, column){
-
-      },
-      formBtnStatus(row,column){
-
-      },
-      changelInfo(s1,s2){
-
-      },
-    },
-    mounted() {
-      var that = this;
-      that.getksList();
     }
+  },
+  methods: {
+    // 获取医院科室列表
+    getksList () {
+      var that = this
+      that.$http.get('/api' + `/medicalSections/getMedicalSectionsPage?hospitalId=${that.$store.state.user.user.hospitalId.id}&name=${that.filters.name}`)
+        .then(res => {
+          console.log(res.data, '获取医院科室列表')
+          that.ksArray = res.data.list
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 新增科室弹窗
+    handleAdd: function () {
+      this.addFormVisible = true
+    },
+    // 新增科室
+    addDepartment: function () {
+      var that = this
+      that.addForm.hospitalId = that.$store.state.user.user.hospitalId.id
+      that.$http.post('/api' + `/medicalSections/addMedicalSections`, that.addForm)
+        .then(res => {
+          if (res.data) {
+            that.$message.success('新增科室成功')
+            that.getksList()
+            that.addFormVisible = false
+          } else {
+            that.$message.error('新增科室失败')
+            that.addFormVisible = false
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // 删除科室
+    delDepartment (s1, s2) {
+      var that = this
+      this.$confirm('此操作将删除该科室, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'error'
+      }).then(() => {
+        that.$http.post('/api' + `/medicalSections/deleteMedicalSections`, {id: s2.id})
+          .then(res => {
+            if (res.data) {
+              that.$message.success('删除科室成功')
+              that.getksList()
+              that.addFormVisible = false
+            } else {
+              that.$message.error('删除科室失败')
+              that.addFormVisible = false
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }).catch(() => {
+      })
+    },
+    // 修改科室弹窗
+    handleEdit: function (s1, s2) {
+      var that = this
+      that.editFormVisible = true
+      that.editForm = s2
+    },
+    // 修改科室
+    upDateDepartment () {
+      var that = this
+      that.$http.post('/api' + `/medicalSections/updateMedicalSections`, that.editForm)
+        .then(res => {
+          if (res.data) {
+            that.$message.success('修改科室成功')
+            that.getksList()
+            that.editFormVisible = false
+          } else {
+            that.$message.error('修改科室失败')
+            that.editFormVisible = false
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    handleSizeChange () {
+
+    },
+    handleCurrentChange () {
+
+    },
+    formatSatus (row, column) {
+
+    },
+    formBtnStatus (row, column) {
+
+    },
+    changelInfo (s1, s2) {
+
+    }
+  },
+  mounted () {
+    var that = this
+    that.getksList()
   }
+}
 
 </script>
 

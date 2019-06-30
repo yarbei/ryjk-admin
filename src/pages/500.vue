@@ -13,26 +13,26 @@
   export default {
     components: {},
     name: '500',
-    data() {
+    data () {
       return {
         formInline: {
           user: '',
           region: ''
         },
-        currentPage:1,
-        personInfo:[
-          {id:1,name:"蔡徐坤打中单",type:"血压过高",status:"未完成",doctor:"杨永信"},
-          {id:2,name:"蔡徐坤打上单",type:"行为过激",status:"未完成",doctor:"杨永信"},
-          {id:3,name:"蔡徐坤打野",type:"语言偏激",status:"未完成",doctor:"杨永信"},
-          {id:4,name:"蔡徐坤打辅助",type:"性格孤僻",status:"未完成",doctor:"杨永信"},
-          {id:5,name:"蔡徐坤打ADC",type:"鸡你太美",status:"未完成",doctor:"杨永信"},
+        currentPage: 1,
+        personInfo: [
+          {id: 1, name: '蔡徐坤打中单', type: '血压过高', status: '未完成', doctor: '杨永信'},
+          {id: 2, name: '蔡徐坤打上单', type: '行为过激', status: '未完成', doctor: '杨永信'},
+          {id: 3, name: '蔡徐坤打野', type: '语言偏激', status: '未完成', doctor: '杨永信'},
+          {id: 4, name: '蔡徐坤打辅助', type: '性格孤僻', status: '未完成', doctor: '杨永信'},
+          {id: 5, name: '蔡徐坤打ADC', type: '鸡你太美', status: '未完成', doctor: '杨永信'}
 
         ]
       }
     },
     methods: {
     },
-    mounted(){
+    mounted () {
       console.log(this.$route.params)
     }
 

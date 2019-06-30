@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue from 'vue'
 
 const menus = [
   {id: '0', label: '控制面板', path: '/', icon: 'fa fa-dashboard'},
@@ -6,17 +6,17 @@ const menus = [
     id: 'hzgl',
     icon: 'fa fa-circle-o',
     label: '患者管理',
-    path:'/p-data-table',
-    name:'p-data-table'
+    path: '/p-data-table',
+    name: 'p-data-table'
   },
   {
     id: 'dbsx',
     icon: 'fa fa-paper-plane',
     label: '待办事项',
     submenu: [
-      {id: 'dbsx1', path: '/waitVisit', name:'waitVisit', label: '待随访',count:5},
-      {id: 'dbsx2', path: '/earlyWarning', name:'earlyWarning', label: '体征预警提醒'},
-      {id: 'dbsx3', path: '/userException',name:'userException', label: '用户行为异常'}
+      {id: 'dbsx1', path: '/waitVisit', name: 'waitVisit', label: '待随访', count: 5},
+      {id: 'dbsx2', path: '/earlyWarning', name: 'earlyWarning', label: '体征预警提醒'},
+      {id: 'dbsx3', path: '/userException', name: 'userException', label: '用户行为异常'}
     ]
   },
   {
@@ -44,7 +44,7 @@ const menus = [
     label: '医院管理',
     submenu: [
       {id: 'yygl1', path: '/hospitalManagement', label: '全部医院列表'},
-      {id: 'ksgl1', path: '/departManagement', label: '科室管理'},
+      {id: 'ksgl1', path: '/departManagement', label: '科室管理'}
     ]
   },
   {id: 'gggl', icon: 'fa fa-bell-o', label: '公告管理', path: '/noticeManagement', name: 'noticeManagement'},

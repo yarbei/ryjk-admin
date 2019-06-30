@@ -66,7 +66,19 @@
       style="width: 100%;"
     >
       <el-table-column prop="name" align="center" label="姓名" width="80" sortable></el-table-column>
-      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column>
+      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable>
+        <!-- <template slot-scope="scope">
+          {{scope.row.groupId.groupId }}
+            <el-select v-model="scope.row.groupId.groupId" placeholder="请选择" @change="editGroup(scope.row.groupId.groupId)">
+              <el-option
+                v-for="item in groupNameList"
+                :key="item.groupId"
+                :label="item.groupName"
+                :value="item.groupId"
+              ></el-option>
+            </el-select>
+        </template> -->
+      </el-table-column>
       <el-table-column prop="idCard" align="center" label="身份证号" width="200"></el-table-column>
       <el-table-column
         prop="sex"
@@ -348,6 +360,7 @@ export default {
     editGroup (value) {
       var that = this
       that.editForm.groupId = value
+      this.editSubmit()
     },
     // 获取修改患者信息
     editInfo (index, row) {

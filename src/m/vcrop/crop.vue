@@ -161,13 +161,13 @@ export default {
         // 改变尺寸
         console.log('size change')
         switch (this.direction) {
-          case 'left-top': 
+          case 'left-top':
             this.vl = this.startPoint.left + offsetX
             this.vt = this.startPoint.top + offsetY
             this.vw = this.startPoint.width - offsetX
             this.vh = this.startPoint.height - offsetY
             break
-          case 'top': 
+          case 'top':
             this.vt = this.startPoint.top + offsetY
             this.vh = this.startPoint.height - offsetY
             break
