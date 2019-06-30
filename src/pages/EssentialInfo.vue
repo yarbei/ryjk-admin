@@ -194,6 +194,11 @@
         </div>
       </el-card>
 
+
+
+      <el-card class="box-card jhxx_box" v-if="getPlanStatus">
+        <h2 style="text-align: center; color: #999;">暂无数据！</h2>
+      </el-card>
       <el-pagination
         @size-change="handlePageSizeChange"
         @current-change="handlePageCurrentChange"
@@ -203,10 +208,6 @@
         :layout="page.layout"
         :total="page.total"
       ></el-pagination>
-
-      <el-card class="box-card jhxx_box" v-if="getPlanStatus">
-        <h2 style="text-align: center; color: #999;">暂无数据！</h2>
-      </el-card>
     </el-tab-pane>
 
     <!--随访记录-->
