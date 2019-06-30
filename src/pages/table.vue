@@ -66,7 +66,19 @@
       style="width: 100%;"
     >
       <el-table-column prop="name" align="center" label="姓名" width="80" sortable></el-table-column>
-      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column>
+      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable>
+        <!-- <template slot-scope="scope">
+          {{scope.row.groupId.groupId }}
+            <el-select v-model="scope.row.groupId.groupId" placeholder="请选择" @change="editGroup(scope.row.groupId.groupId)">
+              <el-option
+                v-for="item in groupNameList"
+                :key="item.groupId"
+                :label="item.groupName"
+                :value="item.groupId"
+              ></el-option>
+            </el-select>
+        </template> -->
+      </el-table-column>
       <el-table-column prop="idCard" align="center" label="身份证号" width="200"></el-table-column>
       <el-table-column
         prop="sex"
@@ -289,7 +301,7 @@ export default {
           groupName: ''
         }
       ],
-      ksdepartmentName:[],//科室
+      ksdepartmentName: [], // 科室
       groupNameChoose: '',
       value: '',
       total: 20,
@@ -325,13 +337,13 @@ export default {
       },
       // 新增界面数据
       addForm: {
-        departmentName:[]
+        departmentName: []
       },
       user: null,
       pageTotal: 0,
       pageSize: 0,
       newGroupName: '',
-      getPatientId: null,
+      getPatientId: null
     }
   },
   methods: {
@@ -353,27 +365,27 @@ export default {
       this.$router.push({ name: 'EssentialInfo' })
     },
     // 修改组别获取组别id
-    editGroup(value) {
-      this.editForm.groupId = value;
+    editGroup (value) {
+      this.editForm.groupId = value
     },
     // 获取修改患者信息
-    editInfo(index, row) {
-      this.editFormVisible = true;
-      this.getPatientId = row.id;
+    editInfo (index, row) {
+      this.editFormVisible = true
+      this.getPatientId = row.id
 
-      this.editForm = Object.assign({}, row);
+      this.editForm = Object.assign({}, row)
       if (row.groupId != null) {
-        this.editForm.groupId = row.groupId.groupId;
+        this.editForm.groupId = row.groupId.groupId
       } else {
-        this.editForm.groupId = row.groupId;
+        this.editForm.groupId = row.groupId
       }
     },
     // 提交修改组别
-    editSubmit() {
-      this.$confirm("确认提交吗？", "提示", {}).then(() => {
-        this.editLoading = true;
+    editSubmit () {
+      this.$confirm('确认提交吗？', '提示', {}).then(() => {
+        this.editLoading = true
         this.$http
-          .post("/api" + `/patient/updateGroup`, {
+          .post('/api' + `/patient/updateGroup`, {
             userId: this.getPatientId,
             groupId: this.editForm.groupId
           })
@@ -381,20 +393,20 @@ export default {
             if (res.data) {
               this.$message({
                 showClose: true,
-                message: "修改组别成功",
-                type: "success"
-              });
-              this.editLoading = false;
-              this.editFormVisible = false;
-              this.getUsers();
+                message: '修改组别成功',
+                type: 'success'
+              })
+              this.editLoading = false
+              this.editFormVisible = false
+              this.getUsers()
             } else {
               this.$message({
                 showClose: true,
-                message: "修改组别失败",
-                type: "error"
-              });
-              this.editLoading = false;
-              this.editFormVisible = false;
+                message: '修改组别失败',
+                type: 'error'
+              })
+              this.editLoading = false
+              this.editFormVisible = false
             }
           })
           .catch(err => {
@@ -420,8 +432,8 @@ export default {
           type: 'warning'
         })
           .then(() => {
-            this.$http.post('/api' +'patient/deletePatientById?id='+row.id).then(res=>{
-              this.getUsers();
+            this.$http.post('/api' + 'patient/deletePatientById?id=' + row.id).then(res => {
+              this.getUsers()
               this.$message({
                 type: 'success',
                 message: '删除成功!'
@@ -449,36 +461,36 @@ export default {
       return row.sex === 1 ? '男' : row.sex === 2 ? '女' : '未知'
     },
 
-    handleCurrentChange(val) {
-      console.log(val);
+    handleCurrentChange (val) {
+      console.log(val)
     },
     // 获取科室方法
-    getMedicalList() {
+    getMedicalList () {
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
         )
         .then(res => {
-          this.ksdepartmentName=res.data
+          this.ksdepartmentName = res.data
           console.log(this.ksdepartmentName)
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取患者列表
-    getUsers() {
-      this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+    getUsers () {
+      this.user = JSON.parse(sessionStorage.getItem('loginUser'))
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}`
         )
         .then(res => {
-          this.pageTotal = res.data.total;
-          this.pageSize = res.data.size;
-          this.usersList = res.data.list;
+          this.pageTotal = res.data.total
+          this.pageSize = res.data.size
+          this.usersList = res.data.list
         })
         .catch(err => {
           console.log(err)
@@ -491,7 +503,7 @@ export default {
     },
     // 显示新增界面
     addPatient: function () {
-      this.addFormVisible = true;
+      this.addFormVisible = true
       this.addForm = {
         name: '',
         sex: -1,
@@ -503,12 +515,12 @@ export default {
       }
     },
     // 新增
-    addSubmit: function() {
+    addSubmit: function () {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          this.addForm.hospitalId = this.user.hospitalId.id;
-          this.addForm.doctorId = this.user.id;
-          this.$confirm("确认提交吗？", "提示", {}).then(() => {
+          this.addForm.hospitalId = this.user.hospitalId.id
+          this.addForm.doctorId = this.user.id
+          this.$confirm('确认提交吗？', '提示', {}).then(() => {
             if (this.addForm.sex === -1) {
               this.$message({
                 showClose: true,
@@ -517,7 +529,7 @@ export default {
               })
               return
             }
-            if (this.addForm.groupId == "") {
+            if (this.addForm.groupId == '') {
               this.$message({
                 showClose: true,
                 message: '您还未选择组别',
@@ -525,27 +537,27 @@ export default {
               })
               return
             }
-            this.addLoading = true;
+            this.addLoading = true
             this.$http
-              .post("/api" + `/patient/addPatient`, this.addForm)
+              .post('/api' + `/patient/addPatient`, this.addForm)
               .then(res => {
                 if (res.data) {
                   this.$message({
                     showClose: true,
-                    message: "患者添加成功",
-                    type: "success"
-                  });
-                  this.getUsers();
-                  this.addFormVisible = false;
-                  this.$refs.addForm.resetFields();
+                    message: '患者添加成功',
+                    type: 'success'
+                  })
+                  this.getUsers()
+                  this.addFormVisible = false
+                  this.$refs.addForm.resetFields()
                 } else {
                   this.$message({
                     showClose: true,
-                    message: "患者添加失败",
-                    type: "error"
-                  });
-                  this.addFormVisible = false;
-                  this.$refs.addForm.resetFields();
+                    message: '患者添加失败',
+                    type: 'error'
+                  })
+                  this.addFormVisible = false
+                  this.$refs.addForm.resetFields()
                 }
               })
               .catch(err => {
@@ -568,20 +580,20 @@ export default {
       this.sels = sels
     },
     // 获取组名
-    getGroupName() {
+    getGroupName () {
       this.$http
-        .get("/api" + `/groups/getGroupListByDoctorId?doctorId=${this.user.id}`)
+        .get('/api' + `/groups/getGroupListByDoctorId?doctorId=${this.user.id}`)
         .then(res => {
-          this.groupNameList = res.data;
+          this.groupNameList = res.data
         })
         .catch(err => {
           console.log(err)
         })
     },
     // 新建组
-    addNewGroup() {
+    addNewGroup () {
       this.$http
-        .post("/api" + `/groups/addGroup`, {
+        .post('/api' + `/groups/addGroup`, {
           groupName: this.newGroupName,
           doctorId: this.user.id
         })
@@ -589,19 +601,19 @@ export default {
           if (res.data) {
             this.$message({
               showClose: true,
-              message: "新建组别成功",
-              type: "success"
-            });
-            this.addFormVisible1 = false;
-            this.getGroupName();
-            this.newGroupName = "";
+              message: '新建组别成功',
+              type: 'success'
+            })
+            this.addFormVisible1 = false
+            this.getGroupName()
+            this.newGroupName = ''
           } else {
             this.$message({
               showClose: true,
-              message: "新建组别失败",
-              type: "error"
-            });
-            this.addFormVisible1 = false;
+              message: '新建组别失败',
+              type: 'error'
+            })
+            this.addFormVisible1 = false
           }
         })
         .catch(err => {
@@ -609,19 +621,19 @@ export default {
         })
     },
     // 根据组名查患者列表
-    getUsersByGroup() {
-      if (this.groupNameChoose === "") {
-        this.getUsers();
+    getUsersByGroup () {
+      if (this.groupNameChoose === '') {
+        this.getUsers()
       } else {
         this.$http
           .get(
-            "/api" +
+            '/api' +
               `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&groupId=${this.groupNameChoose}`
           )
           .then(res => {
-            this.pageTotal = res.data.total;
-            this.pageSize = res.data.size;
-            this.usersList = res.data.list;
+            this.pageTotal = res.data.total
+            this.pageSize = res.data.size
+            this.usersList = res.data.list
           })
           .catch(err => {
             console.log(err)
@@ -629,11 +641,11 @@ export default {
       }
     }
   },
-  created(){
-      this.getMedicalList();
-    this.getUsers();
-    this.getGroupName();
-  },
+  created () {
+    this.getMedicalList()
+    this.getUsers()
+    this.getGroupName()
+  }
 }
 </script>
 

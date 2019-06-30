@@ -268,42 +268,42 @@
 </template>
 
 <script>
-import { pagination } from "@/mixins";
-import ElCol from "element-ui/packages/col/src/col";
-import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
-import tabHeader from "../components/tabHeader";
-import ElContainer from "../../node_modules/element-ui/packages/container/src/main.vue";
-import ElRow from "element-ui/packages/row/src/row";
-import Vue from "vue";
-Vue.filter("type", function(value) {
+import { pagination } from '@/mixins'
+import ElCol from 'element-ui/packages/col/src/col'
+import ElButton from '../../node_modules/element-ui/packages/button/src/button.vue'
+import tabHeader from '../components/tabHeader'
+import ElContainer from '../../node_modules/element-ui/packages/container/src/main.vue'
+import ElRow from 'element-ui/packages/row/src/row'
+import Vue from 'vue'
+Vue.filter('type', function (value) {
   switch (value) {
     case 1:
-      return "电话随访";
-      break;
+      return '电话随访'
+      break
     case 2:
-      return "在线随访";
-      break;
+      return '在线随访'
+      break
     case 3:
-      return "短信随访 ";
-      break;
+      return '短信随访 '
+      break
     case 4:
-      return "电话随访";
-      break;
+      return '电话随访'
+      break
     default:
-      return "未知随访";
+      return '未知随访'
   }
-});
+})
 
 var option = {
-  backgroundColor: "#FFF",
+  backgroundColor: '#FFF',
   grid: {
-    top: "9%",
-    bottom: "19%",
-    left: "6%",
-    right: "4%"
+    top: '9%',
+    bottom: '19%',
+    left: '6%',
+    right: '4%'
   },
   tooltip: {
-    trigger: "axis",
+    trigger: 'axis',
     label: {
       show: true
     }
@@ -321,23 +321,23 @@ var option = {
       alignWithLabel: true
     },
     data: [
-      "武汉",
-      "襄阳",
-      "黄冈",
-      "荆门",
-      "十堰",
-      "随州",
-      "鄂州",
-      "恩施",
-      "宜昌",
-      "孝感",
-      "咸宁",
-      "仙桃",
-      "潜江",
-      "天门",
-      "黄石",
-      "荆州",
-      "神农架"
+      '武汉',
+      '襄阳',
+      '黄冈',
+      '荆门',
+      '十堰',
+      '随州',
+      '鄂州',
+      '恩施',
+      '宜昌',
+      '孝感',
+      '咸宁',
+      '仙桃',
+      '潜江',
+      '天门',
+      '黄石',
+      '荆州',
+      '神农架'
     ]
   },
   yAxis: {
@@ -347,8 +347,8 @@ var option = {
     splitLine: {
       show: true,
       lineStyle: {
-        type: "dashed",
-        color: "rgba(33,148,246,0.2)"
+        type: 'dashed',
+        color: 'rgba(33,148,246,0.2)'
       }
     },
     axisTick: {
@@ -357,26 +357,26 @@ var option = {
     splitArea: {
       show: true,
       areaStyle: {
-        color: "rgb(245,250,254)"
+        color: 'rgb(245,250,254)'
       }
     }
   },
   series: [
     {
-      type: "line",
-      symbol: "circle",
+      type: 'line',
+      symbol: 'circle',
       symbolSize: 7,
       lineStyle: {
-        color: "rgb(33,148,246)",
+        color: 'rgb(33,148,246)',
         shadowBlur: 12,
-        shadowColor: "rgb(33,148,246,0.9)",
+        shadowColor: 'rgb(33,148,246,0.9)',
         shadowOffsetX: 1,
         shadowOffsetY: 1
       },
       itemStyle: {
-        color: "rgb(33,148,246)",
+        color: 'rgb(33,148,246)',
         borderWidth: 1,
-        borderColor: "#FFF"
+        borderColor: '#FFF'
       },
 
       data: [
@@ -400,7 +400,7 @@ var option = {
       ]
     }
   ]
-};
+}
 
 export default {
   mixins: [pagination],
@@ -411,32 +411,32 @@ export default {
     ElCol,
     tabHeader
   },
-  name: "EssentialInfo",
-  data() {
+  name: 'EssentialInfo',
+  data () {
     return {
-      personInfoId: "",
+      personInfoId: '',
       personInfo: {},
       jhxxStopdialog: false,
-      activeName: "jbxx",
+      activeName: 'jbxx',
       form1: {
-        name: "",
+        name: '',
         sex: -1,
         age: 0,
-        idCard: "",
-        groupId: "",
-        remark: "",
-        phone: "",
-        q1: ""
+        idCard: '',
+        groupId: '',
+        remark: '',
+        phone: '',
+        q1: ''
       },
       myddcForm: {
-        q1: "",
-        q2: "",
-        q3: "",
-        q4: "",
-        q5: "",
-        q6: ""
+        q1: '',
+        q2: '',
+        q3: '',
+        q4: '',
+        q5: '',
+        q6: ''
       },
-      currentDate: "2018/06/07",
+      currentDate: '2018/06/07',
       cyxjArray: [],
       sfjyArray: [],
       jhxxArray: [],
@@ -444,122 +444,122 @@ export default {
       sfjlArray: [],
       grtzArray: [],
       cyxjImgSrc:
-        "http://www.tianya999.com/uploads/allimg/190423/2313-1Z423140328.gif",
+        'http://www.tianya999.com/uploads/allimg/190423/2313-1Z423140328.gif',
       getPlanStatus: false,
       getSignStatus: false,
       getsfjhStatus: false,
       getsfjlStatus: false,
       planId: null
-    };
-  },
-  created() {
-    this.personInfoId = this.$route.params.id;
-    this.getUsers();
-    this.getVisitRecord();
-    this.getSummary();
-    this.getSign();
-    this.getPlan();
-    this.getHealthPlan(this.page.current, this.page.size);
-  },
-  mounted() {
-    if (this.$route.params.selectId == "sfjl") {
-      this.activeName = "sfjl";
     }
-    if (this.$route.params.selectId == "jhxx") {
-      this.activeName = "jhxx";
+  },
+  created () {
+    this.personInfoId = this.$route.params.id
+    this.getUsers()
+    this.getVisitRecord()
+    this.getSummary()
+    this.getSign()
+    this.getPlan()
+    this.getHealthPlan(this.page.current, this.page.size)
+  },
+  mounted () {
+    if (this.$route.params.selectId == 'sfjl') {
+      this.activeName = 'sfjl'
+    }
+    if (this.$route.params.selectId == 'jhxx') {
+      this.activeName = 'jhxx'
     }
   },
   methods: {
-    handleSearch() {
-      this.getHealthPlan(1, this.page.size);
+    handleSearch () {
+      this.getHealthPlan(1, this.page.size)
     },
     // 分页
-    handlePageCurrentChange(val) {
-      this.page.current = val;
-      this.getHealthPlan(this.page.current, this.page.size);
+    handlePageCurrentChange (val) {
+      this.page.current = val
+      this.getHealthPlan(this.page.current, this.page.size)
     },
     // 追加计划
-    jhxxAdd() {
-      this.$router.push("/createPlan");
+    jhxxAdd () {
+      this.$router.push('/createPlan')
     },
     // 修改计划
-    jhxxEdit(id) {
+    jhxxEdit (id) {
       this.$router.push({
-        path: "/createPlan",
+        path: '/createPlan',
         query: {
           planId: id
         }
-      });
+      })
     },
-    showjhxxStop(id) {
-      this.jhxxStopdialog = true;
-      this.planId = id;
+    showjhxxStop (id) {
+      this.jhxxStopdialog = true
+      this.planId = id
     },
     // 终止随访计划弹窗
-    stopjhxx(event) {
+    stopjhxx (event) {
       this.$http
-        .post("/api" + `/plan/updatePlanStatus`, { planId: this.planId })
+        .post('/api' + `/plan/updatePlanStatus`, { planId: this.planId })
         .then(res => {
           if (res.data) {
-            this.$message.success("终止计划成功");
-            this.jhxxStopdialog = false;
-            this.getHealthPlan(this.page.current, this.page.size);
+            this.$message.success('终止计划成功')
+            this.jhxxStopdialog = false
+            this.getHealthPlan(this.page.current, this.page.size)
           } else {
-            this.$message.error("终止计划失败");
-            this.jhxxStopdialog = false;
+            this.$message.error('终止计划失败')
+            this.jhxxStopdialog = false
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 终止随访计划
-    jhxxStop(id) {
+    jhxxStop (id) {
       this.$http
-        .post("/api" + `/plan/updatePlanStatus?`, { planId: id })
+        .post('/api' + `/plan/updatePlanStatus?`, { planId: id })
         .then(res => {
           if (res.data) {
-            this.$message.success("随访计划终止成功");
-            this.getPlan();
+            this.$message.success('随访计划终止成功')
+            this.getPlan()
           } else {
-            this.$message.error("随访计划终止失败");
+            this.$message.error('随访计划终止失败')
           }
         })
         .catch(err => {
-          console.log(err);
-        });
-    },
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
+          console.log(err)
         })
-        .catch(_ => {});
+    },
+    handleClick (tab, event) {
+      console.log(tab, event)
+    },
+    handleClose (done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {})
     },
     // 获取患者基本信息
-    getUsers() {
-      this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
+    getUsers () {
+      this.personInfo = JSON.parse(sessionStorage.getItem('personInfo'))
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/patient/getPatientInfoByUserId?userId=${this.personInfo.id}`
         )
         .then(res => {
-          this.form1 = res.data;
+          this.form1 = res.data
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取随访记录列表
-    getVisitRecord() {
-      console.log(this.$store.state);
+    getVisitRecord () {
+      console.log(this.$store.state)
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${
               this.personInfo.id
             }&visitAuthorId=${
@@ -568,128 +568,128 @@ export default {
         )
         .then(res => {
           if (res.data.list.length == 0) {
-            this.getsfjlStatus = true;
+            this.getsfjlStatus = true
           } else {
-            this.getsfjlStatus = false;
-            this.sfjlArray = res.data.list;
+            this.getsfjlStatus = false
+            this.sfjlArray = res.data.list
           }
-          console.log(res);
+          console.log(res)
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取出院小结
-    getSummary() {
+    getSummary () {
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/patient/getSummaryList?userId=${
               this.personInfo.id
             }&pageNum=${1}&pageSize=${100}`
         )
         .then(res => {
-          this.cyxjArray = res.data;
+          this.cyxjArray = res.data
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取个人体征列表数据
-    getSign() {
+    getSign () {
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
         )
         .then(res => {
-          console.log(res);
+          console.log(res)
           if (res.data.length === 0) {
-            this.getSignStatus = true;
+            this.getSignStatus = true
           } else {
-            this.grtzArray = res.data;
-            this.getSignStatus = false;
+            this.grtzArray = res.data
+            this.getSignStatus = false
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取个人体征图表数据
-    getSignEchart() {
+    getSignEchart () {
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=${this}`
         )
         .then(res => {
-          console.log(res);
+          console.log(res)
           if (res.data.length == 0) {
-            this.getSignStatus = true;
+            this.getSignStatus = true
           } else {
-            this.grtzArray = res.data;
-            this.getSignStatus = false;
+            this.grtzArray = res.data
+            this.getSignStatus = false
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 查看随访详情
-    lookInfo(id) {
+    lookInfo (id) {
       this.$router.replace({
-        name: "queryVisit",
-        params: { routerForm: "EssentialInfo", id: id }
-      });
+        name: 'queryVisit',
+        params: { routerForm: 'EssentialInfo', id: id }
+      })
     },
     // 获取随访计划(随访建议)
-    getPlan() {
+    getPlan () {
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
               this.$store.state.user.user.id
             }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
         )
         .then(res => {
           if (res.data.list.length === 0) {
-            this.getsfjhStatus = true;
+            this.getsfjhStatus = true
           } else {
-            this.getsfjhStatus = false;
-            this.sfjyArray = res.data.list;
+            this.getsfjhStatus = false
+            this.sfjyArray = res.data.list
           }
-          console.log(res.data, "随访计划");
+          console.log(res.data, '随访计划')
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 获取健康计划列表
-    getHealthPlan(page, pageSize) {
+    getHealthPlan (page, pageSize) {
       this.$http
         .get(
-          "/api" +
+          '/api' +
             `/plan/getPlanByPatientId?patientId=${this.personInfo.id}&pageNum=${page}&pageSize=${pageSize}`
         )
         .then(res => {
           if (res.data.list.length === 0) {
-            this.getPlanStatus = true;
-            this.page.total = 0;
+            this.getPlanStatus = true
+            this.page.total = 0
           } else {
-            this.jhglArray = res.data.list;
-            this.page.total = res.data.total;
+            this.jhglArray = res.data.list
+            this.page.total = res.data.total
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
     // 去随访
-    createVisit() {
-      this.$router.push("/createVisit");
+    createVisit () {
+      this.$router.push('/createVisit')
     }
   }
-};
+}
 </script>
 
 <style type="text/css" scoped>

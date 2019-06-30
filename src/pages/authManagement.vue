@@ -102,101 +102,98 @@
       tabHeader
     },
     name: 'createPlan',
-    data() {
+    data () {
       return {
         activeName: 'first',
         tabPosition: 'left',
         accountValue: '',
         roleValue: '',
-        accountOptions:[],
+        accountOptions: [],
         roleOptions: [
-          {value: '1',label: 'test1'},
-          {value: '2',label: 'test2'},
-          {value: '3',label: 'test3'},
-          {value: '4',label: 'test4'},
-          {value: '5',label: 'test5'}
+          {value: '1', label: 'test1'},
+          {value: '2', label: 'test2'},
+          {value: '3', label: 'test3'},
+          {value: '4', label: 'test4'},
+          {value: '5', label: 'test5'}
         ],
-        roleCheckOptions:[
-          {id:'1',label:'患者管理',checkd: true},
-          {id:'2',label:'待办事项',checkd: true},
-          {id:'3',label:'统计分析',checkd: true},
-          {id:'4',label:'权限管理',checkd: true},
+        roleCheckOptions: [
+          {id: '1', label: '患者管理', checkd: true},
+          {id: '2', label: '待办事项', checkd: true},
+          {id: '3', label: '统计分析', checkd: true},
+          {id: '4', label: '权限管理', checkd: true}
         ],
-        checkList:[],
+        checkList: [],
         showCard: false,
         chooseUserId: null,
         chooseRoleId: null
       }
     },
-    created(){
-      var that = this;
-      that.getRoleList();
-      that.getAccountList();
-    },
-    mounted(){
+    created () {
+      var that = this
+      that.getRoleList()
+      that.getAccountList()
+  },
+    mounted () {
 
     },
     methods: {
-      handleClick(tab, event) {
-        console.log(tab, event);
+      handleClick (tab, event) {
+        console.log(tab, event)
       },
-      getAccountList(){
-        var that = this;
-        that.$http.get('/api'+`/doctor/getDoctorList`)
-          .then(res=>{
-            that.accountOptions = res.data.list;
-            console.log(res)
-
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      getRoleList(){
-        var that = this;
-        that.$http.get('/api'+`/user/getRolesByUserId?userId=${that.$store.state.user.user.id}`)
-          .then(res=>{
-            that.roleOptions = res.data;
-          })
-          .catch(err=>{
-            console.log(err);
-          })
-      },
-      chooseUser(value){
-        var that = this;
-        that.chooseUserId = value;
-      },
-      chooseRole(value){
+      getAccountList () {
         var that = this
-        that.showCard = true;
-        that.roleCheckOptions = value[0];
-        that.chooseRoleId = value[1];
+        that.$http.get('/api' + `/doctor/getDoctorList`)
+          .then(res => {
+            that.accountOptions = res.data.list
+            console.log(res)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       },
-      submitAuth(){
-        var that = this;
-        if (that.chooseUserId == null){
-          that.$message.error('您未选择账户');
-          return ;
+      getRoleList () {
+        var that = this
+        that.$http.get('/api' + `/user/getRolesByUserId?userId=${that.$store.state.user.user.id}`)
+          .then(res => {
+            that.roleOptions = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      },
+      chooseUser (value) {
+        var that = this
+        that.chooseUserId = value
+      },
+      chooseRole (value) {
+        var that = this
+        that.showCard = true
+        that.roleCheckOptions = value[0]
+        that.chooseRoleId = value[1]
+      },
+      submitAuth () {
+        var that = this
+        if (that.chooseUserId == null) {
+          that.$message.error('您未选择账户')
+          return
         }
 
-        if (that.chooseRoleId == null){
-          that.$message.error('您未选择角色');
-          return ;
+        if (that.chooseRoleId == null) {
+          that.$message.error('您未选择角色')
+          return
         }
 
-        that.$http.post('/api'+`/user/userAssignmentRoles`,{userId:that.chooseUserId,roleIds:`${that.chooseRoleId}`})
-          .then(res=>{
-            if (res.data){
-                that.$message.success('操作成功！');
-            }else {
-              that.$message.error('操作失败！');
+        that.$http.post('/api' + `/user/userAssignmentRoles`, {userId: that.chooseUserId, roleIds: `${that.chooseRoleId}`})
+          .then(res => {
+            if (res.data) {
+              that.$message.success('操作成功！')
+            } else {
+              that.$message.error('操作失败！')
             }
           })
-          .catch(err=>{
-            console.log(err);
+          .catch(err => {
+            console.log(err)
           })
-
-
       }
 
 

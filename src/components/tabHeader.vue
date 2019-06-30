@@ -44,26 +44,26 @@
       ElCol
     },
     name: 'createPlan',
-    props:[
+    props: [
       'personInfo'
     ],
-    data() {
+    data () {
       return {
-        personInfoId:"",
+        personInfoId: '',
         dialogVisible: false
       }
     },
-    mounted(){
-      var that = this;
-//      that.personInfoId = that.$route.params.id;
-    },
+    mounted () {
+      var that = this
+    //      that.personInfoId = that.$route.params.id;
+  },
     methods: {
-      onSubmit() {
-        console.log('submit!');
+      onSubmit () {
+        console.log('submit!')
       }
     },
-    created(){
-//      console.log(this.personInfoId);
+    created () {
+    //      console.log(this.personInfoId);
     }
 
   }

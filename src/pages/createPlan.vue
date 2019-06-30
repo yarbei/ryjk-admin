@@ -65,15 +65,16 @@
     name: 'createPlan',
     data () {
       return {
+        planId: null,
         dose: '',
         number: [{
-          value: '1'
+          value: 1
         }, {
-          value: '2'
+          value: 2
         }, {
-          value: '4'
+          value: 4
         }, {
-          value: '5'
+          value: 5
         }],
         name: '',
         date: '',
@@ -119,6 +120,7 @@
     created () {
       // url存在planId时表示修改计划，没有则为新增计划
       const planId = this.$route.query.planId
+      this.planId = planId
       if (planId) {
         this.getPlanInfo(planId)
       } else {
@@ -139,16 +141,17 @@
             // console.log(res.data)
             const data = res.data
             this.name = data.name
-            this.date = [
-              data.createDate,
-              data.endDate
-            ]
+            this.dose = data.dose
+            console.log(this.planList)
+            const list = this.planList
             this.planList = data.item.map((v, i) => {
               return {
                 label: v.detailType,
+                value: list[i].value,
                 content: v.content
               }
             })
+            this.slectedBodySignList = data.monitorItem
             console.log(this.planList)
           })
           .catch(err => {
@@ -184,40 +187,65 @@
             content: v.content
           }
         })
-        console.log(this.date)
+        console.log(this.personInfo)
         const params = {
+          'departmentName': this.personInfo.departmentName,
+          'id': this.planId ? Number(this.planId) : null,
           'dose': this.dose,
           'name': this.name,
-          'createDate': this.date ? this.date[0] : '',
-          'endDate': this.date ? this.date[1] : '',
           'patientId': this.personInfo.id,
           'doctorId': this.user.id,
           'monitorItem': this.slectedBodySignList.join(','),
           'item': list
         }
         console.log(params)
-        this.$http
-          .post(`/api/plan/addPlan`, params)
-          .then(res => {
-            if (res.data) {
-              this.$message({
-                type: 'success',
-                message: '新增计划成功',
-                duration: 1000,
-                onClose: () => {
-                  this.$router.push({
-                    name: 'EssentialInfo',
-                    params: { selectId: 'jhxx' }
-                  })
-                }
-              })
-            } else {
-              this.$message.error('新增科室失败')
-            }
-          })
-          .catch(err => {
-            console.log(err)
-          })
+        if (this.planId) {
+          this.$http
+            .post(`/api/plan/updatePlan`, params)
+            .then(res => {
+              if (res.data) {
+                this.$message({
+                  type: 'success',
+                  message: '修改计划成功',
+                  duration: 1000,
+                  onClose: () => {
+                    this.$router.push({
+                      name: 'EssentialInfo',
+                      params: { selectId: 'jhxx' }
+                    })
+                  }
+                })
+              } else {
+                this.$message.error('修改计划失败')
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        } else {
+          this.$http
+            .post(`/api/plan/addPlan`, params)
+            .then(res => {
+              if (res.data) {
+                this.$message({
+                  type: 'success',
+                  message: '新增计划成功',
+                  duration: 1000,
+                  onClose: () => {
+                    this.$router.push({
+                      name: 'EssentialInfo',
+                      params: { selectId: 'jhxx' }
+                    })
+                  }
+                })
+              } else {
+                this.$message.error('新增计划失败')
+              }
+            })
+            .catch(err => {
+              console.log(err)
+            })
+        }
       },
       handleClose (done) {
         this.$confirm('确认关闭？')

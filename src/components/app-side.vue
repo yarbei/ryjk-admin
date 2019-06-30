@@ -25,7 +25,7 @@ export default {
   },
   data () {
     return {
-      menus : menus,
+      menus: menus,
       defaultActive: 'home',
       test: 'asdfasdf'
     }
@@ -42,10 +42,10 @@ export default {
     }
   },
   created () {
-    var that = this;
-    this.setCurrentRoute();
-    var Menus = JSON.parse(sessionStorage.getItem('loginUser'));
-//    that.menus = Menus.menu;
+    var that = this
+    this.setCurrentRoute()
+    var Menus = JSON.parse(sessionStorage.getItem('loginUser'))
+    //    that.menus = Menus.menu;
   }
 }
 </script>

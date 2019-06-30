@@ -81,7 +81,7 @@ export default {
       themes,
       themeType: '',
       showAside: true,
-      theme: {theme: {headerTheme: 'info'}},
+      theme: {theme: {headerTheme: 'info'}}
     }
   },
   computed: {
@@ -113,13 +113,13 @@ export default {
     handleSwitchHideSide () {
       console.log('change')
       this.$emit('hide-side')
-    },
+    }
   },
   created () {
-    var that = this;
-    that.$store.commit('SET_LOGIN_USER', JSON.parse(sessionStorage.getItem('loginUser')));
+    var that = this
+    that.$store.commit('SET_LOGIN_USER', JSON.parse(sessionStorage.getItem('loginUser')))
     var theme = localStorage.getItem('theme') || 'default'
-    this.themeType = theme;
+    this.themeType = theme
   }
 }
 </script>
