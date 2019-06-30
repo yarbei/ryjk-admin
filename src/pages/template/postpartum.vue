@@ -6,32 +6,17 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="随访状态 : ">
-            <el-cascader
-              v-model="form.status"
-              :options="sfstatus"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.status" :options="sfstatus" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访结果 : ">
-            <el-cascader
-              v-model="form.result"
-              :options="sfresult"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.result" :options="sfresult" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访方式 : ">
-            <el-cascader
-              v-model="form.type"
-              :options="sftype"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.type" :options="sftype" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
@@ -44,7 +29,6 @@
               placeholder="请选择出院/转出情况"
               :options="sfdischargeStatus"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -54,7 +38,6 @@
               v-model="form.assessment"
               :options="sfassessment"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -107,17 +90,6 @@
               v-model="form.visitRecordContent.hygiene"
               :options="sfhygiene"
               :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="心理状况 : ">
-            <el-cascader
-              v-model="form.visitRecordContent.psychology"
-              :options="sfpsychology"
-              :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -127,7 +99,6 @@
               v-model="form.visitRecordContent.breastFeeding"
               :options="sfbreastFeeding"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -140,7 +111,6 @@
               v-model="form.visitRecordContent.jaundice"
               :options="sfjaundice"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -150,7 +120,6 @@
               v-model="form.visitRecordContent.funicle"
               :options="sffunicle"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -160,7 +129,6 @@
               v-model="form.visitRecordContent.vaccine"
               :options="sfvaccine"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -172,7 +140,6 @@
               v-model="form.visitRecordContent.skin"
               :options="sfskin"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -184,7 +151,6 @@
               v-model="form.visitRecordContent.sleep"
               :options="sfsleep"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -194,7 +160,6 @@
               v-model="form.visitRecordContent.life"
               :options="sflife"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -207,7 +172,6 @@
               v-model="form.visitRecordContent.nutrition"
               :options="sfnutrition"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -219,7 +183,6 @@
               v-model="form.visitRecordContent.diet"
               :options="sfdiet"
               :props="{ multiple: true }"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -229,7 +192,6 @@
               v-model="form.visitRecordContent.fruits"
               :options="sffruits"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -239,7 +201,6 @@
               v-model="form.visitRecordContent.milk"
               :options="sfmilk"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -251,7 +212,6 @@
               v-model="form.visitRecordContent.eat"
               :options="sfeat"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -261,7 +221,6 @@
               v-model="form.visitRecordContent.lsalt"
               :options="sflsalt"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -271,7 +230,6 @@
               v-model="form.visitRecordContent.lfat"
               :options="sflfat"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -291,12 +249,7 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="心理状况 : ">
-            <el-cascader
-              v-model="form.region"
-              :options="sfregion"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.region" :options="sfregion" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
@@ -308,7 +261,6 @@
               v-model="form.medicationCompliance"
               :options="sfmedicationCompliance"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -397,7 +349,6 @@
               v-model="form.reminderRevisit"
               :options="sfreminderRevisit"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -420,7 +371,6 @@
               v-model="form.department"
               :options="sfdepartment"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -449,7 +399,6 @@
               v-model="form.visitRecordContent.healthGuidanceContent"
               :options="sfhealthGuidanceContent"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -461,7 +410,6 @@
               v-model="form.healthAwareness"
               :options="sfhealthAwareness"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -471,7 +419,6 @@
               v-model="form.satisfactionSurvey"
               :options="sfsatisfactionSurvey"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -567,7 +514,7 @@ export default {
         { value: "2", label: "感觉身心疲惫" }
       ],
       //母乳喂养
-      breastFeeding: [
+      sfbreastFeeding: [
         { value: "0", label: "纯母乳喂养" },
         { value: "1", label: "混合喂养" },
         { value: "2", label: "人工喂养" }
@@ -736,7 +683,6 @@ export default {
         this.$http
           .get("/api" + "/common/getDataList?dataType=1&sourceType=1")
           .then(res => {
-            console.log(res);
             this.sfsymptomName = res.data;
           })
           .catch(err => {
@@ -791,13 +737,13 @@ export default {
       if (val == 1) {
         this.iscomplication = true;
         this.$http
-        .get("/api" + '/common/getDataList?dataType=2&sourceType=1')
-        .then(res => {
-          this.sfbfz = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+          .get("/api" + "/common/getDataList?dataType=2&sourceType=1")
+          .then(res => {
+            this.sfbfz = res.data;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       } else {
         this.iscomplication = false;
       }
@@ -829,7 +775,9 @@ export default {
         this.iscomplicationName = false;
       }
       this.$http
-        .get("/api" + "/common/getDataList?dataType=2&sourceType=1&dataNum=" + val)
+        .get(
+          "/api" + "/common/getDataList?dataType=2&sourceType=1&dataNum=" + val
+        )
         .then(res => {
           this.sfbfzName = res.data;
         })
@@ -847,26 +795,34 @@ export default {
       formData.patientId = this.personInfo.id; //患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id; //从store中获取用户ID，在这被作为随访人员ID
 
-      // int类型转换
-      formData.motionLength = Number(this.form.motionLength);
-      formData.motionNum = Number(this.form.motionNum);
+      ///////////日期处理
+      var date = formData.revisitTime;
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var day = date.getDate();
+      if (month < 10) {
+        month = "0" + month;
+      }
+      if (day < 10) {
+        day = "0" + day;
+      }
+      var nowDate = year + "-" + month + "-" + day;
+      formData.revisitTime = nowDate;
+      /////////////////
 
       // 数组转字符串complication
-      if (formData.healthGuidanceContent instanceof Array) {
-        formData.healthGuidanceContent = this.form.healthGuidanceContent.join(
-          ","
-        );
-      }
       if (formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(",");
-        var str = JSON.stringify(formData.visitRecordContent);
-        formData.visitRecordContent = str;
       }
+      if (formData.symptom instanceof Array) {
+        formData.symptom = this.form.symptom.join(",");
+      }
+      var str = JSON.stringify(formData.visitRecordContent);
+      formData.visitRecordContent = str;
       // 发送新增随访请求
       this.$http
         .post("/api" + `/visitRecord/insertVisitRecord`, formData)
         .then(res => {
-          formData.healthGuidanceContent = [];
           if (res.data) {
             this.$message.success("新增随访成功！");
             setTimeout(() => {
@@ -881,7 +837,6 @@ export default {
         })
         .catch(err => {
           this.$message.error("随访新增失败！");
-          formData.healthGuidanceContent = [];
           console.log(err);
         });
     },
@@ -895,9 +850,6 @@ export default {
           done();
         })
         .catch(_ => {});
-    },
-    handleChange(value) {
-      console.log(value);
     },
     // 获取科室方法
     getMedicalList() {

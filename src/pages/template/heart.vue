@@ -700,9 +700,9 @@ export default {
       }
       if (formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(",");
-        var str = JSON.stringify(formData.visitRecordContent);
-        formData.visitRecordContent = str;
       }
+      var str = JSON.stringify(formData.visitRecordContent);
+      formData.visitRecordContent = str;
       // 发送新增随访请求
       this.$http
         .post("/api" + `/visitRecord/insertVisitRecord`, formData)

@@ -473,7 +473,6 @@ export default {
         )
         .then(res => {
           this.ksdepartmentName = res.data
-          console.log(this.ksdepartmentName)
         })
         .catch(err => {
           console.log(err)

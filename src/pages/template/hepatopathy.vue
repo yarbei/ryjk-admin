@@ -6,32 +6,17 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="随访状态 : ">
-            <el-cascader
-              v-model="form.status"
-              :options="sfstatus"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.status" :options="sfstatus" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访结果 : ">
-            <el-cascader
-              v-model="form.result"
-              :options="sfresult"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.result" :options="sfresult" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访方式 : ">
-            <el-cascader
-              v-model="form.type"
-              :options="sftype"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.type" :options="sftype" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
@@ -44,7 +29,6 @@
               placeholder="请选择出院/转出情况"
               :options="sfdischargeStatus"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -54,41 +38,85 @@
               v-model="form.assessment"
               :options="sfassessment"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
-      <h2>项目随访情况</h2>
-
+      <h2>体征</h2>
+      <el-row :gutter="80">
+        <el-col :span="8" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
+        <el-col :span="8">
+          <el-form-item label="高压(mmHg)">
+            <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="低压(mmHg)">
+            <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="8" style="font-size:16px;text-align:center;line-height:3em;">化验数值</el-col>
+        <el-col :span="8">
+          <el-form-item label="谷丙转氨酶(ALT)">
+            <el-input-number v-model="form.visitRecordContent.alt" :min="0" :max="9999"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="谷草转氨酶(AST)">
+            <el-input-number v-model="form.visitRecordContent.ast" :min="0" :max="9999"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row :gutter="80">
         <el-col :span="8">
+          <el-form-item label="异常指标 : ">
+            <el-cascader
+              v-model="form.visitRecordContent.abnormal.value"
+              :options="sfabnormal"
+              :props="{emitPath: false}"
+              @change="abnormalChange"
+            ></el-cascader>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16" v-show="isAbnormal">
+          <el-form-item label>
+            <el-input v-model="form.visitRecordContent.abnormal.desc" placeholder="请输入内容"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="体温(℃)">
+            <el-input-number v-model="form.visitRecordContent.temperature" :min="0" :max="50"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <h2>目前症状</h2>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="有无症状 : ">
+            <el-cascader :options="sfsymptom" @change="sfsymptomChange"></el-cascader>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" v-show="issfsymptomName">
           <el-form-item label="请选择症状 : ">
-            <el-cascader
-              v-model="form.symptom"
-              :options="sfsymptom"
-              :props="{emitPath: false}"
-              @change="handleChange"
-            ></el-cascader>
+            <el-cascader v-model="form.symptom" :options="sfsymptomName" :props="{multiple : true}"></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
-      <h2>生活方式</h2>
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="总体评估 : ">
+          <el-form-item label="生活自理情况 : ">
             <el-cascader
-              v-model="form.visitRecordContent.lifeAssessment"
-              :options="sflifeAssessment"
+              v-model="form.visitRecordContent.life"
+              :options="sflife"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="吸烟量 : ">
@@ -106,7 +134,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="饮酒量 : ">
@@ -128,16 +155,29 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="膳食脂肪">
-            <el-input v-model="form.dietaryFat"></el-input>
+          <el-form-item label="睡眠情况 : ">
+            <el-cascader
+              v-model="form.visitRecordContent.sleep"
+              :options="sfsleep"
+              :props="{emitPath: false}"
+            ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="饮食情况 : ">
+            <el-cascader
+              v-model="form.visitRecordContent.diet"
+              :options="sfdiet"
+              :props="{ multiple: true }"
+            ></el-cascader>
+          </el-form-item>
+        </el-col>
+      </el-row>
+       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="运动(次/周)">
             <el-input-number v-model="form.motionNum" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
@@ -149,63 +189,40 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="摄盐情况(克/天)">
-            <el-input v-model="form.saltUptake"></el-input>
+          <el-form-item label="心理状况 : ">
+            <el-cascader v-model="form.region" :options="sfregion" :props="{emitPath: false}"></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
+      <h2>专科指导</h2>
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="心理调整 : ">
+          <el-form-item label="个人卫生 : ">
             <el-cascader
-              v-model="form.region"
-              :options="sfregion"
+              v-model="form.visitRecordContent.hygiene"
+              :options="sfhygiene"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="医从性 : ">
+          <el-form-item label="心理状况 : ">
             <el-cascader
-              v-model="form.medicalCompliance"
-              :options="sfmedicalCompliance"
+              v-model="form.visitRecordContent.psychology"
+              :options="sfpsychology"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <h2>并发症</h2>
-      <el-row :gutter="0">
         <el-col :span="8">
-          <el-form-item label="是否有并发症状 : ">
-            <el-cascader :options="sfcomplication" @change="complicationChange"></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="iscomplication">
-          <el-form-item label="并发症 : ">
-            <el-select v-model="bfzClassify" @change="bfzChange">
-              <el-option
-                v-for="item in sfbfz"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="iscomplicationName">
-          <el-form-item label="具体症状：">
-            <el-cascader v-model="form.complication" :options="sfbfzName" :props="bfz"></el-cascader>
+          <el-form-item label="母乳喂养 : ">
+            <el-cascader
+              v-model="form.visitRecordContent.breastFeeding"
+              :options="sfbreastFeeding"
+              :props="{emitPath: false}"
+            ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
@@ -218,7 +235,6 @@
               v-model="form.medicationCompliance"
               :options="sfmedicationCompliance"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -270,83 +286,36 @@
           </el-form-item>
         </el-col>
       </el-row>
-
-      <h2>异常化验项目</h2>
-      <el-row :gutter="80">
+      <h2>并发症</h2>
+      <el-row :gutter="0">
         <el-col :span="8">
-          <el-form-item label="白细胞">
-            <el-input v-model="form.visitRecordContent.whiteBloodCell" placeholder="自定义"></el-input>
+          <el-form-item label="是否有并发症状 : ">
+            <el-cascader :options="sfcomplication" @change="complicationChange"></el-cascader>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="血小板">
-            <el-input v-model="form.visitRecordContent.platelet" placeholder="自定义"></el-input>
+        <el-col :span="8" v-show="iscomplication">
+          <el-form-item label="并发症 : ">
+            <el-select v-model="bfzClassify" @change="bfzChange">
+              <el-option
+                v-for="item in sfbfz"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+              ></el-option>
+            </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
-          <el-form-item label="血钾">
-            <el-input v-model="form.visitRecordContent.bloodPotassium" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="血钙">
-            <el-input v-model="form.visitRecordContent.bloodCalcium" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="凝血">
-            <el-input v-model="form.visitRecordContent.blood_coagulation" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="甘油三脂">
-            <el-input v-model="form.visitRecordContent.threeFat" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="其他">
-            <el-input v-model="form.visitRecordContent.other" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-form-item label="随访备注 : ">
-        <el-input type="textarea" v-model="form.remark"></el-input>
-      </el-form-item>
-
-      <h2>健康教育知晓</h2>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="是否进行健康指导 : ">
+        <el-col :span="8" v-show="iscomplicationName">
+          <el-form-item label="具体症状：">
             <el-cascader
-              v-model="form.visitRecordContent.healthGuidance"
-              :options="sfhealthGuidance"
-              :props="{emitPath: false}"
-              @change="healthGuidanceChange"
-            ></el-cascader>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="ishealthGuidanceContent">
-          <el-form-item label="健康指导内容  : ">
-            <el-cascader
-              v-model="form.visitRecordContent.healthGuidanceContent"
-              :options="sfhealthGuidanceContent"
-              :props="{emitPath: false}"
-              @change="handleChange"
+              v-model="form.complication"
+              :options="sfbfzName"
+              :props="{ multiple: true }"
             ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
       <h2>随访记录</h2>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="已提醒复诊 : ">
@@ -354,7 +323,6 @@
               v-model="form.reminderRevisit"
               :options="sfreminderRevisit"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -377,7 +345,6 @@
               v-model="form.department"
               :options="sfdepartment"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -387,7 +354,29 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <h2>健康教育知晓</h2>
 
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="是否进行健康指导 : ">
+            <el-cascader
+              v-model="form.visitRecordContent.healthGuidance"
+              :options="sfhealthGuidance"
+              :props="{emitPath: false}"
+              @change="healthGuidanceChange"
+            ></el-cascader>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" v-show="ishealthGuidanceContent">
+          <el-form-item label="健康指导内容  : ">
+            <el-cascader
+              v-model="form.visitRecordContent.healthGuidanceContent"
+              :options="sfhealthGuidanceContent"
+              :props="{emitPath: false}"
+            ></el-cascader>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="健康知晓度 : ">
@@ -395,7 +384,6 @@
               v-model="form.healthAwareness"
               :options="sfhealthAwareness"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
@@ -405,12 +393,13 @@
               v-model="form.satisfactionSurvey"
               :options="sfsatisfactionSurvey"
               :props="{emitPath: false}"
-              @change="handleChange"
             ></el-cascader>
           </el-form-item>
         </el-col>
       </el-row>
-
+      <el-form-item label="随访备注 : ">
+        <el-input type="textarea" v-model="form.remark"></el-input>
+      </el-form-item>
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit">完成随访</el-button>
         <el-button @click="cancelBtn">取消</el-button>
@@ -439,7 +428,8 @@ export default {
         motionLength: 0,
         visitRecordContent: {
           reactions: {}, //药物不良反应
-          dosages: [{ value: "", frequency: 0, dose: 0 }] //用药情况
+          dosages: [{ value: "", frequency: 0, dose: 0 }], //用药情况
+          abnormal: {} //异常指标
         }
       },
       //随访内容入参
@@ -481,7 +471,68 @@ export default {
       //症状
       sfsymptom: [
         { value: "0", label: "无症状" },
-        { value: "1", label: "有症状", children: [] }
+        { value: "1", label: "有症状" }
+      ],
+      //具体症状名称
+      sfsymptomName: [],
+      //异常指标
+      sfabnormal: [{ value: "0", label: "无" }, { value: "1", label: "有" }],
+      //个人卫生
+      sfhygiene: [
+        { value: "0", label: "会阴护理" },
+        { value: "1", label: "刷牙" },
+        { value: "2", label: "洗脚" },
+        { value: "3", label: "淋浴" }
+      ],
+      //心理状况
+      sfpsychology: [
+        { value: "0", label: "愉悦" },
+        { value: "1", label: "低落" },
+        { value: "2", label: "感觉身心疲惫" }
+      ],
+      //母乳喂养
+      sfbreastFeeding: [
+        { value: "0", label: "纯母乳喂养" },
+        { value: "1", label: "混合喂养" },
+        { value: "2", label: "人工喂养" }
+      ],
+      //新生儿黄疸
+      sfjaundice: [
+        { value: "0", label: "已退" },
+        { value: "1", label: "轻" },
+        { value: "2", label: "重" }
+      ],
+      //脐带脱落
+      sffunicle: [{ value: "1", label: "是" }, { value: "0", label: "否" }],
+      //疫苗接种
+      sfvaccine: [
+        { value: "1", label: "正常接种" },
+        { value: "0", label: "需要补种" }
+      ],
+      //皮肤清洁
+      sfskin: [{ value: "1", label: "是" }, { value: "0", label: "否" }],
+      //睡眠情况
+      sfsleep: [
+        { value: "2", label: "良好" },
+        { value: "1", label: "一般" },
+        { value: "0", label: "差" }
+      ],
+      //生活自理情况
+      sflife: [
+        { value: "0", label: "完全自理" },
+        { value: "1", label: "部分自理" },
+        { value: "2", label: "完全不能自理" }
+      ],
+      //营养均衡
+      sfnutrition: [{ value: "1", label: "是" }, { value: "0", label: "否" }],
+      //饮食情况
+      sfdiet: [
+        { value: "0", label: "凉" },
+        { value: "1", label: "热" },
+        { value: "2", label: "无渣饮食" },
+        { value: "3", label: "低脂饮食" },
+        { value: "4", label: "普通饮食" },
+        { value: "5", label: "其他" }
       ],
       //总体评估
       sflifeAssessment: [
@@ -517,7 +568,6 @@ export default {
       ],
       sfbfz: [], //并发症分类
       sfbfzName: [], //并发症具体名字
-      bfz: { multiple: true },
       //依从性
       sfmedicationCompliance: [
         { value: "0", label: "不服药" },
@@ -573,6 +623,7 @@ export default {
         { value: "2", label: "满意" },
         { value: "3", label: "非常满意" }
       ],
+      issfsymptomName: false, //症状选择框
       isReactions: false, //药物不良反应输入框
       isSmokingAmount: false, //抽烟情况输入框
       isAlcoholConsumptionAmount: false, //饮酒情况输入框
@@ -580,7 +631,8 @@ export default {
       ishealthGuidanceContent: false, //健康指导内容输入框
       iscomplication: false, //并发症选择框
       iscomplicationName: false, //具体并发症选择框
-      bfzClassify:'',//并发症类型
+      isAbnormal: false, //异常指标输入框
+      bfzClassify: "", //并发症类型
       complicationName: "", //并发症名字
       personInfoId: "",
       personInfo: {}
@@ -594,6 +646,30 @@ export default {
   },
   mounted() {},
   methods: {
+    //选择是否有症状决定是否弹出症状选择框
+    sfsymptomChange(val) {
+      if (val == 1) {
+        this.issfsymptomName = true;
+        this.$http
+          .get("/api" + "/common/getDataList?dataType=1&sourceType=1")
+          .then(res => {
+            this.sfsymptomName = res.data;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        this.issfsymptomName = false;
+      }
+    },
+    //选择是否有异常指标决定是否弹出异常指标输入框
+    abnormalChange(val) {
+      if (val == 1) {
+        this.isAbnormal = true;
+      } else {
+        this.isAbnormal = false;
+      }
+    },
     //选择是否有药物不良反应决定是否弹出要不不良反应输入框
     reactionsChange(val) {
       if (val == 1) {
@@ -638,7 +714,14 @@ export default {
     complicationChange(val) {
       if (val == 1) {
         this.iscomplication = true;
-        this.getComplicationList(); //获取并发症列表
+        this.$http
+          .get("/api" + "/common/getDataList?dataType=2&sourceType=1")
+          .then(res => {
+            this.sfbfz = res.data;
+          })
+          .catch(err => {
+            console.log(err);
+          });
       } else {
         this.iscomplication = false;
       }
@@ -670,9 +753,11 @@ export default {
         this.iscomplicationName = false;
       }
       this.$http
-        .get("/api" + "/common/getDataList?dataType=2&dataNum=" + val)
+        .get(
+          "/api" + "/common/getDataList?dataType=2&sourceType=1&dataNum=" + val
+        )
         .then(res => {
-          this.sfbfzName=res.data
+          this.sfbfzName = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -687,27 +772,20 @@ export default {
       var formData = this.form;
       formData.patientId = this.personInfo.id; //患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id; //从store中获取用户ID，在这被作为随访人员ID
-
-      // int类型转换
-      formData.motionLength = Number(this.form.motionLength);
-      formData.motionNum = Number(this.form.motionNum);
-
       // 数组转字符串complication
-      if (formData.healthGuidanceContent instanceof Array) {
-        formData.healthGuidanceContent = this.form.healthGuidanceContent.join(
-          ","
-        );
-      }
       if (formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(",");
-        var str = JSON.stringify(formData.visitRecordContent);
-        formData.visitRecordContent = str;
       }
+      if (formData.symptom instanceof Array) {
+        formData.symptom = this.form.symptom.join(",");
+      }
+      var str = JSON.stringify(formData.visitRecordContent);
+      formData.visitRecordContent = str;
+      return;
       // 发送新增随访请求
       this.$http
         .post("/api" + `/visitRecord/insertVisitRecord`, formData)
         .then(res => {
-          formData.healthGuidanceContent = [];
           if (res.data) {
             this.$message.success("新增随访成功！");
             setTimeout(() => {
@@ -722,7 +800,6 @@ export default {
         })
         .catch(err => {
           this.$message.error("随访新增失败！");
-          formData.healthGuidanceContent = [];
           console.log(err);
         });
     },
@@ -736,9 +813,6 @@ export default {
           done();
         })
         .catch(_ => {});
-    },
-    handleChange(value) {
-      console.log(value);
     },
     // 获取科室方法
     getMedicalList() {

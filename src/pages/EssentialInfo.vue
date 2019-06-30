@@ -227,6 +227,15 @@
       <el-card class="box-card jhxx_box" v-if="getsfjlStatus">
         <h2 style="text-align: center; color: #999; font-size: 21px;">暂无数据！</h2>
       </el-card>
+      <el-pagination
+        @size-change="handlePageSizeChange"
+        @current-change="handlePageCurrentChange"
+        :current-page="page.current"
+        :page-sizes="page.sizes"
+        :page-size="page.size"
+        :layout="page.layout"
+        :total="page.total"
+      ></el-pagination>
     </el-tab-pane>
 
     <!--个人体征-->
@@ -529,9 +538,7 @@ export default {
           console.log(err)
         })
     },
-    handleClick (tab, event) {
-      console.log(tab, event)
-    },
+    handleClick (tab, event) {},
     handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
@@ -556,7 +563,6 @@ export default {
     },
     // 获取随访记录列表
     getVisitRecord () {
-      console.log(this.$store.state)
       this.$http
         .get(
           '/api' +
@@ -573,7 +579,6 @@ export default {
             this.getsfjlStatus = false
             this.sfjlArray = res.data.list
           }
-          console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -603,7 +608,6 @@ export default {
             `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
         )
         .then(res => {
-          console.log(res)
           if (res.data.length === 0) {
             this.getSignStatus = true
           } else {
@@ -658,7 +662,6 @@ export default {
             this.getsfjhStatus = false
             this.sfjyArray = res.data.list
           }
-          console.log(res.data, '随访计划')
         })
         .catch(err => {
           console.log(err)

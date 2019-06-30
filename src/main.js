@@ -57,6 +57,7 @@ Vue.use(MButton)
 // Vue.use(MContainer)
 
 
+
 var whiteList = ['demo', 'login']
 router.beforeEach((to, from, next) => {
   NProgress.start()
