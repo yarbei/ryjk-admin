@@ -74,7 +74,11 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="有无症状 : ">
-            <el-select v-model="form.issymptom" @change="sfsymptomChange" placeholder="请选择">
+            <el-select
+              v-model="form.visitRecordContent.issymptom"
+              @change="sfsymptomChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfsymptom"
                 :key="item.value"
@@ -137,7 +141,11 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="饮酒量 : ">
-            <el-select v-model="form.alcoholConsumption" @change="alcoholConsumptionChange" placeholder="请选择">
+            <el-select
+              v-model="form.alcoholConsumption"
+              @change="alcoholConsumptionChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfalcoholConsumption"
                 :key="item.value"
@@ -169,12 +177,22 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="运动(次/周)">
-            <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
+            <el-input-number
+              v-model="form.visitRecordContent.motionNum"
+              :min="0"
+              :max="9999"
+              label="运动(次/周)"
+            ></el-input-number>
           </el-form-item>
         </el-col>
         <el-col :span="8">
           <el-form-item label="运动(分钟/次)">
-            <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
+            <el-input-number
+              v-model="form.visitRecordContent.otionLength"
+              :min="0"
+              :max="9999"
+              label="运动(次/周)"
+            ></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -221,7 +239,11 @@
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="是否有并发症状 : ">
-            <el-select v-model="form.iscomplication" @change="complicationChange" placeholder="请选择">
+            <el-select
+              v-model="form.visitRecordContent.iscomplication"
+              @change="complicationChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfcomplication"
                 :key="item.value"
@@ -233,7 +255,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="并发症 : ">
-            <el-select v-model="bfzClassify" @change="bfzChange">
+            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"
@@ -376,7 +398,10 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否进行健康指导 : ">
-            <el-select v-model="form.visitRecordContent.healthGuidance" @change="healthGuidanceChange">
+            <el-select
+              v-model="form.visitRecordContent.healthGuidance"
+              @change="healthGuidanceChange"
+            >
               <el-option
                 v-for="item in sfhealthGuidance"
                 :key="item.value"
@@ -625,8 +650,6 @@ export default {
         { value: 2, label: "满意" },
         { value: 3, label: "非常满意" }
       ],
-      bfzClassify: "", //并发症类型
-      complicationName: "", //并发症名字
       personInfoId: "",
       personInfo: {}
     };
@@ -740,7 +763,7 @@ export default {
           console.log(err);
         });
     },
-   //点击完成随访
+    //点击完成随访
     onSubmit() {
       if (this.form.type === undefined) {
         this.$message.warning("随访方式未选择！");
@@ -815,6 +838,7 @@ export default {
         )
         .then(res => {
           this.sfdepartment = res.data;
+          console.log(this.sfdepartment)
         })
         .catch(err => {
           console.log(err);
@@ -825,7 +849,7 @@ export default {
       this.$http
         .get("/api" + `/common/getDataList?dataType=1`)
         .then(res => {
-          this.sfsymptom[1].children = res.data;
+          this.sfsymptomName = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -850,11 +874,56 @@ export default {
       this.$http
         .get("/api" + "/visitRecord/getVisitRecordById?id=" + id)
         .then(res => {
-          console.log(res)
+          console.log(res);
           this.form = res.data;
           this.form.visitRecordContent = JSON.parse(
             res.data.visitRecordContent
           );
+          if(res.data.department){
+            this.form.department=Number(res.data.department)
+          }
+          if (res.data.symptom != null) {
+            this.form.symptom = res.data.symptom.split(",").map(Number);
+          }
+          if (res.data.complication != null) {
+            this.form.complication = res.data.complication
+              .split(",")
+              .map(Number);
+          }
+          if (this.form.visitRecordContent.issymptom == 1) {
+            this.$http
+              .get("/api" + `/common/getDataList?dataType=1`)
+              .then(res => {
+                this.sfsymptomName = res.data;
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          }
+          if (this.form.visitRecordContent.iscomplication == 1) {
+            this.$http
+              .get("/api" + `/common/getDataList?dataType=2`)
+              .then(res => {
+                this.sfbfz = res.data;
+              })
+              .catch(err => {
+                console.log(err);
+              });
+            if (this.form.visitRecordContent.bfzClassify) {
+              this.$http
+                .get(
+                  "/api" +
+                    "/common/getDataList?dataType=2&dataNum=" +
+                    this.form.visitRecordContent.bfzClassify
+                )
+                .then(res => {
+                  this.sfbfzName = res.data;
+                })
+                .catch(err => {
+                  console.log(err);
+                });
+            }
+          }
         })
         .catch(err => {
           console.log(err);

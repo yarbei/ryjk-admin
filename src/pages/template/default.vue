@@ -74,7 +74,7 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="有无症状 : ">
-            <el-select v-model="form.issymptom" @change="sfsymptomChange" placeholder="请选择">
+            <el-select v-model="form.visitRecordContent.issymptom" @change="sfsymptomChange" placeholder="请选择">
               <el-option
                 v-for="item in sfsymptom"
                 :key="item.value"
@@ -220,7 +220,7 @@
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="是否有并发症状 : ">
-            <el-select v-model="form.iscomplication" @change="complicationChange" placeholder="请选择">
+            <el-select v-model="form.visitRecordContent.iscomplication" @change="complicationChange" placeholder="请选择">
               <el-option
                 v-for="item in sfcomplication"
                 :key="item.value"
@@ -232,7 +232,7 @@
         </el-col>
         <el-col :span="8" v-show="iscomplication">
           <el-form-item label="并发症 : ">
-            <el-select v-model="bfzClassify" @change="bfzChange">
+            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"
@@ -773,10 +773,10 @@ export default {
 
       // 数组转字符串complication
       if (formData.complication instanceof Array) {
-        formData.complication = Number(this.form.complication.join(","));
+        formData.complication = this.form.complication.join(",")
       }
       if (formData.symptom instanceof Array) {
-        formData.symptom = Number(this.form.symptom.join(","));
+        formData.symptom = this.form.symptom.join(",")
       }
       var str = JSON.stringify(formData.visitRecordContent);
       formData.visitRecordContent = str;
