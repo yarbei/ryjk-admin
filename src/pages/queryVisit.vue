@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1>1通用模板</h1>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-row :gutter="80">
@@ -90,7 +89,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="请选择症状 : ">
-            <el-select v-model="form.symptom" multiple collapse-tags placeholder="请选择">
+            <el-select v-model="form.symptom" multiple placeholder="请选择">
               <el-option
                 v-for="item in sfsymptomName"
                 :key="item.value"
@@ -267,7 +266,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="具体症状：">
-            <el-select v-model="form.complication" multiple collapse-tags>
+            <el-select v-model="form.complication" multiple>
               <el-option
                 v-for="item in sfbfzName"
                 :key="item.value"
@@ -838,7 +837,6 @@ export default {
         )
         .then(res => {
           this.sfdepartment = res.data;
-          console.log(this.sfdepartment)
         })
         .catch(err => {
           console.log(err);
@@ -874,22 +872,23 @@ export default {
       this.$http
         .get("/api" + "/visitRecord/getVisitRecordById?id=" + id)
         .then(res => {
-          console.log(res);
+
           this.form = res.data;
           this.form.visitRecordContent = JSON.parse(
             res.data.visitRecordContent
-          );
+          );//将visitRecordContent解析为object类型
           if(res.data.department){
-            this.form.department=Number(res.data.department)
+            this.form.department=Number(res.data.department)//将科室由str变为num
           }
           if (res.data.symptom != null) {
-            this.form.symptom = res.data.symptom.split(",").map(Number);
+            this.form.symptom = res.data.symptom.split(",").map(Number);//将症状由str数组变为num数组
           }
           if (res.data.complication != null) {
             this.form.complication = res.data.complication
               .split(",")
-              .map(Number);
+              .map(Number);//将并发症由str数组变为num数组
           }
+          //如果有症状将请求症状数据
           if (this.form.visitRecordContent.issymptom == 1) {
             this.$http
               .get("/api" + `/common/getDataList?dataType=1`)
@@ -900,6 +899,7 @@ export default {
                 console.log(err);
               });
           }
+          //如果有并发症将请求并发症的分类数据
           if (this.form.visitRecordContent.iscomplication == 1) {
             this.$http
               .get("/api" + `/common/getDataList?dataType=2`)
@@ -909,6 +909,7 @@ export default {
               .catch(err => {
                 console.log(err);
               });
+              //请求并发症具体数据
             if (this.form.visitRecordContent.bfzClassify) {
               this.$http
                 .get(
@@ -938,7 +939,6 @@ export default {
   width: 100%;
   height: auto;
   min-height: 100%;
-  /*padding: 30px 50px 80px 50px;*/
   background-color: #fff;
   padding: 0 20px;
 }
@@ -953,7 +953,6 @@ export default {
 
 .cr_title {
   height: 170px;
-  /*background-color: #2DB7F5;*/
   border-bottom: 1px solid #999;
   margin-bottom: 30px;
   line-height: 170px;

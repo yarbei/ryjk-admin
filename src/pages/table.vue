@@ -66,19 +66,7 @@
       style="width: 100%;"
     >
       <el-table-column prop="name" align="center" label="姓名" width="80" sortable></el-table-column>
-      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable>
-        <!-- <template slot-scope="scope">
-          {{scope.row.groupId.groupId }}
-            <el-select v-model="scope.row.groupId.groupId" placeholder="请选择" @change="editGroup(scope.row.groupId.groupId)">
-              <el-option
-                v-for="item in groupNameList"
-                :key="item.groupId"
-                :label="item.groupName"
-                :value="item.groupId"
-              ></el-option>
-            </el-select>
-        </template> -->
-      </el-table-column>
+      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column>
       <el-table-column prop="idCard" align="center" label="身份证号" width="200"></el-table-column>
       <el-table-column
         prop="sex"
@@ -93,7 +81,7 @@
       <el-table-column prop="departmentName" align="center" width="150" label="科室" sortable></el-table-column>
       <el-table-column prop="doctorName" align="center" width="120" label="责任医生" sortable></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
-        <template slot-scope="scope">
+        <!-- <template slot-scope="scope">
           <el-button
             round
             type="text"
@@ -134,6 +122,43 @@
           >
             <i class="el-icon-delete" style="margin-right: 5px"></i>删除患者
           </el-button>
+        </template>-->
+        <template slot-scope="scope">
+          <el-tooltip class="item" effect="dark" content="查看详情" placement="top">
+            <i
+              class="el-icon-search"
+              @click="essentialInfo(scope.$index, scope.row)"
+              style="margin-right: 5px;color: #52a3d7"
+            ></i>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="创建计划" placement="top">
+            <i
+              class="el-icon-circle-plus-outline"
+              @click="createPlan(scope.$index, scope.row)"
+              style="margin-right: 5px;color: #52a3d7"
+            ></i>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
+            <i
+              class="el-icon-edit-outline"
+              @click="editInfo(scope.$index, scope.row)"
+              style="margin-right: 5px;color: #7de1c1"
+            ></i>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="新增随访" placement="top">
+            <i
+              class="el-icon-circle-plus-outline"
+              @click="createVisit(scope.$index, scope.row)"
+              style="margin-right: 5px;color: #7de1c1"
+            ></i>
+          </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="删除患者" placement="top">
+            <i
+              class="el-icon-delete"
+              @click="deletePatient(scope.$index, scope.row)"
+              style="margin-right: 5px;color:red;"
+            ></i>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -165,7 +190,7 @@
           <el-input disabled v-model="editForm.departmentName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="患者责任医生">
-          <el-input disabled v-model="editForm.diseaseManagerName" auto-complete="off"></el-input>
+          <el-input disabled v-model="editForm.doctorName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="患者分组">
           <el-select v-model="editForm.groupId" placeholder="请选择" @change="editGroup">
@@ -196,19 +221,25 @@
             <el-radio :label="2">女</el-radio>
           </el-radio-group>
         </el-form-item>
-
         <el-form-item label="患者电话" prop="phone">
           <el-input v-model="addForm.phone" auto-complete="off"></el-input>
         </el-form-item>
-
         <el-form-item label="身份证号" prop="idCard">
           <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="选择科室 : ">
           <el-select v-model="addForm.departmentName" placeholder="请选择">
-            <el-option v-for="item in ksdepartmentName" :key="item.value" :value="item.label" :label="item.label"></el-option>
+            <el-option
+              v-for="item in ksdepartmentName"
+              :key="item.value"
+              :value="item.label"
+              :label="item.label"
+            ></el-option>
           </el-select>
-          </el-form-item>
+        </el-form-item>
+        <el-form-item label="责任医生" prop="telName">
+          <el-input v-model="addForm.doctorName" auto-complete="off"></el-input>
+        </el-form-item>
         <el-form-item label="联系人姓名" prop="telName">
           <el-input v-model="addForm.telName" auto-complete="off"></el-input>
         </el-form-item>
@@ -271,39 +302,39 @@
 
 <script>
 export default {
-  data () {
+  data() {
     var checkIdCard = (rule, value, callback) => {
-      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/
+      var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
       if (!reg.test(value)) {
-        callback(new Error('请输入正确的身份证号'))
-        return false
+        callback(new Error("请输入正确的身份证号"));
+        return false;
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     var checkPhone = (rule, value, callback) => {
-      var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/
-      var telReg = reg.test(value)
+      var reg = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+      var telReg = reg.test(value);
       if (telReg === false) {
-        callback(new Error('请输入正确的手机号'))
-        return false
+        callback(new Error("请输入正确的手机号"));
+        return false;
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       filters: {
-        name: ''
+        name: ""
       },
       groupNameList: [
         {
-          groupId: '',
-          groupName: ''
+          groupId: "",
+          groupName: ""
         }
       ],
       ksdepartmentName: [], // 科室
-      groupNameChoose: '',
-      value: '',
+      groupNameChoose: "",
+      value: "",
       total: 20,
       page: 1,
       listLoading: false,
@@ -312,7 +343,7 @@ export default {
       editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
       editFormRules: {
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }]
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }]
       },
       // 编辑界面数据
       editForm: {},
@@ -320,20 +351,20 @@ export default {
       addFormVisible1: false,
       addLoading: false,
       addFormRules: {
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
-        phone: [{ required: true, validator: checkPhone, trigger: 'blur' }],
-        sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        idCard: [{ required: true, validator: checkIdCard, trigger: 'blur' }],
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
+        phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
+        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
+        idCard: [{ required: true, validator: checkIdCard, trigger: "blur" }],
         telName: [
-          { required: true, message: '请输入联系人姓名', trigger: 'blur' }
+          { required: true, message: "请输入联系人姓名", trigger: "blur" }
         ],
         relationPhone: [
-          { required: true, validator: checkPhone, trigger: 'blur' }
+          { required: true, validator: checkPhone, trigger: "blur" }
         ],
         relation: [
-          { required: true, message: '请选择与患者关系', trigger: 'change' }
+          { required: true, message: "请选择与患者关系", trigger: "change" }
         ],
-        groupId: [{ required: true, message: '请选择分组', trigger: 'change' }]
+        groupId: [{ required: true, message: "请选择分组", trigger: "change" }]
       },
       // 新增界面数据
       addForm: {
@@ -342,50 +373,50 @@ export default {
       user: null,
       pageTotal: 0,
       pageSize: 0,
-      newGroupName: '',
+      newGroupName: "",
       getPatientId: null
-    }
+    };
   },
   methods: {
     // 新建分组
-    addGroup () {
-      this.addFormVisible1 = true
+    addGroup() {
+      this.addFormVisible1 = true;
     },
     // 新建计划
-    createPlan (index, row) {
-      sessionStorage.setItem('personInfo', JSON.stringify(row))
+    createPlan(index, row) {
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.push({
-        name: 'createPlan',
+        name: "createPlan",
         params: { id: index, info: row }
-      })
+      });
     },
     // 查看详情
-    essentialInfo (index, row) {
-      sessionStorage.setItem('personInfo', JSON.stringify(row))
-      this.$router.push({ name: 'EssentialInfo' })
+    essentialInfo(index, row) {
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
+      this.$router.push({ name: "EssentialInfo" });
     },
     // 修改组别获取组别id
-    editGroup (value) {
-      this.editForm.groupId = value
+    editGroup(value) {
+      this.editForm.groupId = value;
     },
     // 获取修改患者信息
-    editInfo (index, row) {
-      this.editFormVisible = true
-      this.getPatientId = row.id
+    editInfo(index, row) {
+      this.editFormVisible = true;
+      this.getPatientId = row.id;
 
-      this.editForm = Object.assign({}, row)
+      this.editForm = Object.assign({}, row);
       if (row.groupId != null) {
-        this.editForm.groupId = row.groupId.groupId
+        this.editForm.groupId = row.groupId.groupId;
       } else {
-        this.editForm.groupId = row.groupId
+        this.editForm.groupId = row.groupId;
       }
     },
     // 提交修改组别
-    editSubmit () {
-      this.$confirm('确认提交吗？', '提示', {}).then(() => {
-        this.editLoading = true
+    editSubmit() {
+      this.$confirm("确认提交吗？", "提示", {}).then(() => {
+        this.editLoading = true;
         this.$http
-          .post('/api' + `/patient/updateGroup`, {
+          .post("/api" + `/patient/updateGroup`, {
             userId: this.getPatientId,
             groupId: this.editForm.groupId
           })
@@ -393,206 +424,209 @@ export default {
             if (res.data) {
               this.$message({
                 showClose: true,
-                message: '修改组别成功',
-                type: 'success'
-              })
-              this.editLoading = false
-              this.editFormVisible = false
-              this.getUsers()
+                message: "修改组别成功",
+                type: "success"
+              });
+              this.editLoading = false;
+              this.editFormVisible = false;
+              this.getUsers();
             } else {
               this.$message({
                 showClose: true,
-                message: '修改组别失败',
-                type: 'error'
-              })
-              this.editLoading = false
-              this.editFormVisible = false
+                message: "修改组别失败",
+                type: "error"
+              });
+              this.editLoading = false;
+              this.editFormVisible = false;
             }
           })
           .catch(err => {
-            console.log(err)
-          })
-      })
+            console.log(err);
+          });
+      });
     },
     // 新增随访
-    createVisit (index, row) {
-      sessionStorage.setItem('personInfo', JSON.stringify(row))
+    createVisit(index, row) {
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.replace({
-        name: 'EssentialInfo',
-        params: { selectId: 'jhxx' }
-      })
+        name: "EssentialInfo",
+        params: { selectId: "jhxx" }
+      });
     },
     // 删除患者
-    deletePatient (index, row) {
-      console.log(index, row)
+    deletePatient(index, row) {
+      console.log(index, row);
       if (row.sourceType === 1) {
-        this.$confirm('此操作将删除该患者, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
+        this.$confirm("此操作将删除该患者, 是否继续?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
         })
           .then(() => {
-            this.$http.post('/api' + 'patient/deletePatientById?id=' + row.id).then(res => {
-              this.getUsers()
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
+            this.$http
+              .post("/api" + "patient/deletePatientById?id=" + row.id)
+              .then(res => {
+                this.getUsers();
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                });
               })
-            }).catch(err => {
-              console.log(err)
-              this.$message({
-                type: 'warning',
-                message: '删除失败!'
-              })
-            })
+              .catch(err => {
+                console.log(err);
+                this.$message({
+                  type: "warning",
+                  message: "删除失败!"
+                });
+              });
           })
           .catch(() => {
             this.$message({
-              type: 'info',
-              message: '已取消删除'
-            })
-          })
+              type: "info",
+              message: "已取消删除"
+            });
+          });
       } else {
-        this.$message.warning('该患者不可删除！')
+        this.$message.warning("该患者不可删除！");
       }
     },
     // 性别显示转换
-    formatSex: function (row, column) {
-      return row.sex === 1 ? '男' : row.sex === 2 ? '女' : '未知'
+    formatSex: function(row, column) {
+      return row.sex === 1 ? "男" : row.sex === 2 ? "女" : "未知";
     },
 
-    handleCurrentChange (val) {
-      console.log(val)
+    handleCurrentChange(val) {
+      console.log(val);
     },
     // 获取科室方法
-    getMedicalList () {
+    getMedicalList() {
       this.$http
         .get(
-          '/api' +
+          "/api" +
             `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
         )
         .then(res => {
-          this.ksdepartmentName = res.data
+          this.ksdepartmentName = res.data;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 获取患者列表
-    getUsers () {
-      this.user = JSON.parse(sessionStorage.getItem('loginUser'))
+    getUsers() {
+      this.user = JSON.parse(sessionStorage.getItem("loginUser"));
       this.$http
         .get(
-          '/api' +
+          "/api" +
             `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}`
         )
         .then(res => {
-          this.pageTotal = res.data.total
-          this.pageSize = res.data.size
-          this.usersList = res.data.list
+          this.pageTotal = res.data.total;
+          this.pageSize = res.data.size;
+          this.usersList = res.data.list;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 显示编辑界面
-    handleEdit: function (index, row) {
-      this.editFormVisible = true
-      this.editForm = Object.assign({}, row)
+    handleEdit: function(index, row) {
+      this.editFormVisible = true;
+      this.editForm = Object.assign({}, row);
     },
     // 显示新增界面
-    addPatient: function () {
-      this.addFormVisible = true
+    addPatient: function() {
+      this.addFormVisible = true;
       this.addForm = {
-        name: '',
+        name: "",
         sex: -1,
         age: 0,
-        idCard: '',
-        groupId: '',
-        remark: '',
-        phone: ''
-      }
+        idCard: "",
+        groupId: "",
+        remark: "",
+        phone: ""
+      };
     },
     // 新增
-    addSubmit: function () {
+    addSubmit: function() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          this.addForm.hospitalId = this.user.hospitalId.id
-          this.addForm.doctorId = this.user.id
-          this.$confirm('确认提交吗？', '提示', {}).then(() => {
+          this.addForm.hospitalId = this.user.hospitalId.id;
+          this.addForm.doctorId = this.user.id;
+          this.$confirm("确认提交吗？", "提示", {}).then(() => {
             if (this.addForm.sex === -1) {
               this.$message({
                 showClose: true,
-                message: '您还未选择性别',
-                type: 'error'
-              })
-              return
+                message: "您还未选择性别",
+                type: "error"
+              });
+              return;
             }
-            if (this.addForm.groupId == '') {
+            if (this.addForm.groupId == "") {
               this.$message({
                 showClose: true,
-                message: '您还未选择组别',
-                type: 'error'
-              })
-              return
+                message: "您还未选择组别",
+                type: "error"
+              });
+              return;
             }
-            this.addLoading = true
+            this.addLoading = true;
             this.$http
-              .post('/api' + `/patient/addPatient`, this.addForm)
+              .post("/api" + `/patient/addPatient`, this.addForm)
               .then(res => {
                 if (res.data) {
                   this.$message({
                     showClose: true,
-                    message: '患者添加成功',
-                    type: 'success'
-                  })
-                  this.getUsers()
-                  this.addFormVisible = false
-                  this.$refs.addForm.resetFields()
+                    message: "患者添加成功",
+                    type: "success"
+                  });
+                  this.getUsers();
+                  this.addFormVisible = false;
+                  this.$refs.addForm.resetFields();
                 } else {
                   this.$message({
                     showClose: true,
-                    message: '患者添加失败',
-                    type: 'error'
-                  })
-                  this.addFormVisible = false
-                  this.$refs.addForm.resetFields()
+                    message: "患者添加失败",
+                    type: "error"
+                  });
+                  this.addFormVisible = false;
+                  this.$refs.addForm.resetFields();
                 }
               })
               .catch(err => {
-                console.log(err)
-              })
-          })
+                console.log(err);
+              });
+          });
         }
-      })
+      });
     },
     // 关闭新增
-    addClose () {
-      this.addFormVisible = false
-      this.editFormVisible = false
-      this.$refs.addForm.resetFields()
+    addClose() {
+      this.addFormVisible = false;
+      this.editFormVisible = false;
+      this.$refs.addForm.resetFields();
     },
-    closeDialog () {
-      this.$refs.addForm.resetFields()
+    closeDialog() {
+      this.$refs.addForm.resetFields();
     },
-    selsChange: function (sels) {
-      this.sels = sels
+    selsChange: function(sels) {
+      this.sels = sels;
     },
     // 获取组名
-    getGroupName () {
+    getGroupName() {
       this.$http
-        .get('/api' + `/groups/getGroupListByDoctorId?doctorId=${this.user.id}`)
+        .get("/api" + `/groups/getGroupListByDoctorId?doctorId=${this.user.id}`)
         .then(res => {
-          this.groupNameList = res.data
+          this.groupNameList = res.data;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 新建组
-    addNewGroup () {
+    addNewGroup() {
       this.$http
-        .post('/api' + `/groups/addGroup`, {
+        .post("/api" + `/groups/addGroup`, {
           groupName: this.newGroupName,
           doctorId: this.user.id
         })
@@ -600,56 +634,55 @@ export default {
           if (res.data) {
             this.$message({
               showClose: true,
-              message: '新建组别成功',
-              type: 'success'
-            })
-            this.addFormVisible1 = false
-            this.getGroupName()
-            this.newGroupName = ''
+              message: "新建组别成功",
+              type: "success"
+            });
+            this.addFormVisible1 = false;
+            this.getGroupName();
+            this.newGroupName = "";
           } else {
             this.$message({
               showClose: true,
-              message: '新建组别失败',
-              type: 'error'
-            })
-            this.addFormVisible1 = false
+              message: "新建组别失败",
+              type: "error"
+            });
+            this.addFormVisible1 = false;
           }
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 根据组名查患者列表
-    getUsersByGroup () {
-      if (this.groupNameChoose === '') {
-        this.getUsers()
+    getUsersByGroup() {
+      if (this.groupNameChoose === "") {
+        this.getUsers();
       } else {
         this.$http
           .get(
-            '/api' +
+            "/api" +
               `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&groupId=${this.groupNameChoose}`
           )
           .then(res => {
-            this.pageTotal = res.data.total
-            this.pageSize = res.data.size
-            this.usersList = res.data.list
+            this.pageTotal = res.data.total;
+            this.pageSize = res.data.size;
+            this.usersList = res.data.list;
           })
           .catch(err => {
-            console.log(err)
-          })
+            console.log(err);
+          });
       }
     }
   },
-  created () {
-    this.getMedicalList()
-    this.getUsers()
-    this.getGroupName()
+  created() {
+    this.getMedicalList();
+    this.getUsers();
+    this.getGroupName();
   }
-}
+};
 </script>
 
 <style scoped>
-
 .toolbar_page {
   margin-top: 20px;
   text-align: center;
@@ -675,7 +708,9 @@ export default {
   font-size: 20px;
   margin-bottom: 30px;
 }
-
+.el-tooltip {
+  cursor: pointer;
+}
 .table_container >>> .el-table__row--striped td {
   background-color: #edfbf7 !important;
 }

@@ -33,25 +33,11 @@
 
       <el-table-column align="center" fixed="right" label="操作">
         <template slot-scope="scope">
-          <!--<el-button round type="text" style="color: #52a3d7"  @click="essentialInfo(scope.$index, scope.row)"><i class="el-icon-search" style="margin-right: 5px"></i>查看详情</el-button>-->
           <el-button round type="text" style="color: #f8b14b"  @click="handleEdit(scope.$index, scope.row)"><i class="el-icon-edit-outline"></i>修改公告</el-button>
           <el-button round type="text" style="color: #e15939" @click="delDepartment(scope.$index, scope.row)"><i class="el-icon-delete"></i>删除公告</el-button>
         </template>
       </el-table-column>
     </el-table>
-
-    <!--工具条-->
-    <el-col :span="24" class="toolbar toolbar_page" v-if="ggArray.length>10">
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="size"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
-  </el-col>
 
     <el-pagination
         @size-change="handlePageSizeChange"

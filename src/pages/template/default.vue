@@ -68,13 +68,15 @@
           </el-form-item>
         </el-col>
       </el-row>
-
-      <h2>项目随访情况</h2>
-
+      <h2>目前症状</h2>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="有无症状 : ">
-            <el-select v-model="form.visitRecordContent.issymptom" @change="sfsymptomChange" placeholder="请选择">
+            <el-select
+              v-model="form.visitRecordContent.issymptom"
+              @change="sfsymptomChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfsymptom"
                 :key="item.value"
@@ -86,7 +88,7 @@
         </el-col>
         <el-col :span="8" v-show="issfsymptomName">
           <el-form-item label="请选择症状 : ">
-            <el-select v-model="form.symptom" multiple collapse-tags placeholder="请选择">
+            <el-select v-model="form.symptom" multiple placeholder="请选择">
               <el-option
                 v-for="item in sfsymptomName"
                 :key="item.value"
@@ -137,7 +139,11 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="饮酒量 : ">
-            <el-select v-model="form.alcoholConsumption" @change="alcoholConsumptionChange" placeholder="请选择">
+            <el-select
+              v-model="form.alcoholConsumption"
+              @change="alcoholConsumptionChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfalcoholConsumption"
                 :key="item.value"
@@ -157,39 +163,43 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="膳食脂肪">
             <el-input v-model="form.visitRecordContent.dietaryFat"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="运动(次/周)">
-            <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="运动(分钟/次)">
-            <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="摄盐情况(克/天)">
             <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="心理调整 : ">
+          <el-form-item label="运动(次/周)">
+            <el-input-number
+              v-model="form.visitRecordContent.motionNum"
+              :min="0"
+              :max="9999"
+              label="运动(次/周)"
+            ></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="运动(分钟/次)">
+            <el-input-number
+              v-model="form.visitRecordContent.otionLength"
+              :min="0"
+              :max="9999"
+              label="运动(次/周)"
+            ></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="心理状况 : ">
             <el-select v-model="form.visitRecordContent.region" placeholder="请选择">
               <el-option
                 v-for="item in sfregion"
@@ -220,7 +230,11 @@
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="是否有并发症状 : ">
-            <el-select v-model="form.visitRecordContent.iscomplication" @change="complicationChange" placeholder="请选择">
+            <el-select
+              v-model="form.visitRecordContent.iscomplication"
+              @change="complicationChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfcomplication"
                 :key="item.value"
@@ -244,7 +258,7 @@
         </el-col>
         <el-col :span="8" v-show="iscomplicationName">
           <el-form-item label="具体症状：">
-            <el-select v-model="form.complication" multiple collapse-tags>
+            <el-select v-model="form.complication" multiple>
               <el-option
                 v-for="item in sfbfzName"
                 :key="item.value"
@@ -365,17 +379,14 @@
           </el-form-item>
         </el-col>
       </el-row>
-
-      <el-form-item label="随访备注 : ">
-        <el-input type="textarea" v-model="form.remark"></el-input>
-      </el-form-item>
-
       <h2>健康教育知晓</h2>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否进行健康指导 : ">
-            <el-select v-model="form.visitRecordContent.healthGuidance" @change="healthGuidanceChange">
+            <el-select
+              v-model="form.visitRecordContent.healthGuidance"
+              @change="healthGuidanceChange"
+            >
               <el-option
                 v-for="item in sfhealthGuidance"
                 :key="item.value"
@@ -398,9 +409,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <h2>随访记录</h2>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="已提醒复诊 : ">
@@ -447,7 +456,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="健康知晓度 : ">
@@ -474,6 +482,9 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-form-item label="随访备注 : ">
+        <el-input type="textarea" v-model="form.remark"></el-input>
+      </el-form-item>
 
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit">完成随访</el-button>
@@ -574,12 +585,11 @@ export default {
       ],
       sfbfz: [], //并发症分类
       sfbfzName: [], //并发症具体名字
-      bfz: { multiple: true },
       // 依从性
       sfmedicationCompliance: [
         { value: 0, label: "不服药" },
-        { value: 1, label: "部分依从" },
-        { value: 2, label: "完全依从" }
+        { value: 1, label: "间断" },
+        { value: 2, label: "规律" }
       ],
       // 药物不良反应
       sfreactions: [
@@ -773,10 +783,10 @@ export default {
 
       // 数组转字符串complication
       if (formData.complication instanceof Array) {
-        formData.complication = this.form.complication.join(",")
+        formData.complication = this.form.complication.join(",");
       }
       if (formData.symptom instanceof Array) {
-        formData.symptom = this.form.symptom.join(",")
+        formData.symptom = this.form.symptom.join(",");
       }
       var str = JSON.stringify(formData.visitRecordContent);
       formData.visitRecordContent = str;
