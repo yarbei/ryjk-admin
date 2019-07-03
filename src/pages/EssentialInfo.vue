@@ -159,7 +159,7 @@
               class="jhxx_titleTime"
               v-show="item.createDate && item.endDate"
             >{{item.createDate}} </span><span class="jhxx_titleTime"
-              v-show="item.status==0?true:false">至 {{item.endDate}}</span>
+              v-show="item.status==1?true:false">至   {{item.endDate}}</span>
           </span>
           <ul class="suggest-list">
             <li v-for="(v,i) in item.item" :key="i">

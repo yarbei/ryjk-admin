@@ -12,7 +12,7 @@
         value-format="yyyy-MM-dd HH:mm:ss"
         :disabled="disabled"
       ></el-date-picker>
-      <h2>管理总数</h2>
+      <h2>管理随访总数</h2>
       <el-select v-model="dose" placeholder="请选择">
         <el-option v-for="item in number" :key="item.value" :label="item.value" :value="item.value"></el-option>
       </el-select>
@@ -34,7 +34,6 @@
       </el-checkbox-group>
       <el-button @click="back" style="margin-left:10px;" class="submitBtn">取消</el-button>
       <el-button type="success" @click="onSubmit" class="submitBtn">发布</el-button>
-
     </el-form>
   </div>
 </template>
@@ -129,6 +128,7 @@ export default {
     this.getBodySignList();
   },
   methods: {
+    //获取必测体征项
     getPlanInfo(id) {
       this.$http
         .get(`/api/plan/getPlanDetail?planId=${id}`)
@@ -166,7 +166,6 @@ export default {
       this.$http
         .get(`/api/bodySignRecord/getBodySignList`)
         .then(res => {
-          console.log(res);
           this.bodySignList = res.data;
         })
         .catch(err => {
@@ -185,17 +184,30 @@ export default {
           content: v.content
         };
       });
+
       const params = {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         dose: this.dose || 0,
-        createDate: this.createDate,
-        name: this.name,
+        createDate: this.createDate || new Date(),
+        name: this.name || "",
         patientId: this.personInfo.id,
         doctorId: this.user.id,
         monitorItem: this.slectedBodySignList.join(","),
         item: list
       };
+      if(params.name==''){
+        this.$$message.warning("请填写计划名称！");
+        return;
+      }
+      if(params.createDate==''){
+        this.$$message.warning("请选择计划时间！");
+        return;
+      }
+      if (params.monitorItem == "") {
+        this.$$message.warning("请选择必测体征项！");
+        return;
+      }
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)

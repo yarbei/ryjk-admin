@@ -380,6 +380,7 @@
         </el-col>
       </el-row>
       <h2>健康教育知晓</h2>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否进行健康指导 : ">
@@ -409,7 +410,9 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <h2>随访记录</h2>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="已提醒复诊 : ">
@@ -456,6 +459,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="健康知晓度 : ">

@@ -62,9 +62,10 @@
       stripe
       highlight-current-row
       v-loading="listLoading"
-      @selection-change="selsChange"
+      @selection-change="handleSelectionChange"
       style="width: 100%;"
     >
+      <el-table-column align="center" type="selection"></el-table-column>
       <el-table-column prop="name" align="center" label="姓名" width="80" sortable></el-table-column>
       <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column>
       <el-table-column prop="idCard" align="center" label="身份证号" width="200"></el-table-column>
@@ -78,7 +79,7 @@
       ></el-table-column>
       <el-table-column prop="age" align="center" label="年龄" width="80" sortable></el-table-column>
       <el-table-column prop="phone" align="center" label="电话" width="150"></el-table-column>
-      <el-table-column prop="departmentName" align="center" width="150" label="科室" sortable></el-table-column>
+      <el-table-column prop="departmentName" align="center" width="120" label="科室" sortable></el-table-column>
       <el-table-column prop="doctorName" align="center" width="120" label="责任医生" sortable></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
         <!-- <template slot-scope="scope">
@@ -162,6 +163,15 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handlePageSizeChange"
+      @current-change="handlePageCurrentChange"
+      :current-page="page.current"
+      :page-sizes="page.sizes"
+      :page-size="page.size"
+      :layout="page.layout"
+      :total="page.total"
+    ></el-pagination>
 
     <!--修改患者分组界面-->
     <el-dialog
@@ -227,7 +237,7 @@
         <el-form-item label="身份证号" prop="idCard">
           <el-input v-model="addForm.idCard" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="选择科室 : ">
+        <el-form-item label="选择科室 : " prop="departmentName">
           <el-select v-model="addForm.departmentName" placeholder="请选择">
             <el-option
               v-for="item in ksdepartmentName"
@@ -237,7 +247,7 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="责任医生" prop="telName">
+        <el-form-item label="责任医生" prop="doctorName">
           <el-input v-model="addForm.doctorName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="联系人姓名" prop="telName">
@@ -301,7 +311,9 @@
 </template>
 
 <script>
+import { pagination } from "@/mixins";
 export default {
+  mixins: [pagination],
   data() {
     var checkIdCard = (rule, value, callback) => {
       var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
@@ -335,10 +347,8 @@ export default {
       ksdepartmentName: [], // 科室
       groupNameChoose: "",
       value: "",
-      total: 20,
-      page: 1,
       listLoading: false,
-      sels: [], // 列表选中列
+      multipleSelection: [], // 列表选中列
       usersList: [],
       editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
@@ -355,6 +365,12 @@ export default {
         phone: [{ required: true, validator: checkPhone, trigger: "blur" }],
         sex: [{ required: true, message: "请选择性别", trigger: "change" }],
         idCard: [{ required: true, validator: checkIdCard, trigger: "blur" }],
+        departmentName: [
+          { required: true, message: "请选择科室", trigger: "change" }
+        ],
+        doctorName: [
+          { required: true, message: "请输入联系人姓名", trigger: "blur" }
+        ],
         telName: [
           { required: true, message: "请输入联系人姓名", trigger: "blur" }
         ],
@@ -371,13 +387,20 @@ export default {
         departmentName: []
       },
       user: null,
-      pageTotal: 0,
-      pageSize: 0,
       newGroupName: "",
       getPatientId: null
     };
   },
   methods: {
+    //分页查询方法
+    handleSearch() {
+      this.getUsers(1, this.page.size);
+    },
+    // 分页
+    handlePageCurrentChange(val) {
+      this.page.current = val;
+      this.getUsers(this.page.current, this.page.size);
+    },
     // 新建分组
     addGroup() {
       this.addFormVisible1 = true;
@@ -399,11 +422,10 @@ export default {
     editGroup(value) {
       this.editForm.groupId = value;
     },
-    // 获取修改患者信息
+    // 修改分组
     editInfo(index, row) {
       this.editFormVisible = true;
       this.getPatientId = row.id;
-
       this.editForm = Object.assign({}, row);
       if (row.groupId != null) {
         this.editForm.groupId = row.groupId.groupId;
@@ -413,37 +435,34 @@ export default {
     },
     // 提交修改组别
     editSubmit() {
-      this.$confirm("确认提交吗？", "提示", {}).then(() => {
-        this.editLoading = true;
-        this.$http
-          .post("/api" + `/patient/updateGroup`, {
-            userId: this.getPatientId,
-            groupId: this.editForm.groupId
-          })
-          .then(res => {
-            if (res.data) {
-              this.$message({
-                showClose: true,
-                message: "修改组别成功",
-                type: "success"
-              });
-              this.editLoading = false;
-              this.editFormVisible = false;
-              this.getUsers();
-            } else {
-              this.$message({
-                showClose: true,
-                message: "修改组别失败",
-                type: "error"
-              });
-              this.editLoading = false;
-              this.editFormVisible = false;
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      });
+      this.$http
+        .post("/api" + `/patient/updateGroup`, {
+          userId: this.getPatientId,
+          groupId: this.editForm.groupId
+        })
+        .then(res => {
+          if (res.data) {
+            this.$message({
+              showClose: true,
+              message: "修改组别成功",
+              type: "success"
+            });
+            this.editLoading = false;
+            this.editFormVisible = false;
+            this.getUsers();
+          } else {
+            this.$message({
+              showClose: true,
+              message: "修改组别失败",
+              type: "error"
+            });
+            this.editLoading = false;
+            this.editFormVisible = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     },
     // 新增随访
     createVisit(index, row) {
@@ -513,7 +532,7 @@ export default {
         });
     },
     // 获取患者列表
-    getUsers() {
+    getUsers(page, pageSize) {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
       this.$http
         .get(
@@ -521,14 +540,14 @@ export default {
             `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}`
         )
         .then(res => {
-          this.pageTotal = res.data.total;
-          this.pageSize = res.data.size;
+          this.page.total = res.data.total;
           this.usersList = res.data.list;
         })
         .catch(err => {
           console.log(err);
         });
     },
+
     // 显示编辑界面
     handleEdit: function(index, row) {
       this.editFormVisible = true;
@@ -553,50 +572,48 @@ export default {
         if (valid) {
           this.addForm.hospitalId = this.user.hospitalId.id;
           this.addForm.doctorId = this.user.id;
-          this.$confirm("确认提交吗？", "提示", {}).then(() => {
-            if (this.addForm.sex === -1) {
-              this.$message({
-                showClose: true,
-                message: "您还未选择性别",
-                type: "error"
-              });
-              return;
-            }
-            if (this.addForm.groupId == "") {
-              this.$message({
-                showClose: true,
-                message: "您还未选择组别",
-                type: "error"
-              });
-              return;
-            }
-            this.addLoading = true;
-            this.$http
-              .post("/api" + `/patient/addPatient`, this.addForm)
-              .then(res => {
-                if (res.data) {
-                  this.$message({
-                    showClose: true,
-                    message: "患者添加成功",
-                    type: "success"
-                  });
-                  this.getUsers();
-                  this.addFormVisible = false;
-                  this.$refs.addForm.resetFields();
-                } else {
-                  this.$message({
-                    showClose: true,
-                    message: "患者添加失败",
-                    type: "error"
-                  });
-                  this.addFormVisible = false;
-                  this.$refs.addForm.resetFields();
-                }
-              })
-              .catch(err => {
-                console.log(err);
-              });
-          });
+          if (this.addForm.sex === -1) {
+            this.$message({
+              showClose: true,
+              message: "您还未选择性别",
+              type: "error"
+            });
+            return;
+          }
+          if (this.addForm.groupId == "") {
+            this.$message({
+              showClose: true,
+              message: "您还未选择组别",
+              type: "error"
+            });
+            return;
+          }
+          this.addLoading = true;
+          this.$http
+            .post("/api" + `/patient/addPatient`, this.addForm)
+            .then(res => {
+              if (res.data) {
+                this.$message({
+                  showClose: true,
+                  message: "患者添加成功",
+                  type: "success"
+                });
+                this.getUsers();
+                this.addFormVisible = false;
+                this.$refs.addForm.resetFields();
+              } else {
+                this.$message({
+                  showClose: true,
+                  message: "患者添加失败",
+                  type: "error"
+                });
+                this.addFormVisible = false;
+                this.$refs.addForm.resetFields();
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
         }
       });
     },
@@ -609,8 +626,8 @@ export default {
     closeDialog() {
       this.$refs.addForm.resetFields();
     },
-    selsChange: function(sels) {
-      this.sels = sels;
+    handleSelectionChange: function(val) {
+      this.multipleSelection = val;
     },
     // 获取组名
     getGroupName() {
@@ -664,8 +681,6 @@ export default {
               `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&groupId=${this.groupNameChoose}`
           )
           .then(res => {
-            this.pageTotal = res.data.total;
-            this.pageSize = res.data.size;
             this.usersList = res.data.list;
           })
           .catch(err => {
@@ -676,7 +691,7 @@ export default {
   },
   created() {
     this.getMedicalList();
-    this.getUsers();
+    this.getUsers(this.page.current, this.page.size);
     this.getGroupName();
   }
 };
