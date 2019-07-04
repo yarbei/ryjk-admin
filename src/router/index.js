@@ -33,7 +33,8 @@ export default new Router({
         { path: '/addHospital', name: 'addHospital', component: page('addHospital') },
         { path: '/noticeManagement', name: 'noticeManagement', component: page('noticeManagement') },
         { path: '/addNotice', name: 'addNotice', component: page('addNotice') },
-        { path: '/posterManagement', name: 'posterManagement', component: page('posterManagement') }
+        { path: '/posterManagement', name: 'posterManagement', component: page('posterManagement') },
+        { path: '/followupplan', name: 'followUpPlan', component: page('followupplan') }
       ]
     },
     { path: '/login', name: 'login', component: page('login') },

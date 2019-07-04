@@ -163,15 +163,29 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-pagination
-      @size-change="handlePageSizeChange"
-      @current-change="handlePageCurrentChange"
-      :current-page="page.current"
-      :page-sizes="page.sizes"
-      :page-size="page.size"
-      :layout="page.layout"
-      :total="page.total"
-    ></el-pagination>
+    <el-row style="margin-top:20px;" :gutter="80">
+      <el-col :span="8">
+        <el-button
+          type="primary"
+          @click="batchEditGroup"
+          style="background-color: #52a3d7; border: 0; font-size: 14px"
+        >修改分组</el-button>
+      </el-col>
+      <!-- <el-col :span="4">
+        <el-button>批量删除</el-button>
+      </el-col>-->
+      <el-col :span="16">
+        <el-pagination
+          @size-change="handlePageSizeChange"
+          @current-change="handlePageCurrentChange"
+          :current-page="page.current"
+          :page-sizes="page.sizes"
+          :page-size="page.size"
+          :layout="page.layout"
+          :total="page.total"
+        ></el-pagination>
+      </el-col>
+    </el-row>
 
     <!--修改患者分组界面-->
     <el-dialog
@@ -218,7 +232,25 @@
         <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
       </div>
     </el-dialog>
-
+    <!-- 批量修改患者分组页面 -->
+    <el-dialog title="批量修改分组" :visible.sync="dialogFormVisible">
+      <el-form :model="batchEditGroupForm">
+        <el-form-item label="选择分组">
+          <el-select v-model="batchEditGroupForm.groupId">
+            <el-option
+              v-for="item in groupNameList"
+              :key="item.groupId"
+              :label="item.groupName"
+              :value="item.groupId"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitBatchEditGroup" :loading="editLoading">确 定</el-button>
+      </div>
+    </el-dialog>
     <!--新建患者界面-->
     <el-dialog title="新建患者" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addForm" label-width="100px" :rules="addFormRules" ref="addForm">
@@ -246,9 +278,6 @@
               :label="item.label"
             ></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="责任医生" prop="doctorName">
-          <el-input v-model="addForm.doctorName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="联系人姓名" prop="telName">
           <el-input v-model="addForm.telName" auto-complete="off"></el-input>
@@ -388,7 +417,9 @@ export default {
       },
       user: null,
       newGroupName: "",
-      getPatientId: null
+      getPatientId: null,
+      batchEditGroupForm: {}, //批量修改患者分组
+      dialogFormVisible: false //批量修改患者分组显示
     };
   },
   methods: {
@@ -458,6 +489,51 @@ export default {
             });
             this.editLoading = false;
             this.editFormVisible = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //点击批量修改分组按钮
+    batchEditGroup() {
+      if (this.multipleSelection.length == 0) {
+        this.$message.warning("请选择需要批量修改分组的患者！");
+      } else {
+        this.dialogFormVisible = true;
+      }
+    },
+    //提交批量修改分组
+    submitBatchEditGroup() {
+      let patientIdListId = "";
+      this.multipleSelection.forEach(item => {
+        patientIdListId += item.id +',';
+      });
+      let patientIdList=patientIdListId.substring(0,patientIdListId.length-1)
+      console.log(this.multipleSelection, patientIdList);
+      this.$http
+        .post("/api" + `/groups/batchGroups`, {
+          groupId: this.batchEditGroupForm.groupId,
+          patientIdList: patientIdList
+        })
+        .then(res => {
+          if (res.data) {
+            this.$message({
+              showClose: true,
+              message: "修改组别成功",
+              type: "success"
+            });
+            this.editLoading = false;
+            this.dialogFormVisible = false;
+            this.getUsers();
+          } else {
+            this.$message({
+              showClose: true,
+              message: "修改组别失败",
+              type: "error"
+            });
+            this.editLoading = false;
+            this.dialogFormVisible = false;
           }
         })
         .catch(err => {
@@ -537,9 +613,10 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}`
+            `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}&uniqueAccountId=${this.$store.state.user.user.uniqueAccountId}&type=${this.$store.state.user.user.type}`
         )
         .then(res => {
+          console.log(res)
           this.page.total = res.data.total;
           this.usersList = res.data.list;
         })
@@ -590,7 +667,7 @@ export default {
           }
           this.addLoading = true;
           this.$http
-            .post("/api" + `/patient/addPatient`, this.addForm)
+            .post("/api" + `/patient/addPatient?doctorId=${this.$store.state.user.user.id}&type=${this.$store.state.user.user.type}`, this.addForm)
             .then(res => {
               if (res.data) {
                 this.$message({

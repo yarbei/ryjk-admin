@@ -5,12 +5,10 @@ import 'babel-polyfill'
 import ElementUI from 'element-ui'
 import Axios from 'axios'
 import NProgress from 'nprogress'
-import echarts from 'echarts'
-
-
 import App from './App'
 import store from './store'
 import router from './router'
+import VCharts from 'v-charts'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/font-awesome-4.7.0/css/font-awesome.min.css'
 import '@/assets/css/main.css'
@@ -24,7 +22,6 @@ import DropdownPlugin from './m/dropdown'
 import NavbarPlugin from './m/navbar'
 import ContextMenuPlugin from './m/context-menu'
 import MBackTop from '@/m/back-top'
-
 import MButton from '@/m/button'
 // import MSwitch from '@/m/switch'
 // import MAlert from '@/m/alert'
@@ -45,6 +42,7 @@ Vue.use(NavbarPlugin)
 Vue.use(ContextMenuPlugin)
 Vue.use(MBackTop)
 Vue.use(MButton)
+Vue.use(VCharts)
 // Vue.use(MSwitch)
 // Vue.use(MAlert)
 // Vue.use(MCheckbox)
@@ -114,7 +112,6 @@ Axios.interceptors.response.use(res => {
   return Promise.reject(err)
 })
 
-Vue.prototype.echarts = echarts
 Vue.prototype.$http = Axios
 Vue.http = Axios
 

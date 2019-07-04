@@ -468,7 +468,13 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="复诊时间 : ">
-            <el-date-picker v-model="form.revisitTime" type="date" placeholder="选择日期" required></el-date-picker>
+            <el-date-picker
+              v-model="form.revisitTime"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy - MM - dd "
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
@@ -771,22 +777,6 @@ export default {
       var formData = this.form;
       formData.patientId = this.personInfo.id; // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id; // 从store中获取用户ID，在这被作为随访人员ID
-      //如果有随访时间，将他格式化yyyy-MM-dd
-      if (formData.revisitTime) {
-        var date = formData.revisitTime;
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        if (month < 10) {
-          month = "0" + month;
-        }
-        if (day < 10) {
-          day = "0" + day;
-        }
-        var nowDate = year + "-" + month + "-" + day;
-        formData.revisitTime = nowDate;
-      }
-
       // 数组转字符串complication
       if (formData.complication instanceof Array) {
         formData.complication = Number(this.form.complication.join(","));
@@ -819,14 +809,7 @@ export default {
     },
     // 返回按钮
     cancelBtn() {
-      this.$router.go(-1);
-    },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
+      this.$router.push({path:'/EssentialInfo'});
     },
     // 获取科室方法
     getMedicalList() {
