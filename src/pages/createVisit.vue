@@ -1,6 +1,6 @@
 <template>
   <div class="cr_container">
-    <el-tabs class="el_tab" v-model="templateName" @tab-click="handleClick">
+    <el-tabs class="el_tab" v-model="templateName">
       <el-tab-pane label="通用模板" name="default">
         <default></default>
       </el-tab-pane>
@@ -72,13 +72,6 @@ export default {
       templateName: "default"
     };
   },
-  created() {},
-  mounted() {},
-  methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    }
-  }
 };
 </script>
 
@@ -86,7 +79,6 @@ export default {
 .el-tabs {
   width: 100%;
   padding: 10px 30px !important;
-  /*margin: 20px auto;*/
 }
 
 .el_tab >>> .is-active {

@@ -310,7 +310,7 @@
       <el-row :gutter="80">
         <el-col :span="24">
           <el-form-item>
-            <el-button @click.prevent="addDosage">新增</el-button>
+            <el-button style="width:95%;background:#eee;" @click.prevent="addDosage">新增</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -791,22 +791,6 @@ export default {
       var formData = this.form;
       formData.patientId = this.personInfo.id; // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id; // 从store中获取用户ID，在这被作为随访人员ID
-      // //如果有随访时间，将他格式化yyyy-MM-dd
-      // if (formData.revisitTime) {
-      //   var date = formData.revisitTime;
-      //   var year = date.getFullYear();
-      //   var month = date.getMonth() + 1;
-      //   var day = date.getDate();
-      //   if (month < 10) {
-      //     month = "0" + month;
-      //   }
-      //   if (day < 10) {
-      //     day = "0" + day;
-      //   }
-      //   var nowDate = year + "-" + month + "-" + day;
-      //   formData.revisitTime = nowDate;
-      // }
-
       // 数组转字符串complication
       if (formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(",");
@@ -818,7 +802,7 @@ export default {
       formData.visitRecordContent = str;
       // 发送新增随访请求
       this.$http
-        .post("/api" + `/visitRecord/insertVisitRecord`, formData)
+        .post("/api" + `/visitRecord/insertVisitRecord?template_type=0`, formData)
         .then(res => {
           if (res.data) {
             this.$message.success("新增随访成功！");

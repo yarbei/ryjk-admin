@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>9消化道出血模板</h1>
+    <h1>1通用模板</h1>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-row :gutter="80">
@@ -310,7 +310,7 @@
       <el-row :gutter="80">
         <el-col :span="24">
           <el-form-item>
-            <el-button @click.prevent="addDosage">新增</el-button>
+            <el-button style="width:95%;background:#eee;" @click.prevent="addDosage">新增</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -380,6 +380,7 @@
         </el-col>
       </el-row>
       <h2>健康教育知晓</h2>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否进行健康指导 : ">
@@ -409,7 +410,9 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <h2>随访记录</h2>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="已提醒复诊 : ">
@@ -452,10 +455,17 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="复诊时间 : ">
-            <el-date-picker v-model="form.revisitTime" type="date" placeholder="选择日期" required></el-date-picker>
+            <el-date-picker
+              v-model="form.revisitTime"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy - MM - dd "
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
           </el-form-item>
         </el-col>
       </el-row>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="健康知晓度 : ">
@@ -758,29 +768,29 @@ export default {
     },
     //点击完成随访
     onSubmit() {
+      if (this.form.status === undefined) {
+        this.$message.warning("随访状态未选择！");
+        return;
+      }
+      if (this.form.result === undefined) {
+        this.$message.warning("随访结果未选择！");
+        return;
+      }
       if (this.form.type === undefined) {
         this.$message.warning("随访方式未选择！");
+        return;
+      }
+      if (this.form.dischargeStatus === undefined) {
+        this.$message.warning("出院/转院情况未选择！");
+        return;
+      }
+      if (this.form.assessment === undefined) {
+        this.$message.warning("本次随访评估未选择！");
         return;
       }
       var formData = this.form;
       formData.patientId = this.personInfo.id; // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id; // 从store中获取用户ID，在这被作为随访人员ID
-      //如果有随访时间，将他格式化yyyy-MM-dd
-      if (formData.revisitTime) {
-        var date = formData.revisitTime;
-        var year = date.getFullYear();
-        var month = date.getMonth() + 1;
-        var day = date.getDate();
-        if (month < 10) {
-          month = "0" + month;
-        }
-        if (day < 10) {
-          day = "0" + day;
-        }
-        var nowDate = year + "-" + month + "-" + day;
-        formData.revisitTime = nowDate;
-      }
-
       // 数组转字符串complication
       if (formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(",");
@@ -792,7 +802,7 @@ export default {
       formData.visitRecordContent = str;
       // 发送新增随访请求
       this.$http
-        .post("/api" + `/visitRecord/insertVisitRecord`, formData)
+        .post("/api" + `/visitRecord/insertVisitRecord?template_type=0`, formData)
         .then(res => {
           if (res.data) {
             this.$message.success("新增随访成功！");
