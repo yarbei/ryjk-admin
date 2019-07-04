@@ -507,9 +507,12 @@ export default {
     submitBatchEditGroup() {
       let patientIdListId = "";
       this.multipleSelection.forEach(item => {
-        patientIdListId += item.id +',';
+        patientIdListId += item.id + ",";
       });
-      let patientIdList=patientIdListId.substring(0,patientIdListId.length-1)
+      let patientIdList = patientIdListId.substring(
+        0,
+        patientIdListId.length - 1
+      );
       console.log(this.multipleSelection, patientIdList);
       this.$http
         .post("/api" + `/groups/batchGroups`, {
@@ -616,9 +619,14 @@ export default {
             `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}&uniqueAccountId=${this.$store.state.user.user.uniqueAccountId}&type=${this.$store.state.user.user.type}`
         )
         .then(res => {
-          console.log(res)
+          console.log(res);
           this.page.total = res.data.total;
           this.usersList = res.data.list;
+          this.usersList.forEach(item => {
+            if (item.doctorName == null) {
+              item.doctorName = item.diseaseManagerName;
+            }
+          });
         })
         .catch(err => {
           console.log(err);
@@ -667,7 +675,11 @@ export default {
           }
           this.addLoading = true;
           this.$http
-            .post("/api" + `/patient/addPatient?doctorId=${this.$store.state.user.user.id}&type=${this.$store.state.user.user.type}`, this.addForm)
+            .post(
+              "/api" +
+                `/patient/addPatient?doctorId=${this.$store.state.user.user.id}&type=${this.$store.state.user.user.type}`,
+              this.addForm
+            )
             .then(res => {
               if (res.data) {
                 this.$message({

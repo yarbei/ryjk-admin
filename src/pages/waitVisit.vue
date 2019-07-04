@@ -81,7 +81,7 @@ export default {
     return {
       filters: {
         name: "",
-        date: "",
+        date: ["",""],
         status: ""
       },
       date: "",

@@ -855,7 +855,6 @@ export default {
       this.$http
         .get("/api" + "/visitRecord/getVisitRecordById?id=" + id)
         .then(res => {
-
           this.form = res.data;
           this.form.visitRecordContent = JSON.parse(
             res.data.visitRecordContent

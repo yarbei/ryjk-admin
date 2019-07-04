@@ -5,7 +5,7 @@
       class="toolbar toolbar_title"
       style="padding-bottom: 0px; height: 100px;padding-top: 30px"
     >
-      <el-form  :inline="true" :model="filters" class="toolbar_form">
+      <el-form :inline="true" :model="filters" class="toolbar_form">
         <el-form-item class="f-left search_input">
           <el-input v-model="filters.name" placeholder="患者姓名">
             <template slot="append" icon="el-icon-search">
@@ -20,6 +20,10 @@
           </el-input>
         </el-form-item>
       </el-form>
+      <el-select v-model="filters.status" placeholder="请选择状态" @change="getEwList">
+        <el-option :value="1" label="未随访"></el-option>
+        <el-option :value="0" label="已随访"></el-option>
+      </el-select>
     </el-col>
     <!--列表-->
     <el-table
@@ -39,8 +43,8 @@
             type="success"
             style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
             @click="changelInfo(scope.$index, scope.row)"
-            :disabled="formatSatus==1?true:false"
-          >完成</el-button>
+            :disabled="scope.row.status==0?true:false"
+          >{{scope.row.status==0?'已完成':'未完成'}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -66,13 +70,15 @@ export default {
     return {
       status: "",
       filters: {
-        name: ""
+        name: "",
+        status: ""
       },
       value: "",
       listLoading: false,
       usersList: [],
       user: null,
-      ewArray: []
+      ewArray: [],
+      status: false
     };
   },
   methods: {
@@ -89,10 +95,9 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/notice/getDoctorNoticeList?userId=${this.$store.state.user.user.id}&titleType=1&receiverRole=${this.$store.state.user.user.type}&noticeType=1`
+            `/notice/getDoctorNoticeList?userId=${this.$store.state.user.user.id}&titleType=1&receiverRole=${this.$store.state.user.user.type}&noticeType=1&name=${this.filters.name}&status=${this.filters.status}`
         )
         .then(res => {
-          console.log(res)
           this.ewArray = res.data.list;
           this.page.total = res.data.total;
         })
@@ -100,19 +105,13 @@ export default {
           console.log(err);
         });
     },
-    handleSizeChange() {},
-    handleCurrentChange() {},
-    formatSatus(row, column) {
+    formatSatus(row) {
       return row.status == 0 ? "已完成" : row.status == 1 ? "未完成" : "无";
     },
-    changelInfo(s1, s2) {
-      if (s2.status == 0) {
-        this.$message.warning("状态已更改,请勿重复操作！");
-        return;
-      }
 
+    changelInfo(index, row) {
       this.$http
-        .post("/api" + `/notice/updateStatus`, { messageId: s2.id })
+        .post("/api" + `/notice/updateStatus`, { messageId: row.id })
         .then(res => {
           if (res.data) {
             this.$message.success("操作成功");
@@ -124,11 +123,8 @@ export default {
         .catch(err => {
           console.log(err);
         });
-      console.log(s2);
+      console.log(row);
     },
-    statusSearch(val) {
-      console.log(val);
-    }
   },
   created() {
     this.getEwList();

@@ -3,7 +3,6 @@
     class="el_tab"
     v-model="activeName"
     :stretch="true"
-    @tab-click="handleClick"
     style="padding: 30px; background-color: #fff"
   >
     <!--基本信息-->
@@ -107,7 +106,7 @@
         <el-col :span="16" :offset="4">
           <el-card :body-style="{ padding: '0px' }" class="cyxj_card">
             <iframe :src="item.summaryofdischarge" width="100%" height="400px" frameborder="0"></iframe>
-            <!-- <img :src="item.summaryofdischarge" class="image"> -->
+            <!--<img :src="item.summaryofdischarge" class="image">-->
             <div style="padding: 14px;">
               <span>{{item.department}}</span>
               <div class="bottom clearfix">
@@ -157,6 +156,7 @@
             >{{item.createDate}}</span>
             <span class="jhxx_titleTime" v-show="item.status==1?true:false">至 {{item.endDate}}</span>
           </span>
+          <!--<el-tag type="success">{{item.description}}</el-tag>-->
           <ul class="suggest-list">
             <li v-for="(v,i) in item.item" :key="i">
               <span>{{v.detailType}}:</span>
@@ -231,13 +231,13 @@
         <div slot="header" class="clearfix grtz_title">
           <span>
             {{item.bodySignType}}
-          </span>
-          <span
+            <span
               class="grtz_titleTime"
               v-if="!(item.createTime == null)"
             >({{item.createTime}})</span>
+          </span>
           <p>
-            <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value==null?'':item.oldVlaue}}</span>
+            <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value}}</span>
             <span>最新{{item.bodySignType}}记录 : {{item.value}}</span>
             <span class="f-right">{{item.sureUpdate == 0?"未更新":"已更新"}}</span>
           </p>
@@ -330,7 +330,6 @@ export default {
     this.getSign();
     this.getPlan();
     this.getHealthPlan(this.page.current, this.page.size);
-    this.getSignEchart();
   },
   mounted() {
     if (this.$route.params.selectId == "sfjl") {
@@ -400,7 +399,6 @@ export default {
     //       console.log(err);
     //     });
     // },
-    handleClick(tab, event) {},
     // 获取患者基本信息
     getUsers() {
       this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
@@ -459,7 +457,6 @@ export default {
             `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
         )
         .then(res => {
-          console.log(res);
           if (res.data.length === 0) {
             this.getSignStatus = true;
           } else {
@@ -476,7 +473,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=1`
+            `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=${this}`
         )
         .then(res => {
           console.log(res);
@@ -671,6 +668,7 @@ export default {
 .el-tabs {
   width: 100%;
   padding: 10px 30px !important;
+  /*margin: 20px auto;*/
 }
 
 .el_tab >>> .is-active {
