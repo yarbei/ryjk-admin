@@ -73,7 +73,7 @@
           <el-form-item label="有无症状 : ">
             <el-select
               v-model="form.visitRecordContent.issymptom"
-              @change="sfsymptomChange($event,0)"
+              @change="sfsymptomChange($event,3)"
               placeholder="请选择"
             >
               <el-option
@@ -517,7 +517,6 @@ export default {
   width: 100%;
   height: auto;
   min-height: 100%;
-  /*padding: 30px 50px 80px 50px;*/
   background-color: #fff;
   padding: 0 20px;
 }
