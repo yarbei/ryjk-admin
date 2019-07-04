@@ -64,6 +64,7 @@
                 :value="item.value"
               ></el-option>
             </el-select>
+<<<<<<< HEAD
           </el-form-item>
         </el-col>
       </el-row>
@@ -119,6 +120,8 @@
         <el-col :span="8">
           <el-form-item label="指标值" v-show="isanomalyIndex">
             <el-input-number v-model="form.visitRecordContent.animalheat" :min="0" :max="9999"></el-input-number>
+=======
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
           </el-form-item>
         </el-col>
       </el-row>
@@ -126,6 +129,7 @@
       <h2>生活自理情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
+<<<<<<< HEAD
           <el-form-item label="自理情况 : ">
             <el-select
               v-model="form.visitRecordContent.careLift"
@@ -133,6 +137,28 @@
             >
               <el-option
                 v-for="item in sfcareLift"
+=======
+          <el-form-item label="有无症状 : ">
+            <el-select
+              v-model="form.visitRecordContent.issymptom"
+              @change="sfsymptomChange"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in sfsymptom"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" v-show="issfsymptomName">
+          <el-form-item label="请选择症状 : ">
+            <el-select v-model="form.symptom" multiple placeholder="请选择">
+              <el-option
+                v-for="item in sfsymptomName"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -141,6 +167,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+<<<<<<< HEAD
       <h2>吸烟情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -148,6 +175,16 @@
             <el-select v-model="form.visitRecordContent.smokingHistory" placeholder="请选择">
               <el-option
                 v-for="item in sfsmokingHistory"
+=======
+
+      <h2>生活方式</h2>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="总体评估 : ">
+            <el-select v-model="form.visitRecordContent.lifeAssessment" placeholder="请选择">
+              <el-option
+                v-for="item in sflifeAssessment"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -155,11 +192,22 @@
             </el-select>
           </el-form-item>
         </el-col>
+<<<<<<< HEAD
         <el-col :span="8">
           <el-form-item label="是否戒烟 : ">
             <el-select v-model="form.visitRecordContent.isQuitSmoking" placeholder="请选择">
               <el-option
                 v-for="item in sfisQuitSmoking"
+=======
+      </el-row>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="吸烟量 : ">
+            <el-select v-model="form.smokingVolume" @change="smokingVolumeChange" placeholder="请选择">
+              <el-option
+                v-for="item in sfsmokingVolume"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -173,6 +221,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+<<<<<<< HEAD
       <h2>饮酒情况</h2>
       <el-row :gutter="80">
         <el-col :span="6">
@@ -180,6 +229,19 @@
             <el-select v-model="form.visitRecordContent.drinkingHistory" placeholder="请选择">
               <el-option
                 v-for="item in sfdrinkingHistory"
+=======
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="饮酒量 : ">
+            <el-select
+              v-model="form.alcoholConsumption"
+              @change="alcoholConsumptionChange"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in sfalcoholConsumption"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -199,6 +261,7 @@
             </el-select>
           </el-form-item>
         </el-col>
+<<<<<<< HEAD
         <el-col :span="6">
           <el-form-item label="现状(支/日)：">
             <el-input-number v-model="form.visitRecordContent.drinkingMeasure" :min="0" :max="9999"></el-input-number>
@@ -232,6 +295,40 @@
                 :value="item.value"
               ></el-option>
             </el-select>
+=======
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="膳食脂肪">
+            <el-input v-model="form.visitRecordContent.dietaryFat"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="摄盐情况(克/天)">
+            <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="运动(次/周)">
+            <el-input-number
+              v-model="form.visitRecordContent.motionNum"
+              :min="0"
+              :max="9999"
+              label="运动(次/周)"
+            ></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="运动(分钟/次)">
+            <el-input-number
+              v-model="form.visitRecordContent.otionLength"
+              :min="0"
+              :max="9999"
+              label="运动(次/周)"
+            ></el-input-number>
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
           </el-form-item>
         </el-col>
       </el-row>
@@ -239,9 +336,15 @@
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="心理状况 : ">
+<<<<<<< HEAD
             <el-select v-model="form.visitRecordContent.psychologicSituation" placeholder="请选择">
               <el-option
                 v-for="item in sfpsychologicSituation"
+=======
+            <el-select v-model="form.visitRecordContent.region" placeholder="请选择">
+              <el-option
+                v-for="item in sfregion"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -250,6 +353,45 @@
           </el-form-item>
         </el-col>
       </el-row>
+<<<<<<< HEAD
+      <h2>并发症</h2>
+      <el-row :gutter="0">
+        <el-col :span="8">
+          <el-form-item label="是否有并发症状 : ">
+            <el-select
+              v-model="form.visitRecordContent.iscomplication"
+              @change="complicationChange"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in sfcomplication"
+=======
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="医从性 : ">
+            <el-select v-model="form.medicalCompliance" placeholder="请选择">
+              <el-option
+                v-for="item in sfmedicalCompliance"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+<<<<<<< HEAD
+        <el-col :span="8" v-show="iscomplication">
+          <el-form-item label="并发症 : ">
+            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange">
+              <el-option
+                v-for="item in sfbfz"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+=======
+      </el-row>
+
       <h2>并发症</h2>
       <el-row :gutter="0">
         <el-col :span="8">
@@ -264,10 +406,13 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
               ></el-option>
             </el-select>
           </el-form-item>
         </el-col>
+<<<<<<< HEAD
+=======
         <el-col :span="8" v-show="iscomplication">
           <el-form-item label="并发症 : ">
             <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange">
@@ -280,6 +425,7 @@
             </el-select>
           </el-form-item>
         </el-col>
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
         <el-col :span="8" v-show="iscomplicationName">
           <el-form-item label="具体症状：">
             <el-select v-model="form.complication" multiple>
@@ -296,6 +442,7 @@
       <h2>用药情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
+<<<<<<< HEAD
           <el-form-item label="是否需要 : ">
             <el-select v-model="form.visitRecordContent.isNeed" placeholder="请选择">
               <el-option
@@ -303,6 +450,15 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
+=======
+          <el-form-item label="依从性 : ">
+            <el-select v-model="form.medicationCompliance">
+              <el-option
+                v-for="item in sfmedicationCompliance"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
               ></el-option>
             </el-select>
           </el-form-item>
@@ -337,6 +493,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="80">
+<<<<<<< HEAD
         <el-col :span="8">
           <el-form-item label="用药次数 : ">
             <el-select v-model="form.visitRecordContent.dosage" placeholder="请选择">
@@ -347,6 +504,11 @@
                 :value="item.value"
               ></el-option>
             </el-select>
+=======
+        <el-col :span="24">
+          <el-form-item>
+            <el-button style="width:95%;background:#eee;" @click.prevent="addDosage">新增</el-button>
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
           </el-form-item>
         </el-col>
       </el-row>
@@ -369,12 +531,71 @@
           </el-form-item>
         </el-col>
       </el-row>
+<<<<<<< HEAD
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否按时复诊 : ">
             <el-select v-model="form.visitRecordContent.isOnSchedule">
               <el-option
                 v-for="item in sfisOnSchedule"
+=======
+
+      <h2>异常化验项目</h2>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="白细胞">
+            <el-input v-model="form.visitRecordContent.whiteBloodCell" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="血小板">
+            <el-input v-model="form.visitRecordContent.platelet" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="血钾">
+            <el-input v-model="form.visitRecordContent.bloodPotassium" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="血钙">
+            <el-input v-model="form.visitRecordContent.bloodCalcium" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="凝血">
+            <el-input v-model="form.visitRecordContent.blood_coagulation" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="甘油三脂">
+            <el-input v-model="form.visitRecordContent.threeFat" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="其他">
+            <el-input v-model="form.visitRecordContent.other" placeholder="自定义"></el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <h2>健康教育知晓</h2>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="是否进行健康指导 : ">
+            <el-select
+              v-model="form.visitRecordContent.healthGuidance"
+              @change="healthGuidanceChange"
+            >
+              <el-option
+                v-for="item in sfhealthGuidance"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :value="item.value"
                 :label="item.label"
@@ -382,11 +603,18 @@
             </el-select>
           </el-form-item>
         </el-col>
+<<<<<<< HEAD
         <el-col :span="8">
           <el-form-item label="是否预约复诊 : ">
             <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
               <el-option
                 v-for="item in sfappointmentRevisit"
+=======
+        <el-col :span="8" v-show="ishealthGuidanceContent">
+          <el-form-item label="健康指导内容  : ">
+            <el-select v-model="form.visitRecordContent.healthGuidanceContent">
+              <el-option
+                v-for="item in sfhealthGuidanceContent"
                 :key="item.value"
                 :value="item.value"
                 :label="item.label"
@@ -395,10 +623,34 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <h2>随访记录</h2>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="已提醒复诊 : ">
+            <el-select v-model="form.reminderRevisit">
+              <el-option
+                v-for="item in sfreminderRevisit"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+<<<<<<< HEAD
+      </el-row>
       <el-row>
       <el-col :span="8">
           <el-form-item label="上次复诊情况 : ">
             <el-select v-model="form.visitRecordContent.subsequentVisit" @change="appointmentRevisitChange">
+=======
+        <el-col :span="8">
+          <el-form-item label="已预约复诊 : ">
+            <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
               <el-option
                 v-for="item in sfappointmentRevisit"
                 :key="item.value"
@@ -410,12 +662,21 @@
         </el-col>
       </el-row>
 
+<<<<<<< HEAD
       <el-row>
       <el-col :span="8">
           <el-form-item label="疾病指导 : ">
             <el-select v-model="form.visitRecordContent.sickness" >
               <el-option
                 v-for="item in sfsickness"
+=======
+      <el-row :gutter="80" v-show="isAppointmentRevisit">
+        <el-col :span="8">
+          <el-form-item label="预约科室 : ">
+            <el-select v-model="form.department">
+              <el-option
+                v-for="item in sfdepartment"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :value="item.value"
                 :label="item.label"
@@ -424,6 +685,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+<<<<<<< HEAD
           <el-form-item label="疾病知晓度 : ">
             <el-select v-model="form.sicknessKnow">
               <el-option
@@ -442,6 +704,26 @@
             <el-select v-model="form.satisfactionSurvey">
               <el-option
                 v-for="item in sfsatisfactionSurvey"
+=======
+          <el-form-item label="复诊时间 : ">
+            <el-date-picker
+              v-model="form.revisitTime"
+              type="date"
+              placeholder="选择日期"
+              format="yyyy - MM - dd "
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="健康知晓度 : ">
+            <el-select v-model="form.healthAwareness">
+              <el-option
+                v-for="item in sfhealthAwareness"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
                 :key="item.value"
                 :value="item.value"
                 :label="item.label"
@@ -450,6 +732,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+<<<<<<< HEAD
           <el-form-item label="患者提出的问题 : ">
             <el-input v-model="form.visitRecordContent.question"></el-input>
           </el-form-item>
@@ -464,6 +747,15 @@
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
+=======
+          <el-form-item label="满意度调研 : ">
+            <el-select v-model="form.satisfactionSurvey">
+              <el-option
+                v-for="item in sfsatisfactionSurvey"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
               ></el-option>
             </el-select>
           </el-form-item>
@@ -472,7 +764,11 @@
       <el-form-item label="此次随访建议 : ">
         <el-input type="textarea" v-model="form.remark"></el-input>
       </el-form-item>
+<<<<<<< HEAD
       
+=======
+
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit">完成随访</el-button>
         <el-button @click="cancelBtn">取消</el-button>
@@ -504,8 +800,11 @@ export default {
           dosages: [{ value: "", frequency: 0, dose: 0 }] //用药情况
         }
       },
+<<<<<<< HEAD
       //异常指标
       anomalyIndex: [{value: 0, label: "无"}, {value: 1, label: "有"}],
+=======
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
       // 随访状态
       sfstatus: [{ value: 0, label: "未完成" }, { value: 1, label: "已完成" }],
       // 随访结果
@@ -540,6 +839,7 @@ export default {
       // 症状
       sfsymptom: [{ value: 0, label: "无症状" }, { value: 1, label: "有症状" }],
       sfsymptomName: [],
+<<<<<<< HEAD
       //个人卫生
       sfhygiene: [
         { value: 0, label: "会阴护理" },
@@ -607,6 +907,9 @@ export default {
       //低脂饮食
       sflfat: [{ value: 1, label: "是" }, { value: 0, label: "否" }],
       //总体评估
+=======
+      // 总体评估
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
       sflifeAssessment: [
         { value: 0, label: "无改善" },
         { value: 1, label: "有改善" }
@@ -643,8 +946,13 @@ export default {
       // 依从性
       sfmedicationCompliance: [
         { value: 0, label: "不服药" },
+<<<<<<< HEAD
         { value: 1, label: "部分依从" },
         { value: 2, label: "完全依从" }
+=======
+        { value: 1, label: "间断" },
+        { value: 2, label: "规律" }
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
       ],
       // 药物不良反应
       sfreactions: [
@@ -696,7 +1004,11 @@ export default {
       ishealthGuidanceContent: false, //健康指导内容输入框
       iscomplication: false, //并发症选择框
       iscomplicationName: false, //具体并发症选择框
+<<<<<<< HEAD
       issfsymptomName: false, //症状选择框
+=======
+      issfsymptomName: false, //症状名称
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
       bfzClassify: "", //并发症类型
       complicationName: "", //并发症名字
       personInfoId: "",
@@ -716,7 +1028,7 @@ export default {
       if (val == 1) {
         this.issfsymptomName = true;
         this.$http
-          .get("/api" + "/common/getDataList?dataType=1&sourceType=1")
+          .get("/api" + "/common/getDataList?dataType=1")
           .then(res => {
             this.sfsymptomName = res.data;
           })
@@ -727,6 +1039,7 @@ export default {
         this.issfsymptomName = false;
       }
     },
+<<<<<<< HEAD
     //选择有无异常指标决定是否弹出指标值输入框
     isanomalyIndex(val){
       if (val == 1) {
@@ -736,6 +1049,9 @@ export default {
       }
     },
     //选择是否有药物不良反应决定是否弹出要不不良反应输入框
+=======
+    // 选择是否有药物不良反应决定是否弹出不良反应输入框
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
     reactionsChange(val) {
       if (val == 1) {
         this.isReactions = true;
@@ -743,7 +1059,7 @@ export default {
         this.isReactions = false;
       }
     },
-    //选择是否戒烟决定是否弹出抽烟情况输入框
+    // 选择是否戒烟决定是否弹出抽烟情况输入框
     smokingVolumeChange(val) {
       if (val == 0) {
         this.isSmokingAmount = true;
@@ -751,7 +1067,7 @@ export default {
         this.isSmokingAmount = false;
       }
     },
-    //选择是否戒酒决定是否弹出饮酒情况输入框
+    // 选择是否戒酒决定是否弹出饮酒情况输入框
     alcoholConsumptionChange(val) {
       if (val == 0) {
         this.isAlcoholConsumptionAmount = true;
@@ -779,14 +1095,7 @@ export default {
     complicationChange(val) {
       if (val == 1) {
         this.iscomplication = true;
-        this.$http
-          .get("/api" + "/common/getDataList?dataType=2&sourceType=1")
-          .then(res => {
-            this.sfbfz = res.data;
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        this.getComplicationList(); //获取并发症列表
       } else {
         this.iscomplication = false;
       }
@@ -799,7 +1108,7 @@ export default {
         dose: 0
       });
     },
-    //删除一条用药情况
+    // 删除一条用药情况
     removeDosage(item) {
       var index = this.form.visitRecordContent.dosages.indexOf(item);
       if (index !== -1) {
@@ -818,9 +1127,7 @@ export default {
         this.iscomplicationName = false;
       }
       this.$http
-        .get(
-          "/api" + "/common/getDataList?dataType=2&sourceType=1&dataNum=" + val
-        )
+        .get("/api" + "/common/getDataList?dataType=2&dataNum=" + val)
         .then(res => {
           console.log(res)
           this.sfbfzName = res.data;
@@ -831,13 +1138,32 @@ export default {
     },
     //点击完成随访
     onSubmit() {
+<<<<<<< HEAD
+=======
+      if (this.form.status === undefined) {
+        this.$message.warning("随访状态未选择！");
+        return;
+      }
+      if (this.form.result === undefined) {
+        this.$message.warning("随访结果未选择！");
+        return;
+      }
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
       if (this.form.type === undefined) {
         this.$message.warning("随访方式未选择！");
         return;
       }
+      if (this.form.dischargeStatus === undefined) {
+        this.$message.warning("出院/转院情况未选择！");
+        return;
+      }
+      if (this.form.assessment === undefined) {
+        this.$message.warning("本次随访评估未选择！");
+        return;
+      }
       var formData = this.form;
-      formData.patientId = this.personInfo.id; //患者ID，必传
-      formData.visitAuthor = this.$store.state.user.user.id; //从store中获取用户ID，在这被作为随访人员ID
+      formData.patientId = this.personInfo.id; // 患者ID，必传
+      formData.visitAuthor = this.$store.state.user.user.id; // 从store中获取用户ID，在这被作为随访人员ID
       // 数组转字符串complication
       if (formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(",");
@@ -849,10 +1175,14 @@ export default {
       formData.visitRecordContent = str;
       // 发送新增随访请求
       this.$http
+<<<<<<< HEAD
         .post(
           "/api" + `/visitRecord/insertVisitRecord?template_type=1`,
           formData
         )
+=======
+        .post("/api" + `/visitRecord/insertVisitRecord?template_type=0`, formData)
+>>>>>>> 112e16b30f843c4eaad469118f1a161c44680bec
         .then(res => {
           if (res.data) {
             this.$message.success("新增随访成功！");
