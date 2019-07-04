@@ -517,7 +517,6 @@ export default {
   width: 100%;
   height: auto;
   min-height: 100%;
-  /*padding: 30px 50px 80px 50px;*/
   background-color: #fff;
   padding: 0 20px;
 }
@@ -532,7 +531,6 @@ export default {
 
 .cr_title {
   height: 170px;
-  /*background-color: #2DB7F5;*/
   border-bottom: 1px solid #999;
   margin-bottom: 30px;
   line-height: 170px;

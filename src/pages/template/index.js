@@ -56,6 +56,71 @@ export default {
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
       sfsymptomName: [],
+      // 个人卫生
+      sfhygiene: [
+        { value: 0, label: '会阴护理' },
+        { value: 1, label: '刷牙' },
+        { value: 2, label: '洗脚' },
+        { value: 3, label: '淋浴' }
+      ],
+      // 心理状况
+      sfpsychology: [
+        { value: 0, label: '愉悦' },
+        { value: 1, label: '低落' },
+        { value: 2, label: '感觉身心疲惫' }
+      ],
+      // 母乳喂养
+      sfbreastFeeding: [
+        { value: 0, label: '纯母乳喂养' },
+        { value: 1, label: '混合喂养' },
+        { value: 2, label: '人工喂养' }
+      ],
+      // 新生儿黄疸
+      sfjaundice: [
+        { value: 0, label: '已退' },
+        { value: 1, label: '轻' },
+        { value: 2, label: '重' }
+      ],
+      // 脐带脱落
+      sffunicle: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
+      // 疫苗接种
+      sfvaccine: [
+        { value: 1, label: '正常接种' },
+        { value: 0, label: '需要补种' }
+      ],
+      // 皮肤清洁
+      sfskin: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
+      // 睡眠情况
+      sfsleep: [
+        { value: 2, label: '良好' },
+        { value: 1, label: '一般' },
+        { value: 0, label: '差' }
+      ],
+      // 生活自理情况
+      sflife: [
+        { value: 0, label: '完全自理' },
+        { value: 1, label: '部分自理' },
+        { value: 2, label: '完全不能自理' }
+      ],
+      // 营养均衡
+      sfnutrition: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
+      // 饮食习惯
+      sfdiet: [
+        { value: 0, label: '喜甜' },
+        { value: 1, label: '喜咸' },
+        { value: 2, label: '喜烫食' },
+        { value: 3, label: '喜油炸' }
+      ],
+      // 水果蔬菜
+      sffruits: [{ value: 0, label: '少' }, { value: 1, label: '多' }],
+      // 奶豆
+      sfmilk: [{ value: 0, label: '少' }, { value: 1, label: '多' }],
+      // 饮食次数
+      sfeat: [{ value: 0, label: '3次' }, { value: 1, label: '多于3次' }],
+      // 低盐饮食
+      sflsalt: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
+      // 低脂饮食
+      sflfat: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
       // 总体评估
       sflifeAssessment: [
         { value: 0, label: '无改善' },
