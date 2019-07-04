@@ -140,6 +140,18 @@
           </el-form-item>
         </el-col>
         <el-col :span="8">
+          <el-form-item label="心理状况 : ">
+            <el-select v-model="form.region" placeholder="请选择">
+              <el-option
+                v-for="item in sfregion"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
           <el-form-item label="母乳喂养 : ">
             <el-select v-model="form.visitRecordContent.breastFeeding" placeholder="请选择">
               <el-option
@@ -152,7 +164,33 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h3>新生儿护理</h3>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="睡眠情况 : ">
+            <el-select v-model="form.visitRecordContent.sleep" placeholder="请选择">
+              <el-option
+                v-for="item in sfsleep"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="生活自理情况 : ">
+            <el-select v-model="form.visitRecordContent.life" placeholder="请选择">
+              <el-option
+                v-for="item in sflife"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <h2>新生儿护理</h2>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="新生儿黄疸 : ">
@@ -197,32 +235,6 @@
             <el-select v-model="form.visitRecordContent.skin" placeholder="请选择">
               <el-option
                 v-for="item in sfskin"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="睡眠情况 : ">
-            <el-select v-model="form.visitRecordContent.sleep" placeholder="请选择">
-              <el-option
-                v-for="item in sfsleep"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="生活自理情况 : ">
-            <el-select v-model="form.visitRecordContent.life" placeholder="请选择">
-              <el-option
-                v-for="item in sflife"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
@@ -322,6 +334,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <h2>运动情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="运动(次/周)">
@@ -331,20 +344,6 @@
         <el-col :span="8">
           <el-form-item label="运动(分钟/次)">
             <el-input-number v-model="form.motionLength" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="心理状况 : ">
-            <el-select v-model="form.region" placeholder="请选择">
-              <el-option
-                v-for="item in sfregion"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
           </el-form-item>
         </el-col>
       </el-row>
@@ -801,7 +800,6 @@ export default {
     this.personInfoId = this.$route.params.id;
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo")); //从session中获取患者信息
     this.getMedicalList(); //获取科室列表
-    this.getSymptomList(); //获取症状列表
   },
   mounted() {},
   methods: {
@@ -821,7 +819,7 @@ export default {
         this.issfsymptomName = false;
       }
     },
-    //选择是否有药物不良反应决定是否弹出要不不良反应输入框
+    //选择是否有药物不良反应决定是否弹出药物不良反应输入框
     reactionsChange(val) {
       if (val == 1) {
         this.isReactions = true;
