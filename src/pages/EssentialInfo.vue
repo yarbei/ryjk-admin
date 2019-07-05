@@ -180,7 +180,7 @@
             <el-button
               class="f-right"
               type="primary"
-              @click="createVisit"
+              @click="createVisit(item.planId)"
               :disabled="item.status==1?true:false"
             >去随访</el-button>
           </el-row>
@@ -476,7 +476,6 @@ export default {
             `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=${this}`
         )
         .then(res => {
-          console.log(res);
           if (res.data.length == 0) {
             this.getSignStatus = true;
           } else {
@@ -537,8 +536,8 @@ export default {
         });
     },
     // 去随访
-    createVisit() {
-      this.$router.push("/followupplan");
+    createVisit(planId) {
+      this.$router.push({path:"/followupplan",query:{planId:planId}});
     }
   }
 };

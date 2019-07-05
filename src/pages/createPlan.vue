@@ -65,6 +65,9 @@ export default {
           value: 2
         },
         {
+          value: 3
+        },
+        {
           value: 4
         },
         {
@@ -196,11 +199,11 @@ export default {
         monitorItem: this.slectedBodySignList.join(","),
         item: list
       };
-      if(params.name==''){
+      if (params.name == "") {
         this.$$message.warning("请填写计划名称！");
         return;
       }
-      if(params.createDate==''){
+      if (params.createDate == "") {
         this.$$message.warning("请选择计划时间！");
         return;
       }

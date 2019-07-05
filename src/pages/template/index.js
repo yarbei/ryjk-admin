@@ -1,5 +1,3 @@
-/* eslint-disable no-redeclare */
-/* eslint-disable eqeqeq */
 import ElCol from 'element-ui/packages/col/src/col'
 import ElButton from '../../../node_modules/element-ui/packages/button/src/button.vue'
 import tabHeader from '../../components/tabHeader'
@@ -22,6 +20,18 @@ export default {
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
+      isReactions: false, // 药物不良反应输入框
+      isSmokingAmount: false, // 抽烟情况输入框
+      isAlcoholConsumptionAmount: false, // 饮酒情况输入框
+      isAppointmentRevisit: false, // 预约科室及复诊时间输入框
+      ishealthGuidanceContent: false, // 健康指导内容输入框
+      iscomplication: false, // 并发症选择框
+      iscomplicationName: false, // 具体并发症选择框
+      issfsymptomName: false, // 症状名称
+      isrheumatoid: false, // 类风湿结节触及部位输入框
+      personInfoId: '', // 患者Id
+      personInfo: {}, // 患者信息
+      planId: '', // 计划Id
       // 随访状态
       sfstatus: [{ value: 0, label: '未完成' }, { value: 1, label: '已完成' }],
       // 随访结果
@@ -56,6 +66,11 @@ export default {
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
       sfsymptomName: [],
+      // 类风湿结节触及部位
+      sfrheumatoid: [
+        { value: 0, label: '未触及' },
+        { value: 1, label: '已触及' }
+      ],
       // 个人卫生
       sfhygiene: [
         { value: 0, label: '会阴护理' },
@@ -203,25 +218,13 @@ export default {
         { value: 1, label: '基本满意' },
         { value: 2, label: '满意' },
         { value: 3, label: '非常满意' }
-      ],
-      isReactions: false, // 药物不良反应输入框
-      isSmokingAmount: false, // 抽烟情况输入框
-      isAlcoholConsumptionAmount: false, // 饮酒情况输入框
-      isAppointmentRevisit: false, // 预约科室及复诊时间输入框
-      ishealthGuidanceContent: false, // 健康指导内容输入框
-      iscomplication: false, // 并发症选择框
-      iscomplicationName: false, // 具体并发症选择框
-      issfsymptomName: false, // 症状名称
-      bfzClassify: '', // 并发症类型
-      complicationName: '', // 并发症名字
-      personInfoId: '',
-      personInfo: {}
+      ]
     }
   },
   methods: {
     // 选择是否有症状决定是否弹出症状选择框
     sfsymptomChange (event, sourceType) {
-      if (event == 1) {
+      if (event === 1) {
         this.issfsymptomName = true
         this.$http
           .get('/api' + '/common/getDataList?dataType=1&sourceType=' + sourceType)
@@ -237,7 +240,7 @@ export default {
     },
     // 选择是否有药物不良反应决定是否弹出不良反应输入框
     reactionsChange (event) {
-      if (event == 1) {
+      if (event === 1) {
         this.isReactions = true
       } else {
         this.isReactions = false
@@ -245,7 +248,7 @@ export default {
     },
     // 选择是否戒烟决定是否弹出抽烟情况输入框
     smokingVolumeChange (event) {
-      if (event == 0) {
+      if (event === 0) {
         this.isSmokingAmount = true
       } else {
         this.isSmokingAmount = false
@@ -253,7 +256,7 @@ export default {
     },
     // 选择是否戒酒决定是否弹出饮酒情况输入框
     alcoholConsumptionChange (event) {
-      if (event == 0) {
+      if (event === 0) {
         this.isAlcoholConsumptionAmount = true
       } else {
         this.isAlcoholConsumptionAmount = false
@@ -261,7 +264,7 @@ export default {
     },
     // 选择是否预约复诊决定是否弹出预约科室及复诊时间输入框
     appointmentRevisitChange (event) {
-      if (event == 1) {
+      if (event === 1) {
         this.isAppointmentRevisit = true
         this.$http
           .get(
@@ -280,7 +283,7 @@ export default {
     },
     // 选择是否进行健康指导决定是否显示健康指导内容输入框
     healthGuidanceChange (event) {
-      if (event == 1) {
+      if (event === 1) {
         this.ishealthGuidanceContent = true
       } else {
         this.ishealthGuidanceContent = false
@@ -288,7 +291,7 @@ export default {
     },
     // 选择是否有并发症决定是否弹出并发症选择框
     complicationChange (event, sourceType) {
-      if (event == 1) {
+      if (event === 1) {
         this.iscomplication = true
         this.$http
           .get('/api' + '/common/getDataList?dataType=2&sourceType=' + sourceType)
@@ -332,7 +335,6 @@ export default {
       if (index !== -1) {
         this.form.visitRecordContent.dosages.splice(index, 1)
       }
-      var index = this.form.visitRecordContent.dosages.indexOf(item)
       if (index !== -1) {
         this.form.visitRecordContent.dosages.splice(index, 1)
       }
@@ -375,7 +377,7 @@ export default {
       // 发送新增随访请求
       this.$http
         .post(
-          '/api' + '/visitRecord/insertVisitRecord?templateType=' + templateType,
+          '/api' + '/visitRecord/insertVisitRecord?planId=' + this.planId + '&templateType=' + templateType,
           formData
         )
         .then(res => {
@@ -399,20 +401,10 @@ export default {
     // 返回按钮
     cancelBtn () {
       this.$router.go(-1)
-    },
-    handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
-        .catch(_ => { })
-    },
-    handleClick (tab, event) {
-      console.log(tab, event)
     }
   },
   created () {
-    this.personInfoId = this.$route.params.id
+    this.planId = this.$route.query.planId // 获取计划Id
     this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息
   }
 }
