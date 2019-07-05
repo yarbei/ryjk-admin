@@ -1,6 +1,5 @@
 /* eslint-disable no-redeclare */
 /* eslint-disable eqeqeq */
-import Vue from 'Vue'
 import ElCol from 'element-ui/packages/col/src/col'
 import ElButton from '../../../node_modules/element-ui/packages/button/src/button.vue'
 import tabHeader from '../../components/tabHeader'
@@ -19,7 +18,7 @@ export default {
         motionLength: 0,
         visitRecordContent: {
           reactions: {}, // 药物不良反应
-          rheumatoid:{},//类风湿结节触及部位
+          rheumatoid: {}, // 类风湿结节触及部位
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
