@@ -113,7 +113,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="16" v-show="isrheumatoid">
-          <el-form-item label="部位：">
+          <el-form-item label="触及部位：">
             <el-input v-model="form.visitRecordContent.rheumatoid.desc" placeholder="请输入内容"></el-input>
           </el-form-item>
         </el-col>

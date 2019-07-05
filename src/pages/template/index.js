@@ -12,11 +12,9 @@ export default {
       form: {
         visitAuthor: '',
         patientId: '',
-        motionNum: 0,
-        motionLength: 0,
         visitRecordContent: {
-          reactions: {}, // 药物不良反应
-          rheumatoid: {}, // 类风湿结节触及部位
+          reactions: {value: '', desc: ''}, // 药物不良反应
+          rheumatoid: {value: '', desc: ''}, // 类风湿结节触及部位
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
@@ -365,11 +363,13 @@ export default {
       var formData = this.form
       formData.patientId = this.personInfo.id // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
+      formData.planId = this.planId // 计划Id
+      formData.templateType = templateType // 模板Id
       // 数组转字符串complication
-      if (formData.complication instanceof Array) {
+      if (formData.complication && formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(',')
       }
-      if (formData.symptom instanceof Array) {
+      if (formData.symptom && formData.symptom instanceof Array) {
         formData.symptom = this.form.symptom.join(',')
       }
       var str = JSON.stringify(formData.visitRecordContent)
@@ -377,7 +377,7 @@ export default {
       // 发送新增随访请求
       this.$http
         .post(
-          '/api' + '/visitRecord/insertVisitRecord?planId=' + this.planId + '&templateType=' + templateType,
+          '/api' + '/visitRecord/insertVisitRecord',
           formData
         )
         .then(res => {
