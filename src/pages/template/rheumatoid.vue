@@ -102,7 +102,7 @@
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="类风湿结节部位 : ">
-            <el-select v-model="form.visitRecordContent.rheumatoid.value" @change="reactionsChange">
+            <el-select v-model="form.visitRecordContent.rheumatoid.value" @change="selectChange($event,'isrheumatoid')">
               <el-option
                 v-for="item in sfrheumatoid"
                 :key="item.value"
@@ -117,11 +117,11 @@
             <el-input v-model="form.visitRecordContent.rheumatoid.desc" placeholder="请输入内容"></el-input>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <!-- <el-col :span="8">
           <el-form-item label="低压(mmHg)" label-position="right">
             <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
           </el-form-item>
-        </el-col>
+        </el-col> -->
       </el-row>
       <h2>生活方式</h2>
       <el-row :gutter="80">

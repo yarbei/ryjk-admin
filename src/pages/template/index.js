@@ -220,6 +220,19 @@ export default {
     }
   },
   methods: {
+    // selectChange (event, data) {
+    //   if (event === 1) {
+    //     switch(data){
+    //       case 'isrheumatoid':
+    //         this.isrheumatoid=true;
+    //         break;
+    //         default;
+    //     }
+    //   } else {
+    //     this.data = false
+    //   }
+    //   console.log(data)
+    // },
     // 选择是否有症状决定是否弹出症状选择框
     sfsymptomChange (event, sourceType) {
       if (event === 1) {

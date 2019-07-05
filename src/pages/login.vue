@@ -7,7 +7,11 @@
           <img src="../assets/logo.png" alt class="logo" />
         </div>
         <div class="m-list-group">
-          <div class="m-list-group-item m-list-group-select" style="padding: 0 !important;">
+          <div
+            class="m-list-group-item m-list-group-select"
+            style="padding: 0 !important;"
+            v-show="isselect"
+          >
             <el-select v-model="roleType" size="medium" placeholder="选择角色">
               <el-option
                 v-for="item in options"
@@ -38,85 +42,104 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapActions } from "vuex";
 
 export default {
-  name: 'login',
-  data () {
+  name: "login",
+  data() {
     return {
-      username: '',
-      password: '',
-      selectStr: '',
-      roleType: '',
+      username: "",
+      password: "",
+      selectStr: "",
+      roleType: "",
       isLoging: false,
+      isselect: false,
       author: window.APP_INFO.author,
       version: window.APP_INFO.version,
       appName: window.APP_INFO.appName,
       options: [
         {
           value: 2,
-          label: '疾病管理师 '
+          label: "疾病管理师 "
         },
         {
           value: 3,
-          label: '医生'
+          label: "医生"
         }
       ]
-    }
+    };
   },
   methods: {
-    ...mapActions(['login']),
-    userLogin () {
-      var that = this
+    ...mapActions(["login", "admin"]),
+    userLogin() {
+      var that = this;
       if (!this.username || !this.password) {
-        return this.$message.error('用户名和密码不能为空')
+        return this.$message.error("用户名和密码不能为空");
       }
-      if (that.roleType == '') {
-        return this.$message.error('未选择医院')
+      if (that.roleType == "") {
+        return this.$message.error("未选择角色");
       }
 
-      that.isLoging = true
+      that.isLoging = true;
       that.$http
         .get(
-          '/api' +
+          "/api" +
             `/user/login?userAccount=${that.username}&password=${that.password}&roleType=${that.roleType}`
         )
         .then(res => {
           if (res.data) {
-            that.$message.success('登录成功')
+            that.$message.success("登录成功");
 
-            sessionStorage.setItem('loginUser', JSON.stringify(res.data))
+            sessionStorage.setItem("loginUser", JSON.stringify(res.data));
 
-            that.$store.commit('SET_LOGIN_USER', res.data)
+            that.$store.commit("SET_LOGIN_USER", res.data);
 
             that.$store.commit(
-              'SET_LOGIN_TOKEN',
-              '4eea90fd-2752-481d-ae67-c75f8641a94a'
-            )
+              "SET_LOGIN_TOKEN",
+              "4eea90fd-2752-481d-ae67-c75f8641a94a"
+            );
 
-            that.isLoging = false
+            that.isLoging = false;
 
-            that.$router.push({ name: 'home' })
+            that.$router.push({ name: "home" });
           } else {
             that.$message({
-              message: '登录失败！',
-              type: 'error'
-            })
-            that.isLoging = false
+              message: "登录失败！",
+              type: "error"
+            });
+            that.isLoging = false;
           }
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     }
   },
-  created () {
-    var that = this
-    sessionStorage.removeItem('loginUser')
-    sessionStorage.removeItem('token')
-    that.$store.commit('SET_LOGIN_USER', null)
+  created() {
+    if (this.$route.name == "login") {
+      this.isselect = true;
+      this.roleType = '';
+    } else if (this.$route.name == "admin") {
+      this.isselect = false;
+      this.roleType = 0;
+    }
+    var that = this;
+    sessionStorage.removeItem("loginUser");
+    sessionStorage.removeItem("token");
+    that.$store.commit("SET_LOGIN_USER", null);
+  },
+  watch: {
+    $route(to, from) {
+      if (this.$route.name == "login") {
+        this.isselect = true;
+        this.roleType = '';
+      } else if (this.$route.name == "admin") {
+        this.isselect = false;
+        this.roleType = 0;
+      }
+    }
   }
-}
+};
 </script>
 
 
