@@ -98,7 +98,31 @@
           </el-form-item>
         </el-col>
       </el-row>
-
+      <h2>体征</h2>
+      <el-row :gutter="0">
+        <el-col :span="8">
+          <el-form-item label="类风湿结节部位 : ">
+            <el-select v-model="form.visitRecordContent.rheumatoid" @change="reactionsChange">
+              <el-option
+                v-for="item in sfrheumatoid"
+                :key="item.value"
+                :value="item.value"
+                :label="item.label"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16" v-show="isrheumatoid">
+          <el-form-item label="不良反应：">
+            <el-input v-model="form.visitRecordContent.rheumatoid.desc" placeholder="请输入内容"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="低压(mmHg)">
+            <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <h2>生活方式</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -114,7 +138,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="吸烟量 : ">
@@ -134,7 +157,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="饮酒量 : ">
@@ -224,7 +246,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <h2>并发症</h2>
       <el-row :gutter="0">
         <el-col :span="8">
@@ -268,7 +289,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <h2>用药情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -313,7 +333,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="药物不良反应 : ">
@@ -333,7 +352,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <h2>异常化验项目</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -352,7 +370,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="血钙">
@@ -370,7 +387,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="其他">
@@ -379,7 +395,6 @@
         </el-col>
       </el-row>
       <h2>健康教育知晓</h2>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否进行健康指导 : ">
@@ -409,9 +424,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <h2>随访记录</h2>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="已提醒复诊 : ">
@@ -438,7 +451,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80" v-show="isAppointmentRevisit">
         <el-col :span="8">
           <el-form-item label="预约科室 : ">
@@ -464,7 +476,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="健康知晓度 : ">

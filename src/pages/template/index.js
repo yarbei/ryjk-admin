@@ -19,6 +19,7 @@ export default {
         motionLength: 0,
         visitRecordContent: {
           reactions: {}, // 药物不良反应
+          rheumatoid:{},//类风湿结节触及部位
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
