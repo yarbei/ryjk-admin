@@ -168,7 +168,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" v-show="isSmokingAmount">
-          <el-form-item label="支/天">
+          <el-form-item label="现状(支/天)">
             <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
@@ -200,7 +200,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="现状(支/日)：">
+          <el-form-item label="现状(两/日)：">
             <el-input-number v-model="form.visitRecordContent.drinkingMeasure" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
@@ -386,6 +386,10 @@
         @listenSelect="reactionsSelect"
         @listenInput="reactionsInput"
       ></select-input>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 9bf10153b749085d3d152dcd6702e5c4c78ad926
        <h2>复诊情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">

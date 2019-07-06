@@ -84,12 +84,10 @@ export default {
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
       sfsymptomName: [],
-      // 体重
-      sfweight: [
-        {value: 0, label: '超重'},
-        {value: 1, label: '普通'},
-        {value: 2, label: '消瘦'},
-        {value: 3, label: '其他'}
+      // 异常指标
+      sfanomalyIndex: [
+        { value: 0, label: '无' },
+        { value: 1, label: '有' }
       ],
       // 个人卫生
       sfhygiene: [
@@ -216,6 +214,27 @@ export default {
         { value: 0, label: '不服药' },
         { value: 1, label: '间断' },
         { value: 2, label: '规律' }
+      ],
+
+      // 药物剂量
+      dosage: [
+        { value: 0, label: '超过剂量' },
+        { value: 1, label: '不足剂量' }
+      ],
+      // 用药次数
+      sfpharmacy: [
+        { value: 0, label: '减少' },
+        { value: 1, label: '增加' }
+      ],
+      // 是否需要用药
+      sfisNeed: [
+        { value: 0, label: '不需要服药' },
+        { value: 1, label: '需要服药' }
+      ],
+      // 用药剂量
+      sfdosage: [
+        { value: 0, label: '不足剂量' },
+        { value: 1, label: '超过剂量' }
       ],
       // 健康指导
       sfhealthGuidance: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
