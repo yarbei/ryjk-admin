@@ -41,6 +41,33 @@
           </el-form-item>
         </el-col>
       </el-row>
+
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="出院/转出情况:">
+            <el-select v-model="form.dischargeStatus" placeholder="请选择">
+              <el-option
+                v-for="item in sfdischargeStatus"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="本次随访评估:">
+            <el-select v-model="form.assessment" placeholder="请选择">
+              <el-option
+                v-for="item in sfassessment"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <h2>目前症状</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -74,7 +101,7 @@
       </el-row>
       <h2>体征</h2>
       <el-row :gutter="80">
-        <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">体重</el-col>
+        <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">体重</el-col>
         <el-col :span="8">
           <el-form-item label="KG">
             <el-input-number v-model="form.visitRecordContent.weight" :min="0" :max="9999"></el-input-number>
@@ -94,20 +121,20 @@
         </el-col>
       </el-row>
       <el-row :gutter="80">
-        <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
+        <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
         <el-col :span="8">
           <el-form-item label="高压(mmHg)">
             <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="80">
           <el-form-item label="低压(mmHg)">
             <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="0">
-        <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">化验数值</el-col>
+      <el-row :gutter="80">
+        <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">化验数值</el-col>
         <el-col :span="8">
           <el-form-item label="白细胞(WBC)">
             <el-input-number v-model="form.visitRecordContent.hemameba" :min="0" :max="9999">/L</el-input-number>
@@ -115,7 +142,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="80">
-        <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">体温</el-col>
+        <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">体温</el-col>
         <el-col :span="8">
           <el-form-item label="体温">
             <el-input-number v-model="form.visitRecordContent.animalheat" :min="0" :max="9999">℃</el-input-number>
@@ -123,7 +150,7 @@
         </el-col>
       </el-row>
       <el-row :gutter="80">
-        <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">异常指标</el-col>
+        <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">异常指标</el-col>
         <el-col :span="8">
           <el-form-item label="指标值">
             <el-input-number v-model="form.visitRecordContent.anomalyIndexValue" :min="0" :max="9999"></el-input-number>
@@ -133,20 +160,8 @@
       <h2>生活方式</h2>
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="吸烟史 : ">
-            <el-select v-model="form.visitRecordContent.smokingHistory" placeholder="请选择">
-              <el-option
-                v-for="item in sfsmokingHistory"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="是否戒烟 : ">
-            <el-select v-model="form.visitRecordContent.isQuitSmoking" placeholder="请选择">
+          <el-form-item label="吸烟量 : ">
+            <el-select v-model="form.smokingVolume" @change="smokingVolumeChange" placeholder="请选择">
               <el-option
                 v-for="item in sfsmokingVolume"
                 :key="item.value"
@@ -162,22 +177,15 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="饮酒史 : ">
-            <el-select v-model="form.visitRecordContent.drinkingHistory" placeholder="请选择">
-              <el-option
-                v-for="item in sfdrinkingHistory"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-          <el-col :span="8">
-          <el-form-item label="是否戒酒 : ">
-            <el-select v-model="form.visitRecordContent.isAbstinence" placeholder="请选择">
+          <el-form-item label="饮酒量 : ">
+            <el-select
+              v-model="form.alcoholConsumption"
+              @change="alcoholConsumptionChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfalcoholConsumption"
                 :key="item.value"
@@ -187,9 +195,13 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="现状：">
-            <el-input-number v-model="form.visitRecordContent.drinkingMeasure" :min="0" :max="9999">支/日</el-input-number>
+        <el-col :span="8" v-show="isAlcoholConsumptionAmount">
+          <el-form-item label="ML/天">
+            <el-input-number
+              v-model="form.visitRecordContent.alcoholConsumptionAmount"
+              :min="0"
+              :max="9999"
+            ></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
