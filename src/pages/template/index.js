@@ -1,11 +1,13 @@
 import ElCol from 'element-ui/packages/col/src/col'
 import ElButton from '../../../node_modules/element-ui/packages/button/src/button.vue'
 import tabHeader from '../../components/tabHeader'
+import SelectInput from './selectInput.vue'
 export default {
   components: {
     ElButton,
     ElCol,
-    tabHeader
+    tabHeader,
+    SelectInput
   },
   data () {
     return {
@@ -18,18 +20,36 @@ export default {
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
-      isReactions: false, // 药物不良反应输入框
       isSmokingAmount: false, // 抽烟情况输入框
       isAlcoholConsumptionAmount: false, // 饮酒情况输入框
-      isAppointmentRevisit: false, // 预约科室及复诊时间输入框
-      ishealthGuidanceContent: false, // 健康指导内容输入框
+      isAppointmentRevisit: false, // 预约科室及复诊时间下拉框
+      ishealthGuidanceContent: false, // 健康指导内容下拉框
       iscomplication: false, // 并发症选择框
       iscomplicationName: false, // 具体并发症选择框
       issfsymptomName: false, // 症状名称
-      isrheumatoid: false, // 类风湿结节触及部位输入框
       personInfoId: '', // 患者Id
       personInfo: {}, // 患者信息
       planId: '', // 计划Id
+      // 药物不良反应传入子组件的数据
+      reactionsData: {
+        selectLabel: '药物不良反应：', // select选择框的label值
+        inputLabel: '不良反应情况：', // input输入框的label值
+        // select下拉框的内容
+        option: [
+          { value: 0, label: '无不良反应' },
+          { value: 1, label: '有不良反应' }
+        ]
+      },
+      // 类风湿结节触及部位传入子组件的数据
+      rheumatoidData: {
+        selectLabel: '类风湿结节部位：', // select选择框的label值
+        inputLabel: '触及部位：', // input输入框的label值
+        // select下拉框的内容
+        option: [
+          {value: 0, label: '未触及'},
+          {value: 1, label: '已触及'}
+        ]
+      },
       // 随访状态
       sfstatus: [{ value: 0, label: '未完成' }, { value: 1, label: '已完成' }],
       // 随访结果
@@ -64,10 +84,12 @@ export default {
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
       sfsymptomName: [],
-      // 类风湿结节触及部位
-      sfrheumatoid: [
-        { value: 0, label: '未触及' },
-        { value: 1, label: '已触及' }
+      // 体重
+      sfweight: [
+        {value: 0, label: '超重'},
+        {value: 1, label: '普通'},
+        {value: 2, label: '消瘦'},
+        {value: 3, label: '其他'}
       ],
       // 个人卫生
       sfhygiene: [
@@ -174,11 +196,6 @@ export default {
         { value: 1, label: '间断' },
         { value: 2, label: '规律' }
       ],
-      // 药物不良反应
-      sfreactions: [
-        { value: 0, label: '无不良反应' },
-        { value: 1, label: '有不良反应' }
-      ],
       // 健康指导
       sfhealthGuidance: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
       // 健康指导内容
@@ -220,19 +237,20 @@ export default {
     }
   },
   methods: {
-    // selectChange (event, data) {
-    //   if (event === 1) {
-    //     switch(data){
-    //       case 'isrheumatoid':
-    //         this.isrheumatoid=true;
-    //         break;
-    //         default;
-    //     }
-    //   } else {
-    //     this.data = false
-    //   }
-    //   console.log(data)
-    // },
+    // 类风湿结节部位输入框父组件接受子组件的值并放入
+    rheumatoidSelect (data) {
+      this.form.visitRecordContent.rheumatoid.value = data
+    },
+    rheumatoidInput (data) {
+      this.form.visitRecordContent.rheumatoid.desc = data
+    },
+    // 药物不良反应输入框父组件接受子组件的值并放入
+    reactionsSelect (data) {
+      this.form.visitRecordContent.reactions.value = data
+    },
+    reactionsInput (data) {
+      this.form.visitRecordContent.reactions.desc = data
+    },
     // 选择是否有症状决定是否弹出症状选择框
     sfsymptomChange (event, sourceType) {
       if (event === 1) {
@@ -247,14 +265,6 @@ export default {
           })
       } else {
         this.issfsymptomName = false
-      }
-    },
-    // 选择是否有药物不良反应决定是否弹出不良反应输入框
-    reactionsChange (event) {
-      if (event === 1) {
-        this.isReactions = true
-      } else {
-        this.isReactions = false
       }
     },
     // 选择是否戒烟决定是否弹出抽烟情况输入框

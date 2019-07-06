@@ -76,7 +76,7 @@ export default {
       if (!this.username || !this.password) {
         return this.$message.error("用户名和密码不能为空");
       }
-      if (that.roleType == "") {
+      if (that.roleType == null) {
         return this.$message.error("未选择角色");
       }
 
@@ -123,6 +123,7 @@ export default {
       this.isselect = false;
       this.roleType = 0;
     }
+    console.log(this.roleType)
     var that = this;
     sessionStorage.removeItem("loginUser");
     sessionStorage.removeItem("token");
