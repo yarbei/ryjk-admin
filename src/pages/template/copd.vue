@@ -127,7 +127,7 @@
             <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
-        <el-col :span="80">
+        <el-col :span="8">
           <el-form-item label="低压(mmHg)">
             <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
           </el-form-item>
