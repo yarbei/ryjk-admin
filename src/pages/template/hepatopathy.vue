@@ -380,25 +380,13 @@
         </el-col>
       </el-row>
 
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="药物不良反应 : ">
-            <el-select v-model="form.visitRecordContent.reactions.value">
-              <el-option
-                v-for="item in sfreactions"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="备注：">
-            <el-input v-model="form.remark" placeholder="请输入内容"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <!-- 药物不良反应 -->
+      <select-input
+        :selectInputData="reactionsData"
+        @listenSelect="reactionsSelect"
+        @listenInput="reactionsInput"
+      ></select-input>
+      
        <h2>复诊情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">

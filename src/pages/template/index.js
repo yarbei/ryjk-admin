@@ -83,20 +83,10 @@ export default {
       ],
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
-<<<<<<< HEAD
       //异常指标
       sfanomalyIndex: [
         { value: 0, label: '无' }, 
         { value: 1, label: '有' }
-=======
-      sfsymptomName: [],
-      // 体重
-      sfweight: [
-        {value: 0, label: '超重'},
-        {value: 1, label: '普通'},
-        {value: 2, label: '消瘦'},
-        {value: 3, label: '其他'}
->>>>>>> 79b6e5f85d680cf0248c770cf520aa5140aea7b3
       ],
       // 个人卫生
       sfhygiene: [
@@ -224,12 +214,7 @@ export default {
         { value: 1, label: '间断' },
         { value: 2, label: '规律' }
       ],
-<<<<<<< HEAD
-      // 药物不良反应
-      sfreactions: [
-        { value: 0, label: '无不良反应' },
-        { value: 1, label: '有不良反应' }
-      ],
+      
       //药物剂量
       dosage : [
         { value: 0, label: '超过剂量' },
@@ -250,8 +235,6 @@ export default {
         { value: 0, label: '不足剂量' },
         { value: 1, label: '超过剂量' }
       ],
-=======
->>>>>>> 79b6e5f85d680cf0248c770cf520aa5140aea7b3
       // 健康指导
       sfhealthGuidance: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
       // 健康指导内容
