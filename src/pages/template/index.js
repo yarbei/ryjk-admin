@@ -55,7 +55,11 @@ export default {
       ],
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
-      sfsymptomName: [],
+      //异常指标
+      sfanomalyIndex: [
+        { value: 0, label: '无' }, 
+        { value: 1, label: '有' }
+      ],
       // 个人卫生
       sfhygiene: [
         { value: 0, label: '会阴护理' },
@@ -96,6 +100,17 @@ export default {
         { value: 1, label: '一般' },
         { value: 0, label: '差' }
       ],
+      //是否运动
+      sfsportSituation : [
+        { value: 0, label: '无运动' },
+        { value: 1, label: '有运动' }
+      ],
+      //运动强度
+      sfexerciseIntensity: [
+        { value: 0, label: '低' },
+        { value: 1, label: '中' },
+        { value: 2, label: '高' }
+      ],
       // 生活自理情况
       sflife: [
         { value: 0, label: '完全自理' },
@@ -126,10 +141,20 @@ export default {
         { value: 0, label: '无改善' },
         { value: 1, label: '有改善' }
       ],
+      //吸烟史
+      sfsmokingHistory:[
+        { value: 0, label: '无' },
+        { value: 1, label: '有' }
+      ],
       // 吸烟量
       sfsmokingVolume: [
         { value: 0, label: '未戒烟' },
         { value: 1, label: '已戒烟' }
+      ],
+      //饮酒史
+      sfdrinkingHistory:[
+        { value: 0, label: '无' },
+        { value: 1, label: '有' }
       ],
       // 饮酒量
       sfalcoholConsumption: [
@@ -166,6 +191,26 @@ export default {
         { value: 0, label: '无不良反应' },
         { value: 1, label: '有不良反应' }
       ],
+      //药物剂量
+      dosage : [
+        { value: 0, label: '超过剂量' },
+        { value: 1, label: '不足剂量' }
+      ],
+      //用药次数
+      sfpharmacy : [
+        { value: 0, label: '减少' },
+        { value: 1, label: '增加' }
+      ],
+      //是否需要用药
+      sfisNeed: [
+        { value: 0, label: '不需要服药' },
+        { value: 1, label: '需要服药' }
+      ],
+      //用药剂量
+      sfdosage: [
+        { value: 0, label: '不足剂量' },
+        { value: 1, label: '超过剂量' }
+      ],
       // 健康指导
       sfhealthGuidance: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
       // 健康指导内容
@@ -177,6 +222,19 @@ export default {
         { value: 5, label: '睡眠指导' },
         { value: 6, label: '康复指导' },
         { value: 7, label: '戒烟限酒指导' }
+      ],
+      //疾病指导
+      sfsickness: [
+        { value: 1, label: '饮食指导' },
+        { value: 2, label: '运动指导' },
+        { value: 3, label: '注意事项指导' },
+        { value: 4, label: '并发症指导' },
+        { value: 5, label: '预防措施指导' }
+      ],
+      //是否按时复诊
+      sfisOnSchedule:[
+        { value: 1, label: '是' },
+        { value: 0, label: '否' }
       ],
       // 已提醒复诊
       sfreminderRevisit: [
@@ -196,6 +254,12 @@ export default {
         { value: 1, label: '一般' },
         { value: 2, label: '良好' },
         { value: 3, label: '优秀' }
+      ],
+      //疾病知晓状况
+      sfsicknessKnow: [
+        { value: 0, label: '差' },
+        { value: 1, label: '一般' },
+        { value: 2, label: '良好' }
       ],
       // 满意度调研
       sfsatisfactionSurvey: [
