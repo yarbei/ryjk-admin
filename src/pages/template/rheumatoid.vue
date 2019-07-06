@@ -122,6 +122,37 @@
       <h2>生活方式</h2>
       <el-row :gutter="80">
         <el-col :span="8">
+          <el-form-item label="吸烟史 : ">
+            <el-select v-model="form.visitRecordContent.smokingHistory" placeholder="请选择">
+              <el-option
+                v-for="item in sfsmokingHistory"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8">
+          <el-form-item label="是否戒烟 : ">
+            <el-select v-model="form.visitRecordContent.isQuitSmoking" placeholder="请选择">
+              <el-option
+                v-for="item in sfsmokingVolume"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" v-show="isSmokingAmount">
+          <el-form-item label="现状(支/天)">
+            <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="80">
+        <el-col :span="8">
           <el-form-item label="吸烟量 : ">
             <el-select v-model="form.smokingVolume" @change="smokingVolumeChange" placeholder="请选择">
               <el-option
@@ -139,6 +170,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="饮酒量 : ">
@@ -260,7 +292,7 @@
           <el-form-item label="是否有并发症状 : ">
             <el-select
               v-model="form.visitRecordContent.iscomplication"
-              @change="complicationChange($event,0)"
+              @change="complicationChange($event,3)"
               placeholder="请选择"
             >
               <el-option
@@ -274,7 +306,7 @@
         </el-col>
         <el-col :span="8" v-show="iscomplication">
           <el-form-item label="并发症 : ">
-            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,0)">
+            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,3)">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"
@@ -461,7 +493,7 @@
       </el-form-item>
 
       <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit(0)">完成随访</el-button>
+        <el-button type="success" @click="onSubmit(3)">完成随访</el-button>
         <el-button @click="cancelBtn">取消</el-button>
       </el-form-item>
     </el-form>

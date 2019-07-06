@@ -89,6 +89,21 @@ export default {
         { value: 0, label: '无' },
         { value: 1, label: '有' }
       ],
+      // 体重
+      sfweight:[
+        { value: 0, label: '超重' },
+        { value: 1, label: '普通' },
+        { value: 2, label: '消瘦' },
+        { value: 3, label: '其他' }
+      ],
+      // 康复治疗方式
+      sftherapy:[
+        { value: 0, label: '无' },
+        { value: 1, label: '按摩' },
+        { value: 2, label: '针灸' },
+        { value: 3, label: '运动训练' },
+        { value: 4, label: '其他方式' }
+      ],
       // 个人卫生
       sfhygiene: [
         { value: 0, label: '会阴护理' },

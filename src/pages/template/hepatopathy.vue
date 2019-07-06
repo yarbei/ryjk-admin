@@ -67,6 +67,37 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <h2>目前症状</h2>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="有无症状 : ">
+            <el-select
+              v-model="form.visitRecordContent.issymptom"
+              @change="sfsymptomChange($event,2)"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in sfsymptom"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" v-show="issfsymptomName">
+          <el-form-item label="请选择症状 : ">
+            <el-select v-model="form.symptom" multiple placeholder="请选择">
+              <el-option
+                v-for="item in sfsymptomName"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <h2>体征</h2>
       <el-row :gutter="0">
         <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
@@ -141,23 +172,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>吸烟情况</h2>
+      <h2>生活方式</h2>
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="吸烟史 : ">
-            <el-select v-model="form.visitRecordContent.smokingHistory" placeholder="请选择">
-              <el-option
-                v-for="item in sfsmokingHistory"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="是否戒烟 : ">
-            <el-select v-model="form.visitRecordContent.isQuitSmoking" placeholder="请选择">
+          <el-form-item label="吸烟量 : ">
+            <el-select v-model="form.smokingVolume" @change="smokingVolumeChange" placeholder="请选择">
               <el-option
                 v-for="item in sfsmokingVolume"
                 :key="item.value"
@@ -168,28 +187,20 @@
           </el-form-item>
         </el-col>
         <el-col :span="8" v-show="isSmokingAmount">
-          <el-form-item label="现状(支/天)">
+          <el-form-item label="支/天">
             <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>饮酒情况</h2>
+
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="饮酒史 : ">
-            <el-select v-model="form.visitRecordContent.drinkingHistory" placeholder="请选择">
-              <el-option
-                v-for="item in sfdrinkingHistory"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-          <el-col :span="8">
-          <el-form-item label="是否戒酒 : ">
-            <el-select v-model="form.visitRecordContent.isAbstinence" placeholder="请选择">
+          <el-form-item label="饮酒量 : ">
+            <el-select
+              v-model="form.alcoholConsumption"
+              @change="alcoholConsumptionChange"
+              placeholder="请选择"
+            >
               <el-option
                 v-for="item in sfalcoholConsumption"
                 :key="item.value"
@@ -199,9 +210,13 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="现状(两/日)：">
-            <el-input-number v-model="form.visitRecordContent.drinkingMeasure" :min="0" :max="9999"></el-input-number>
+        <el-col :span="8" v-show="isAlcoholConsumptionAmount">
+          <el-form-item label="ML/天">
+            <el-input-number
+              v-model="form.visitRecordContent.alcoholConsumptionAmount"
+              :min="0"
+              :max="9999"
+            ></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -386,10 +401,6 @@
         @listenSelect="reactionsSelect"
         @listenInput="reactionsInput"
       ></select-input>
-<<<<<<< HEAD
-=======
-
->>>>>>> 9bf10153b749085d3d152dcd6702e5c4c78ad926
        <h2>复诊情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
