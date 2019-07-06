@@ -56,7 +56,7 @@ Vue.use(VCharts)
 
 
 
-var whiteList = ['demo', 'login']
+var whiteList = ['admin', 'login']
 router.beforeEach((to, from, next) => {
   NProgress.start()
   var token = sessionStorage.getItem('token')

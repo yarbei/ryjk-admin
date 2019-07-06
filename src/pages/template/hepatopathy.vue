@@ -167,9 +167,9 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
-          <el-form-item label="现状(支/日)：">
-            <el-input-number v-model="form.visitRecordContent.smokingMeasure" :min="0" :max="9999"></el-input-number>
+        <el-col :span="8" v-show="isSmokingAmount">
+          <el-form-item label="支/天">
+            <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
@@ -327,6 +327,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <h2>用药情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -342,31 +343,25 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="依从性 : ">
-            <el-select v-model="form.medicationCompliance" placeholder="请选择">
-              <el-option
-                v-for="item in sfmedicationCompliance"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+      <el-row v-for="(dosage, index) in  form.visitRecordContent.dosages" :key="index">
+        <el-col :span="6">
+          <el-form-item label="药物名称">
+            <el-input v-model="dosage.value"></el-input>
           </el-form-item>
         </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="剂量 : ">
-            <el-select v-model="form.visitRecordContent.dosage" placeholder="请选择">
-              <el-option
-                v-for="item in sfdosage"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
+        <el-col :span="6">
+          <el-form-item label="次/日">
+            <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item label="mg/次">
+            <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
+          </el-form-item>
+        </el-col>
+        <el-col :span="6">
+          <el-form-item>
+            <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -384,6 +379,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="药物不良反应 : ">
@@ -507,7 +503,7 @@
       
       
       <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit">完成随访</el-button>
+        <el-button type="success" @click="onSubmit(0)">完成随访</el-button>
         <el-button @click="cancelBtn">取消</el-button>
       </el-form-item>
     </el-form>
@@ -528,7 +524,6 @@ export default {
   width: 100%;
   height: auto;
   min-height: 100%;
-  /*padding: 30px 50px 80px 50px;*/
   background-color: #fff;
   padding: 0 20px;
 }

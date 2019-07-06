@@ -32,8 +32,8 @@
         value-format="yyyy-MM-dd"
       ></el-date-picker>
       <el-select v-model="filters.status" placeholder="请选择状态" @change="getwVList">
-        <el-option :value="1" label="未随访"></el-option>
-        <el-option :value="0" label="已随访"></el-option>
+        <el-option :value="0" label="未随访"></el-option>
+        <el-option :value="1" label="已随访"></el-option>
       </el-select>
     </el-col>
 
@@ -55,7 +55,8 @@
             type="success"
             style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
             @click="changelInfo(scope.$index, scope.row)"
-          >{{scope.row.status ==0?'已随访':'去随访'}}</el-button>
+            :disabled="scope.row.status ==1?true:false"
+          >{{scope.row.status ==1?'已随访':'去随访'}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,20 +118,11 @@ export default {
     handleCurrentChange() {},
 
     formatSatus(row, column) {
-      return row.status == 0 ? "已随访" : "未随访";
+      return row.status == 1 ? "已随访" : "待随访";
     },
-    formBtnStatus(row, column) {
-      return row.status == 0;
-    },
-    changelInfo(s1, s2) {
-      if (s2.status == 0) {
-        this.$message.warning("该患者已随访,请勿重复操作！");
-        return;
-      }
-
+    changelInfo(index, row) {
       this.$router.replace({ name: "createVisit", params: { patientiD: "" } });
-
-      console.log(s2);
+      sessionStorage.setItem('planId',row.id)
     }
   },
   mounted() {
@@ -140,10 +132,6 @@ export default {
 </script>
 
 <style scoped>
-.table_container {
-  /*padding: 30px 50px 80px 50px;*/
-}
-
 .toolbar_page {
   margin-top: 20px;
   text-align: center;

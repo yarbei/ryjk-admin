@@ -63,8 +63,8 @@ export default {
       personInfoId: "",
       personInfo: {},
       sfjyArray: [],
-      planId: null,
-      getsfjhStatus:false
+      planId: "",
+      getsfjhStatus: false
     };
   },
   created() {
@@ -72,7 +72,6 @@ export default {
     this.getUsers();
     this.getPlan();
   },
-  mounted() {},
   methods: {
     handleSearch() {
       this.getPlan(1, this.page.size);
@@ -106,12 +105,14 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
-              this.$store.state.user.user.id
-            }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
+            "/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=" +
+            this.$store.state.user.user.id +
+            "&patientId=" +
+            this.personInfo.id +
+            "&pageNum=1&pageSize=5&planId=" +
+            sessionStorage.planId
         )
         .then(res => {
-            console.log(res)
           if (res.data.list.length === 0) {
             this.getsfjhStatus = true;
           } else {
@@ -126,7 +127,7 @@ export default {
     },
     // 去随访
     createVisit() {
-      this.$router.push("/createVisit");
+      this.$router.push({path:"/createVisit",query:{planId:this.$route.query.planId}});
     }
   }
 };

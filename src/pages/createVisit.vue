@@ -1,37 +1,37 @@
 <template>
   <div class="cr_container">
     <el-tabs class="el_tab" v-model="templateName">
-      <el-tab-pane label="通用模板" name="default">
+      <el-tab-pane label="通用模板" name="default" lazy>
         <default></default>
       </el-tab-pane>
-      <el-tab-pane label="产后" name="postpartum">
+      <el-tab-pane label="产后" name="postpartum" lazy>
         <postpartum></postpartum>
       </el-tab-pane>
-      <el-tab-pane label="肝病" name="hepatopathy">
+      <el-tab-pane label="肝病" name="hepatopathy" lazy>
         <hepatopathy></hepatopathy>
       </el-tab-pane>
-      <el-tab-pane label="类风湿" name="rheumatoid">
+      <el-tab-pane label="类风湿" name="rheumatoid" lazy>
         <rheumatoid></rheumatoid>
       </el-tab-pane>
-      <el-tab-pane label="慢阻肺" name="copd">
+      <el-tab-pane label="慢阻肺" name="copd" lazy>
         <copd></copd>
       </el-tab-pane>
-      <el-tab-pane label="脑卒中" name="apoplexy">
+      <el-tab-pane label="脑卒中" name="apoplexy" lazy>
         <apoplexy></apoplexy>
       </el-tab-pane>
-      <el-tab-pane label="内分泌" name="endocrine">
+      <el-tab-pane label="内分泌" name="endocrine" lazy>
         <endocrine></endocrine>
       </el-tab-pane>
-      <el-tab-pane label="痛风" name="gout">
+      <el-tab-pane label="痛风" name="gout" lazy>
         <gout></gout>
       </el-tab-pane>
-      <el-tab-pane label="消化道出血" name="dige">
+      <el-tab-pane label="消化道出血" name="dige" lazy>
         <dige></dige>
       </el-tab-pane>
-      <el-tab-pane label="心内科疾病" name="heart">
+      <el-tab-pane label="心内科疾病" name="heart" lazy>
         <heart></heart>
       </el-tab-pane>
-      <el-tab-pane label="肿瘤" name="tumour">
+      <el-tab-pane label="肿瘤" name="tumour" lazy>
         <tumour></tumour>
       </el-tab-pane>
     </el-tabs>

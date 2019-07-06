@@ -619,7 +619,6 @@ export default {
             `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}&uniqueAccountId=${this.$store.state.user.user.uniqueAccountId}&type=${this.$store.state.user.user.type}`
         )
         .then(res => {
-          console.log(res);
           this.page.total = res.data.total;
           this.usersList = res.data.list;
           this.usersList.forEach(item => {

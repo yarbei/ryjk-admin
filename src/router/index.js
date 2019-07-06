@@ -38,6 +38,7 @@ export default new Router({
       ]
     },
     { path: '/login', name: 'login', component: page('login') },
+    { path: '/admin', name: 'admin', component: page('login') },
     // pages
     { path: '*', redirect: { name: '404' } }
   ]
