@@ -128,12 +128,12 @@ export default {
         { value: 1, label: '一般' },
         { value: 0, label: '差' }
       ],
-      //是否运动
-      sfsportSituation : [
+      // 是否运动
+      sfsportSituation: [
         { value: 0, label: '无运动' },
         { value: 1, label: '有运动' }
       ],
-      //运动强度
+      // 运动强度
       sfexerciseIntensity: [
         { value: 0, label: '低' },
         { value: 1, label: '中' },
@@ -169,8 +169,8 @@ export default {
         { value: 0, label: '无改善' },
         { value: 1, label: '有改善' }
       ],
-      //吸烟史
-      sfsmokingHistory:[
+      // 吸烟史
+      sfsmokingHistory: [
         { value: 0, label: '无' },
         { value: 1, label: '有' }
       ],
@@ -179,8 +179,8 @@ export default {
         { value: 0, label: '未戒烟' },
         { value: 1, label: '已戒烟' }
       ],
-      //饮酒史
-      sfdrinkingHistory:[
+      // 饮酒史
+      sfdrinkingHistory: [
         { value: 0, label: '无' },
         { value: 1, label: '有' }
       ],
@@ -247,7 +247,7 @@ export default {
         { value: 6, label: '康复指导' },
         { value: 7, label: '戒烟限酒指导' }
       ],
-      //疾病指导
+      // 疾病指导
       sfsickness: [
         { value: 1, label: '饮食指导' },
         { value: 2, label: '运动指导' },
@@ -255,8 +255,8 @@ export default {
         { value: 4, label: '并发症指导' },
         { value: 5, label: '预防措施指导' }
       ],
-      //是否按时复诊
-      sfisOnSchedule:[
+      // 是否按时复诊
+      sfisOnSchedule: [
         { value: 1, label: '是' },
         { value: 0, label: '否' }
       ],
@@ -279,7 +279,7 @@ export default {
         { value: 2, label: '良好' },
         { value: 3, label: '优秀' }
       ],
-      //疾病知晓状况
+      // 疾病知晓状况
       sfsicknessKnow: [
         { value: 0, label: '差' },
         { value: 1, label: '一般' },
