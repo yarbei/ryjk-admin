@@ -103,7 +103,7 @@ export default {
         { value: 2, label: '妊娠期糖尿病' }
       ],
       // 皮肤
-      sfskin: [
+      sftskin: [
         { value: 0, label: '正常' },
         { value: 1, label: '破损' },
         { value: 2, label: '出血点' },
@@ -133,7 +133,7 @@ export default {
         { value: 11, label: '其他' }
       ],
       // 肿瘤模板疼痛程度
-      sfpainDegree:[
+      sfpainDegree: [
         { value: 0, label: '不影响睡眠' },
         { value: 1, label: '影响睡眠' }
       ],
@@ -149,14 +149,14 @@ export default {
         { value: 1, label: '有' }
       ],
       // 体重
-      sfweight:[
+      sfweight: [
         { value: 0, label: '超重' },
         { value: 1, label: '普通' },
         { value: 2, label: '消瘦' },
         { value: 3, label: '其他' }
       ],
       // 慢阻肺饮食情况
-      sfbiteAndSup:[
+      sfbiteAndSup: [
         { value: 0, label: '普通饮食' },
         { value: 1, label: '低盐饮食' },
         { value: 2, label: '低脂饮食' },
@@ -164,7 +164,7 @@ export default {
         { value: 4, label: '其他' }
       ],
       // 康复治疗方式
-      sftherapy:[
+      sftherapy: [
         { value: 0, label: '无' },
         { value: 1, label: '按摩' },
         { value: 2, label: '针灸' },

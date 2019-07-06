@@ -90,7 +90,7 @@
           <el-form-item label="皮肤:">
             <el-select v-model="form.visitRecordContent.skin" placeholder="请选择">
               <el-option
-                v-for="item in sfskin"
+                v-for="item in sftskin"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"
