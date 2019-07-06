@@ -84,6 +84,65 @@ export default {
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
       sfsymptomName: [],
+      // 痛风模板部位
+      sfposition: [{ value: 0, label: '无' }, { value: 1, label: '有' }],
+      sfpositionName: [
+        { value: 0, label: '大拇指' },
+        { value: 1, label: '踝关节' },
+        { value: 2, label: '膝关节' },
+        { value: 3, label: '足跟' },
+        { value: 4, label: '腕关节' },
+        { value: 5, label: '手指关节' },
+        { value: 6, label: '肘关节' },
+        { value: 7, label: '其他' }
+      ],
+      // 糖尿病分型
+      sfdiabetes: [
+        { value: 0, label: '1型糖尿病' },
+        { value: 1, label: '2型糖尿病' },
+        { value: 2, label: '妊娠期糖尿病' }
+      ],
+      // 皮肤
+      sfskin: [
+        { value: 0, label: '正常' },
+        { value: 1, label: '破损' },
+        { value: 2, label: '出血点' },
+        { value: 3, label: '其他' }
+      ],
+      // 肿瘤模板饮食情况
+      sftumoureat: [
+        { value: 0, label: '流质饮食' },
+        { value: 1, label: '半流质饮食' },
+        { value: 2, label: '普通饮食' },
+        { value: 3, label: '鼻饲饮食' },
+        { value: 4, label: '其他' }
+      ],
+      // 肿瘤模板疼痛性质
+      sfpainNature: [
+        { value: 0, label: '酸痛' },
+        { value: 1, label: '胀痛' },
+        { value: 2, label: '刺痛' },
+        { value: 3, label: '痉挛痛' },
+        { value: 4, label: '麻刺痛' },
+        { value: 5, label: '钝痛' },
+        { value: 6, label: '电击痛' },
+        { value: 7, label: '刀割痛' },
+        { value: 8, label: '牵拉痛' },
+        { value: 9, label: '灼烧痛' },
+        { value: 10, label: '搏动性疼痛' },
+        { value: 11, label: '其他' }
+      ],
+      // 肿瘤模板疼痛程度
+      sfpainDegree:[
+        { value: 0, label: '不影响睡眠' },
+        { value: 1, label: '影响睡眠' }
+      ],
+      // 肿瘤模板疼痛控制情况
+      sfcontrolSituation: [
+        { value: 0, label: '满意' },
+        { value: 1, label: '一般' },
+        { value: 2, label: '不满意' }
+      ],
       // 异常指标
       sfanomalyIndex: [
         { value: 0, label: '无' },
@@ -347,6 +406,14 @@ export default {
           })
       } else {
         this.issfsymptomName = false
+      }
+    },
+    // 选择是否有痛风部位弹出痛风部位选择框
+    positionChange (event) {
+      if (event === 1) {
+        this.ispositionName = true
+      } else {
+        this.ispositionName = false
       }
     },
     // 选择是否戒烟决定是否弹出抽烟情况输入框
