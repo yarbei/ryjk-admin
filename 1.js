@@ -96,14 +96,6 @@ export default {
         { value: 2, label: '消瘦' },
         { value: 3, label: '其他' }
       ],
-      // 慢阻肺饮食情况
-      sfbiteAndSup:[
-        { value: 0, label: '普通饮食' },
-        { value: 1, label: '低盐饮食' },
-        { value: 2, label: '低脂饮食' },
-        { value: 3, label: '高燕饮食' },
-        { value: 4, label: '其他' }
-      ],
       // 康复治疗方式
       sftherapy:[
         { value: 0, label: '无' },

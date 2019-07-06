@@ -84,7 +84,7 @@
           <el-form-item label="体重范围">
             <el-select v-model="form.visitRecordContent.weightType" multiple placeholder="请选择">
               <el-option
-                v-for="item in sfweightType"
+                v-for="item in sfweight"
                 :key="item.value"
                 :label="item.label"
                 :value="item.value"

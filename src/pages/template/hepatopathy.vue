@@ -67,37 +67,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>目前症状</h2>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="有无症状 : ">
-            <el-select
-              v-model="form.visitRecordContent.issymptom"
-              @change="sfsymptomChange($event,2)"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in sfsymptom"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="issfsymptomName">
-          <el-form-item label="请选择症状 : ">
-            <el-select v-model="form.symptom" multiple placeholder="请选择">
-              <el-option
-                v-for="item in sfsymptomName"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+
       <h2>体征</h2>
       <el-row :gutter="0">
         <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
@@ -149,19 +119,50 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="指标值">
-            <el-input-number v-model="form.visitRecordContent.anomalyIndexValue" :min="0" :max="9999"></el-input-number>
+            <el-input-number
+              v-model="form.visitRecordContent.anomalyIndexValue"
+              :min="0"
+              :max="9999"
+            ></el-input-number>
           </el-form-item>
         </el-col>
       </el-row>
-
+      <h2>目前症状</h2>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="有无症状 : ">
+            <el-select
+              v-model="form.visitRecordContent.issymptom"
+              @change="sfsymptomChange($event,2)"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in sfsymptom"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" v-show="issfsymptomName">
+          <el-form-item label="请选择症状 : ">
+            <el-select v-model="form.symptom" multiple placeholder="请选择">
+              <el-option
+                v-for="item in sfsymptomName"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <h2>生活自理情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="自理情况 : ">
-            <el-select
-              v-model="form.visitRecordContent.careLift"
-              placeholder="请选择"
-            >
+            <el-select v-model="form.visitRecordContent.careLift" placeholder="请选择">
               <el-option
                 v-for="item in sflife"
                 :key="item.value"
@@ -401,7 +402,7 @@
         @listenSelect="reactionsSelect"
         @listenInput="reactionsInput"
       ></select-input>
-       <h2>复诊情况</h2>
+      <h2>复诊情况</h2>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否按时复诊 : ">
@@ -429,17 +430,17 @@
         </el-col>
       </el-row>
       <el-row :gutter="80">
-      <el-col :span="8">
+        <el-col :span="8">
           <el-form-item label="上次复诊情况：">
             <el-input v-model="form.visitRecordContent.subsequentVisit"></el-input>
           </el-form-item>
         </el-col>
       </el-row>
-     <h2>知晓情况</h2>
+      <h2>知晓情况</h2>
       <el-row :gutter="80">
-      <el-col :span="8">
+        <el-col :span="8">
           <el-form-item label="疾病指导 : ">
-            <el-select v-model="form.visitRecordContent.sickness" >
+            <el-select v-model="form.visitRecordContent.sickness">
               <el-option
                 v-for="item in sfsickness"
                 :key="item.value"
@@ -502,7 +503,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
 
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit(0)">完成随访</el-button>

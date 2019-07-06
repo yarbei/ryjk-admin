@@ -67,6 +67,27 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <h2>体征</h2>
+      <!-- 类风湿结节组件 -->
+      <select-input
+        :selectInputData="rheumatoidData"
+        @listenSelect="rheumatoidSelect"
+        @listenInput="rheumatoidInput"
+      ></select-input>
+      <el-row :gutter="80">
+        <el-col :span="8">
+          <el-form-item label="体重（kg） : ">
+            <el-select v-model="form.visitRecordContent.weight" placeholder="请选择">
+              <el-option
+                v-for="item in sfweight"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
       <h2>目前症状</h2>
       <el-row :gutter="80">
         <el-col :span="8">
@@ -98,27 +119,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>体征</h2>
-      <!-- 类风湿结节组件 -->
-      <select-input
-        :selectInputData="rheumatoidData"
-        @listenSelect="rheumatoidSelect"
-        @listenInput="rheumatoidInput"
-      ></select-input>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="体重（kg） : ">
-            <el-select v-model="form.visitRecordContent.weight" placeholder="请选择">
-              <el-option
-                v-for="item in sfweight"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+
       <h2>生活方式</h2>
       <el-row :gutter="80">
         <el-col :span="8">
