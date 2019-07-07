@@ -332,7 +332,7 @@
             <el-select v-model="form.visitRecordContent.pharmacy" placeholder="请选择">
               <el-option
                 v-for="item in sfpharmacy"
-                :key="item.value"      
+                :key="item.value"
                 :label="item.label"
                 :value="item.value"
               ></el-option>
@@ -353,7 +353,7 @@
           <el-form-item label="是否有并发症状 : ">
             <el-select
               v-model="form.visitRecordContent.iscomplication"
-              @change="complicationChange($event,0)"
+              @change="complicationChange($event,8)"
               placeholder="请选择"
             >
               <el-option
@@ -367,7 +367,7 @@
         </el-col>
         <el-col :span="8" v-show="iscomplication">
           <el-form-item label="并发症 : ">
-            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,0)">
+            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,8)">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"
@@ -518,7 +518,7 @@
       </el-row>
 
       <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit(0)">完成随访</el-button>
+        <el-button type="success" @click="onSubmit(8)">完成随访</el-button>
         <el-button @click="cancelBtn">取消</el-button>
       </el-form-item>
     </el-form>

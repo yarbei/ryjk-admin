@@ -86,7 +86,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="issfsymptomName">
+        <el-col :span="8">
           <el-form-item label="请选择症状 : ">
             <el-select v-model="form.symptom" multiple placeholder="请选择">
               <el-option
@@ -171,7 +171,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="isSmokingAmount">
+        <el-col :span="8">
           <el-form-item label="支/天">
             <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
           </el-form-item>
@@ -195,7 +195,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="isAlcoholConsumptionAmount">
+        <el-col :span="8">
           <el-form-item label="ML/天">
             <el-input-number
               v-model="form.visitRecordContent.alcoholConsumptionAmount"
@@ -478,12 +478,12 @@
   </div>
 </template>
 <script>
-import template from "./index";
+import echoDisplay from "./index";
 export default {
-  components: template.components,
-  data: template.data,
-  created: template.created,
-  methods: template.methods
+  components: echoDisplay.components,
+  data: echoDisplay.data,
+  created: echoDisplay.created,
+  methods: echoDisplay.methods
 };
 </script>
 

@@ -20,17 +20,10 @@ export default {
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
-      isSmokingAmount: false, // 抽烟情况输入框
-      isAlcoholConsumptionAmount: false, // 饮酒情况输入框
-      isAppointmentRevisit: false, // 预约科室及复诊时间下拉框
-      ishealthGuidanceContent: false, // 健康指导内容下拉框
-      iscomplication: false, // 并发症选择框
-      iscomplicationName: false, // 具体并发症选择框
-      issfsymptomName: false, // 症状名称
-      ispositionName: false, // 痛风部位
       personInfoId: '', // 患者Id
       personInfo: {}, // 患者信息
       planId: '', // 计划Id
+      sfid: '', // 随访记录Id
       // 药物不良反应传入子组件的数据
       reactionsData: {
         selectLabel: '药物不良反应：', // select选择框的label值
@@ -574,10 +567,74 @@ export default {
     // 返回按钮
     cancelBtn () {
       this.$router.go(-1)
+    },
+    // 获取随访详情
+    getFormList (id) {
+      this.$http
+        .get('/api' + '/visitRecord/getVisitRecordById?id=' + id)
+        .then(res => {
+          this.form = res.data
+          this.form.visitRecordContent = JSON.parse(
+            res.data.visitRecordContent
+          )// 将visitRecordContent解析为object类型
+          if (res.data.department) {
+            this.form.department = Number(res.data.department)// 将科室由str变为num
+          }
+          if (res.data.symptom != null) {
+            this.form.symptom = res.data.symptom.split(',').map(Number)// 将症状由str数组变为num数组
+          }
+          if (res.data.complication != null) {
+            this.form.complication = res.data.complication
+              .split(',')
+              .map(Number)// 将并发症由str数组变为num数组
+          }
+          // 如果有症状将请求症状数据
+          if (this.form.visitRecordContent.issymptom === 1) {
+            this.$http
+              .get('/api' + `/common/getDataList?dataType=1`)
+              .then(res => {
+                this.sfsymptomName = res.data
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }
+          // 如果有并发症将请求并发症的分类数据
+          if (this.form.visitRecordContent.iscomplication === 1) {
+            this.$http
+              .get('/api' + `/common/getDataList?dataType=2`)
+              .then(res => {
+                this.sfbfz = res.data
+              })
+              .catch(err => {
+                console.log(err)
+              })
+              // 请求并发症具体数据
+            if (this.form.visitRecordContent.bfzClassify) {
+              this.$http
+                .get(
+                  '/api' +
+                    '/common/getDataList?dataType=2&dataNum=' +
+                    this.form.visitRecordContent.bfzClassify
+                )
+                .then(res => {
+                  this.sfbfzName = res.data
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+            }
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   created () {
     this.planId = this.$route.query.planId // 获取计划Id
+    this.sfid = this.$route.params.id // 获取随访记录id
     this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息
+    this.getFormList(this.sfid) // 获取随访详情
   }
 }

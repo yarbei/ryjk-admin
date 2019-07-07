@@ -85,7 +85,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="issfsymptomName">
+        <el-col :span="8">
           <el-form-item label="请选择症状 : ">
             <el-select v-model="form.symptom" multiple placeholder="请选择">
               <el-option
@@ -166,7 +166,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="isSmokingAmount">
+        <el-col :span="8">
           <el-form-item label="支/天">
             <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
           </el-form-item>
@@ -190,7 +190,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="isAlcoholConsumptionAmount">
+        <el-col :span="8">
           <el-form-item label="ML/天">
             <el-input-number
               v-model="form.visitRecordContent.alcoholConsumptionAmount"
@@ -517,7 +517,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="iscomplication">
+        <el-col :span="8">
           <el-form-item label="并发症 : ">
             <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,6)">
               <el-option
@@ -529,7 +529,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="iscomplicationName">
+        <el-col :span="8">
           <el-form-item label="具体症状：">
             <el-select v-model="form.complication" multiple>
               <el-option
@@ -563,7 +563,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :span="8" v-show="ishealthGuidanceContent">
+        <el-col :span="8">
           <el-form-item label="健康指导内容  : ">
             <el-select v-model="form.visitRecordContent.healthGuidanceContent">
               <el-option
@@ -606,7 +606,7 @@
         </el-col>
       </el-row>
 
-      <el-row :gutter="80" v-show="isAppointmentRevisit">
+      <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="预约科室 : ">
             <el-select v-model="form.department">
