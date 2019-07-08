@@ -319,7 +319,8 @@ export default {
       getPlanStatus: false,
       getSignStatus: false,
       getsfjlStatus: false,
-      planId: null
+      planId: null,
+      bodySignTypeIdArray:[]
     };
   },
   created() {
@@ -330,6 +331,7 @@ export default {
     this.getSign();
     this.getPlan();
     this.getHealthPlan(this.page.current, this.page.size);
+    this.getSignEchart();
   },
   mounted() {
     if (this.$route.params.selectId == "sfjl") {
@@ -383,22 +385,6 @@ export default {
           console.log(err);
         });
     },
-    // 终止随访计划
-    // jhxxStop(id) {
-    //   this.$http
-    //     .post("/api" + `/plan/updatePlanStatus?`, { planId: id })
-    //     .then(res => {
-    //       if (res.data) {
-    //         this.$message.success("随访计划终止成功");
-    //         this.getPlan();
-    //       } else {
-    //         this.$message.error("随访计划终止失败");
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
     // 获取患者基本信息
     getUsers() {
       this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
@@ -457,6 +443,9 @@ export default {
             `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
         )
         .then(res => {
+          res.data.forEach(item => {
+            this.bodySignTypeIdArray.push(item.bodySignTypeId)
+          });
           if (res.data.length === 0) {
             this.getSignStatus = true;
           } else {
@@ -473,15 +462,16 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=${this}`
+            `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=1`
         )
         .then(res => {
-          if (res.data.length == 0) {
-            this.getSignStatus = true;
-          } else {
-            this.grtzArray = res.data;
-            this.getSignStatus = false;
-          }
+          console.log(res)
+          // if (res.data.length == 0) {
+          //   this.getSignStatus = true;
+          // } else {
+          //   this.grtzArray = res.data;
+          //   this.getSignStatus = false;
+          // }
         })
         .catch(err => {
           console.log(err);
