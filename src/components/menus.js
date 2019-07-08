@@ -24,9 +24,9 @@ const menus = [
     icon: 'fa fa-bar-chart-o',
     label: '统计分析',
     submenu: [
-      { id: 'tjfx1', path: '/404', label: '工作统计与分析' },
-      { id: 'tjfx2', path: '/404', label: '效果统计与分析' },
-      { id: 'tjfx3', path: '/404', label: '疾病风险筛查统计与分析' }
+      { id: 'tjfx1', path: '/jobAccount', label: '工作统计与分析' },
+      { id: 'tjfx2', path: '/effect', label: '效果统计与分析' },
+      { id: 'tjfx3', path: '/diseaseRisk', label: '疾病风险筛查统计与分析' }
     ]
   },
   {

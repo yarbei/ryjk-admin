@@ -200,6 +200,7 @@ export default {
       var that = this
       that.$http.get('/api' + `/notice/getNoticeList?userId=${that.$store.state.user.user.id}`)
         .then(res => {
+          console.log(res)
           console.log(res.data, '获取广告列表')
           //            that.ggArray = res.data.list;
         })
