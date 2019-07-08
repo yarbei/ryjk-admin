@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h2>出院后疾病管理情况统计</h2>
     <el-row :gutter="30">
       <el-col :span="12">
         <el-card class="box-card">
@@ -14,7 +15,7 @@
           <div slot="header" class="clearfix">
             <span>门诊疾病管理情况统计</span>
           </div>
-          <ve-pie :data="chartData"></ve-pie>
+          <ve-pie :data="clinicData"></ve-pie>
         </el-card>
       </el-col>
     </el-row>
@@ -24,18 +25,39 @@
 export default {
   data() {
     return {
-      chartData: {
-        columns: ["日期", "访问用户"],
+      leaveHospitalData: {
+        columns: ["随访", "随访人次"],
         rows: [
-          { 日期: "1/1", 访问用户: 1393 },
-          { 日期: "1/2", 访问用户: 3530 },
-          { 日期: "1/3", 访问用户: 2923 },
-          { 日期: "1/4", 访问用户: 1723 },
-          { 日期: "1/5", 访问用户: 3792 },
-          { 日期: "1/6", 访问用户: 4593 }
+          { 随访: "首访", 随访人次: 1393 },
+          { 随访: "二访", 随访人次: 3530 },
+          { 随访: "三坊及以上", 随访人次: 2923 },
+          { 随访: "1/4", 随访人次: 1723 },
+          { 随访: "1/5", 随访人次: 3792 },
+          { 随访: "1/6", 随访人次: 4593 }
+        ]
+      },
+      clinicData: {
+        columns: ["随访", "随访人次"],
+        rows: [
+          { 随访: "首访", 随访人次: 1393 },
+          { 随访: "二访", 随访人次: 3530 },
+          { 随访: "三坊及以上", 随访人次: 2923 },
+          { 随访: "1/4", 随访人次: 1723 },
+          { 随访: "1/5", 随访人次: 3792 },
+          { 随访: "1/6", 随访人次: 4593 }
         ]
       }
     };
+  },
+  created() {
+    this.$http
+      .get("/api" + "/analysis/work/1")
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
   }
 };
 </script>
