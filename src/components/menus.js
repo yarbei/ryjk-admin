@@ -45,6 +45,7 @@ const menus = [
       // { id: 'ksgl1', path: '/departManagement', label: '科室管理' }
     ]
   },
+  { id: 'myGroup', icon: 'fa fa-hospital-o', label: '我的工作组', path: '/myGroup', name: 'myGroup' },
   { id: 'gggl', icon: 'fa fa-bell-o', label: '公告管理', path: '/noticeManagement', name: 'noticeManagement' },
   { id: 'ggtgl', icon: 'fa fa-file-photo-o', label: '广告管理', path: '/posterManagement', name: 'posterManagement' }
 ]

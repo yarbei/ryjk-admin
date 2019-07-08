@@ -36,7 +36,6 @@ export default {
       .get("/api" + "/analysis/questionnaire")
       .then(res => {
         this.diseaseRiskData = res.data;
-        console.log(this.diseaseRiskData);
       })
       .catch(err => {
         console.log(err);

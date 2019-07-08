@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row :gutter="10">
-      <el-col :span="6">
+      <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>出院/转出归属情况</span>
@@ -9,7 +9,7 @@
           <ve-pie :data="leaveHospitalData" :settings="chartSettings"></ve-pie>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>管理效果评估</span>
@@ -17,7 +17,9 @@
           <ve-pie :data="administrationData" :settings="administrationSettings"></ve-pie>
         </el-card>
       </el-col>
-      <el-col :span="6">
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>复诊提醒率</span>
@@ -25,7 +27,7 @@
           <ve-pie :data="reminderRevisit" :settings="chartSettings"></ve-pie>
         </el-card>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>复诊预约率</span>
@@ -34,73 +36,82 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="30">
-      <el-col :span="6">
+    <el-row :gutter="80">
+      <el-col :span="24">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>用药依从性</span>
+            <span></span>
           </div>
-          <ve-pie :data="leaveHospitalData" :settings="chartSettings"></ve-pie>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>戒烟情况</span>
-          </div>
-          <ve-pie :data="administrationData" :settings="administrationSettings"></ve-pie>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>戒酒情况</span>
-          </div>
-          <ve-pie :data="reminderRevisit" :settings="chartSettings"></ve-pie>
-        </el-card>
-      </el-col>
-      <el-col :span="6">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix">
-            <span>健康知晓率</span>
-          </div>
-          <ve-pie :data="appointmentRevisit" :settings="chartSettings"></ve-pie>
+          <table border="1" cellspacing="0" bordercolor="#eee" width="100%">
+            <tr>
+              <td>依从性好人次/占比</td>
+              <td>已戒烟人次/占比</td>
+              <td>不服药人次/占比</td>
+              <td>服药部分依从人次/占比</td>
+              <td>服药完全依从人次/占比</td>
+              <td>已戒酒人次/占比</td>
+            </tr>
+            <tr>
+              <td>{{tableData.compliance}}</td>
+              <td>{{tableData.giveUpSmoking}}</td>
+              <td>{{tableData.medicationCompliance0}}</td>
+              <td>{{tableData.medicationCompliance1}}</td>
+              <td>{{tableData.medicationCompliance2}}</td>
+              <td>{{tableData.quitDrinking}}</td>
+            </tr>
+          </table>
         </el-card>
       </el-col>
     </el-row>
-    <el-table
-      :data="tableData"
-      :border="true"
-      stripe
-      highlight-current-row
-      height="460"
-      style="width: 100%;"
-    >
-      <el-table-column prop="department" align="center" label="科室"></el-table-column>
-      <el-table-column prop="mengzhen" align="center" label="门诊"></el-table-column>
-      <el-table-column prop="zhuyuan" align="center" label="住院"></el-table-column>
-      <el-table-column prop="ageGroup" align="center" label="40岁以上人次/占比"></el-table-column>
-      <el-table-column prop="questionnaire" align="center" label="风险评估总数/评估率"></el-table-column>
-      <el-table-column prop="lungs" align="center" label="肺部疾病人次/占比"></el-table-column>
-      <el-table-column prop="colorectal" align="center" label="结直肠类疾病人次/占比"></el-table-column>
-      <el-table-column prop="upperGastrointestinalTract" align="center" label="上消化道疾病人次/占比"></el-table-column>
-      <el-table-column prop="cerebralApoplexy1" align="center" label="脑卒中疾病高危人次/占比"></el-table-column>
-      <el-table-column prop="cerebralApoplexy2" align="center" label="脑卒中疾病中危人次/占比"></el-table-column>
-      <el-table-column prop="cerebralApoplexy3" align="center" label="脑卒中疾病非常高危人次/占比"></el-table-column>
-      <el-table-column prop="cardiovascular0" align="center" label="心血管疾病低风险人次/占比"></el-table-column>
-      <el-table-column prop="cardiovascular1" align="center" label="心血管疾病非常高危人次/占比"></el-table-column>
-    </el-table>
+    <el-row :gutter="10">
+      <el-col :span="12">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>患者有无症状</span>
+          </div>
+          <el-table
+            :data="symptomData"
+            :border="true"
+            stripe
+            highlight-current-row
+            height="460"
+            style="width: 100%;"
+          >
+            <el-table-column prop="name" align="center" label="症状名称"></el-table-column>
+            <el-table-column prop="value" align="center" label="人次/占比"></el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+            <span>患者有无并发症</span>
+          </div>
+          <el-table
+            :data="complicationData"
+            :border="true"
+            stripe
+            highlight-current-row
+            height="460"
+            style="width: 100%;"
+          >
+            <el-table-column prop="name" align="center" label="症状名称"></el-table-column>
+            <el-table-column prop="value" align="center" label="人次/占比"></el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
 export default {
   data() {
     this.chartSettings = {
-      radius: 60,
+      radius: 120,
       offsetY: 200
     };
     this.administrationSettings = {
-      radius: 60,
+      radius: 120,
       offsetY: 200,
       level: [
         ["并发症", "相关指标控制不佳", "不良生活方式未改善"],
@@ -124,7 +135,9 @@ export default {
         columns: ["name", "value"],
         rows: []
       },
-      tableData: []
+      tableData: [],
+      symptomData: [],
+      complicationData: []
     };
   },
   created() {
@@ -159,7 +172,8 @@ export default {
     this.$http
       .get("/api" + "/analysis/manager/2")
       .then(res => {
-        console.log(res);
+        this.symptomData = res.data.symptom;
+        this.complicationData = res.data.complication;
       })
       .catch(err => {
         console.log(err);
@@ -167,7 +181,7 @@ export default {
     this.$http
       .get("/api" + "/analysis/manager/3")
       .then(res => {
-        console.log(res);
+        this.tableData = res.data;
       })
       .catch(err => {
         console.log(err);
@@ -179,8 +193,15 @@ export default {
 .el-row {
   margin-bottom: 30px;
 }
-.el-card {
-  height: 400px;
+table tr {
+  width: 100%;
+  height: 50px;
+}
+table tr td {
+  width: 16.666%;
+  height: 100%;
+  text-align: center;
+  line-height: 50px;
 }
 </style>
 
