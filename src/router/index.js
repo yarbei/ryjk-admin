@@ -36,9 +36,10 @@ export default new Router({
         { path: '/posterManagement', name: 'posterManagement', component: page('posterManagement') },
         { path: '/followupplan', name: 'followUpPlan', component: page('followupplan') },
         { path: '/jobAccount', name: 'jobAccount', component: page('jobAccount') },
+        { path: '/myGroup', name: 'myGroup', component: page('myGroup') },
         { path: '/diseaseRisk', name: 'diseaseRisk', component: page('diseaseRisk') },
         { path: '/effect', name: 'effect', component: page('effect') },
-        { path: '/myGroup', name:'myGroup', components: page('mgGroup') }
+        { path: '/accountManagement', name: 'accountManagement', component: page('accountManagement') }
       ]
     },
     { path: '/login', name: 'login', component: page('login') },
