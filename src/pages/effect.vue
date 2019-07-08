@@ -151,7 +151,6 @@ export default {
           name: "未预约",
           value: 100 - this.appointmentRevisit.rows[0].value
         });
-        console.log(res);
       })
       .catch(err => {
         console.log(err);
@@ -161,14 +160,14 @@ export default {
       .get("/api" + "/analysis/manager/2")
       .then(res => {
         console.log(res);
-        this.$http
-          .get("/api" + "/analysis/manager/3")
-          .then(res => {
-            console.log(res);
-          })
-          .catch(err => {
-            console.log(err);
-          });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get("/api" + "/analysis/manager/3")
+      .then(res => {
+        console.log(res);
       })
       .catch(err => {
         console.log(err);
