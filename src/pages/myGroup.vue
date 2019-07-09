@@ -28,13 +28,7 @@
     </el-col>
 
     <!--列表-->
-    <el-table
-      :data="groupList"
-      :border="true"
-      stripe
-      highlight-current-row
-      style="width: 100%;"
-    >
+    <el-table :data="groupList" :border="true" stripe highlight-current-row style="width: 100%;">
       <el-table-column align="center" type="index"></el-table-column>
       <el-table-column prop="groupName" align="center" label="工作组名称" width="500" sortable></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
@@ -43,7 +37,7 @@
             round
             type="text"
             style="color: #f8b14b"
-            @click="editInfo(scope.$index, scope.row)"
+            @click="editGroup(scope.$index, scope.row)"
           >
             <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改工作组
           </el-button>
@@ -104,13 +98,13 @@
       </div>
     </el-dialog>
     <!--修改工作组界面-->
-    <el-dialog title="修改工作组" :visible.sync="addFormVisible" :modal-append-to-body="false">
-      <el-form :model="addGroupForm" label-width="120px">
+    <el-dialog title="修改工作组" :visible.sync="editFormVisible" :modal-append-to-body="false">
+      <el-form :model="editGroupForm" label-width="120px">
         <el-form-item label="工作组名称" prop="groupName">
-          <el-input v-model="addGroupForm.groupName" auto-complete="off"></el-input>
+          <el-input v-model="editGroupForm.groupName" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="选择疾病管理师 : " prop="diseaseManagerIds">
-          <el-select v-model="addGroupForm.diseaseManagerIds" placeholder="请选择" multiple>
+          <el-select v-model="editGroupForm.diseaseManagerIds" placeholder="请选择" multiple>
             <el-option
               v-for="item in diseaseManagerList"
               :key="item.userId"
@@ -120,7 +114,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择医生: " prop="doctorIds">
-          <el-select v-model="addGroupForm.doctorIds" placeholder="请选择" multiple>
+          <el-select v-model="editGroupForm.doctorIds" placeholder="请选择" multiple>
             <el-option
               v-for="item in doctorList"
               :key="item.userId"
@@ -132,7 +126,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click.native="addClose">取消</el-button>
-        <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
+        <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
       </div>
     </el-dialog>
   </section>
@@ -156,7 +150,7 @@ export default {
       },
       diseaseManagerList: [],
       doctorList: [],
-
+      addFormVisible: false, //新增界面是否显示
       editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
       // 编辑界面数据
@@ -165,7 +159,7 @@ export default {
         diseaseManagerIds: [],
         doctorIds: []
       },
-      addFormVisible: false, // 新增界面是否显示
+      edit: false, // 新增界面是否显示
       addLoading: false,
       user: null
     };
@@ -182,36 +176,37 @@ export default {
     },
     // 删除分组
     deleteGroup(index, row) {
-      console.log(index, row);
-        this.$confirm("此操作将删除该患者, 是否继续?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          type: "warning"
-        })
-          .then(() => {
-            this.$http
-              .post("/api" + "groups/deleteWorkGroup?groupId=" + row.groupId)
-              .then(res => {
-                this.getGroup();
-                this.$message({
-                  type: "success",
-                  message: "删除成功!"
-                });
-              })
-              .catch(err => {
-                console.log(err);
-                this.$message({
-                  type: "warning",
-                  message: "删除失败!"
-                });
+      this.$confirm("此操作将删除该工作组, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning"
+      })
+        .then(() => {
+          let formData = { groupId: row.groupId };
+          this.$http
+            .post("/api" + "/groups/delWorkGroup", formData)
+            .then(res => {
+              console.log(res);
+              this.getGroup();
+              this.$message({
+                type: "success",
+                message: "删除成功!"
               });
-          })
-          .catch(() => {
-            this.$message({
-              type: "info",
-              message: "已取消删除"
+            })
+            .catch(err => {
+              console.log(err);
+              this.$message({
+                type: "warning",
+                message: "删除失败!"
+              });
             });
+        })
+        .catch(() => {
+          this.$message({
+            type: "info",
+            message: "已取消删除"
           });
+        });
     },
     // 显示编辑界面
     handleEdit: function(index, row) {
@@ -224,7 +219,6 @@ export default {
       this.$http("/api" + "/user/users?userType=2")
         .then(res => {
           this.diseaseManagerList = res.data;
-          console.log(res);
         })
         .catch(err => {
           console.log(err);
@@ -232,7 +226,6 @@ export default {
       this.$http("/api" + "/user/users?userType=3")
         .then(res => {
           this.doctorList = res.data;
-          console.log(res);
         })
         .catch(err => {
           console.log(err);
@@ -258,6 +251,58 @@ export default {
           } else {
             this.$message.warning(res.message);
           }
+           this.addClose()
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 显示修改界面
+    editGroup: function(index, row) {
+      this.editFormVisible = true;
+      this.$http("/api" + "/groups/getWorkGroupDetails?groupId=" + row.groupId)
+        .then(res => {
+          this.editGroupForm = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$http("/api" + "/user/users?userType=2")
+        .then(res => {
+          this.diseaseManagerList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$http("/api" + "/user/users?userType=3")
+        .then(res => {
+          this.doctorList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 提交修改
+    editSubmit: function() {
+      if (this.editGroupForm.groupName == "") {
+        this.$message.warning("请填写工作组名称！");
+        return;
+      }
+      let arr = this.editGroupForm.diseaseManagerIds.join(",");
+      this.editGroupForm.diseaseManagerIds = arr;
+      let arr1 = this.editGroupForm.doctorIds.join(",");
+      this.editGroupForm.doctorIds = arr1;
+      this.editGroupForm.userId = this.$store.state.user.user.id;
+      this.editGroupForm.hospitalId = 1;
+      this.$http
+        .post("api" + "/groups/updateWorkGroup", this.editGroupForm)
+        .then(res => {
+          if (res.data == true) {
+            this.$message.success(res.message);
+          } else {
+            this.$message.warning(res.message);
+          }
+          this.addClose()
         })
         .catch(err => {
           console.log(err);
@@ -284,7 +329,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     this.$http(

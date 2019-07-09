@@ -286,10 +286,11 @@ export default {
     }
   },
   mounted () {
-    var that = this
-    that.uploadUrl()
+    this.uploadUrl()
   },
-  created () {}
+  created () {
+    this.getyyList()
+  }
 }
 
 </script>

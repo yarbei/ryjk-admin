@@ -27,14 +27,7 @@ const menus = [
       { id: 'tjfx3', path: '/diseaseRisk', label: '疾病风险筛查统计与分析' }
     ]
   },
-  {
-    id: 'yygl',
-    icon: 'fa fa-hospital-o',
-    label: '医院管理',
-    submenu: [
-      { id: 'yygl1', path: '/hospitalManagement', label: '全部医院列表' }
-    ]
-  },
+  { id: 'hospitalManagement', icon: 'fa fa-hospital-o', label: '医院管理', path: '/hospitalManagement', name: 'hospitalManagement' },
   { id: 'myGroup', icon: 'fa fa-circle-o', label: '我的工作组', path: '/myGroup', name: 'myGroup' },
   { id: 'accountManagement', icon: 'fa fa-microchip', label: '账号/权限管理', path: '/accountManagement', name: 'accountManagement' },
   { id: 'gggl', icon: 'fa fa-bell-o', label: '公告管理', path: '/noticeManagement', name: 'noticeManagement' },
