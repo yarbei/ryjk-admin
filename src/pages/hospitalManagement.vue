@@ -16,9 +16,9 @@
           <el-button type="primary" @click="handleAdd" style="background-color: #52d7ac; border: 0; font-size: 14px">新增医院</el-button>
         </el-form-item>
 
-        <el-form-item>
+        <!-- <el-form-item>
           <el-button type="primary" style="background-color: #52d7ac; border: 0; font-size: 14px">导出</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-col>
 

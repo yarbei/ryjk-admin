@@ -66,7 +66,7 @@
           :total="page.total"
         ></el-pagination>
       </el-col>
-    </el-row> -->
+    </el-row>-->
     <!--新建账号界面-->
     <el-dialog title="新建账号" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addAccountForm" label-width="120px">
@@ -269,16 +269,10 @@ export default {
     // 显示新增界面
     addAccount: function() {
       this.addFormVisible = true;
-      this.$http("/api" + "/user/users?userType=2")
+      this.$http("/api" + "/menu/getMenuList")
         .then(res => {
-          this.diseaseManagerList = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http("/api" + "/user/users?userType=3")
-        .then(res => {
-          this.doctorList = res.data;
+          this.jurisdiction=res.data
+          console.log(res);
         })
         .catch(err => {
           console.log(err);
@@ -374,7 +368,7 @@ export default {
           this.filters.jobNum
       )
         .then(res => {
-          this.accountList=res.data
+          this.accountList = res.data;
           console.log(res);
         })
         .catch(err => {

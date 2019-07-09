@@ -89,7 +89,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
-    </el-col> -->
+    </el-col>-->
 
     <!--新增广告界面-->
     <el-dialog title="新增广告" :visible.sync="addFormVisible" :modal-append-to-body="false">
@@ -175,7 +175,6 @@ export default {
     // 生产环境和开发环境的判断
     uploadUrl() {
       var url = process.env.apiUrl + "/common/upload";
-      console.log(url);
       return url;
     },
     // 上传失败
@@ -230,7 +229,6 @@ export default {
       this.$http
         .get("/api" + `/advertisement/getAdvertisementList`)
         .then(res => {
-          console.log(res.data, "获取广告列表");
           this.ggArray = res.data;
         })
         .catch(err => {
