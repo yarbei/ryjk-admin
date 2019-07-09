@@ -31,8 +31,8 @@
     <el-table :data="accountList" :border="true" stripe highlight-current-row style="width: 100%;">
       <el-table-column prop="name" align="center" label="姓名"></el-table-column>
       <el-table-column prop="jobNum" align="center" label="账号"></el-table-column>
-      <el-table-column prop="" align="center" label="角色"></el-table-column>
-      <el-table-column prop="creatTime" align="center" label="创建时间"></el-table-column>
+      <el-table-column prop="roleNames" align="center" label="角色"></el-table-column>
+      <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
         <template slot-scope="scope">
           <el-button
@@ -54,7 +54,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-row style="margin-top:20px;" :gutter="80">
+    <!-- <el-row style="margin-top:20px;" :gutter="80">
       <el-col :span="24">
         <el-pagination
           @size-change="handlePageSizeChange"
@@ -66,7 +66,7 @@
           :total="page.total"
         ></el-pagination>
       </el-col>
-    </el-row>
+    </el-row> -->
     <!--新建账号界面-->
     <el-dialog title="新建账号" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addAccountForm" label-width="120px">

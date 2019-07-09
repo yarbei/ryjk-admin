@@ -1,7 +1,16 @@
 const menus = [
-  { id: '0', label: '控制面板', path: '/', icon: 'fa fa-dashboard' },
-  {
-    id: 'hzgl',
+  { id: '0',
+    label: '控制面板',
+    path: '/',
+    icon: 'fa fa-dashboard'
+  },
+  { id: 'hospitalManagement',
+    icon: 'fa fa-hospital-o',
+    label: '医院管理',
+    path: '/hospitalManagement',
+    name: 'hospitalManagement'
+  },
+  { id: 'hzgl',
     icon: 'fa fa-circle-o',
     label: '患者管理',
     path: '/p-data-table',
@@ -17,6 +26,29 @@ const menus = [
       { id: 'dbsx3', path: '/userException', name: 'userException', label: '用户行为异常' }
     ]
   },
+  { id: 'myGroup',
+    icon: 'fa fa-circle-o',
+    label: '我的工作组',
+    path: '/myGroup',
+    name: 'myGroup'
+  },
+  { id: 'gggl',
+    icon: 'fa fa-bell-o',
+    label: '公告管理',
+    path: '/noticeManagement',
+    name: 'noticeManagement' },
+  { id: 'ggtgl',
+    icon: 'fa fa-file-photo-o',
+    label: '广告管理',
+    path: '/posterManagement',
+    name: 'posterManagement'
+  },
+  { id: 'accountManagement',
+    icon: 'fa fa-microchip',
+    label: '账号/权限管理',
+    path: '/accountManagement',
+    name: 'accountManagement'
+  },
   {
     id: 'tjfx',
     icon: 'fa fa-bar-chart-o',
@@ -26,11 +58,6 @@ const menus = [
       { id: 'tjfx2', path: '/effect', label: '效果统计与分析' },
       { id: 'tjfx3', path: '/diseaseRisk', label: '疾病风险筛查统计与分析' }
     ]
-  },
-  { id: 'hospitalManagement', icon: 'fa fa-hospital-o', label: '医院管理', path: '/hospitalManagement', name: 'hospitalManagement' },
-  { id: 'myGroup', icon: 'fa fa-circle-o', label: '我的工作组', path: '/myGroup', name: 'myGroup' },
-  { id: 'accountManagement', icon: 'fa fa-microchip', label: '账号/权限管理', path: '/accountManagement', name: 'accountManagement' },
-  { id: 'gggl', icon: 'fa fa-bell-o', label: '公告管理', path: '/noticeManagement', name: 'noticeManagement' },
-  { id: 'ggtgl', icon: 'fa fa-file-photo-o', label: '广告管理', path: '/posterManagement', name: 'posterManagement' }
+  }
 ]
 export default menus

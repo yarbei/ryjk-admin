@@ -72,42 +72,38 @@ export default {
   methods: {
     ...mapActions(["login", "admin"]),
     userLogin() {
-      var that = this;
+
       if (!this.username || !this.password) {
         return this.$message.error("用户名和密码不能为空");
       }
-      if (that.roleType == null) {
+      if (this.roleType == null) {
         return this.$message.error("未选择角色");
       }
 
-      that.isLoging = true;
-      that.$http
+      this.isLoging = true;
+      this.$http
         .get(
           "/api" +
-            `/user/login?userAccount=${that.username}&password=${that.password}&roleType=${that.roleType}`
+            `/user/login?userAccount=${this.username}&password=${this.password}&roleType=${this.roleType}`
         )
         .then(res => {
+          console.log(res)
           if (res.data) {
-            that.$message.success("登录成功");
-
+            this.$message.success("登录成功");
             sessionStorage.setItem("loginUser", JSON.stringify(res.data));
-
-            that.$store.commit("SET_LOGIN_USER", res.data);
-
-            that.$store.commit(
+            this.$store.commit("SET_LOGIN_USER", res.data);
+            this.$store.commit(
               "SET_LOGIN_TOKEN",
               "4eea90fd-2752-481d-ae67-c75f8641a94a"
             );
-
-            that.isLoging = false;
-
-            that.$router.push({ name: "home" });
+            this.isLoging = false;
+            this.$router.push({ name: "home" });
           } else {
-            that.$message({
+            this.$message({
               message: "登录失败！",
               type: "error"
             });
-            that.isLoging = false;
+            this.isLoging = false;
           }
         })
         .catch(err => {
@@ -121,13 +117,11 @@ export default {
       this.roleType = '';
     } else if (this.$route.name == "admin") {
       this.isselect = false;
-      this.roleType = 0;
+      this.roleType = 1;
     }
-    console.log(this.roleType)
-    var that = this;
     sessionStorage.removeItem("loginUser");
     sessionStorage.removeItem("token");
-    that.$store.commit("SET_LOGIN_USER", null);
+    this.$store.commit("SET_LOGIN_USER", null);
   },
   watch: {
     $route(to, from) {
@@ -136,7 +130,7 @@ export default {
         this.roleType = '';
       } else if (this.$route.name == "admin") {
         this.isselect = false;
-        this.roleType = 0;
+        this.roleType = 1;
       }
     }
   }

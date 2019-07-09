@@ -6,7 +6,7 @@
     style="padding: 30px; background-color: #fff"
   >
     <!--基本信息-->
-    <el-tab-pane label="基本信息" name="jbxx">
+    <el-tab-pane label="基本信息" name="jbxx" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-form ref="form1" :model="form1" label-width="100px">
         <el-row :gutter="100">
@@ -100,7 +100,7 @@
     </el-tab-pane>
 
     <!--出院小结-->
-    <el-tab-pane label="出院小结" name="cyxj">
+    <el-tab-pane label="出院小结" name="cyxj" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-row v-for="item in cyxjArray" :key="item.id" style="margin: 0 0 20px">
         <el-col :span="16" :offset="4">
@@ -144,7 +144,7 @@
     </el-tab-pane>-->
 
     <!--计划管理-->
-    <el-tab-pane label="计划管理" name="jhxx">
+    <el-tab-pane label="计划管理" name="jhxx" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-card class="box-card jhxx_box" v-for="item in jhglList" :key="item.id">
         <div slot="header" class="clearfix jhxx_title">
@@ -202,7 +202,7 @@
     </el-tab-pane>
 
     <!--随访记录-->
-    <el-tab-pane label="随访记录" name="sfjl">
+    <el-tab-pane label="随访记录" name="sfjl" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-card class="box-card sfjl_box" v-for="item in sfjlArray" :key="item.sfjlId">
         <div slot="header" class="clearfix sfjl_title">
@@ -224,7 +224,7 @@
     </el-tab-pane>
 
     <!--个人体征-->
-    <el-tab-pane label="个人体征" name="grtz">
+    <el-tab-pane label="个人体征" name="grtz" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
 
       <el-card class="box-card grtz_box" v-for="item in grtzArray" :key="item.bodySignTypeId">
@@ -329,7 +329,6 @@ export default {
     this.getVisitRecord();
     this.getSummary();
     this.getSign();
-    this.getPlan();
     this.getHealthPlan(this.page.current, this.page.size);
     this.getSignEchart();
   },
@@ -479,26 +478,26 @@ export default {
       });
     },
     // 获取随访计划(随访建议)
-    getPlan() {
-      this.$http
-        .get(
-          "/api" +
-            `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
-              this.$store.state.user.user.id
-            }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
-        )
-        .then(res => {
-          if (res.data.list.length === 0) {
-            this.getsfjhStatus = true;
-          } else {
-            this.getsfjhStatus = false;
-            this.sfjyArray = res.data.list;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // getPlan() {
+    //   this.$http
+    //     .get(
+    //       "/api" +
+    //         `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
+    //           this.$store.state.user.user.id
+    //         }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
+    //     )
+    //     .then(res => {
+    //       if (res.data.list.length === 0) {
+    //         this.getsfjhStatus = true;
+    //       } else {
+    //         this.getsfjhStatus = false;
+    //         this.sfjyArray = res.data.list;
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     // 获取健康计划列表
     getHealthPlan(page, pageSize) {
       this.$http
