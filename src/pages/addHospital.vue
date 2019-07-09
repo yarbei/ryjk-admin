@@ -4148,9 +4148,7 @@ export default {
         detailPic.push(url)
       })
 
-      // console.log(this.addForm)
-      // console.log(this.detailPicList)
-      // console.log(this.listPicList)
+    
       this.addForm.listPic = listPic.length > 0 ? listPic.join(',') : ''
       this.addForm.detailPic = detailPic.length > 0 ? detailPic.join(',') : ''
       this.addForm.addressItem = this.addForm.pca ? this.addForm.pca.join(',') : '' // 区域code集合

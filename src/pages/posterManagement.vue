@@ -21,13 +21,16 @@
     <!--列表-->
     <el-table :data="ggArray" :border="true"  stripe highlight-current-row v-loading="listLoading" style="width: 100%;">
 
-      <el-table-column prop="name"  :show-overflow-tooltip="true" align="center" label="广告名称" sortable>
+      <el-table-column prop="content"  :show-overflow-tooltip="true" align="center" label="广告名称" sortable>
       </el-table-column>
 
-      <el-table-column prop="name"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
+      <el-table-column prop="link"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
       </el-table-column>
 
-      <el-table-column prop="createTime"   align="center" label="创建时间" sortable>
+      <el-table-column prop="createAuthor"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
+      </el-table-column>
+
+      <el-table-column prop="createDate"   align="center" label="创建时间" sortable>
       </el-table-column>
 
       <el-table-column align="center" width="360" fixed="right" label="操作">
@@ -40,7 +43,7 @@
     </el-table>
 
     <!--工具条-->
-    <el-col :span="24" class="toolbar toolbar_page" v-if="ggArray.length>10">
+    <el-col :span="24" class="toolbar toolbar_page" v-if="ggArray !== undefined  &&  ggArray.length > 0 ">
     <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -98,7 +101,7 @@
         </el-form-item>
 
         <el-form-item label="	广告地址" prop="description">
-          <el-input v-model="editForm.address" auto-complete="off"></el-input>
+          <el-input v-model="editForm.link" auto-complete="off"></el-input>
         </el-form-item>
 
       </el-form>
@@ -150,7 +153,7 @@ export default {
     },
     // 上传失败
 
-    // 上传成功
+    // 上传成功ß
     uploadSuccess (res, file) {
       if (this.activeName == '1') {
         this.imageUrl = URL.createObjectURL(file.raw)
@@ -195,13 +198,14 @@ export default {
           console.log(err)
         })
     },
+
     // 获取广告广告列表
     getyyList () {
       var that = this
-      that.$http.get('/api' + `/notice/getNoticeList?userId=${that.$store.state.user.user.id}`)
+      that.$http.get('/api' + `/advertisement/getAdvertisementList`)
         .then(res => {
           console.log(res.data, '获取广告列表')
-          //            that.ggArray = res.data.list;
+          that.ggArray = res.data.list;
         })
         .catch(err => {
           console.log(err)
@@ -287,8 +291,11 @@ export default {
   mounted () {
     var that = this
     that.uploadUrl()
+    
   },
-  created () {}
+  created () {
+    this.getyyList()
+  }
 }
 
 </script>
