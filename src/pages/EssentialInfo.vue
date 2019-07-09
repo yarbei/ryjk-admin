@@ -461,7 +461,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=1`
+            `bodySignRecord/getBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=1`
         )
         .then(res => {
           console.log(res)

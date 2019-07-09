@@ -45,9 +45,11 @@ const menus = [
   },
   { id: 'accountManagement',
     icon: 'fa fa-microchip',
-    label: '账号/权限管理',
-    path: '/accountManagement',
-    name: 'accountManagement'
+    label: '账号/角色管理',
+    submenu: [
+      { id: 'accountManagement', path: '/accountManagement', label: '账号管理' },
+      { id: 'role', path: '/role', label: '角色管理' }
+    ]
   },
   {
     id: 'tjfx',

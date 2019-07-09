@@ -2,35 +2,20 @@
   <section class="table_container">
     <!--顶部工具条-->
     <el-col :span="24" class="toolbar toolbar_title" style="padding-bottom: 0px;">
-      <h3>账号管理</h3>
-      <el-form :inline="true" :model="filters" class="toolbar_form">
-        <el-form-item class="f-right search_input">
-          <el-input v-model="filters.groupName" placeholder="请输入姓名/账号">
-            <template slot="append" icon="el-icon-search">
-              <el-button
-                type="primary"
-                v-on:click="getAccount"
-                style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac"
-              >
-                <i class="el-icon-search" style="margin-right: 5px"></i>搜索
-              </el-button>
-            </template>
-          </el-input>
-        </el-form-item>
+      <h3>角色管理</h3>
+      <el-form :inline="true" class="toolbar_form">
         <el-form-item>
           <el-button
             type="primary"
-            @click="addAccount"
+            @click="addRole"
             style="background-color: #52d7ac; border: 0; font-size: 14px"
-          >新建账号</el-button>
+          >新建角色</el-button>
         </el-form-item>
       </el-form>
     </el-col>
 
     <!--列表-->
-    <el-table :data="accountList" :border="true" stripe highlight-current-row style="width: 100%;">
-      <el-table-column prop="name" align="center" label="姓名"></el-table-column>
-      <el-table-column prop="jobNum" align="center" label="账号"></el-table-column>
+    <el-table :data="roleList" :border="true" stripe highlight-current-row style="width: 100%;">
       <el-table-column prop="roleNames" align="center" label="角色"></el-table-column>
       <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
@@ -39,17 +24,17 @@
             round
             type="text"
             style="color: #f8b14b"
-            @click="editAccount(scope.$index, scope.row)"
+            @click="editRole(scope.$index, scope.row)"
           >
-            <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改账号
+            <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改权限
           </el-button>
           <el-button
             round
             type="text"
             style="color: #7de1c1"
-            @click="deleteGroup(scope.$index, scope.row)"
+            @click="deleteRole(scope.$index, scope.row)"
           >
-            <i class="el-icon-delete" style="margin-right: 5px"></i>删除账号
+            <i class="el-icon-delete" style="margin-right: 5px"></i>删除该角色
           </el-button>
         </template>
       </el-table-column>
@@ -68,27 +53,18 @@
       </el-col>
     </el-row>-->
     <!--新建账号界面-->
-    <el-dialog title="新建账号" :visible.sync="addFormVisible" :modal-append-to-body="false">
-      <el-form :model="addAccountForm" label-width="120px">
-        <el-form-item label="姓名" required>
-          <el-select v-model="addAccountForm.userId" placeholder="请选择">
-            <el-option
-              v-for="item in doctorName"
-              :key="item.id"
-              :value="item.id"
-              :label="item.name"
-            ></el-option>
-          </el-select>
+    <el-dialog title="新建角色" :visible.sync="addFormVisible" :modal-append-to-body="false">
+      <el-form :model="addRoleForm" label-width="120px">
+        <el-form-item label="名称" required>
+          <el-input v-model="addRoleForm.name" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item label="选择角色 : " required>
-          <el-select v-model="addAccountForm.roleIds" @change="selectName" placeholder="请选择" multiple>
-            <el-option
-              v-for="item in roleList"
-              :key="item.roleId"
-              :value="item.roleId"
-              :label="item.roleName"
-            ></el-option>
-          </el-select>
+        <el-form-item label="选择权限: " prop="doctorIds">
+          <el-tree
+            :data="jurisdiction"
+            :props="defaultProps"
+            show-checkbox
+            @check-change="handleCheckChange"
+          ></el-tree>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -97,27 +73,20 @@
       </div>
     </el-dialog>
     <!--修改账号界面-->
-    <el-dialog title="修改账号" :visible.sync="editFormVisible" :modal-append-to-body="false">
-      <el-form :model="editAccountForm" label-width="120px">
-        <el-form-item label="姓名" required>
-          <el-select v-model="editAccountForm.name" placeholder="请选择" multiple>
-            <el-option
-              v-for="item in doctorName"
-              :key="item.id"
-              :value="item.id"
-              :label="item.name"
-            ></el-option>
+    <el-dialog title="修改角色" :visible.sync="editFormVisible" :modal-append-to-body="false">
+      <el-form :model="editRoleForm" label-width="120px">
+        <el-form-item label="名称" required>
+          <el-select v-model="editRoleForm.name" placeholder="请选择" multiple>
+            <el-option value="0" label="疾病管理师"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="选择角色 : " required>
-          <el-select v-model="editAccountForm.role" placeholder="请选择" multiple>
-            <el-option
-              v-for="item in roleList"
-              :key="item.roleId"
-              :value="item.roleId"
-              :label="item.roleName"
-            ></el-option>
-          </el-select>
+        <el-form-item label="选择权限: " prop="doctorIds">
+          <el-tree
+            :data="jurisdiction"
+            :props="defaultProps"
+            show-checkbox
+            @check-change="handleCheckChange"
+          ></el-tree>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -134,23 +103,19 @@ export default {
   mixins: [pagination],
   data() {
     return {
-      filters: {
-        name: "",
-        jobNum: ""
+      jurisdiction: [],
+      defaultProps: {
+        children: "children",
+        label: "label"
       },
-      doctorName: [],
-      accountList: [],
       roleList: [],
-      //新增账号界面数据
-      addAccountForm: {
-        userId:'',
-        roleIds:''
-      },
+      //新增角色界面数据
+      addRoleForm: {},
       addFormVisible: false, //新增界面是否显示
       editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
       // 编辑界面数据
-      editAccountForm: {},
+      editRoleForm: {},
       addLoading: false,
       user: null
     };
@@ -165,12 +130,9 @@ export default {
       this.page.current = val;
       this.getUsers(this.page.current, this.page.size);
     },
-    selectName(event) {
-      console.log(event);
-    },
-    // 删除账号
-    deleteGroup(index, row) {
-      this.$confirm("此操作将删除该账号, 是否继续?", "提示", {
+    // 删除角色
+    deleteRole(index, row) {
+      this.$confirm("此操作将删除该角色, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
@@ -208,18 +170,11 @@ export default {
       this.editForm = Object.assign({}, row);
     },
     // 显示新增界面
-    addAccount: function() {
+    addRole: function() {
       this.addFormVisible = true;
-      this.$http("/api" + "/user/getRoleList")
+      this.$http("/api" + "/menu/getMenuList")
         .then(res => {
-          this.roleList = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http("/api" + "/doctor/getDoctorList?hospitalId=1&type=2")
-        .then(res => {
-          this.doctorName = res.data.list;
+          this.jurisdiction = res.data;
           console.log(res);
         })
         .catch(err => {
@@ -228,12 +183,15 @@ export default {
     },
     // 提交新增
     addSubmit: function() {
-      let str = this.addAccountForm.roleIds.join(",");
-      this.addAccountForm.roleIds = str;
+      let arr = this.addRoleForm.diseaseManagerIds.join(",");
+      this.addRoleForm.diseaseManagerIds = arr;
+      let arr1 = this.addRoleForm.doctorIds.join(",");
+      this.addRoleForm.doctorIds = arr1;
+      this.addRoleForm.userId = this.$store.state.user.user.id;
+      this.addRoleForm.hospitalId = 1;
       this.$http
-        .post("/api" + "/user/userAssignmentRoles",this.addAccountForm)
+        .post("api" + "/groups/addWorkGroup", this.addRoleForm)
         .then(res => {
-          console.log(res);
           if (res.data == true) {
             this.$message.success(res.message);
           } else {
@@ -245,20 +203,25 @@ export default {
         });
     },
     // 显示修改界面
-    editAccount: function(index, row) {
+    editRole: function(index, row) {
       this.editFormVisible = true;
-      this.$http("/api" + "user/getRolesByUserId?userId="+row.userId)
+      this.$http("/api" + "/groups/getWorkGroupDetails?groupId=" + row.groupId)
         .then(res => {
-          console.log(res)
-          // this.roleList = res.data;
+          this.editGroupForm = res.data;
         })
         .catch(err => {
           console.log(err);
         });
-      this.$http("/api" + "/doctor/getDoctorList?hospitalId=1&type=2")
+      this.$http("/api" + "/user/users?userType=2")
         .then(res => {
-          this.doctorName = res.data.list;
-          console.log(res);
+          this.diseaseManagerList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$http("/api" + "/user/users?userType=3")
+        .then(res => {
+          this.doctorList = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -295,16 +258,14 @@ export default {
       this.editFormVisible = false;
     },
     //获取账号列表
-    getAccount() {
+    getRole() {
       this.$http(
         "/api" +
-          "/user/userList?name=" +
-          this.filters.name +
-          "&jobNum=" +
-          this.filters.jobNum
+          "/user/userList?name="
       )
         .then(res => {
-          this.accountList = res.data;
+          this.roleList = res.data;
+          console.log(res);
         })
         .catch(err => {
           console.log(err);
@@ -315,7 +276,7 @@ export default {
     }
   },
   created() {
-    this.getAccount();
+    this.getRole();
   }
 };
 </script>

@@ -39,7 +39,8 @@ export default new Router({
         { path: '/myGroup', name: 'myGroup', component: page('myGroup') },
         { path: '/diseaseRisk', name: 'diseaseRisk', component: page('diseaseRisk') },
         { path: '/effect', name: 'effect', component: page('effect') },
-        { path: '/accountManagement', name: 'accountManagement', component: page('accountManagement') }
+        { path: '/accountManagement', name: 'accountManagement', component: page('accountManagement') },
+        { path: '/role', name: 'role', component: page('role') }
       ]
     },
     { path: '/login', name: 'login', component: page('login') },
