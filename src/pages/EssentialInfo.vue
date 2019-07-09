@@ -237,7 +237,7 @@
             >({{item.createTime}})</span>
           </span>
           <p>
-            <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value}}</span>
+            <!-- <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value}}</span> -->
             <span>最新{{item.bodySignType}}记录 : {{item.value}}</span>
             <span class="f-right">{{item.sureUpdate == 0?"未更新":"已更新"}}</span>
           </p>
@@ -466,12 +466,6 @@ export default {
         )
         .then(res => {
           console.log(res)
-          // if (res.data.length == 0) {
-          //   this.getSignStatus = true;
-          // } else {
-          //   this.grtzArray = res.data;
-          //   this.getSignStatus = false;
-          // }
         })
         .catch(err => {
           console.log(err);

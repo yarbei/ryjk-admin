@@ -247,11 +247,12 @@ export default {
         .post("api" + "/groups/addWorkGroup", this.addGroupForm)
         .then(res => {
           if (res.data == true) {
+            this.getGroup();
             this.$message.success(res.message);
           } else {
             this.$message.warning(res.message);
           }
-           this.addClose()
+          this.addClose();
         })
         .catch(err => {
           console.log(err);
@@ -298,11 +299,12 @@ export default {
         .post("api" + "/groups/updateWorkGroup", this.editGroupForm)
         .then(res => {
           if (res.data == true) {
+            this.getGroup();
             this.$message.success(res.message);
           } else {
             this.$message.warning(res.message);
           }
-          this.addClose()
+          this.addClose();
         })
         .catch(err => {
           console.log(err);
