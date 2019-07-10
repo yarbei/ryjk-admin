@@ -500,39 +500,39 @@ export default {
     //获取随访列表以及随访图表
     selectDate(event) {
       console.log(event)
-      // //获取个人体征列表
-      // this.$http
-      //   .get(
-      //     "/api" +
-      //       `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
-      //   )
-      //   .then(res => {
-      //     console.log(res);
-      //     res.data.forEach(item => {
-      //       this.bodySignTypeIdArray.push(item.bodySignTypeId);
-      //     });
-      //     if (res.data.length === 0) {
-      //       this.getSignStatus = true;
-      //     } else {
-      //       this.grtzArray = res.data;
-      //       this.getSignStatus = false;
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
-      // // 获取个人体征图表数据
-      // this.$http
-      //   .get(
-      //     "/api" +
-      //       `bodySignRecord/getBodySignRecordByTime?openId=${this.personInfo.openId}&bodySignTypeId=1`
-      //   )
-      //   .then(res => {
-      //     console.log(res);
-      //   })
-      //   .catch(err => {
-      //     console.log(err);
-      //   });
+      //获取个人体征列表
+      this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}&startTime=${event[0]}&endTime=${event[1]}`
+        )
+        .then(res => {
+          console.log(res);
+          res.data.forEach(item => {
+            this.bodySignTypeIdArray.push(item.bodySignTypeId);
+          });
+          if (res.data.length === 0) {
+            this.getSignStatus = true;
+          } else {
+            this.grtzArray = res.data;
+            this.getSignStatus = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      // 获取个人体征图表数据
+      this.$http
+        .get(
+          "/api" +
+            `bodySignRecord/getBodySignRecordByTime?openId=${this.personInfo.openId}&bodySignTypeId=1`
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };

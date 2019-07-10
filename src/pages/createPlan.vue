@@ -191,7 +191,7 @@ export default {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         dose: this.dose || 0,
-        createDate: this.createDate || new Date(),
+        createDate: this.createDate || String(new Date()),
         name: this.name || "",
         patientId: this.personInfo.id,
         doctorId: this.user.id,
@@ -199,15 +199,15 @@ export default {
         item: list
       };
       if (params.name == "") {
-        this.$$message.warning("请填写计划名称！");
+        this.$message.warning("请填写计划名称！");
         return;
       }
       if (params.createDate == "") {
-        this.$$message.warning("请选择计划时间！");
+        this.$message.warning("请选择计划时间！");
         return;
       }
       if (params.monitorItem == "") {
-        this.$$message.warning("请选择必测体征项！");
+        this.$message.warning("请选择必测体征项！");
         return;
       }
       if (this.planId) {

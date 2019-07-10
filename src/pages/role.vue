@@ -203,8 +203,8 @@ export default {
       // this.addFormVisible = true;
       this.$http("/api" + "/menu/getMenuList")
         .then(res => {
-          this.jurisdiction = res.data
           console.log(res)
+          this.jurisdiction = res.data.menu
         })
         .catch(err => {
           console.log(err)
@@ -322,7 +322,6 @@ export default {
       )
         .then(res => {
           this.partList = res.data;
-          console.log(res)
         })
         .catch(err => {
           console.log(err)
@@ -336,7 +335,6 @@ export default {
       )
         .then(res => {
           this.roleList = res.data;
-          console.log(res);
         })
         .catch(err => {
           console.log(err);

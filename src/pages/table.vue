@@ -173,7 +173,7 @@
           type="primary"
           @click="batchEditGroup"
           style="background-color: #52a3d7; border: 0; font-size: 14px"
-        >修改分组</el-button>
+        >批量修改分组</el-button>
       </el-col>
       <!-- <el-col :span="4">
         <el-button>批量删除</el-button>
