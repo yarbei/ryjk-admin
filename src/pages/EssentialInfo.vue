@@ -189,6 +189,15 @@
 
       <el-card class="box-card jhxx_box" v-if="getPlanStatus">
         <h2 style="text-align: center; color: #999;">暂无数据！</h2>
+        <div class="jhxx_btn">
+          <el-row>
+            <el-button
+              class="f-right"
+              type="primary"
+              @click="jhxxAdd"
+            >追加计划</el-button>
+          </el-row>
+        </div>
       </el-card>
       <el-pagination
         @size-change="handlePageSizeChange"
@@ -226,7 +235,17 @@
     <!--个人体征-->
     <el-tab-pane label="个人体征" name="grtz" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
-
+      <h1>请选择开始和结束日期进行查看</h1>
+      <el-date-picker
+        v-model="date"
+        type="daterange"
+        format="yyyy-MM-dd"
+        value-format="yyyy-MM-dd"
+        range-separator="至"
+        start-placeholder="开始日期"
+        end-placeholder="结束日期"
+        @change="selectDate"
+      ></el-date-picker>
       <el-card class="box-card grtz_box" v-for="item in grtzArray" :key="item.bodySignTypeId">
         <div slot="header" class="clearfix grtz_title">
           <span>
@@ -296,6 +315,7 @@ export default {
   name: "EssentialInfo",
   data() {
     return {
+      date: "",
       personInfoId: "",
       personInfo: {},
       jhxxStopdialog: false,
@@ -320,7 +340,7 @@ export default {
       getSignStatus: false,
       getsfjlStatus: false,
       planId: null,
-      bodySignTypeIdArray:[]
+      bodySignTypeIdArray: []
     };
   },
   created() {
@@ -328,9 +348,19 @@ export default {
     this.getUsers();
     this.getVisitRecord();
     this.getSummary();
-    this.getSign();
     this.getHealthPlan(this.page.current, this.page.size);
-    this.getSignEchart();
+    // 获取个人体征图表数据
+      this.$http
+        .get(
+          "/api" +
+            `bodySignRecord/getBodySignRecordByTime?openId=${this.personInfo.openId}&bodySignTypeId=1`
+        )
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
   },
   mounted() {
     if (this.$route.params.selectId == "sfjl") {
@@ -407,6 +437,7 @@ export default {
             `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.id}`
         )
         .then(res => {
+          console.log(res)
           if (res.data.list.length == 0) {
             this.getsfjlStatus = true;
           } else {
@@ -434,42 +465,7 @@ export default {
           console.log(err);
         });
     },
-    // 获取个人体征列表数据
-    getSign() {
-      this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
-        )
-        .then(res => {
-          res.data.forEach(item => {
-            this.bodySignTypeIdArray.push(item.bodySignTypeId)
-          });
-          if (res.data.length === 0) {
-            this.getSignStatus = true;
-          } else {
-            this.grtzArray = res.data;
-            this.getSignStatus = false;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    // 获取个人体征图表数据
-    getSignEchart() {
-      this.$http
-        .get(
-          "/api" +
-            `bodySignRecord/getBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=1`
-        )
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+
     // 查看随访详情
     lookInfo(id) {
       this.$router.replace({
@@ -477,27 +473,6 @@ export default {
         params: { routerForm: "EssentialInfo", id: id }
       });
     },
-    // 获取随访计划(随访建议)
-    // getPlan() {
-    //   this.$http
-    //     .get(
-    //       "/api" +
-    //         `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
-    //           this.$store.state.user.user.id
-    //         }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
-    //     )
-    //     .then(res => {
-    //       if (res.data.list.length === 0) {
-    //         this.getsfjhStatus = true;
-    //       } else {
-    //         this.getsfjhStatus = false;
-    //         this.sfjyArray = res.data.list;
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
     // 获取健康计划列表
     getHealthPlan(page, pageSize) {
       this.$http
@@ -520,7 +495,44 @@ export default {
     },
     // 去随访
     createVisit(planId) {
-      this.$router.push({path:"/followupplan",query:{planId:planId}});
+      this.$router.push({ path: "/followupplan", query: { planId: planId } });
+    },
+    //获取随访列表以及随访图表
+    selectDate(event) {
+      console.log(event)
+      // //获取个人体征列表
+      // this.$http
+      //   .get(
+      //     "/api" +
+      //       `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
+      //   )
+      //   .then(res => {
+      //     console.log(res);
+      //     res.data.forEach(item => {
+      //       this.bodySignTypeIdArray.push(item.bodySignTypeId);
+      //     });
+      //     if (res.data.length === 0) {
+      //       this.getSignStatus = true;
+      //     } else {
+      //       this.grtzArray = res.data;
+      //       this.getSignStatus = false;
+      //     }
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+      // // 获取个人体征图表数据
+      // this.$http
+      //   .get(
+      //     "/api" +
+      //       `bodySignRecord/getBodySignRecordByTime?openId=${this.personInfo.openId}&bodySignTypeId=1`
+      //   )
+      //   .then(res => {
+      //     console.log(res);
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
     }
   }
 };
@@ -667,5 +679,9 @@ export default {
 
 .suggest-list {
   font-size: 14px;
+}
+.el-range-editor.el-input__inner {
+  text-align: right;
+  margin-bottom: 30px;
 }
 </style>

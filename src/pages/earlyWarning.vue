@@ -21,8 +21,8 @@
         </el-form-item>
       </el-form>
       <el-select v-model="filters.status" placeholder="请选择状态" @change="getEwList">
-        <el-option :value="1" label="未随访"></el-option>
-        <el-option :value="0" label="已随访"></el-option>
+        <el-option :value="1" label="未完成"></el-option>
+        <el-option :value="0" label="已完成"></el-option>
       </el-select>
     </el-col>
     <!--列表-->
@@ -44,7 +44,7 @@
             style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
             @click="changelInfo(scope.$index, scope.row)"
             :disabled="scope.row.status==0?true:false"
-          >{{scope.row.status==0?'已完成':'未完成'}}</el-button>
+          >{{scope.row.status==0?'未完成':'完成'}}</el-button>
         </template>
       </el-table-column>
     </el-table>
