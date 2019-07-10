@@ -3,7 +3,7 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar toolbar_title">
       <h3>广告管理</h3>
-      <el-form :inline="true" :model="filters" class="toolbar_form">
+<!--       <el-form :inline="true" :model="filters" class="toolbar_form">
         <el-form-item class="f-left search_input">
           <el-input v-model="filters.name" placeholder="广告名">
             <template slot="append" icon="el-icon-search">
@@ -25,7 +25,7 @@
             style="background-color: #52d7ac; border: 0; font-size: 14px"
           >新增广告</el-button>
         </el-form-item>
-      </el-form>
+      </el-form> -->
     </el-col>
 
     <!--列表-->
@@ -127,11 +127,11 @@
     <el-dialog title="修改广告" :visible.sync="editFormVisible" :modal-append-to-body="false">
       <el-form :model="editForm" label-width="100px" ref="editForm">
         <el-form-item label="	广告名称" prop="name">
-          <el-input v-model="editForm.name" auto-complete="off"></el-input>
+          <el-input v-model="editFormCall.content" auto-complete="off"></el-input>
         </el-form-item>
 
         <el-form-item label="	广告地址" prop="description">
-          <el-input v-model="editForm.address" auto-complete="off"></el-input>
+          <el-input v-model="editFormCall.link" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
 
@@ -168,7 +168,10 @@ export default {
 
       editFormVisible: false, // 修改界面是否显示,
       // 修改界面数据
-      editForm: {}
+      editForm: {},
+
+      // 新数组
+      editFormCall: {}
     };
   },
   methods: {
@@ -250,14 +253,14 @@ export default {
     },
     // 删除广告
     delDepartment(s1, s2) {
+      console.log(s2)
       this.$confirm("此操作将删除该广告, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "error"
-      })
-        .then(() => {
+      }).then(() => {
           this.$http
-            .post("/api" + `/hospital/deleteHospital`, { id: s2.id })
+            .post("/api" + `/advertisement/deleteAdvertisement?id=${s2.id}`)
             .then(res => {
               if (res.data) {
                 this.$message.success("删除广告成功");
@@ -276,17 +279,14 @@ export default {
     },
     // 修改广告弹窗
     handleEdit: function(s1, s2) {
-      this.editFormVisible = true;
-      this.editForm = s2;
-      this.editForm.pca = [s2.province, s2.city, s2.area];
+      this.editFormVisible = true
+      this.editForm = s2
+      this.editFormCall = Object.assign({}, s2)
     },
     // 修改广告
     upDateDepartment() {
-      this.editForm.province = this.editForm.pca[0];
-      this.editForm.city = this.editForm.pca[1];
-      this.editForm.area = this.editForm.pca[2];
       this.$http
-        .post("/api" + `/hospital/updateHospital`, this.editForm)
+        .post("/api" + `/advertisement/updateAdvertisement`, this.editFormCall)
         .then(res => {
           if (res.data) {
             this.$message.success("修改广告成功");

@@ -7,7 +7,7 @@
         <el-form-item>
           <el-button
             type="primary"
-            @click="addRole"
+            @click="newRoles"
             style="background-color: #52d7ac; border: 0; font-size: 14px"
           >新建角色</el-button>
         </el-form-item>
@@ -16,7 +16,7 @@
 
     <!--列表-->
     <el-table :data="roleList" :border="true" stripe highlight-current-row style="width: 100%;">
-      <el-table-column prop="roleNames" align="center" label="角色"></el-table-column>
+      <el-table-column prop="roleName" align="center" label="角色"></el-table-column>
       <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
         <template slot-scope="scope">
@@ -60,9 +60,11 @@
         </el-form-item>
         <el-form-item label="选择权限: " prop="doctorIds">
           <el-tree
+            ref="tree"
+            show-checkbox
             :data="jurisdiction"
             :props="defaultProps"
-            show-checkbox
+            node-key="id"
             @check-change="handleCheckChange"
           ></el-tree>
         </el-form-item>
@@ -72,20 +74,34 @@
         <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
     </el-dialog>
+
+
+
     <!--修改账号界面-->
     <el-dialog title="修改角色" :visible.sync="editFormVisible" :modal-append-to-body="false">
       <el-form :model="editRoleForm" label-width="120px">
         <el-form-item label="名称" required>
-          <el-select v-model="editRoleForm.name" placeholder="请选择" multiple>
-            <el-option value="0" label="疾病管理师"></el-option>
+          <el-select
+            v-model="editRoleForm.name"
+            placeholder="请选择"
+            >
+            <el-option
+              v-for="item in partList"
+              :key="item.roleId"
+              :value="item.roleId"
+              :label="item.roleName"
+            ></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="选择权限: " prop="doctorIds">
           <el-tree
+            ref="editTree"
             :data="jurisdiction"
+            node-key="id"
+            :default-checked-keys="newList"
             :props="defaultProps"
             show-checkbox
-            @check-change="handleCheckChange"
+            @check-change="editCheckChange"
           ></el-tree>
         </el-form-item>
       </el-form>
@@ -109,159 +125,214 @@ export default {
         label: "label"
       },
       roleList: [],
+      partList: [],
       //新增角色界面数据
       addRoleForm: {},
       addFormVisible: false, //新增界面是否显示
       editFormVisible: false, // 编辑界面是否显示
       editLoading: false,
       // 编辑界面数据
-      editRoleForm: {},
+      editRoleForm: {
+        name: '章'
+      },
       addLoading: false,
-      user: null
+      user: null,
+      listArr: [],
+      newList: []
     };
   },
   methods: {
     //分页查询方法
     handleSearch() {
-      this.getUsers(1, this.page.size);
+      this.getUsers(1, this.page.size)
     },
     // 分页
     handlePageCurrentChange(val) {
-      this.page.current = val;
-      this.getUsers(this.page.current, this.page.size);
+      this.page.current = val
+      this.getUsers(this.page.current, this.page.size)
     },
     // 删除角色
     deleteRole(index, row) {
+
       this.$confirm("此操作将删除该角色, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning"
       })
         .then(() => {
-          let formData = { groupId: row.groupId };
+          // let formData = {roleId: row.roleId}
+          // console.log(formData)
           this.$http
-            .post("/api" + "/groups/delWorkGroup", formData)
-            .then(res => {
-              console.log(res);
-              this.getAccount();
-              this.$message({
-                type: "success",
-                message: "删除成功!"
-              });
+            .post("/api" + `/menu/deleteMenu?roleId=${row.roleId}`)
+            .then((res) => {
+              console.log(res.error)
+              if(res.error == 0) {
+                this.getRole()
+                this.$message({
+                  type: "success",
+                  message: "删除成功!"
+                })
+              }
             })
-            .catch(err => {
-              console.log(err);
+            .catch((err) => {
+              console.log(err)
+              // console.log(err)
               this.$message({
                 type: "warning",
                 message: "删除失败!"
-              });
-            });
+              })
+            })
         })
         .catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除"
-          });
-        });
+          })
+        })
     },
     // 显示编辑界面
     handleEdit: function(index, row) {
       this.editFormVisible = true;
-      this.editForm = Object.assign({}, row);
+      this.editForm = Object.assign({}, row)
+    },
+    newRoles() {
+      this.addFormVisible = true
     },
     // 显示新增界面
     addRole: function() {
-      this.addFormVisible = true;
+      // this.addFormVisible = true;
       this.$http("/api" + "/menu/getMenuList")
         .then(res => {
-          this.jurisdiction = res.data;
-          console.log(res);
+          this.jurisdiction = res.data
+          console.log(res)
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
     },
-    // 提交新增
+    // 新建角色
     addSubmit: function() {
-      let arr = this.addRoleForm.diseaseManagerIds.join(",");
-      this.addRoleForm.diseaseManagerIds = arr;
-      let arr1 = this.addRoleForm.doctorIds.join(",");
-      this.addRoleForm.doctorIds = arr1;
-      this.addRoleForm.userId = this.$store.state.user.user.id;
-      this.addRoleForm.hospitalId = 1;
-      this.$http
-        .post("api" + "/groups/addWorkGroup", this.addRoleForm)
-        .then(res => {
-          if (res.data == true) {
-            this.$message.success(res.message);
-          } else {
-            this.$message.warning(res.message);
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
+
+      let o = {
+        roleName: this.addRoleForm.name,
+        menuIds: this.listArr.join(',')
+      }
+
+      if(this.addRoleForm.name == undefined) {
+        this.$message.warning('请填写姓名')
+      } else if(this.listArr.length < 1) {
+        this.$message.warning('请选择权限')
+      } else {
+        this.$http
+          .post("/api" + "/menu/addOrUpdateMenu", o)
+          .then(res => {
+            if (res.data == true) {
+              this.$message.success(res.message)
+              this.addFormVisible = false
+              this.getRole()
+
+              this.addRoleForm.name = ''
+
+              this.listArr = []
+
+              this.$refs.tree.setCheckedNodes([])
+            } else {
+              this.$message.warning(res.message)
+            }
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+
+
     },
     // 显示修改界面
     editRole: function(index, row) {
-      this.editFormVisible = true;
-      this.$http("/api" + "/groups/getWorkGroupDetails?groupId=" + row.groupId)
-        .then(res => {
-          this.editGroupForm = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http("/api" + "/user/users?userType=2")
-        .then(res => {
-          this.diseaseManagerList = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http("/api" + "/user/users?userType=3")
-        .then(res => {
-          this.doctorList = res.data;
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      this.list()
+      console.log(row)
+      this.editFormVisible = true
+      this.editRoleForm = row
+      setTimeout(() => {
+        this.editRoleForm.name = row.roleId
+      }, 20)
+      
+
+      // console.log(this.editRoleForm.name)
+
+      if(this.newList.length > 0) {
+        this.$refs.editTree.setCheckedNodes([])
+      }
+      
+      if(row.roleId) {
+        this.$http
+          .get("/api" + `/menu/getByRoleId?roleId=${row.roleId}`)
+          .then(res => {
+            this.newList = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+
+
+    },
+    editClose() {
+      this.newList = []
     },
     // 提交修改
     editSubmit: function() {
-      if (this.editGroupForm.groupName == "") {
-        this.$message.warning("请填写工作组名称！");
-        return;
+
+      let o = {
+        roleName: this.editRoleForm.roleName,
+        menuIds: this.listArr.join(','),
+        roleId: this.editRoleForm.name
       }
-      let arr = this.editGroupForm.diseaseManagerIds.join(",");
-      this.editGroupForm.diseaseManagerIds = arr;
-      let arr1 = this.editGroupForm.doctorIds.join(",");
-      this.editGroupForm.doctorIds = arr1;
-      this.editGroupForm.userId = this.$store.state.user.user.id;
-      this.editGroupForm.hospitalId = 1;
+      console.log(o)
+
       this.$http
-        .post("api" + "/groups/updateWorkGroup", this.editGroupForm)
+        .post("/api" + "/menu/addOrUpdateMenu", o)
         .then(res => {
           if (res.data == true) {
-            this.$message.success(res.message);
+            this.$message.success(res.message)
+            this.addFormVisible = false
+
+            this.getRole()
+
+            this.addRoleForm.name = ''
+            this.listArr = []
           } else {
-            this.$message.warning(res.message);
+            this.$message.warning(res.message)
           }
         })
         .catch(err => {
-          console.log(err);
-        });
+          console.log(err)
+        })
+
     },
     // 关闭新增
     addClose() {
       this.addFormVisible = false;
       this.editFormVisible = false;
     },
+    list() {
+      this.$http(
+        "/api" +
+          "/user/getRoleList"
+      )
+        .then(res => {
+          this.partList = res.data;
+          console.log(res)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
     //获取账号列表
     getRole() {
       this.$http(
         "/api" +
-          "/user/userList?name="
+          "/menu/getRoleList"
       )
         .then(res => {
           this.roleList = res.data;
@@ -272,11 +343,28 @@ export default {
         });
     },
     handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate);
+      let res = this.$refs.tree.getCheckedNodes()
+      let arr = []
+      res.forEach((item) => {
+        arr.push(item.id)
+      })
+      this.listArr = arr
+    },
+    editCheckChange() {
+      console.log(111111)
+      let arr = []
+      let res = this.$refs.editTree.getCheckedNodes()
+      res.forEach((item) => {
+        arr.push(item.id)
+      })
+      this.listArr = arr
     }
   },
+
   created() {
-    this.getRole();
+    this.getRole()
+    this.addRole()
+    this.list()
   }
 };
 </script>
