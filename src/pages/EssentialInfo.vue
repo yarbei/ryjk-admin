@@ -191,11 +191,7 @@
         <h2 style="text-align: center; color: #999;">暂无数据！</h2>
         <div class="jhxx_btn">
           <el-row>
-            <el-button
-              class="f-right"
-              type="primary"
-              @click="jhxxAdd"
-            >追加计划</el-button>
+            <el-button class="f-right" type="primary" @click="jhxxAdd">追加计划</el-button>
           </el-row>
         </div>
       </el-card>
@@ -246,24 +242,119 @@
         end-placeholder="结束日期"
         @change="selectDate"
       ></el-date-picker>
-      <el-card class="box-card grtz_box" v-for="item in grtzArray" :key="item.bodySignTypeId">
-        <div slot="header" class="clearfix grtz_title">
-          <span>
-            {{item.bodySignType}}
-            <span
-              class="grtz_titleTime"
-              v-if="!(item.createTime == null)"
-            >({{item.createTime}})</span>
-          </span>
-          <p>
-            <!-- <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value}}</span> -->
-            <span>最新{{item.bodySignType}}记录 : {{item.value}}</span>
-            <span class="f-right">{{item.sureUpdate == 0?"未更新":"已更新"}}</span>
-          </p>
-        </div>
-        <div class="text item grtz_content" :id="'grtz_chart'+item.bodySignTypeId"></div>
-      </el-card>
-
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[0].bodySignType}}记录 : {{grtzArray[0].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[0].sureUpdate == 0?"未更新":"更新时间："+grtzArray[0].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[0].bodySignTypeId">
+              <ve-line :data="xueya" :extend="extend" :settings="xueyaSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[1].bodySignType}}记录 : {{grtzArray[1].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[1].sureUpdate == 0?"未更新":"更新时间："+grtzArray[1].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[1].bodySignTypeId">
+              <ve-line :data="xuetang" :extend="extend" :settings="xuetangSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[2].bodySignType}}记录 : {{grtzArray[2].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[2].sureUpdate == 0?"未更新":"更新时间："+grtzArray[2].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[2].bodySignTypeId">
+              <ve-line :data="shuimian" :extend="extend" :settings="shuimianSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[3].bodySignType}}记录 : {{grtzArray[3].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[3].sureUpdate == 0?"未更新":"更新时间："+grtzArray[3].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[3].bodySignTypeId">
+              <ve-line :data="xinlv" :extend="extend" :settings="xinlvSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[4].bodySignType}}记录 : {{grtzArray[4].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[4].sureUpdate == 0?"未更新":"更新时间："+grtzArray[4].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[4].bodySignTypeId">
+              <ve-line :data="tiwen" :extend="extend" :settings="tiwenSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[5].bodySignType}}记录 : {{grtzArray[0].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[5].sureUpdate == 0?"未更新":"更新时间："+grtzArray[5].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[5].bodySignTypeId">
+              <ve-line :data="tizhong" :extend="extend" :settings="tizhongSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :span="12">
+          <el-card class="box-card grtz_box">
+            <div slot="header" class="clearfix grtz_title">
+              <p>
+                <span>最新{{grtzArray[6].bodySignType}}记录 : {{grtzArray[0].value}}</span>
+                <span
+                  class="f-right"
+                >{{grtzArray[6].sureUpdate == 0?"未更新":"更新时间："+grtzArray[6].createTime}}</span>
+              </p>
+            </div>
+            <div class="text item grtz_content" :id="'grtz_chart'+grtzArray[6].bodySignTypeId">
+              <ve-line :data="yaowei" :extend="extend" :settings="yaoweiSettings"></ve-line>
+            </div>
+          </el-card>
+        </el-col>
+      </el-row>
       <el-card class="box-card jhxx_box" v-if="getSignStatus">
         <h2 style="text-align: center; color: #999;">暂无数据！</h2>
       </el-card>
@@ -288,6 +379,7 @@ import tabHeader from "../components/tabHeader";
 import ElContainer from "../../node_modules/element-ui/packages/container/src/main.vue";
 import ElRow from "element-ui/packages/row/src/row";
 import Vue from "vue";
+import { connect } from "net";
 Vue.filter("type", function(value) {
   switch (value) {
     case 1:
@@ -314,7 +406,76 @@ export default {
   },
   name: "EssentialInfo",
   data() {
+    this.extend = {
+      "xAxis.0.axisLabel.rotate": 45
+    };
+    this.xueyaSettings = {
+      labelMap: {
+        count: "高压",
+        count2: "低压"
+      }
+    };
+    this.xuetangSettings = {
+      labelMap: {
+        count: "饭前",
+        count2: "饭后"
+      }
+    };
+    this.shuimianSettings = {
+      labelMap: {
+        count: "睡眠"
+      }
+    };
+    this.xinlvSettings = {
+      labelMap: {
+        count: "心率"
+      }
+    };
+    this.tiwenSettings = {
+      labelMap: {
+        count: "体温"
+      }
+    };
+    this.tizhongSettings = {
+      labelMap: {
+        count: "体重"
+      }
+    };
+    this.yaoweiSettings = {
+      labelMap: {
+        count: "腰围"
+      }
+    };
     return {
+      //体征数据
+      xueya: {
+        columns: ["date", "count", "count2"],
+        rows: []
+      },
+      xuetang: {
+        columns: ["date", "count", "count2"],
+        rows: []
+      },
+      shuimian: {
+        columns: ["date", "count"],
+        rows: []
+      },
+      xinlv: {
+        columns: ["date", "count"],
+        rows: []
+      },
+      tiwen: {
+        columns: ["date", "count"],
+        rows: []
+      },
+      tizhong: {
+        columns: ["date", "count"],
+        rows: []
+      },
+      yaowei: {
+        columns: ["date", "count"],
+        rows: []
+      },
       date: "",
       personInfoId: "",
       personInfo: {},
@@ -335,7 +496,50 @@ export default {
       jhxxArray: [],
       jhglList: [],
       sfjlArray: [],
-      grtzArray: [],
+      grtzArray: [
+        {
+          bodySignType: "血压",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        },
+        {
+          bodySignType: "血糖",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        },
+        {
+          bodySignType: "睡眠",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        },
+        {
+          bodySignType: "心率",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        },
+        {
+          bodySignType: "体温",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        },
+        {
+          bodySignType: "体重",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        },
+        {
+          bodySignType: "腰围",
+          createTime: "2001-01-01",
+          value: "0",
+          sureUpdate: 0
+        }
+      ],
       getPlanStatus: false,
       getSignStatus: false,
       getsfjlStatus: false,
@@ -343,34 +547,168 @@ export default {
       bodySignTypeIdArray: []
     };
   },
-  created() {
-    this.personInfoId = this.$route.params.id;
-    this.getUsers();
-    this.getVisitRecord();
-    this.getSummary();
-    this.getHealthPlan(this.page.current, this.page.size);
-    // 获取个人体征图表数据
+  methods: {
+    //获取随访列表以及随访图表
+    selectDate(event) {
+      //获取个人体征列表
       this.$http
         .get(
           "/api" +
-            `bodySignRecord/getBodySignRecordByTime?openId=${this.personInfo.openId}&bodySignTypeId=1`
+            `/bodySignRecord/getBodySignListByPatientId?patientId=${
+              this.personInfo.id
+            }&startTime=${event[0]}&endTime=${event[1]}`
         )
         .then(res => {
-          console.log(res);
+          res.data.forEach(item => {
+            this.bodySignTypeIdArray.push(item.bodySignTypeId);
+          });
+          if (res.data.length === 0) {
+            this.getSignStatus = true;
+          } else {
+            this.grtzArray = res.data;
+            this.getSignStatus = false;
+          }
         })
         .catch(err => {
           console.log(err);
         });
-  },
-  mounted() {
-    if (this.$route.params.selectId == "sfjl") {
-      this.activeName = "sfjl";
-    }
-    if (this.$route.params.selectId == "jhxx") {
-      this.activeName = "jhxx";
-    }
-  },
-  methods: {
+      // 获取个人体征图表数据
+      this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=1&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.xueya.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.xueya.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i],
+              count2: res.data.count2[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=2&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.xuetang.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.xuetang.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i],
+              count2: res.data.count2[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=3&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.shuimian.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.shuimian.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=4&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.xinlv.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.xinlv.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+        this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=5&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.tiwen.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.tiwen.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+        this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=6&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.tizhong.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.tizhong.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+        this.$http
+        .get(
+          "/api" +
+            `/bodySignRecord/getBodySignRecordByTime?openId=${
+              this.personInfo.openId
+            }&bodySignTypeId=7&beginDate=${event[0]}&endDate=${event[1]}`
+        )
+        .then(res => {
+          this.yaowei.rows = [];
+          for (let i = 0; i < res.data.date.length; i++) {
+            this.yaowei.rows.push({
+              date: res.data.date[i],
+              count: res.data.count[i]
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     handleSearch() {
       this.getHealthPlan(1, this.page.size);
     },
@@ -437,7 +775,6 @@ export default {
             `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.id}`
         )
         .then(res => {
-          console.log(res)
           if (res.data.list.length == 0) {
             this.getsfjlStatus = true;
           } else {
@@ -496,43 +833,21 @@ export default {
     // 去随访
     createVisit(planId) {
       this.$router.push({ path: "/followupplan", query: { planId: planId } });
-    },
-    //获取随访列表以及随访图表
-    selectDate(event) {
-      console.log(event)
-      //获取个人体征列表
-      this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}&startTime=${event[0]}&endTime=${event[1]}`
-        )
-        .then(res => {
-          console.log(res);
-          res.data.forEach(item => {
-            this.bodySignTypeIdArray.push(item.bodySignTypeId);
-          });
-          if (res.data.length === 0) {
-            this.getSignStatus = true;
-          } else {
-            this.grtzArray = res.data;
-            this.getSignStatus = false;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      // 获取个人体征图表数据
-      this.$http
-        .get(
-          "/api" +
-            `bodySignRecord/getBodySignRecordByTime?openId=${this.personInfo.openId}&bodySignTypeId=1`
-        )
-        .then(res => {
-          console.log(res);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    }
+  },
+  created() {
+    this.personInfoId = this.$route.params.id;
+    this.getUsers();
+    this.getVisitRecord();
+    this.getSummary();
+    this.getHealthPlan(this.page.current, this.page.size);
+  },
+  mounted() {
+    if (this.$route.params.selectId == "sfjl") {
+      this.activeName = "sfjl";
+    }
+    if (this.$route.params.selectId == "jhxx") {
+      this.activeName = "jhxx";
     }
   }
 };
@@ -633,11 +948,6 @@ export default {
 .grtz_title p {
   font-size: 18px;
   display: inline;
-  margin-left: 50px;
-}
-
-.grtz_title p span {
-  margin-left: 100px;
 }
 
 .grtz_titleTime {
