@@ -256,14 +256,14 @@ export default {
       setTimeout(() => {
         this.editRoleForm.name = row.roleId
       }, 20)
-      
+
 
       // console.log(this.editRoleForm.name)
 
       if(this.newList.length > 0) {
         this.$refs.editTree.setCheckedNodes([])
       }
-      
+
       if(row.roleId) {
         this.$http
           .get("/api" + `/menu/getByRoleId?roleId=${row.roleId}`)
@@ -351,7 +351,6 @@ export default {
       this.listArr = arr
     },
     editCheckChange() {
-      console.log(111111)
       let arr = []
       let res = this.$refs.editTree.getCheckedNodes()
       res.forEach((item) => {

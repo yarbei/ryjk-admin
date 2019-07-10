@@ -102,7 +102,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByUserId?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}`
+            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=2&noticeType=1`
         )
         .then(res => {
           this.wvArray = res.data.list;

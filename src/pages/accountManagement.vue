@@ -115,9 +115,9 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择角色 : " required>
-          <el-select 
-            v-model="editAccountForm.roleIds" 
-            placeholder="请选择" 
+          <el-select
+            v-model="editAccountForm.roleIds"
+            placeholder="请选择"
             multiple>
             <el-option
               v-for="item in roleList"
@@ -187,7 +187,6 @@ export default {
       this.$http("/api" + "/doctor/getDoctorAll?hospitalId=1")
         .then(res => {
           this.doctorName = res.data
-          console.log(this.doctorName)
         })
         .catch(err => {
           console.log(err)
@@ -195,7 +194,6 @@ export default {
     },
     // 获取姓名
     getDoctor() {
-      // console.log(1111111)
       this.$http("/api" + "/user/getRoleList")
         .then(res => {
           this.roleList = res.data
@@ -239,12 +237,8 @@ export default {
         type: "warning"
       })
         .then(() => {
-          let formData = {
-            userId: row.id
-          }
-          console.log(row)
           this.$http
-            .post("/api" + "/user/deleteUserRole", formData)
+            .post("/api" + "/user/deleteUserRole?userId="+row.id)
             .then(res => {
               console.log(res)
               this.getAccount()

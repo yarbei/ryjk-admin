@@ -114,20 +114,20 @@ export default {
       this.$http
         .get(
           "/api" +
-            "/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=" +
+            "/visitRecord/getVisistManagerList?userId=" +
             this.$store.state.user.user.id +
             "&patientId=" +
             this.personInfo.id +
             "&pageNum=1&pageSize=5&planId=" +
-            sessionStorage.planId
+            this.$route.query.planId
         )
         .then(res => {
-          if (res.data.list.length === 0) {
+          if (res.data.length === 0) {
             this.getsfjhStatus = true;
           } else {
             this.getsfjhStatus = false;
             this.page.total = res.data.total;
-            this.sfjyArray = res.data.list;
+            this.sfjyArray = res.data;
           }
         })
         .catch(err => {
