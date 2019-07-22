@@ -82,7 +82,7 @@
                 :label="item.label"
                 :value="item.value"
               ></el-option>
-            </el-select>
+            </el-select>{{form.visitRecordContent.issymptom}}
           </el-form-item>
         </el-col>
         <el-col :span="8" v-show="issfsymptomName">
@@ -245,7 +245,7 @@
         </el-col>
         <el-col :span="8" v-show="iscomplication">
           <el-form-item label="并发症 : ">
-            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,0)">
+            <el-select v-model="form.complicationCategory" @change="bfzChange($event,0)">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"
