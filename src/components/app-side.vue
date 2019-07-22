@@ -1,20 +1,18 @@
 <template>
-
-<v-menu class="side-menu"
-  :collapse="collapse"
-  :default-active="defaultActive"
-  :menus="menus"
-  router
-  :background-color="theme.backgroundColor"
-  :text-color="theme.textColor"
-  :active-text-color="theme.activeTextColor"
+  <v-menu
+    class="side-menu"
+    :collapse="collapse"
+    :default-active="defaultActive"
+    :menus="menus"
+    router
+    :background-color="theme.backgroundColor"
+    :text-color="theme.textColor"
+    :active-text-color="theme.activeTextColor"
   ></v-menu>
-
-
 </template>
 <script type="text/javascript">
-import VMenu from './vmenu'
-import menus from './menus'
+import VMenu from "./vmenu";
+import menus from "./menus";
 export default {
   props: {
     collapse: Boolean,
@@ -23,49 +21,47 @@ export default {
   components: {
     VMenu
   },
-  data () {
+  data() {
     return {
       menus: menus,
-      defaultActive: 'home',
-      test: 'asdfasdf'
-    }
+      defaultActive: "home",
+      test: "asdfasdf"
+    };
   },
   watch: {
-    $route () {
-      this.setCurrentRoute()
+    $route() {
+      this.setCurrentRoute();
     }
   },
   methods: {
-    setCurrentRoute () {
-      // console.log(this.$route)
-      this.defaultActive = this.$route.name
+    setCurrentRoute() {
+      this.defaultActive = this.$route.name;
     }
   },
-  created () {
-    var that = this
-    this.setCurrentRoute()
-    var Menus = JSON.parse(sessionStorage.getItem('loginUser'))
-    //    that.menus = Menus.menu;
+  created() {
+    this.setCurrentRoute();
+    var Menus = JSON.parse(sessionStorage.getItem("loginUser"));
+    // this.menus = Menus.menu;
   }
-}
+};
 </script>
 
 
 
 <style type="text/css">
-  .el-menu.side-menu{
-    border-right: none;
-  }
-  .el-menu .fa{
-    font-size: 18px;
-    margin-right: 7px;
-    display: inline-block;
-    width: 23px;
-    text-align: center;
-  }
-  .el-menu.side-menu .el-menu-item.is-active {
-    color: #409EFF;
-    border-right: solid 2px #36c1fa;
-    background: #eef3f5;
-  }
+.el-menu.side-menu {
+  border-right: none;
+}
+.el-menu .fa {
+  font-size: 18px;
+  margin-right: 7px;
+  display: inline-block;
+  width: 23px;
+  text-align: center;
+}
+.el-menu.side-menu .el-menu-item.is-active {
+  color: #409eff;
+  border-right: solid 2px #36c1fa;
+  background: #eef3f5;
+}
 </style>

@@ -34,7 +34,13 @@ export default new Router({
         { path: '/noticeManagement', name: 'noticeManagement', component: page('noticeManagement') },
         { path: '/addNotice', name: 'addNotice', component: page('addNotice') },
         { path: '/posterManagement', name: 'posterManagement', component: page('posterManagement') },
-        { path: '/followupplan', name: 'followUpPlan', component: page('followupplan') }
+        { path: '/followupplan', name: 'followUpPlan', component: page('followupplan') },
+        { path: '/jobAccount', name: 'jobAccount', component: page('jobAccount') },
+        { path: '/myGroup', name: 'myGroup', component: page('myGroup') },
+        { path: '/diseaseRisk', name: 'diseaseRisk', component: page('diseaseRisk') },
+        { path: '/effect', name: 'effect', component: page('effect') },
+        { path: '/accountManagement', name: 'accountManagement', component: page('accountManagement') },
+        { path: '/role', name: 'role', component: page('role') }
       ]
     },
     { path: '/login', name: 'login', component: page('login') },

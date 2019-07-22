@@ -73,7 +73,6 @@
           <el-tab-pane label="医院管理者">
             <h2>暂无数据</h2>
           </el-tab-pane>
-
         </el-tabs>
       </el-tab-pane>
       <!--<el-tab-pane label="角色权限设置" name="second">-->

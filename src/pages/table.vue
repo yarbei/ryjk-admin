@@ -47,11 +47,11 @@
           >新建患者</el-button>
         </el-form-item>
 
-        <el-form-item>
+        <!-- <el-form-item>
           <el-button type="primary" style="background-color: #52a3d7; border: 0; font-size: 14px">
             <i class="el-icon-download" style="margin-right: 5px"></i>导出
           </el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-col>
 

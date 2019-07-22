@@ -26,8 +26,17 @@
           </el-row>
         </div>
       </el-card>
-      <el-card class="box-card jhxx_box" v-if="getsfjhStatus">
+      <el-card class="box-card jhxx_box" v-show="getsfjhStatus">
         <h2 style="text-align: center; color: #999; font-size: 21px; line-height: 60px">暂无数据！</h2>
+        <div class="jhxx_btn">
+          <el-row>
+            <el-button
+              class="f-right"
+              type="primary"
+              @click="createVisit"
+            >去随访</el-button>
+          </el-row>
+        </div>
       </el-card>
       <el-pagination
         @size-change="handlePageSizeChange"

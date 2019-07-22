@@ -6,7 +6,7 @@
     style="padding: 30px; background-color: #fff"
   >
     <!--基本信息-->
-    <el-tab-pane label="基本信息" name="jbxx">
+    <el-tab-pane label="基本信息" name="jbxx" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-form ref="form1" :model="form1" label-width="100px">
         <el-row :gutter="100">
@@ -100,7 +100,7 @@
     </el-tab-pane>
 
     <!--出院小结-->
-    <el-tab-pane label="出院小结" name="cyxj">
+    <el-tab-pane label="出院小结" name="cyxj" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-row v-for="item in cyxjArray" :key="item.id" style="margin: 0 0 20px">
         <el-col :span="16" :offset="4">
@@ -144,7 +144,7 @@
     </el-tab-pane>-->
 
     <!--计划管理-->
-    <el-tab-pane label="计划管理" name="jhxx">
+    <el-tab-pane label="计划管理" name="jhxx" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-card class="box-card jhxx_box" v-for="item in jhglList" :key="item.id">
         <div slot="header" class="clearfix jhxx_title">
@@ -202,7 +202,7 @@
     </el-tab-pane>
 
     <!--随访记录-->
-    <el-tab-pane label="随访记录" name="sfjl">
+    <el-tab-pane label="随访记录" name="sfjl" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-card class="box-card sfjl_box" v-for="item in sfjlArray" :key="item.sfjlId">
         <div slot="header" class="clearfix sfjl_title">
@@ -224,7 +224,7 @@
     </el-tab-pane>
 
     <!--个人体征-->
-    <el-tab-pane label="个人体征" name="grtz">
+    <el-tab-pane label="个人体征" name="grtz" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
 
       <el-card class="box-card grtz_box" v-for="item in grtzArray" :key="item.bodySignTypeId">
@@ -237,7 +237,7 @@
             >({{item.createTime}})</span>
           </span>
           <p>
-            <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value}}</span>
+            <!-- <span>初始{{item.bodySignType}}记录 : {{item.oldValue.value}}</span> -->
             <span>最新{{item.bodySignType}}记录 : {{item.value}}</span>
             <span class="f-right">{{item.sureUpdate == 0?"未更新":"已更新"}}</span>
           </p>
@@ -319,7 +319,8 @@ export default {
       getPlanStatus: false,
       getSignStatus: false,
       getsfjlStatus: false,
-      planId: null
+      planId: null,
+      bodySignTypeIdArray:[]
     };
   },
   created() {
@@ -328,8 +329,8 @@ export default {
     this.getVisitRecord();
     this.getSummary();
     this.getSign();
-    this.getPlan();
     this.getHealthPlan(this.page.current, this.page.size);
+    this.getSignEchart();
   },
   mounted() {
     if (this.$route.params.selectId == "sfjl") {
@@ -383,22 +384,6 @@ export default {
           console.log(err);
         });
     },
-    // 终止随访计划
-    // jhxxStop(id) {
-    //   this.$http
-    //     .post("/api" + `/plan/updatePlanStatus?`, { planId: id })
-    //     .then(res => {
-    //       if (res.data) {
-    //         this.$message.success("随访计划终止成功");
-    //         this.getPlan();
-    //       } else {
-    //         this.$message.error("随访计划终止失败");
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err);
-    //     });
-    // },
     // 获取患者基本信息
     getUsers() {
       this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
@@ -457,6 +442,9 @@ export default {
             `/bodySignRecord/getBodySignListByPatientId?patientId=${this.personInfo.id}`
         )
         .then(res => {
+          res.data.forEach(item => {
+            this.bodySignTypeIdArray.push(item.bodySignTypeId)
+          });
           if (res.data.length === 0) {
             this.getSignStatus = true;
           } else {
@@ -473,15 +461,10 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/bodySignRecord/getBackBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=${this}`
+            `bodySignRecord/getBodySignRecordByTime?patientId=${this.personInfo.id}&bodySignTypeId=1`
         )
         .then(res => {
-          if (res.data.length == 0) {
-            this.getSignStatus = true;
-          } else {
-            this.grtzArray = res.data;
-            this.getSignStatus = false;
-          }
+          console.log(res)
         })
         .catch(err => {
           console.log(err);
@@ -495,26 +478,26 @@ export default {
       });
     },
     // 获取随访计划(随访建议)
-    getPlan() {
-      this.$http
-        .get(
-          "/api" +
-            `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
-              this.$store.state.user.user.id
-            }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
-        )
-        .then(res => {
-          if (res.data.list.length === 0) {
-            this.getsfjhStatus = true;
-          } else {
-            this.getsfjhStatus = false;
-            this.sfjyArray = res.data.list;
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
+    // getPlan() {
+    //   this.$http
+    //     .get(
+    //       "/api" +
+    //         `/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=${
+    //           this.$store.state.user.user.id
+    //         }&patientId=${this.personInfo.id}&pageNum=${1}&pageSize=${5}`
+    //     )
+    //     .then(res => {
+    //       if (res.data.list.length === 0) {
+    //         this.getsfjhStatus = true;
+    //       } else {
+    //         this.getsfjhStatus = false;
+    //         this.sfjyArray = res.data.list;
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err);
+    //     });
+    // },
     // 获取健康计划列表
     getHealthPlan(page, pageSize) {
       this.$http
