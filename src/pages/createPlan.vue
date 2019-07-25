@@ -3,7 +3,7 @@
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" label-width="100px">
       <h2>疾病计划名称</h2>
-      <el-input v-model="name" placeholder="请输入名称"></el-input>
+      <el-input v-model="name" placeholder="请输入名称" required></el-input>
       <h2 v-show="isdate">疾病计划时间</h2>
       <el-date-picker v-show="isdate"
         v-model="createDate"
@@ -204,6 +204,10 @@ export default {
       }
       if (params.createDate == "") {
         this.$message.warning("请选择计划时间！");
+        return;
+      }
+      if(params.dose==""){
+        this.$message.warning("请选择随访总数！");
         return;
       }
       if (params.monitorItem == "") {

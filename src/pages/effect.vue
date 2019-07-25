@@ -3,11 +3,11 @@
     <div slot="header" class="clearfix">
       <h2 style="float:left">效果统计与分析</h2>
       <el-button
-      @click="exportSubsequentVisit"
-      type="primary"
-      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+        @click="exportSubsequentVisit"
+        type="primary"
+        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
       >
-      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+        <i class="el-icon-download" style="margin-right: 5px"></i>导出
       </el-button>
     </div>
     <el-row :gutter="10">
@@ -16,10 +16,10 @@
           <div slot="header" class="clearfix">
             <span>出院/转出归属情况</span>
             <el-button
-            type="success" 
-            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
-            @click="cutTable(btnText1, 1)"
-            v-text="btnText1"
+              type="success"
+              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
+              @click="cutTable(btnText1, 1)"
+              v-text="btnText1"
             ></el-button>
           </div>
           <ve-pie :data="leaveHospitalData" :settings="chartSettings" v-show="flag1 == true"></ve-pie>
@@ -32,8 +32,8 @@
             style="width: 100%;"
             v-show="flag1 == false"
           >
-          <el-table-column prop="name" align="center" label="出院情况"></el-table-column>
-          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="name" align="center" label="出院情况"></el-table-column>
+            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -42,13 +42,17 @@
           <div slot="header" class="clearfix">
             <span>管理效果评估</span>
             <el-button
-            type="success" 
-            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
-            @click="cutTable(btnText1, 2)"
-            v-text="btnText1"
+              type="success"
+              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
+              @click="cutTable(btnText1, 2)"
+              v-text="btnText1"
             ></el-button>
           </div>
-          <ve-pie :data="administrationData" :settings="administrationSettings" v-show="flag2 == true"></ve-pie>
+          <ve-pie
+            :data="administrationData"
+            :settings="administrationSettings"
+            v-show="flag2 == true"
+          ></ve-pie>
           <el-table
             :border="true"
             :data="administrationTable"
@@ -58,8 +62,8 @@
             style="width: 100%;"
             v-show="flag2 == false"
           >
-          <el-table-column prop="name" align="center" label="随访评估"></el-table-column>
-          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="name" align="center" label="随访评估"></el-table-column>
+            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -70,10 +74,10 @@
           <div slot="header" class="clearfix">
             <span>复诊提醒</span>
             <el-button
-            type="success" 
-            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
-            @click="cutTable(btnText1, 3)"
-            v-text="btnText1"
+              type="success"
+              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
+              @click="cutTable(btnText1, 3)"
+              v-text="btnText1"
             ></el-button>
           </div>
           <ve-pie :data="reminderRevisit" :settings="chartSettings" v-show="flag3 == true"></ve-pie>
@@ -86,8 +90,8 @@
             style="width: 100%;"
             v-show="flag3 == false"
           >
-          <el-table-column prop="name" align="center" label="提醒情况"></el-table-column>
-          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="name" align="center" label="提醒情况"></el-table-column>
+            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -96,10 +100,10 @@
           <div slot="header" class="clearfix">
             <span>复诊预约</span>
             <el-button
-            type="success" 
-            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
-            @click="cutTable(btnText1, 4)"
-            v-text="btnText1"
+              type="success"
+              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px; float: right;"
+              @click="cutTable(btnText1, 4)"
+              v-text="btnText1"
             ></el-button>
           </div>
           <ve-pie :data="appointmentRevisit" :settings="chartSettings" v-show="flag4 == true"></ve-pie>
@@ -112,19 +116,19 @@
             style="width: 100%;"
             v-show="flag4 == false"
           >
-          <el-table-column prop="name" align="center" label="预约情况"></el-table-column>
-          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="name" align="center" label="预约情况"></el-table-column>
+            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
     </el-row>
     <div slot="header" class="clearfix">
       <el-button
-      @click="exportCompliance"
-      type="primary"
-      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+        @click="exportCompliance"
+        type="primary"
+        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
       >
-      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+        <i class="el-icon-download" style="margin-right: 5px"></i>导出
       </el-button>
     </div>
     <el-row :gutter="80">
@@ -154,40 +158,32 @@
         </el-card>
       </el-col>
     </el-row>
-    
+
     <el-row :gutter="10">
-      <div slot="header" class="clearfix">
-      <el-button
-      @click="exportDisease"
-      type="primary"
-      style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px"
-      >
-      <i class="el-icon-download" style="margin-right: 5px"></i>导出症状
-      </el-button>
-    </div>
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>患者有无症状</span>
-            <span style="margin-left: 100px">模版类型</span>  <el-select v-model="filters.templateType1" placeholder="请选择模版" @change="getSymptomList" >
-            <el-option :value="0" label="通用"></el-option>
-            <el-option :value="1" label="产后"></el-option>
-            <el-option :value="2" label="肝病"></el-option>
-            <el-option :value="3" label="类风湿"></el-option>
-            <el-option :value="4" label="慢阻肺"></el-option>
-            <el-option :value="5" label="脑卒中"></el-option>
-            <el-option :value="6" label="内分泌"></el-option>
-            <el-option :value="7" label="痛风"></el-option>
-            <el-option :value="8" label="消化道出血"></el-option>
-            <el-option :value="9" label="心内科疾病"></el-option>
-            <el-option :value="10" label="肿瘤"></el-option>
+            <span style="margin-left: 100px">模版类型</span>
+            <el-select v-model="filters.templateType1" placeholder="请选择模版" @change="getSymptomList">
+              <el-option :value="0" label="通用"></el-option>
+              <el-option :value="1" label="产后"></el-option>
+              <el-option :value="2" label="肝病"></el-option>
+              <el-option :value="3" label="类风湿"></el-option>
+              <el-option :value="4" label="慢阻肺"></el-option>
+              <el-option :value="5" label="脑卒中"></el-option>
+              <el-option :value="6" label="内分泌"></el-option>
+              <el-option :value="7" label="痛风"></el-option>
+              <el-option :value="8" label="消化道出血"></el-option>
+              <el-option :value="9" label="心内科疾病"></el-option>
+              <el-option :value="10" label="肿瘤"></el-option>
             </el-select>
             <el-button
-            @click="exportSymptom"
-            type="primary"
-            style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px; margin-left: 240px"
+              @click="exportSymptom"
+              type="primary"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;"
             >
-            <i class="el-icon-download" style="margin-right: 5px"></i>导出
+              <i class="el-icon-download" style="margin-right: 5px"></i>导出
             </el-button>
           </div>
           <el-table
@@ -208,25 +204,30 @@
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>患者有无并发症</span>
-            <span style="margin-left: 100px">模版类型</span>  <el-select v-model="filters.templateType2" placeholder="请选择模版" @change="getComplicationList" >
-            <el-option :value="0" label="通用"></el-option>
-            <el-option :value="1" label="产后"></el-option>
-            <el-option :value="2" label="肝病"></el-option>
-            <el-option :value="3" label="类风湿"></el-option>
-            <el-option :value="4" label="慢阻肺"></el-option>
-            <el-option :value="5" label="脑卒中"></el-option>
-            <el-option :value="6" label="内分泌"></el-option>
-            <el-option :value="7" label="痛风"></el-option>
-            <el-option :value="8" label="消化道出血"></el-option>
-            <el-option :value="9" label="心内科疾病"></el-option>
-            <el-option :value="10" label="肿瘤"></el-option>
+            <span style="margin-left: 100px">模版类型</span>
+            <el-select
+              v-model="filters.templateType2"
+              placeholder="请选择模版"
+              @change="getComplicationList"
+            >
+              <el-option :value="0" label="通用"></el-option>
+              <el-option :value="1" label="产后"></el-option>
+              <el-option :value="2" label="肝病"></el-option>
+              <el-option :value="3" label="类风湿"></el-option>
+              <el-option :value="4" label="慢阻肺"></el-option>
+              <el-option :value="5" label="脑卒中"></el-option>
+              <el-option :value="6" label="内分泌"></el-option>
+              <el-option :value="7" label="痛风"></el-option>
+              <el-option :value="8" label="消化道出血"></el-option>
+              <el-option :value="9" label="心内科疾病"></el-option>
+              <el-option :value="10" label="肿瘤"></el-option>
             </el-select>
             <el-button
-            @click="exportComplication"
-            type="primary"
-            style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px; margin-left: 240px"
+              @click="exportComplication"
+              type="primary"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;"
             >
-            <i class="el-icon-download" style="margin-right: 5px"></i>导出
+              <i class="el-icon-download" style="margin-right: 5px"></i>导出
             </el-button>
           </div>
           <el-table
@@ -247,7 +248,7 @@
   </div>
 </template>
 <script>
-import { constants } from 'fs';
+import { constants } from "fs";
 export default {
   data() {
     this.chartSettings = {
@@ -264,8 +265,8 @@ export default {
     };
     return {
       filters: {
-        templateType1: "",
-        templateType2: ""
+        templateType1: 0,
+        templateType2: 0
       },
       leaveHospitalData: {
         columns: ["name", "value"],
@@ -286,34 +287,27 @@ export default {
       tableData: [],
       symptomData: [],
       complicationData: [],
-      leaveHospitalTable: [],   //出院/转出归属情况表格
-      administrationTable: [],  //管理效果评估表格
+      leaveHospitalTable: [], //出院/转出归属情况表格
+      administrationTable: [], //管理效果评估表格
       reminderRevisitTable: [], //复诊提醒率表格
-      appointmentRevisitTable: [],//复诊预约率表格
+      appointmentRevisitTable: [], //复诊预约率表格
       flag1: true,
       flag2: true,
       flag3: true,
       flag4: true,
-      btnText1: '表格',
-      btnText2: '表格',
-      btnText3: '表格',
-      btnText4: '表格',
+      btnText1: "表格",
+      btnText2: "表格",
+      btnText3: "表格",
+      btnText4: "表格"
     };
   },
-  handleSearch() {
-      this.getSymptomList();
-      this.getComplicationList();
-    },
   methods: {
     //获取症状列表数据
-    getSymptomList(){
-      if(this.filters.templateType1 == ""){
-        this.filters.templateType1 = 0;
-      }
+    getSymptomList() {
       this.$http
         .get(
           "/api" +
-            `/analysis/symptom?templateType=${this.filters.templateType1}`    
+            `/analysis/symptom?templateType=${this.filters.templateType1}`
         )
         .then(res => {
           this.symptomData = res.data;
@@ -324,16 +318,14 @@ export default {
     },
 
     //获取并发症列表数据
-    getComplicationList(){
-      if(this.filters.templateType2 == ""){
-        this.filters.templateType2 = 0;
-      }
+    getComplicationList() {
       this.$http
         .get(
           "/api" +
-            `/analysis/complication?templateType=${this.filters.templateType2}`    
+            `/analysis/complication?templateType=${this.filters.templateType2}`
         )
         .then(res => {
+          console.log(res);
           this.complicationData = res.data;
         })
         .catch(err => {
@@ -342,8 +334,8 @@ export default {
     },
 
     cutTable(btnText, index) {
-      this['flag' + index] = !this['flag' + index]
-      this['btnText' + index] = this['flag' + index] ? '表格' : '图表'
+      this["flag" + index] = !this["flag" + index];
+      this["btnText" + index] = this["flag" + index] ? "表格" : "图表";
     },
     //导出管理效果复诊统计与分析表格
     exportSubsequentVisit() {
@@ -353,7 +345,7 @@ export default {
         method: "get"
       })
         .then(res => {
-          this.download(res,"管理效果复诊统计与分析");
+          this.download(res, "管理效果复诊统计与分析");
         })
         .catch(err => {
           console.log(err);
@@ -368,7 +360,7 @@ export default {
         method: "get"
       })
         .then(res => {
-          this.download(res,"管理效果依从性类统计分析");
+          this.download(res, "管理效果依从性类统计分析");
         })
         .catch(err => {
           console.log(err);
@@ -383,7 +375,7 @@ export default {
         method: "get"
       })
         .then(res => {
-          this.download(res,"症状统计分析");
+          this.download(res, "症状统计分析");
         })
         .catch(err => {
           console.log(err);
@@ -397,16 +389,15 @@ export default {
         method: "get"
       })
         .then(res => {
-          this.download(res,"并发症统计分析");
+          this.download(res, "并发症统计分析");
         })
         .catch(err => {
           console.log(err);
         });
     },
 
-
     // 下载文件
-    download(data,name) {
+    download(data, name) {
       if (!data) {
         return;
       }
@@ -415,14 +406,13 @@ export default {
       link.style.display = "none";
       link.href = url;
       link.setAttribute("download", name + ".xlsx");
-
       document.body.appendChild(link);
       link.click();
     }
   },
   created() {
-    this.getSymptomList();
     this.getComplicationList();
+    this.getSymptomList();
     //获取饼状图数据
     this.$http
       .get("/api" + "/analysis/manager/1")
@@ -447,24 +437,25 @@ export default {
           value: 100 - this.appointmentRevisit.rows[0].value
         });
 
-        this.leaveHospitalTable = res.data.discharge;  //出院/转出归属情况表格赋值             
-        this.administrationTable = res.data.assessment;//管理效果评估表格赋值
-        this.reminderRevisitTable = res.data.reminderRevisit;//复诊提醒率表格赋值
-        this.appointmentRevisitTable = res.data.appointmentRevisit;//复诊预约率表格赋值
+        this.leaveHospitalTable = res.data.discharge; //出院/转出归属情况表格赋值
+        this.administrationTable = res.data.assessment; //管理效果评估表格赋值
+        this.reminderRevisitTable = res.data.reminderRevisit; //复诊提醒率表格赋值
+        this.appointmentRevisitTable = res.data.appointmentRevisit; //复诊预约率表格赋值
       })
       .catch(err => {
         console.log(err);
       });
-    
-    //获取并发症列表数据
-    this.$http
-      .get("/api" + "/analysis/complication")
-      .then(res => {
-        this.complicationData = res.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+
+    // //获取并发症列表数据
+    // this.$http
+    //   .get("/api" + "/analysis/complication")
+    //   .then(res => {
+    //     console.log(res)
+    //     this.complicationData = res.data;
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
     this.$http
       .get("/api" + "/analysis/manager/3")
       .then(res => {

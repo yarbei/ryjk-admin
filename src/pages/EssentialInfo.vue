@@ -100,24 +100,22 @@
     </el-tab-pane>
 
     <!--出院小结-->
-    <el-tab-pane label="出院小结" name="cyxj" lazy>
+    <!-- <el-tab-pane label="出院小结" name="cyxj" lazy>
       <tab-header :personInfo="personInfo"></tab-header>
       <el-row v-for="item in cyxjArray" :key="item.id" style="margin: 0 0 20px">
         <el-col :span="16" :offset="4">
           <el-card :body-style="{ padding: '0px' }" class="cyxj_card">
             <iframe :src="item.summaryofdischarge" width="100%" height="400px" frameborder="0"></iframe>
-            <!--<img :src="item.summaryofdischarge" class="image">-->
             <div style="padding: 14px;">
               <span>{{item.department}}</span>
               <div class="bottom clearfix">
                 <time class="time">{{item.outhospitaldate}}</time>
-                <!--<el-button type="text" class="button">操作按钮</el-button>-->
               </div>
             </div>
           </el-card>
         </el-col>
       </el-row>
-    </el-tab-pane>
+    </el-tab-pane> -->
 
     <!--随访计划-->
     <!-- <el-tab-pane label="随访计划" class="sfjh" name="sfjh">
@@ -837,7 +835,7 @@ export default {
     }
   },
   created() {
-    
+
     this.personInfoId = this.$route.params.id;
     this.getUsers();
     this.getVisitRecord();
