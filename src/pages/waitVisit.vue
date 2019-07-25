@@ -32,8 +32,8 @@
         value-format="yyyy-MM-dd"
       ></el-date-picker>
       <el-select v-model="filters.status" placeholder="请选择状态" @change="getwVList">
-        <el-option :value="0" label="未随访"></el-option>
-        <el-option :value="1" label="已随访"></el-option>
+        <el-option :value="1" label="未随访"></el-option>
+        <el-option :value="0" label="已随访"></el-option>
       </el-select>
     </el-col>
 
@@ -46,8 +46,8 @@
       v-loading="listLoading"
       style="width: 100%;"
     >
-      <el-table-column prop="patient" align="center" label="患者姓名" sortable></el-table-column>
-      <el-table-column prop="visitDate" align="center" label="随访时间" sortable></el-table-column>
+      <el-table-column prop="patientName" align="center" label="患者姓名" sortable></el-table-column>
+      <el-table-column prop="publishDate" align="center" label="随访时间" sortable></el-table-column>
       <el-table-column prop="status" align="center" label="状态" :formatter="formatSatus" sortable></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
@@ -55,8 +55,8 @@
             type="success"
             style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
             @click="changelInfo(scope.$index, scope.row)"
-            :disabled="scope.row.status ==1?true:false"
-          >{{scope.row.status ==1?'已随访':'去随访'}}</el-button>
+            :disabled="scope.row.status ==0?true:false"
+          >{{scope.row.status ==1?'去随访':'已随访'}}</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -77,9 +77,11 @@
 </template>
 
 <script>
+import { connect } from 'net';
 export default {
   data() {
     return {
+
       filters: {
         name: "",
         date: ["",""],
@@ -93,16 +95,20 @@ export default {
       listLoading: false,
       usersList: [],
       user: null,
-      wvArray: []
+      wvArray: [],
+      personInfo:{} //患者信息
     };
   },
   methods: {
+    handleSearch() {
+      this.getwVList();
+    },
     // 获取待随访列表
     getwVList() {
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByUserId?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}`
+            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`    
         )
         .then(res => {
           this.wvArray = res.data.list;
@@ -118,14 +124,32 @@ export default {
     handleCurrentChange() {},
 
     formatSatus(row, column) {
-      return row.status == 1 ? "已随访" : "待随访";
+      return row.status == 1 ? "待随访" : "已随访";
     },
+
     changelInfo(index, row) {
-      this.$router.replace({ name: "createVisit", params: { patientiD: "" } });
-      sessionStorage.setItem('planId',row.id)
+      this.$http
+        .get(
+          "/api" +
+            `/patient/getPatientInfoByUserId?userId=${row.patientId}`
+        )
+        .then(res => {
+          this.personInfo = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+
+      setTimeout(() => {
+        sessionStorage.setItem("personInfo",JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
+        this.$router.replace({ 
+          name: 'EssentialInfo',
+          params: { selectId: 'jhxx'}
+        }); 
+      }, 1500)
     }
   },
-  mounted() {
+  created() {
     this.getwVList();
   }
 };

@@ -31,6 +31,7 @@ export default {
       personInfoId: '', // 患者Id
       personInfo: {}, // 患者信息
       planId: '', // 计划Id
+      patientType: '',//患者类型
       // 药物不良反应传入子组件的数据
       reactionsData: {
         selectLabel: '药物不良反应：', // select选择框的label值
@@ -536,7 +537,8 @@ export default {
       var formData = this.form
       formData.patientId = this.personInfo.id // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
-      formData.planId = this.planId // 计划Id
+      formData.planId = parseInt(this.planId) // 计划Id
+      formData.patientType = parseInt(this.patientType) // 患者类型
       formData.templateType = templateType // 模板Id
       // 数组转字符串complication
       if (formData.complication && formData.complication instanceof Array) {
@@ -578,6 +580,7 @@ export default {
   },
   created () {
     this.planId = this.$route.query.planId // 获取计划Id
+    this.patientType = this.$route.query.patientType // 获取患者类型
     this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息
   }
 }

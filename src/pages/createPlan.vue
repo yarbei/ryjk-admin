@@ -4,13 +4,12 @@
     <el-form ref="form" label-width="100px">
       <h2>疾病计划名称</h2>
       <el-input v-model="name" placeholder="请输入名称"></el-input>
-      <h2>疾病计划时间</h2>
-      <el-date-picker
+      <h2 v-show="isdate">疾病计划时间</h2>
+      <el-date-picker v-show="isdate"
         v-model="createDate"
         type="datetime"
         placeholder="选择时间"
         value-format="yyyy-MM-dd HH:mm:ss"
-        :disabled="disabled"
       ></el-date-picker>
       <h2>管理随访总数</h2>
       <el-select v-model="dose" placeholder="请选择">
@@ -53,10 +52,10 @@ export default {
   name: "createPlan",
   data() {
     return {
+      isdate:true,//计划时间是否显示
       planId: null,
       dose: "",
       createDate: "", //新建计划时间
-      disabled: false, //计划时间是否可以修改
       number: [
         {
           value: 1
@@ -119,7 +118,7 @@ export default {
     const planId = this.$route.query.planId;
     this.planId = planId;
     if (planId) {
-      this.disabled = true;
+      this.isdate = false;
       this.getPlanInfo(planId);
     } else {
       this.getPlanList();
@@ -192,7 +191,7 @@ export default {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         dose: this.dose || 0,
-        createDate: this.createDate || new Date(),
+        createDate: this.createDate || String(new Date()),
         name: this.name || "",
         patientId: this.personInfo.id,
         doctorId: this.user.id,
@@ -200,15 +199,15 @@ export default {
         item: list
       };
       if (params.name == "") {
-        this.$$message.warning("请填写计划名称！");
+        this.$message.warning("请填写计划名称！");
         return;
       }
       if (params.createDate == "") {
-        this.$$message.warning("请选择计划时间！");
+        this.$message.warning("请选择计划时间！");
         return;
       }
       if (params.monitorItem == "") {
-        this.$$message.warning("请选择必测体征项！");
+        this.$message.warning("请选择必测体征项！");
         return;
       }
       if (this.planId) {

@@ -4,11 +4,9 @@
 <template v-for="item in menus">
 
 <template v-if="isArr(item)">
-  <el-menu-item-group
-    :title="typeof item[0] === 'string' ? item[0] : ''"
-    >
+  <el-menu-item-group :title=" typeof item[0] === 'string' ? item[0] : ''">
     <el-menu-item
-      v-for="(val, index) in item[1]"
+      v-for="val in item[1]"
       :key="val.id"
       :index="val.id + ''"
       :route="toRoute(val)"
@@ -40,7 +38,11 @@
       :route="toRoute(item)"
       >
       <i v-if="item.icon" :class="item.icon"></i>
-      <span slot="title">{{item.label}}<el-badge v-if="item.count>0" :value="item.count" class="item" style="margin: -6px 0 0 10px"></el-badge></span>
+      <span slot="title">{{item.label}}
+        <el-badge v-if="item.waitForCount>0" :value="item.waitForCount" class="item" style="margin: -6px 0 0 10px"></el-badge>
+        <el-badge v-if="item.earlyWarningCount>0" :value="item.earlyWarningCount" class="item" style="margin: -6px 0 0 10px"></el-badge>
+      </span>
+
     </el-menu-item>
 
   </template>

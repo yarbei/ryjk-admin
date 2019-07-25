@@ -1,5 +1,15 @@
 <template>
   <div>
+    <div slot="header" class="clearfix">
+      <h2 style="float:left">疾病风险筛查统计与分析</h2>
+      <el-button
+      @click="exportRisk"
+      type="primary"
+      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+      >
+      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+      </el-button>
+    </div>
     <el-table
       :data="diseaseRiskData"
       :border="true"
@@ -30,6 +40,36 @@ export default {
     return {
       diseaseRiskData: []
     };
+  },
+  methods: {
+    //导出疾病风险筛查统计与分析表格
+    exportRisk() {
+      this.$http({
+        url: "/api" + "/excel/exportRisk",
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 下载文件
+    download(data) {
+      if (!data) {
+        return;
+      }
+      let url = window.URL.createObjectURL(new Blob([data]));
+      let link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute("download", "疾病风险筛查统计与分析.xlsx");
+
+      document.body.appendChild(link);
+      link.click();
+    }
   },
   created() {
     this.$http

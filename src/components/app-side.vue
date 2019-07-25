@@ -41,7 +41,7 @@ export default {
   created() {
     this.setCurrentRoute();
     var Menus = JSON.parse(sessionStorage.getItem("loginUser"));
-    // this.menus = Menus.menu;
+    this.menus = Menus.menu;
   }
 };
 </script>

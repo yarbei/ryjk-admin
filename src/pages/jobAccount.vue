@@ -1,33 +1,101 @@
 <template>
   <div>
-    <h2>出院后疾病管理情况统计</h2>
+    <div slot="header" class="clearfix">
+      <h2 style="float:left">出院后疾病管理情况统计</h2>
+      <el-button
+      @click="exports"
+      type="primary"
+      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+      >
+      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+      </el-button>
+    </div>
     <el-row :gutter="30">
+
       <el-col :span="width">
+
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>随访状态</span>
+            <span>随访人次</span>
+
+            <el-button
+            type="success" 
+            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 20px; float: right;"
+            @click="cutTable(btnText1, 1)"
+            v-text="btnText1"
+            ></el-button>
           </div>
-          <ve-pie :data="visitStatus"></ve-pie>
+          <ve-pie :data="visitStatus" v-show="flag1 == true"></ve-pie>
+          <el-table
+            :border="true"
+            :data="visitStatusTable"
+            stripe
+            highlight-current-row
+            height="400"
+            style="width: 100%;"
+            v-show="flag1 == false"
+          >
+          <el-table-column prop="name" align="center" label="随访情况"></el-table-column>
+          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+          </el-table>
         </el-card>
       </el-col>
+
       <el-col :span="width">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>体征预警</span>
+            <el-button
+            type="success"
+            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 20px; float: right;"
+            @click="cutTable(btnText2, 2)"
+            v-text="btnText2"
+            ></el-button>
           </div>
-          <ve-pie :data="tiZhenYuJing"></ve-pie>
+          <ve-pie :data="tiZhenYuJing" v-show="flag2 == true"></ve-pie>
+          <el-table
+            :border="true"
+            :data="tiZhenYuJingTable"
+            stripe
+            highlight-current-row
+            height="400"
+            style="width: 100%;"
+            v-show="flag2 == false"
+          >
+          <el-table-column prop="name" align="center" label="体征预警"></el-table-column>
+          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+          </el-table>
         </el-card>
       </el-col>
-      <el-col :span="width">
+      <el-col :span="width" >
         <el-card class="box-card">
           <div slot="header" class="clearfix">
             <span>随访方式</span>
+            <el-button
+            type="success"
+            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 20px; float: right;"
+            @click="cutTable(btnText3, 3)"
+            v-text="btnText3"
+            ></el-button>
           </div>
-          <ve-pie :data="visitType"></ve-pie>
+          <ve-pie :data="visitType" v-show="flag3 == true"></ve-pie>
+          <el-table
+            :border="true"
+            :data="visitTypeTable"
+            stripe
+            highlight-current-row
+            height="400"
+            style="width: 100%;"
+            v-show="flag3 == false"
+          >
+          <el-table-column prop="name" align="center" label="随访方式"></el-table-column>
+          <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
   </div>
+
 </template>
 <script>
 export default {
@@ -46,16 +114,65 @@ export default {
       tiZhenYuJing: {
         columns: ["name", "value"],
         rows: []
-      }
+      },
+      visitStatusTable : [],
+      visitTypeTable : [],
+      tiZhenYuJingTable : [],
+      flag1 : true,
+      flag2 : true,
+      flag3 : true,
+      btnText1: '表格',
+      btnText2: '表格',
+      btnText3: '表格'
     };
   },
+  methods: {
+    cutTable(btnText, index) {
+      this['flag' + index] = !this['flag' + index]
+      this['btnText' + index] = this['flag' + index] ? '表格' : '图表'
+    },
+    //导出表格
+    exports() {
+      this.$http({
+        url: "/api" + "/excel/exportWorkList?userRole="+0+"&userId="+this.$store.state.user.user.id,
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 下载文件
+    download(data) {
+      if (!data) {
+        return;
+      }
+      let url = window.URL.createObjectURL(new Blob([data]));
+      let link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute("download", "出院后疾病管理情况统计.xlsx");
+
+      document.body.appendChild(link);
+      link.click();
+    }
+  },
   created() {
+
     this.$http
       .get("/api" + "/analysis/work/3?userRole="+0+"&userId="+this.$store.state.user.user.id)
       .then(res => {
         this.visitStatus.rows=res.data.visitStatus
         this.visitType.rows=res.data.visitType
         this.tiZhenYuJing.rows=[
+          {name:'已处理',value:res.data.tiZhenYuJing.status_0},
+          {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
+        this.visitStatusTable = res.data.visitStatus
+        this.visitTypeTable = res.data.visitType
+        this.tiZhenYuJingTable = [
           {name:'已处理',value:res.data.tiZhenYuJing.status_0},
           {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
         console.log(res);
@@ -67,3 +184,6 @@ export default {
 };
 </script>
 
+<style>
+
+</style>

@@ -245,7 +245,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="并发症 : ">
-            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,0)">
+            <el-select v-model="form.complicationCategory" @change="bfzChange($event,0)">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"

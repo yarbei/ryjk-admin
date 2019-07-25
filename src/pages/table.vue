@@ -47,11 +47,15 @@
           >新建患者</el-button>
         </el-form-item>
 
-        <!-- <el-form-item>
-          <el-button type="primary" style="background-color: #52a3d7; border: 0; font-size: 14px">
+        <el-form-item>
+          <el-button
+            @click="exports"
+            type="primary"
+            style="background-color: #52a3d7; border: 0; font-size: 14px"
+          >
             <i class="el-icon-download" style="margin-right: 5px"></i>导出
           </el-button>
-        </el-form-item> -->
+        </el-form-item>
       </el-form>
     </el-col>
 
@@ -169,7 +173,7 @@
           type="primary"
           @click="batchEditGroup"
           style="background-color: #52a3d7; border: 0; font-size: 14px"
-        >修改分组</el-button>
+        >批量修改分组</el-button>
       </el-col>
       <!-- <el-col :span="4">
         <el-button>批量删除</el-button>
@@ -341,6 +345,9 @@
 
 <script>
 import { pagination } from "@/mixins";
+import FileSaver from "file-saver";
+import XLSX from "xlsx";
+import { constants } from "os";
 export default {
   mixins: [pagination],
   data() {
@@ -601,7 +608,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
+            `/medicalSections/getMedicalSectionsList?hospitalId=1`
         )
         .then(res => {
           this.ksdepartmentName = res.data;
@@ -616,7 +623,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&keywords=${this.filters.name}&uniqueAccountId=${this.$store.state.user.user.uniqueAccountId}&type=${this.$store.state.user.user.type}`
+            `/patient/getPatientList?hospitalId=1&keywords=${this.filters.name}&uniqueAccountId=${this.$store.state.user.user.uniqueAccountId}&type=${this.$store.state.user.user.type}`
         )
         .then(res => {
           this.page.total = res.data.total;
@@ -654,7 +661,7 @@ export default {
     addSubmit: function() {
       this.$refs.addForm.validate(valid => {
         if (valid) {
-          this.addForm.hospitalId = this.user.hospitalId.id;
+          this.addForm.hospitalId = 1;
           this.addForm.doctorId = this.user.id;
           if (this.addForm.sex === -1) {
             this.$message({
@@ -766,7 +773,7 @@ export default {
         this.$http
           .get(
             "/api" +
-              `/patient/getPatientList?hospitalId=${this.user.hospitalId.id}&groupId=${this.groupNameChoose}`
+              `/patient/getPatientList?hospitalId=1&groupId=${this.groupNameChoose}`
           )
           .then(res => {
             this.usersList = res.data.list;
@@ -775,6 +782,34 @@ export default {
             console.log(err);
           });
       }
+    },
+    //导出表格
+    exports() {
+      this.$http({
+        url: "/api/patient/exportExcel?hospitalId=1&uniqueAccountId="+this.$store.state.user.user.uniqueAccountId+'&type='+this.$store.state.user.user.type,
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 下载文件
+    download(data) {
+      if (!data) {
+        return;
+      }
+      let url = window.URL.createObjectURL(new Blob([data]));
+      let link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute("download", "患者列表.xlsx");
+
+      document.body.appendChild(link);
+      link.click();
     }
   },
   created() {

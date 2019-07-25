@@ -6,14 +6,13 @@
       <el-card class="box-card grtz_box" v-for="item in sfjyArray" :key="item.sfjlId">
         <div slot="header" class="clearfix grtz_title">
           <span>
-            {{item.visitDate}}
+            {{item.visitTime}}
             <span class="f-right">{{item.status ==1?"已随访":"未随访"}}</span>
           </span>
         </div>
         <div class="text item grtz_content">
-          <p>
-            <span>随访建议 : {{item.visitRecord.content}}</span>
-          </p>
+            <h2>随访建议 : {{item.content.content}}</h2>
+            <span v-for="index in item.content" :key="index.id">{{index.content}}</span>
         </div>
         <div class="jhxx_btn">
           <el-row>
@@ -114,20 +113,17 @@ export default {
       this.$http
         .get(
           "/api" +
-            "/visitRecord/getVisitRecordListByUserIdAndPatientId?userId=" +
-            this.$store.state.user.user.id +
-            "&patientId=" +
-            this.personInfo.id +
-            "&pageNum=1&pageSize=5&planId=" +
-            sessionStorage.planId
+            "/visitRecord/getVisistManagerList?planId=" +
+            this.$route.query.planId
         )
         .then(res => {
-          if (res.data.list.length === 0) {
+          console.log(res)
+          if (res.data.length === 0) {
             this.getsfjhStatus = true;
           } else {
             this.getsfjhStatus = false;
             this.page.total = res.data.total;
-            this.sfjyArray = res.data.list;
+            this.sfjyArray = res.data;
           }
         })
         .catch(err => {
@@ -136,7 +132,7 @@ export default {
     },
     // 去随访
     createVisit() {
-      this.$router.push({path:"/createVisit",query:{planId:this.$route.query.planId}});
+      this.$router.push({path:"/createVisit",query:{planId:this.$route.query.planId,patientType:this.$route.query.patientType}});
     }
   }
 };

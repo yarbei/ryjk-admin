@@ -294,7 +294,7 @@
         </el-col>
         <el-col :span="8" v-show="iscomplication">
           <el-form-item label="并发症 : ">
-            <el-select v-model="form.visitRecordContent.bfzClassify" @change="bfzChange($event,2)">
+            <el-select v-model="form.complicationCategory" @change="bfzChange($event,2)">
               <el-option
                 v-for="item in sfbfz"
                 :key="item.value"
@@ -448,7 +448,7 @@
               v-model="form.revisitTime"
               type="date"
               placeholder="选择日期"
-              format="yyyy - MM - dd "
+              format="yyyy-MM-dd"
               value-format="yyyy-MM-dd"
             ></el-date-picker>
           </el-form-item>

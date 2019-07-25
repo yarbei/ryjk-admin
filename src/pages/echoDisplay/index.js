@@ -610,12 +610,12 @@ export default {
                 console.log(err)
               })
               // 请求并发症具体数据
-            if (this.form.visitRecordContent.bfzClassify) {
+            if (this.form.complicationCategory) {
               this.$http
                 .get(
                   '/api' +
                     '/common/getDataList?dataType=2&dataNum=' +
-                    this.form.visitRecordContent.bfzClassify
+                    this.form.complicationCategory
                 )
                 .then(res => {
                   this.sfbfzName = res.data

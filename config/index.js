@@ -71,7 +71,7 @@ module.exports = {
     cssSourceMap: true,
     proxyTable: {
       '/api': {
-        target: 'https://ryjk.rongyijiankang.com/api', // 接口的域名
+        target: 'https://xcx.rongyijiankang.com/api', // 接口的域名
         secure: true,  // 如果是https接口，需配置这个参数
         changeOrigin: true, // 如果接口跨域，需这个参数配置
         pathRewrite: {
