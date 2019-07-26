@@ -2,326 +2,350 @@
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="随访状态 : ">
-            <el-select v-model="form.status" placeholder="请选择">
-              <el-option
-                v-for="item in sfstatus"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="随访结果 : ">
-            <el-select v-model="form.result" placeholder="请选择">
-              <el-option
-                v-for="item in sfresult"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="随访方式 : ">
-            <el-select v-model="form.type" placeholder="请选择">
-              <el-option
-                v-for="item in sftype"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-card>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="随访状态 : ">
+              <el-select v-model="form.status" placeholder="请选择">
+                <el-option
+                  v-for="item in sfstatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="随访结果 : ">
+              <el-select v-model="form.result" placeholder="请选择">
+                <el-option
+                  v-for="item in sfresult"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="随访方式 : ">
+              <el-select v-model="form.type" placeholder="请选择">
+                <el-option
+                  v-for="item in sftype"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="出院/转出情况:">
-            <el-select v-model="form.dischargeStatus" placeholder="请选择">
-              <el-option
-                v-for="item in sfdischargeStatus"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="本次随访评估:">
-            <el-select v-model="form.assessment" placeholder="请选择">
-              <el-option
-                v-for="item in sfassessment"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <h2>目前症状</h2>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="有无症状 : ">
-            <el-select
-              v-model="form.visitRecordContent.issymptom"
-              @change="sfsymptomChange($event,0)"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in sfsymptom"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>{{form.visitRecordContent.issymptom}}
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="issfsymptomName">
-          <el-form-item label="请选择症状 : ">
-            <el-select v-model="form.symptom" multiple placeholder="请选择">
-              <el-option
-                v-for="item in sfsymptomName"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="出院/转出情况:">
+              <el-select v-model="form.dischargeStatus" placeholder="请选择">
+                <el-option
+                  v-for="item in sfdischargeStatus"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="本次随访评估:">
+              <el-select v-model="form.assessment" placeholder="请选择">
+                <el-option
+                  v-for="item in sfassessment"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header" class="clearfix">
+          <h2>目前症状</h2>
+        </div>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="有无症状 : ">
+              <el-select
+                v-model="form.visitRecordContent.issymptom"
+                @change="sfsymptomChange($event,0)"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in sfsymptom"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+              {{form.visitRecordContent.issymptom}}
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="issfsymptomName">
+            <el-form-item label="请选择症状 : ">
+              <el-select v-model="form.symptom" multiple placeholder="请选择">
+                <el-option
+                  v-for="item in sfsymptomName"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
 
-      <h2>生活方式</h2>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="总体评估 : ">
-            <el-select v-model="form.visitRecordContent.lifeAssessment" placeholder="请选择">
-              <el-option
-                v-for="item in sflifeAssessment"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <h2>生活方式</h2>
+        </div>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="总体评估 : ">
+              <el-select v-model="form.visitRecordContent.lifeAssessment" placeholder="请选择">
+                <el-option
+                  v-for="item in sflifeAssessment"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="吸烟量 : ">
-            <el-select v-model="form.smokingVolume" @change="smokingVolumeChange" placeholder="请选择">
-              <el-option
-                v-for="item in sfsmokingVolume"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="isSmokingAmount">
-          <el-form-item label="支/天">
-            <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="吸烟量 : ">
+              <el-select
+                v-model="form.smokingVolume"
+                @change="smokingVolumeChange"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in sfsmokingVolume"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="isSmokingAmount">
+            <el-form-item label="支/天">
+              <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="饮酒量 : ">
-            <el-select
-              v-model="form.alcoholConsumption"
-              @change="alcoholConsumptionChange"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in sfalcoholConsumption"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="isAlcoholConsumptionAmount">
-          <el-form-item label="ML/天">
-            <el-input-number
-              v-model="form.visitRecordContent.alcoholConsumptionAmount"
-              :min="0"
-              :max="9999"
-            ></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="膳食脂肪">
-            <el-input v-model="form.visitRecordContent.dietaryFat"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="摄盐情况(克/天)">
-            <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="运动(次/周)">
-            <el-input-number
-              v-model="form.visitRecordContent.motionNum"
-              :min="0"
-              :max="9999"
-              label="运动(次/周)"
-            ></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="运动(分钟/次)">
-            <el-input-number
-              v-model="form.visitRecordContent.otionLength"
-              :min="0"
-              :max="9999"
-              label="运动(次/周)"
-            ></el-input-number>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="心理状况 : ">
-            <el-select v-model="form.visitRecordContent.region" placeholder="请选择">
-              <el-option
-                v-for="item in sfregion"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="医从性 : ">
-            <el-select v-model="form.medicalCompliance" placeholder="请选择">
-              <el-option
-                v-for="item in sfmedicalCompliance"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="饮酒量 : ">
+              <el-select
+                v-model="form.alcoholConsumption"
+                @change="alcoholConsumptionChange"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in sfalcoholConsumption"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="isAlcoholConsumptionAmount">
+            <el-form-item label="ML/天">
+              <el-input-number
+                v-model="form.visitRecordContent.alcoholConsumptionAmount"
+                :min="0"
+                :max="9999"
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="膳食脂肪">
+              <el-input v-model="form.visitRecordContent.dietaryFat"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="摄盐情况(克/天)">
+              <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="运动(次/周)">
+              <el-input-number
+                v-model="form.visitRecordContent.motionNum"
+                :min="0"
+                :max="9999"
+                label="运动(次/周)"
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="运动(分钟/次)">
+              <el-input-number
+                v-model="form.visitRecordContent.otionLength"
+                :min="0"
+                :max="9999"
+                label="运动(次/周)"
+              ></el-input-number>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="心理状况 : ">
+              <el-select v-model="form.visitRecordContent.region" placeholder="请选择">
+                <el-option
+                  v-for="item in sfregion"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="医从性 : ">
+              <el-select v-model="form.medicalCompliance" placeholder="请选择">
+                <el-option
+                  v-for="item in sfmedicalCompliance"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
 
-      <h2>并发症</h2>
-      <el-row :gutter="0">
-        <el-col :span="8">
-          <el-form-item label="是否有并发症状 : ">
-            <el-select
-              v-model="form.visitRecordContent.iscomplication"
-              @change="complicationChange($event,0)"
-              placeholder="请选择"
-            >
-              <el-option
-                v-for="item in sfcomplication"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="iscomplication">
-          <el-form-item label="并发症 : ">
-            <el-select v-model="form.complicationCategory" @change="bfzChange($event,0)">
-              <el-option
-                v-for="item in sfbfz"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="iscomplicationName">
-          <el-form-item label="具体症状：">
-            <el-select v-model="form.complication" multiple>
-              <el-option
-                v-for="item in sfbfzName"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <h2>用药情况</h2>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="依从性 : ">
-            <el-select v-model="form.medicationCompliance">
-              <el-option
-                v-for="item in sfmedicationCompliance"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row v-for="(dosage, index) in  form.visitRecordContent.dosages" :key="index">
-        <el-col :span="6">
-          <el-form-item label="药物名称">
-            <el-input v-model="dosage.value"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="次/日">
-            <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item label="mg/次">
-            <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
-          </el-form-item>
-        </el-col>
-        <el-col :span="6">
-          <el-form-item>
-            <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="24">
-          <el-form-item>
-            <el-button style="width:95%;background:#eee;" @click.prevent="addDosage">新增</el-button>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <!-- 药物不良反应 -->
-      <select-input
-        :selectInputData="reactionsData"
-        @listenSelect="reactionsSelect"
-        @listenInput="reactionsInput"
-      ></select-input>
-
-      <h2>异常化验项目</h2>
-      <el-row :gutter="80">
+      <el-card>
+        <div slot="header">
+          <h2>并发症</h2>
+        </div>
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item label="是否有并发症状 : ">
+              <el-select
+                v-model="form.visitRecordContent.iscomplication"
+                @change="complicationChange($event,0)"
+                placeholder="请选择"
+              >
+                <el-option
+                  v-for="item in sfcomplication"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="iscomplication">
+            <el-form-item label="并发症 : ">
+              <el-select v-model="form.complicationCategory" @change="bfzChange($event,0)">
+                <el-option
+                  v-for="item in sfbfz"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="iscomplicationName">
+            <el-form-item label="具体症状：">
+              <el-select v-model="form.complication" multiple>
+                <el-option
+                  v-for="item in sfbfzName"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>用药情况</h2>
+        </div>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="依从性 : ">
+              <el-select v-model="form.medicationCompliance">
+                <el-option
+                  v-for="item in sfmedicationCompliance"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row v-for="(dosage, index) in  form.visitRecordContent.dosages" :key="index">
+          <el-col :span="6">
+            <el-form-item label="药物名称">
+              <el-input v-model="dosage.value"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="次/日">
+              <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item label="mg/次">
+              <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item>
+              <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="24">
+            <el-form-item>
+              <el-button style="float:right;background:#fff;" @click.prevent="addDosage">新增</el-button>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <!-- 药物不良反应 -->
+        <select-input
+          :selectInputData="reactionsData"
+          @listenSelect="reactionsSelect"
+          @listenInput="reactionsInput"
+        ></select-input>
+      </el-card>
+<el-card>
+  <div slot="header">
+<h2>异常化验项目</h2>
+  </div>
+<el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="白细胞">
             <el-input v-model="form.visitRecordContent.whiteBloodCell" placeholder="自定义"></el-input>
@@ -338,7 +362,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="血钙">
@@ -356,7 +379,6 @@
           </el-form-item>
         </el-col>
       </el-row>
-
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="其他">
@@ -364,6 +386,13 @@
           </el-form-item>
         </el-col>
       </el-row>
+</el-card>
+
+
+
+
+
+
       <h2>健康教育知晓</h2>
 
       <el-row :gutter="80">
@@ -544,5 +573,8 @@ export default {
 
 .el-input-number {
   width: 100%;
+}
+.el-card {
+  margin-top: 30px;
 }
 </style>
