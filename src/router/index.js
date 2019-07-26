@@ -40,7 +40,8 @@ export default new Router({
         { path: '/diseaseRisk', name: 'diseaseRisk', component: page('diseaseRisk') },
         { path: '/effect', name: 'effect', component: page('effect') },
         { path: '/accountManagement', name: 'accountManagement', component: page('accountManagement') },
-        { path: '/role', name: 'role', component: page('role') }
+        { path: '/role', name: 'role', component: page('role') },
+        { path: '/member', name: 'member', component: page('member') }
       ]
     },
     { path: '/login', name: 'login', component: page('login') },
