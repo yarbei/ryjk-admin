@@ -181,7 +181,7 @@
             <el-button
               @click="exportSymptom"
               type="primary"
-              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;float:right;"
             >
               <i class="el-icon-download" style="margin-right: 5px"></i>导出
             </el-button>
@@ -225,7 +225,7 @@
             <el-button
               @click="exportComplication"
               type="primary"
-              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;float:right;"
             >
               <i class="el-icon-download" style="margin-right: 5px"></i>导出
             </el-button>
