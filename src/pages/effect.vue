@@ -122,19 +122,17 @@
         </el-card>
       </el-col>
     </el-row>
-    <div slot="header" class="clearfix">
-      <el-button
-        @click="exportCompliance"
-        type="primary"
-        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
-      >
-        <i class="el-icon-download" style="margin-right: 5px"></i>导出
-      </el-button>
-    </div>
     <el-row :gutter="80">
       <el-col :span="24">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
+            <el-button
+              @click="exportCompliance"
+              type="primary"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+            >
+              <i class="el-icon-download" style="margin-right: 5px"></i>导出
+            </el-button>
             <span></span>
           </div>
           <table border="1" cellspacing="0" bordercolor="#eee" width="100%">

@@ -4,6 +4,10 @@
     <el-form ref="form" label-width="100px">
       <h2>疾病计划名称</h2>
       <el-input v-model="name" placeholder="请输入名称" required></el-input>
+      <h2>管理随访总数</h2>
+      <el-select v-model="dose" placeholder="请选择" @change="doseChange">
+        <el-option v-for="item in number" :key="item.value" :label="item.value" :value="item.value"></el-option>
+      </el-select>
       <h2 v-show="isdate">疾病计划时间</h2>
       <el-date-picker v-show="isdate"
         v-model="createDate"
@@ -11,10 +15,6 @@
         placeholder="选择时间"
         value-format="yyyy-MM-dd HH:mm:ss"
       ></el-date-picker>
-      <h2>管理随访总数</h2>
-      <el-select v-model="dose" placeholder="请选择">
-        <el-option v-for="item in number" :key="item.value" :label="item.value" :value="item.value"></el-option>
-      </el-select>
       <h2>疾病计划分类</h2>
       <el-row>
         <el-col :span="24" v-for="(v,i) in planList" :key="i">
