@@ -31,21 +31,31 @@
     <!--列表-->
     <el-table :data="ggArray" :border="true"  stripe highlight-current-row v-loading="listLoading" style="width: 100%;">
 
-      <el-table-column prop="content"  :show-overflow-tooltip="true" align="center" label="广告名称" sortable>
+      <el-table-column prop="content"  :show-overflow-tooltip="true" align="center" label="广告名称">
+      </el-table-column>
+      <el-table-column label="广告地址">
+        <template width="90" scope="scope">
+        <img style="width:160px;height:80px;border:none;" :src="scope.row.link">
+        </template> 
       </el-table-column>
 
-      <el-table-column prop="link"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
-      </el-table-column>
-
-      <el-table-column prop="createAuthor"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
+      <el-table-column prop="createAuthor"  :show-overflow-tooltip="true" align="center" label="创建人">
       </el-table-column>
 
       <el-table-column prop="createDate"   align="center" label="创建时间" sortable>
       </el-table-column>
 
-      <el-table-column align="center" width="360" fixed="right" label="操作">
+      <el-table-column align="center" width="420" fixed="right" label="操作">
         <template slot-scope="scope">
           <!--<el-button round type="text" style="color: #52a3d7"  @click="essentialInfo(scope.$index, scope.row)"><i class="el-icon-search" style="margin-right: 5px"></i>查看详情</el-button>-->
+          <el-button
+            round
+            type="text"
+            style="color: #f8b14b"
+            @click="handleAdd(scope.$index, scope.row)"
+          >
+            <i class="el-icon-circle-plus-outline" style="margin-right: 5px"></i>新增广告
+          </el-button>
           <el-button
             round
             type="text"
@@ -83,11 +93,11 @@
     <!--新增广告界面-->
     <el-dialog title="新增广告" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addForm" label-width="100px" ref="addForm">
-        <!--<el-form-item label="	广告名称" prop="name">-->
-        <!--<el-input v-model="addForm.name" auto-complete="off"></el-input>-->
-        <!--</el-form-item>-->
+        <el-form-item label="	广告名称" prop="name">
+        <el-input v-model="addForm.name" auto-complete="off"></el-input>
+        </el-form-item>
 
-        <el-form-item label="	广告地址" prop="description">
+        <el-form-item label="	广告地址" prop="link">
           <el-upload
             :action="uploadUrl()"
             :multiple="true"
@@ -103,6 +113,9 @@
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
           </el-upload>
+        </el-form-item>
+        <el-form-item label="创建人" prop="name">
+        <el-input v-model="addForm.name" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
 
@@ -120,11 +133,7 @@
         </el-form-item>
 
         <el-form-item label="	广告地址" prop="description">
-<<<<<<< HEAD
           <el-input v-model="editForm.link" auto-complete="off"></el-input>
-=======
-          <el-input v-model="editFormCall.link" auto-complete="off"></el-input>
->>>>>>> 3c06bae8250d875be69f2f1d70371e1c78482e05
         </el-form-item>
       </el-form>
 
@@ -153,6 +162,7 @@ export default {
       currentPage: 1,
       listLoading: false,
       ggArray: [],
+      link : "",
       addFormVisible: false, // 新增界面是否显示,
       // 新增界面数据
       addForm: {
@@ -227,7 +237,7 @@ export default {
       that.$http.get('/api' + `/advertisement/getAdvertisementList`)
         .then(res => {
           console.log(res.data, '获取广告列表')
-          that.ggArray = res.data.list;
+          that.ggArray = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -240,8 +250,17 @@ export default {
     // 新增广告
     addDepartment: function() {
       this.$http
-        .post("/api" + `/common/upload`, this.addForm)
-        .then(res => {})
+        .post("/api" + `/advertisement/insertAdvertisement`, this.addForm)
+        .then(res => {
+          if (res.data) {
+                this.$message.success("新增广告成功");
+                this.getyyList();
+                this.addFormVisible = false;
+              } else {
+                this.$message.error("新增广告失败");
+                this.addFormVisible = false;
+              }
+        })
         .catch(err => {
           console.log(err);
         });

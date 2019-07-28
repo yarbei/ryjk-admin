@@ -1,43 +1,45 @@
 <template>
   <section class="table_container">
-    <!--工具条-->
-    <el-col
-      :span="24"
-      class="toolbar toolbar_title"
-      style="padding-bottom: 0px; height: 100px;padding-top: 30px"
-    >
-      <el-select v-model="filters.status" placeholder="请选择状态" @change="getwVList">
-        <el-option :value="1" label="未随访"></el-option>
-        <el-option :value="0" label="已随访"></el-option>
-      </el-select>
+    <!--顶部工具条-->
+    <el-col :span="24" class="toolbar toolbar_title" style="padding-bottom: 0px;">
+        <h3>会员管理</h3>
+        <el-form :inline="true" :model="filters" class="toolbar_form">
+          <el-form-item>
+          <el-button
+            @click="exports"
+            type="primary"
+            style="background-color: #52a3d7; border: 0; font-size: 14px"
+          >
+            <i class="el-icon-download" style="margin-right: 5px"></i>导出
+          </el-button>
+        </el-form-item>
+        </el-form>
     </el-col>
-
     <!--列表-->
     <el-table
-      :data="wvArray"
+      :data="wchatArray"
       :border="true"
       stripe
       highlight-current-row
       v-loading="listLoading"
       style="width: 100%;"
     >
-      <el-table-column prop="patientName" align="center" label="患者姓名" sortable></el-table-column>
-      <el-table-column prop="publishDate" align="center" label="随访时间" sortable></el-table-column>
-      <el-table-column prop="status" align="center" label="状态" :formatter="formatSatus" sortable></el-table-column>
-      <el-table-column align="center" label="操作">
-        <template slot-scope="scope">
-          <el-button
-            type="success"
-            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
-            @click="changelInfo(scope.$index, scope.row)"
-            :disabled="scope.row.status ==0?true:false"
-          >{{scope.row.status ==1?'去随访':'已随访'}}</el-button>
-        </template>
+      <el-table-column prop="nickName" align="center" label="用户名称" ></el-table-column>
+      <el-table-column label="用户头像">
+        <template width="90" scope="scope">
+        <img style="width:80px;height:80px;border:none;" :src="scope.row.avatarUrl">
+        </template> 
       </el-table-column>
+      <el-table-column prop="phone" align="center" label="手机号" sortable></el-table-column>
+      <el-table-column prop="gender" align="center" label="性别" ></el-table-column>
+      <el-table-column prop="country" align="center" label="所在国家" ></el-table-column>
+      <el-table-column prop="province" align="center" label="所在省份" ></el-table-column>
+      <el-table-column prop="city" align="center" label="所在城市" ></el-table-column>
+      <el-table-column prop="language" align="center" label="语言" ></el-table-column>
     </el-table>
 
     <!--工具条-->
-    <el-col :span="24" class="toolbar toolbar_page" v-if="wvArray.length>10">
+    <el-col :span="24" class="toolbar toolbar_page" v-if="wchatArray.length>10">
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -70,23 +72,23 @@ export default {
       listLoading: false,
       usersList: [],
       user: null,
-      wvArray: [],
+      wchatArray: [],
       personInfo:{} //患者信息
     };
   },
   methods: {
     handleSearch() {
-      this.getwVList();
+      this.getWechatUserList();
     },
     // 获取待随访列表
-    getwVList() {
+    getWechatUserList() {
       this.$http
         .get(
           "/api" +
-            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`    
+            `/user/wechatUserList`    
         )
         .then(res => {
-          this.wvArray = res.data.list;
+          this.wchatArray = res.data.list;
           this.total = res.data.total;
           this.size = res.data.size;
           this.currentPage = res.data.pages;
@@ -97,35 +99,38 @@ export default {
     },
     handleSizeChange() {},
     handleCurrentChange() {},
-
-    formatSatus(row, column) {
-      return row.status == 1 ? "待随访" : "已随访";
-    },
-
-    changelInfo(index, row) {
-      this.$http
-        .get(
-          "/api" +
-            `/patient/getPatientInfoByUserId?userId=${row.patientId}`
-        )
+    //导出表格
+    exports() {
+      this.$http({
+        url: "/api/excel/exportWechatUserList",
+        responseType: "blob",
+        method: "get"
+      })
         .then(res => {
-          this.personInfo = res.data;
+          this.download(res);
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    // 下载文件
+    download(data) {
+      if (!data) {
+        return;
+      }
+      let url = window.URL.createObjectURL(new Blob([data]));
+      let link = document.createElement("a");
+      link.style.display = "none";
+      link.href = url;
+      link.setAttribute("download", "会员列表.xlsx");
 
-      setTimeout(() => {
-        sessionStorage.setItem("personInfo",JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
-        this.$router.replace({ 
-          name: 'EssentialInfo',
-          params: { selectId: 'jhxx'}
-        }); 
-      }, 1500)
+      document.body.appendChild(link);
+      link.click();
     }
+
   },
   created() {
-    this.getwVList();
+    this.getWechatUserList();
   }
 };
 </script>
