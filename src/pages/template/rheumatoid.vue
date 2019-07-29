@@ -558,4 +558,20 @@ export default {
 .el-input-number {
   width: 100%;
 }
+.el-card {
+  margin: 30px;
+}
+.el-card h2{
+  font-size: 16px;
+}
+.el-card h2::before{
+  content:'';
+  width: 5px;
+  height:5px;
+  border-radius: 50%;
+  font-size: 16px;
+}
+.el-card >>>.el-card__header{
+  padding: 0px 20px;
+}
 </style>
