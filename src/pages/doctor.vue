@@ -24,6 +24,19 @@
       
       <el-table-column prop="hospitalName.name" align="center" label="所在医院" ></el-table-column>
       <el-table-column prop="description" align="center" label="简介" ></el-table-column>
+      <el-table-column align="center" width="420" fixed="right" label="操作">
+        <template slot-scope="scope">
+          <!--<el-button round type="text" style="color: #52a3d7"  @click="essentialInfo(scope.$index, scope.row)"><i class="el-icon-search" style="margin-right: 5px"></i>查看详情</el-button>-->
+          <el-button
+            round
+            type="text"
+            style="color: #f8b14b"
+            @click="openOnline(scope.$index, scope.row)"
+          >
+            <i class="el-icon-circle-plus" style="margin-right: 5px"></i>开启即时通讯
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
     <!--工具条-->
