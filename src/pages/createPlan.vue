@@ -8,13 +8,30 @@
       <el-select v-model="dose" placeholder="请选择" @change="doseChange">
         <el-option v-for="item in number" :key="item.value" :label="item.value" :value="item.value"></el-option>
       </el-select>
-      <h2 v-show="isdate">疾病计划时间</h2>
-      <el-date-picker v-show="isdate"
-        v-model="createDate"
-        type="datetime"
-        placeholder="选择时间"
-        value-format="yyyy-MM-dd HH:mm:ss"
-      ></el-date-picker>
+      <el-row :gutter="40" style="margin-top:30px;">
+        <el-col
+          :span="24"
+          v-for="item in visit"
+          :key="item.id"
+          v-show="isVisit"
+          style="display:flex;justify-content:flex-start;align-items:flex-start;"
+        >
+          <!-- <el-card style="margin-top:30px"> -->
+          <el-form-item :label="'随访时间'+item.id" style="width:100%;">
+            <el-date-picker
+              v-show="isdate"
+              v-model="item.date"
+              type="datetime"
+              placeholder="选择时间"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              style="margin-left:20px;"
+            ></el-date-picker>
+            <!-- <h2>随访备注{{item.id}}</h2> -->
+            <el-input type="textarea" v-model="item.desc" style="width:60%;margin-left:20px;"></el-input>
+            <!-- </el-card> -->
+          </el-form-item>
+        </el-col>
+      </el-row>
       <h2>疾病计划分类</h2>
       <el-row>
         <el-col :span="24" v-for="(v,i) in planList" :key="i">
@@ -52,7 +69,7 @@ export default {
   name: "createPlan",
   data() {
     return {
-      isdate:true,//计划时间是否显示
+      isdate: true, //计划时间是否显示
       planId: null,
       dose: "",
       createDate: "", //新建计划时间
@@ -110,7 +127,9 @@ export default {
       slectedBodySignList: [],
       form: {},
       // 患者信息
-      personInfo: {}
+      personInfo: {},
+      visit: [], //随访时间，内容
+      isVisit: false //随访时间、内容是否显示
     };
   },
   created() {
@@ -130,6 +149,22 @@ export default {
     this.getBodySignList();
   },
   methods: {
+    //选择随访总数
+    doseChange(event) {
+      if (event) {
+        this.isVisit = true;
+        this.visit = [];
+        for (let i = 1; i <= event; i++) {
+          this.visit.push({
+            id: i,
+            date: "",
+            desc: ""
+          });
+        }
+      } else {
+        this.isVisit = false;
+      }
+    },
     //获取必测体征项
     getPlanInfo(id) {
       this.$http
@@ -206,7 +241,7 @@ export default {
         this.$message.warning("请选择计划时间！");
         return;
       }
-      if(params.dose==""){
+      if (params.dose == "") {
         this.$message.warning("请选择随访总数！");
         return;
       }

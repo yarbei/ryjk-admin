@@ -1,10 +1,10 @@
 <template>
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+    <el-form :inline="true" ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-row :gutter="80">
         <el-col :span="8">
-          <el-form-item label="随访状态 : ">
+          <el-form-item label="随访状态 : " >
             <el-select v-model="form.status" placeholder="请选择">
               <el-option
                 v-for="item in sfstatus"
@@ -17,7 +17,7 @@
         </el-col>
         <el-col :span="8">
           <el-form-item label="随访结果 : ">
-            <el-select v-model="form.result" placeholder="请选择">
+            <el-select v-model="form.result" placeholder="请选择"> 
               <el-option
                 v-for="item in sfresult"
                 :key="item.value"
@@ -544,5 +544,21 @@ export default {
 
 .el-input-number {
   width: 100%;
+}
+.el-card {
+  margin: 30px;
+}
+.el-card h2{
+  font-size: 16px;
+}
+.el-card h2::before{
+  content:'';
+  width: 5px;
+  height:5px;
+  border-radius: 50%;
+  font-size: 16px;
+}
+.el-card >>>.el-card__header{
+  padding: 0px 20px;
 }
 </style>

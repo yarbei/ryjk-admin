@@ -1,7 +1,7 @@
 <template>
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form"  label-position="right">
       <el-card>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -195,8 +195,7 @@
                 v-model="form.visitRecordContent.motionNum"
                 :min="0"
                 :max="9999"
-                label="运动(次/周)"
-              ></el-input-number>
+              ><template slot="append">(次/周)</template></el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -341,176 +340,175 @@
           @listenInput="reactionsInput"
         ></select-input>
       </el-card>
-<el-card>
-  <div slot="header">
-<h2>异常化验项目</h2>
-  </div>
-<el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="白细胞">
-            <el-input v-model="form.visitRecordContent.whiteBloodCell" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="血小板">
-            <el-input v-model="form.visitRecordContent.platelet" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="血钾">
-            <el-input v-model="form.visitRecordContent.bloodPotassium" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="血钙">
-            <el-input v-model="form.visitRecordContent.bloodCalcium" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="凝血">
-            <el-input v-model="form.visitRecordContent.blood_coagulation" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="甘油三脂">
-            <el-input v-model="form.visitRecordContent.threeFat" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="其他">
-            <el-input v-model="form.visitRecordContent.other" placeholder="自定义"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-</el-card>
+      <el-card>
+        <div slot="header">
+          <h2>异常化验项目</h2>
+        </div>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="白细胞">
+              <el-input v-model="form.visitRecordContent.whiteBloodCell" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="血小板">
+              <el-input v-model="form.visitRecordContent.platelet" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="血钾">
+              <el-input v-model="form.visitRecordContent.bloodPotassium" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="血钙">
+              <el-input v-model="form.visitRecordContent.bloodCalcium" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="凝血">
+              <el-input v-model="form.visitRecordContent.blood_coagulation" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="甘油三脂">
+              <el-input v-model="form.visitRecordContent.threeFat" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="其他">
+              <el-input v-model="form.visitRecordContent.other" placeholder="自定义"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>健康教育知晓</h2>
+        </div>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="是否进行健康指导 : ">
+              <el-select
+                v-model="form.visitRecordContent.healthGuidance"
+                @change="healthGuidanceChange"
+              >
+                <el-option
+                  v-for="item in sfhealthGuidance"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="ishealthGuidanceContent">
+            <el-form-item label="健康指导内容  : ">
+              <el-select v-model="form.visitRecordContent.healthGuidanceContent">
+                <el-option
+                  v-for="item in sfhealthGuidanceContent"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
 
+      <el-card>
+        <div slot="header">
+          <h2>随访记录</h2>
+        </div>
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="已提醒复诊 : ">
+              <el-select v-model="form.reminderRevisit">
+                <el-option
+                  v-for="item in sfreminderRevisit"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="已预约复诊 : ">
+              <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
+                <el-option
+                  v-for="item in sfappointmentRevisit"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
+        <el-row :gutter="80" v-show="isAppointmentRevisit">
+          <el-col :span="8">
+            <el-form-item label="预约科室 : ">
+              <el-select v-model="form.department">
+                <el-option
+                  v-for="item in sfdepartment"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="复诊时间 : ">
+              <el-date-picker
+                v-model="form.revisitTime"
+                type="date"
+                placeholder="选择日期"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+              ></el-date-picker>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-
-
-
-      <h2>健康教育知晓</h2>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="是否进行健康指导 : ">
-            <el-select
-              v-model="form.visitRecordContent.healthGuidance"
-              @change="healthGuidanceChange"
-            >
-              <el-option
-                v-for="item in sfhealthGuidance"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8" v-show="ishealthGuidanceContent">
-          <el-form-item label="健康指导内容  : ">
-            <el-select v-model="form.visitRecordContent.healthGuidanceContent">
-              <el-option
-                v-for="item in sfhealthGuidanceContent"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <h2>随访记录</h2>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="已提醒复诊 : ">
-            <el-select v-model="form.reminderRevisit">
-              <el-option
-                v-for="item in sfreminderRevisit"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="已预约复诊 : ">
-            <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
-              <el-option
-                v-for="item in sfappointmentRevisit"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="80" v-show="isAppointmentRevisit">
-        <el-col :span="8">
-          <el-form-item label="预约科室 : ">
-            <el-select v-model="form.department">
-              <el-option
-                v-for="item in sfdepartment"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="复诊时间 : ">
-            <el-date-picker
-              v-model="form.revisitTime"
-              type="date"
-              placeholder="选择日期"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-            ></el-date-picker>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-row :gutter="80">
-        <el-col :span="8">
-          <el-form-item label="健康知晓度 : ">
-            <el-select v-model="form.healthAwareness">
-              <el-option
-                v-for="item in sfhealthAwareness"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="满意度调研 : ">
-            <el-select v-model="form.satisfactionSurvey">
-              <el-option
-                v-for="item in sfsatisfactionSurvey"
-                :key="item.value"
-                :value="item.value"
-                :label="item.label"
-              ></el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-form-item label="随访备注 : ">
-        <el-input type="textarea" v-model="form.remark"></el-input>
-      </el-form-item>
-
-      <el-form-item style="text-align: center">
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="健康知晓度 : ">
+              <el-select v-model="form.healthAwareness">
+                <el-option
+                  v-for="item in sfhealthAwareness"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="满意度调研 : ">
+              <el-select v-model="form.satisfactionSurvey">
+                <el-option
+                  v-for="item in sfsatisfactionSurvey"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-form-item label="随访备注 : ">
+          <el-input type="textarea" v-model="form.remark"></el-input>
+        </el-form-item>
+      </el-card>
+      <el-form-item style="text-align: center;margin-left:-135px">
         <el-button type="success" @click="onSubmit(0)">完成随访</el-button>
         <el-button @click="cancelBtn">取消</el-button>
       </el-form-item>
@@ -575,6 +573,19 @@ export default {
   width: 100%;
 }
 .el-card {
-  margin-top: 30px;
+  margin: 30px;
+}
+.el-card h2{
+  font-size: 16px;
+}
+.el-card h2::before{
+  content:'';
+  width: 5px;
+  height:5px;
+  border-radius: 50%;
+  font-size: 16px;
+}
+.el-card >>>.el-card__header{
+  padding: 0px 20px;
 }
 </style>
