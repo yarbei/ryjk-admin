@@ -19,6 +19,21 @@
           ></el-option>
         </el-select>
 
+        <el-select
+          v-model="hospitalNameChoose"
+          clearable
+          placeholder="选择医院"
+          @change="getPatientByHospitalId"
+          style="margin-right: 10px;"
+        >
+          <el-option
+            v-for="item in hospitalList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+
         <el-form-item class="f-right search_input">
           <el-input v-model="filters.name" placeholder="患者姓名/手机号/身份证号">
             <template slot="append" icon="el-icon-search">
@@ -380,8 +395,15 @@ export default {
           groupName: ""
         }
       ],
+      hospitalList: [
+        {
+          id: "",
+          name: ""
+        }
+      ],
       ksdepartmentName: [], // 科室
-      groupNameChoose: "",
+      groupNameChoose: "", //组名
+      hospitalNameChoose: "", //医院名
       value: "",
       listLoading: false,
       multipleSelection: [], // 列表选中列
@@ -746,6 +768,17 @@ export default {
           console.log(err);
         });
     },
+    //获取医院
+    getHospital(){
+      this.$http
+        .get("/api" + `/hospital/getHospitalList`)
+        .then(res => {
+          this.hospitalList = res.data.list;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     // 新建组
     addNewGroup() {
       this.$http
@@ -794,6 +827,32 @@ export default {
           });
       }
     },
+    //根据医院ID获取患者
+    getPatientByHospitalId(){
+      this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+        this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
+        this.type = this.$store.state.user.user.type;
+      }
+      this.type = parseInt(this.type);
+      if(this.hospitalNameChoose == ""){
+        this.getUsers();
+      }else{
+        this.hospitalNameChoose = parseInt(this.hospitalNameChoose);
+        this.$http
+          .get(
+            "/api" +
+              `/patient/getPatientList?hospitalId=${this.hospitalNameChoose}&type=${this.type}`
+          )
+          .then(res => {
+            this.usersList = res.data.list;
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+
     //导出表格
     exports() {
       this.$http({
@@ -827,6 +886,7 @@ export default {
     this.getMedicalList();
     this.getUsers(this.page.current, this.page.size);
     this.getGroupName();
+    this.getHospital();
   }
 };
 </script>
