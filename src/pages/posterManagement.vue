@@ -32,14 +32,6 @@
           >
             <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改广告
           </el-button>
-          <el-button
-            round
-            type="text"
-            style="color: #e15939"
-            @click="delDepartment(scope.$index, scope.row)"
-          >
-            <i class="el-icon-delete" style="margin-right: 5px"></i>删除广告
-          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -134,32 +126,7 @@ export default {
           console.log(err);
         });
     },
-    // 删除广告
-    delDepartment(s1, s2) {
-      console.log(s2)
-      this.$confirm("此操作将删除该广告, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "error"
-      }).then(() => {
-          this.$http
-            .post("/api" + `/advertisement/deleteAdvertisement?id=${s2.id}`)
-            .then(res => {
-              if (res.data) {
-                this.$message.success("删除广告成功");
-                this.getyyList();
-                this.editFormVisible = false;
-              } else {
-                this.$message.error("删除广告失败");
-                this.editFormVisible = false;
-              }
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        })
-        .catch(() => {});
-    },
+
     // 修改广告弹窗
     handleEdit: function(s1, s2) {
       console.log("修改数据:---->" + s2.link); 

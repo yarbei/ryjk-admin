@@ -153,7 +153,9 @@
               v-show="item.createDate && item.endDate"
             >{{item.createDate}}</span>
             <span class="jhxx_titleTime" v-show="item.status==1?true:false"></span>
+            <span class="jhxx_patientType">{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
           </span>
+          
           <!--<el-tag type="success">{{item.description}}</el-tag>-->
           <ul class="suggest-list">
             <li v-for="(v,i) in item.item" :key="i">
@@ -542,12 +544,13 @@ export default {
       getSignStatus: false,
       getsfjlStatus: false,
       planId: null,
-      bodySignTypeIdArray: []
-    };
+      bodySignTypeIdArray: [],
+    }
   },
   methods: {
     //获取随访列表以及随访图表
     selectDate(event) {
+      
       //获取个人体征列表
       this.$http
         .get(
@@ -928,6 +931,10 @@ export default {
 }
 
 .jhxx_titleTime {
+  font-size: 16px;
+  margin: 0 10px;
+}
+.jhxx_patientType{
   font-size: 16px;
   margin: 0 10px;
 }

@@ -426,7 +426,10 @@ export default {
       newGroupName: "",
       getPatientId: null,
       batchEditGroupForm: {}, //批量修改患者分组
-      dialogFormVisible: false //批量修改患者分组显示
+      dialogFormVisible: false, //批量修改患者分组显示
+      uniqueAccountId: "",
+      type: 0,
+      doctorId: 0,
     };
   },
   methods: {
@@ -620,10 +623,15 @@ export default {
     // 获取患者列表
     getUsers(page, pageSize) {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+        this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
+        this.type = this.$store.state.user.user.type;
+      }
+      this.type = parseInt(this.type);
       this.$http
         .get(
           "/api" +
-            `/patient/getPatientList?hospitalId=1&keywords=${this.filters.name}&uniqueAccountId=${this.$store.state.user.user.uniqueAccountId}&type=${this.$store.state.user.user.type}`
+            `/patient/getPatientList?hospitalId=1&keywords=${this.filters.name}&uniqueAccountId=${this.uniqueAccountId}&type=${this.type}`
         )
         .then(res => {
           this.page.total = res.data.total;
@@ -726,8 +734,11 @@ export default {
     },
     // 获取组名
     getGroupName() {
+      if(typeof this.user.id != "undefined"){
+        this.doctorId = this.user.id;
+      }
       this.$http
-        .get("/api" + `/groups/getGroupListByDoctorId?doctorId=${this.user.id}`)
+        .get("/api" + `/groups/getGroupListByDoctorId?doctorId= ${typeof this.user.id !== "undefined" ? this.user.id:null}`)
         .then(res => {
           this.groupNameList = res.data;
         })

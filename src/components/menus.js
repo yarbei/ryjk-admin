@@ -60,6 +60,18 @@ const menus = [
       { id: 'tjfx2', path: '/effect', label: '效果统计与分析' },
       { id: 'tjfx3', path: '/diseaseRisk', label: '疾病风险筛查统计与分析' }
     ]
-  }
+  },
+  { id: 'hygl',
+    icon: 'el-icon-user-solid',
+    label: '会员管理',
+    path: '/member',
+    name: 'member'
+  },
+  { id: 'ysgl',
+    icon: 'el-icon-first-aid-kit',
+    label: '医生管理',
+    path: '/doctor',
+    name: 'doctor'
+  },
 ]
 export default menus
