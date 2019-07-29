@@ -3,49 +3,30 @@
     <!--工具条-->
     <el-col :span="24" class="toolbar toolbar_title">
       <h3>广告管理</h3>
-<!--       <el-form :inline="true" :model="filters" class="toolbar_form">
-        <el-form-item class="f-left search_input">
-          <el-input v-model="filters.name" placeholder="广告名">
-            <template slot="append" icon="el-icon-search">
-              <el-button
-                type="primary"
-                v-on:click="getyyList"
-                style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac"
-              >
-                <i class="el-icon-search" style="margin-right: 5px"></i>搜索
-              </el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-
-        <el-form-item>
-          <el-button
-            type="primary"
-            @click="handleAdd"
-            style="background-color: #52d7ac; border: 0; font-size: 14px"
-          >新增广告</el-button>
-        </el-form-item>
-      </el-form> -->
     </el-col>
 
     <!--列表-->
-    <el-table :data="ggArray" :border="true"  stripe highlight-current-row v-loading="listLoading" style="width: 100%;">
-
-      <el-table-column prop="content"  :show-overflow-tooltip="true" align="center" label="广告名称" sortable>
+    <el-table
+      :data="ggArray"
+      :border="true"
+      stripe
+      highlight-current-row
+      v-loading="listLoading"
+      style="width: 100%;"
+    >
+      <el-table-column prop="content" :show-overflow-tooltip="true" align="center" label="广告名称"></el-table-column>
+      <el-table-column label="广告地址">
+        <template width="90" scope="scope">
+          <img style="width:160px;height:80px;border:none;" :src="scope.row.link" />
+        </template>
       </el-table-column>
 
-      <el-table-column prop="link"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
-      </el-table-column>
+      <el-table-column prop="createAuthor" :show-overflow-tooltip="true" align="center" label="创建人"></el-table-column>
 
-      <el-table-column prop="createAuthor"  :show-overflow-tooltip="true" align="center" label="广告地址" sortable>
-      </el-table-column>
+      <el-table-column prop="createDate" align="center" label="创建时间" sortable></el-table-column>
 
-      <el-table-column prop="createDate"   align="center" label="创建时间" sortable>
-      </el-table-column>
-
-      <el-table-column align="center" width="360" fixed="right" label="操作">
+      <el-table-column align="center" width="420" fixed="right" label="操作">
         <template slot-scope="scope">
-          <!--<el-button round type="text" style="color: #52a3d7"  @click="essentialInfo(scope.$index, scope.row)"><i class="el-icon-search" style="margin-right: 5px"></i>查看详情</el-button>-->
           <el-button
             round
             type="text"
@@ -67,64 +48,50 @@
     </el-table>
 
     <!--工具条-->
-    <el-col :span="24" class="toolbar toolbar_page" v-if="ggArray !== undefined  &&  ggArray.length > 0 ">
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="currentPage"
-      :page-sizes="[10, 20, 30, 40]"
-      :page-size="size"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
-    </el-pagination>
-  </el-col>
-
-
-    <!--新增广告界面-->
-    <el-dialog title="新增广告" :visible.sync="addFormVisible" :modal-append-to-body="false">
-      <el-form :model="addForm" label-width="100px" ref="addForm">
-        <!--<el-form-item label="	广告名称" prop="name">-->
-        <!--<el-input v-model="addForm.name" auto-complete="off"></el-input>-->
-        <!--</el-form-item>-->
-
-        <el-form-item label="	广告地址" prop="description">
-          <el-upload
-            :action="uploadUrl()"
-            :multiple="true"
-            :headers="headers"
-            :on-preview="handlePreview"
-            :on-remove="handleRemove"
-            :show-file-list="true"
-            :auto-upload="true"
-            :before-upload="beforeUpload"
-            enctype="multipart/form-data"
-            list-type="picture"
-          >
-            <el-button size="small" type="primary">点击上传</el-button>
-            <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-          </el-upload>
-        </el-form-item>
-      </el-form>
-
-      <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button @click.native="addFormVisible = false">取消</el-button>
-        <!--<el-button type="primary" @click.native="addDepartment">提交</el-button>-->
-      </div>
-    </el-dialog>
+    <el-col
+      :span="24"
+      class="toolbar toolbar_page"
+      v-if="ggArray !== undefined  &&  ggArray.length > 0 "
+    >
+      <el-pagination
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="size"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      ></el-pagination>
+    </el-col>
 
     <!--修改广告"界面-->
     <el-dialog title="修改广告" :visible.sync="editFormVisible" :modal-append-to-body="false">
       <el-form :model="editForm" label-width="100px" ref="editForm">
-        <el-form-item label="	广告名称" prop="name">
-          <el-input v-model="editFormCall.content" auto-complete="off"></el-input>
+        <el-form-item label="	广告名称" prop="content">
+          <el-input v-model="editForm.content" auto-complete="off"></el-input>
         </el-form-item>
-
-        <el-form-item label="	广告地址" prop="description">
-<<<<<<< HEAD
-          <el-input v-model="editForm.link" auto-complete="off"></el-input>
-=======
-          <el-input v-model="editFormCall.link" auto-complete="off"></el-input>
->>>>>>> 3c06bae8250d875be69f2f1d70371e1c78482e05
+        <el-form-item label="外部链接" prop="imgPath">
+          <el-input v-model="editForm.imgPath" auto-complete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="	广告地址" prop="link" style="position: relative;">
+          
+          <el-upload
+            action="/api/common/upload"
+            :show-file-list="istrue"
+            :file-list="linkPic"
+            :v-model="editForm.link"
+            list-type="picture-card"
+            :on-preview="handlePictureCardPreview"
+            :on-success="handleAvatarSuccess"
+            :on-remove="handleRemove"
+            :on-exceed="handleExceed"
+            :limit="1"
+          >
+            
+            <img width="100%"  class="imgg" @click="deleteimg" :src="dialogImageUrl" alt/>
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="创建人" prop="createAuthor">
+          <el-input v-model="editForm.createAuthor" auto-complete="off"></el-input>
         </el-form-item>
       </el-form>
 
@@ -140,9 +107,11 @@
 export default {
   data() {
     return {
-      filters: {
-        name: ""
-      },
+      istrue: "",
+      name: "",
+      imgPath: "",
+      link: "",
+      createAuth: "",
       value: "",
       total: 20,
       page: 1,
@@ -153,117 +122,50 @@ export default {
       currentPage: 1,
       listLoading: false,
       ggArray: [],
-      addFormVisible: false, // 新增界面是否显示,
-      // 新增界面数据
-      addForm: {
-        pca: null
-      },
-
+      linkPic:[],
+      dialogImageUrl: "",
+      dialogVisible: false,
       editFormVisible: false, // 修改界面是否显示,
       // 修改界面数据
-      editForm: {},
-
-      // 新数组
-      editFormCall: {}
+      editForm: {}
     };
   },
   methods: {
-    // 生产环境和开发环境的判断
-    uploadUrl() {
-      var url = process.env.apiUrl + "/common/upload";
-      return url;
+    deleteimg() {
+      this.handleRemove()
     },
-    // 上传失败
-
-    // 上传成功ß
-    uploadSuccess (res, file) {
-      if (this.activeName == '1') {
-        this.imageUrl = URL.createObjectURL(file.raw)
-        this.showNoticeUploading = false
-        this.noticeImageUrl = res
-        this.noteInform.templatePicture = res
-      } else if (this.activeName == '3') {
-        this.markingpic = URL.createObjectURL(file.raw)
-        this.showMarkingUploading = false
-        this.marketImageUrl = res
-        this.marketingInform.templatePicture = res
-      }
-    },
-    // 上传之前
-    beforeUpload(file) {
-      this.showNoticeUploading = true;
-      const isJPG = file.type === "image/jpeg";
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$message.error("上传头像图片只能是 JPG 格式!");
-        return;
-      }
-      if (!isLt2M) {
-        this.$message.error("上传头像图片大小不能超过 2MB!");
-        return;
-      }
-
-      event.preventDefault();
-      let formData = new FormData();
-      formData.append("file", file);
-      console.log(formData, "文件！");
-      this.$http
-        .post("/api" + "/common/upload", formData)
-        .then(res => {
-          if (res.data != null) {
-            this.$message.success("上传成功！");
-          } else {
-            this.$message.error("上传失败！");
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-
     // 获取广告广告列表
-    getyyList () {
-      var that = this
-      that.$http.get('/api' + `/advertisement/getAdvertisementList`)
+    getyyList() {
+      var that = this;
+      that.$http
+        .get("/api" + `/advertisement/getAdvertisementList`)
         .then(res => {
-          console.log(res.data, '获取广告列表')
-          that.ggArray = res.data.list;
+          console.log(res.data, "获取广告列表");
+          that.ggArray = res.data;
         })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    // 新增广告弹窗
-    handleAdd: function() {
-      this.addFormVisible = true;
-    },
-    // 新增广告
-    addDepartment: function() {
-      this.$http
-        .post("/api" + `/common/upload`, this.addForm)
-        .then(res => {})
         .catch(err => {
           console.log(err);
         });
     },
     // 删除广告
     delDepartment(s1, s2) {
-      console.log(s2)
+      console.log(s2);
       this.$confirm("此操作将删除该广告, 是否继续?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "error"
-      }).then(() => {
+      })
+        .then(() => {
           this.$http
             .post("/api" + `/advertisement/deleteAdvertisement?id=${s2.id}`)
             .then(res => {
               if (res.data) {
                 this.$message.success("删除广告成功");
                 this.getyyList();
-                this.addFormVisible = false;
+                this.editFormVisible = false;
               } else {
                 this.$message.error("删除广告失败");
-                this.addFormVisible = false;
+                this.editFormVisible = false;
               }
             })
             .catch(err => {
@@ -274,50 +176,85 @@ export default {
     },
     // 修改广告弹窗
     handleEdit: function(s1, s2) {
-      this.editFormVisible = true
-      this.editForm = s2
-      this.editFormCall = Object.assign({}, s2)
+      console.log(s2)
+      console.log("修改数据:---->" + s2.link);
+      this.editFormVisible = true;
+      this.editForm = s2;
+      if(s2.link) {
+        this.dialogImageUrl = s2.link;
+        this.editFormVisible = true;
+        if(this.dialogImageUrl&&this.editForm.link){
+        this.editForm.link = s2.link
+        }
+      }else{
+        this.dialogImageUrl = s2.link;
+        
+      }
+
+      
     },
     // 修改广告
     upDateDepartment() {
+      console.log(this.editForm);
+      const arr = this.editForm.link;
+      for (let i = 0; i < arr.length; i++) {
+        this.editForm.link = arr[i].response.data.url;
+      }
       this.$http
-        .post("/api" + `/advertisement/updateAdvertisement`, this.editFormCall)
+        .post("/api" + `/advertisement/updateAdvertisement`, this.editForm)
         .then(res => {
+            console.log(res.data)
           if (res.data) {
             this.$message.success("修改广告成功");
             this.getyyList();
+            this.dialogImageUrl = "";
             this.editFormVisible = false;
           } else {
             this.$message.error("修改广告失败");
             this.editFormVisible = false;
           }
+            this.editForm ={}
         })
         .catch(err => {
           console.log(err);
         });
     },
-    handleSizeChange() {},
-    handleCurrentChange() {},
+    handleAvatarSuccess(res, file, fileList) {
+      this.dialogImageUrl = "";
+      this.linkPic = fileList;
+      this.editForm.link = fileList;
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     handleRemove(file, fileList) {
-      console.log(file, fileList);
+      this.linkPic = fileList;
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`列表图最多上传1张`);
+
     },
     handlePreview(file) {
       console.log(file);
     }
   },
-  mounted () {
-    var that = this
-    that.uploadUrl()
-    
-  },
-  created () {
-    this.getyyList()
+  mounted() {},
+  created() {
+    this.getyyList();
   }
-}
-
+};
 </script>
 
 <style scoped>
+.imgg {
+  width: 148px;
+  height: 148px;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 .table_container {
   /*padding: 30px 50px 80px 50px;*/
 }

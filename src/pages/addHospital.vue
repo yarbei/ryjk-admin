@@ -3996,18 +3996,6 @@ export default {
             trigger: 'change'
           }
         ]
-        // listPic: [
-        //   {
-        //     required: true,
-        //     message: '请上传列表图'
-        //   }
-        // ],
-        // detailPic: [
-        //   {
-        //     required: true,
-        //     message: '请上传详情图'
-        //   }
-        // ]
       }
     }
   },
@@ -4026,7 +4014,7 @@ export default {
     handleRemove (file, fileList) {
       this.listPicList = fileList
     },
-    handleExceed (files, fileList) {
+    handleExceed  (files, fileList) {
       this.$message.warning(`列表图最多上传1张`)
     },
     // 详情图

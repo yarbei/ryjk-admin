@@ -135,24 +135,26 @@
             </el-button>
             <span></span>
           </div>
-          <table border="1" cellspacing="0" bordercolor="#eee" width="100%">
-            <tr>
-              <td>依从性好人次/占比</td>
-              <td>已戒烟人次/占比</td>
-              <td>不服药人次/占比</td>
-              <td>服药部分依从人次/占比</td>
-              <td>服药完全依从人次/占比</td>
-              <td>已戒酒人次/占比</td>
-            </tr>
-            <tr>
-              <td>{{tableData.compliance}}</td>
-              <td>{{tableData.giveUpSmoking}}</td>
-              <td>{{tableData.medicationCompliance0}}</td>
-              <td>{{tableData.medicationCompliance1}}</td>
-              <td>{{tableData.medicationCompliance2}}</td>
-              <td>{{tableData.quitDrinking}}</td>
-            </tr>
-          </table>
+          <el-table
+          :data="tableData"
+          :border="true"
+          stripe
+          highlight-current-row
+          style="width: 100%"
+        >
+          <el-table-column prop="compliance" align="center" label="依从性好人次" width="150" ></el-table-column>
+          <el-table-column prop="medicalCompliance" align="center" width="150" label="依从性好占比"></el-table-column>
+          <el-table-column prop="giveUpSmoking" align="center" label="已戒烟人次" width="100"></el-table-column>
+          <el-table-column prop="smokingVolume" align="center" label="已戒烟占比" width="100" ></el-table-column>
+          <el-table-column prop="quitDrinking" align="center" label="已戒酒人次" width="100"></el-table-column>
+          <el-table-column prop="alcoholConsumption" align="center" label="已戒酒占比" width="100" ></el-table-column>
+          <el-table-column prop="medicationComplianceTotal0" align="center" label="不服药人次" width="100"></el-table-column>
+          <el-table-column prop="medicationCompliance0" align="center" label="不服药占比" width="120"></el-table-column>
+          <el-table-column prop="medicationComplianceTotal1" align="center" label="服药部分依从人次" width="150"></el-table-column>
+          <el-table-column prop="medicationCompliance1" align="center" label="服药部分依从占比" width="150"></el-table-column>
+          <el-table-column prop="medicationComplianceTotal2" align="center" label="服药完全依从人次" width="150"></el-table-column>
+          <el-table-column prop="medicationCompliance2" align="center" label="服药完全依从占比" width="150"></el-table-column>
+          </el-table>
         </el-card>
       </el-col>
     </el-row>
@@ -179,7 +181,7 @@
             <el-button
               @click="exportSymptom"
               type="primary"
-              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;float:right;"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 2px;float:right;"
             >
               <i class="el-icon-download" style="margin-right: 5px"></i>导出
             </el-button>
@@ -223,7 +225,7 @@
             <el-button
               @click="exportComplication"
               type="primary"
-              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 12px;float:right;"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; margin-top: 2px;float:right;"
             >
               <i class="el-icon-download" style="margin-right: 5px"></i>导出
             </el-button>
@@ -283,6 +285,7 @@ export default {
         rows: []
       },
       tableData: [],
+      listLoading: false,
       symptomData: [],
       complicationData: [],
       leaveHospitalTable: [], //出院/转出归属情况表格
@@ -444,20 +447,10 @@ export default {
         console.log(err);
       });
 
-    // //获取并发症列表数据
-    // this.$http
-    //   .get("/api" + "/analysis/complication")
-    //   .then(res => {
-    //     console.log(res)
-    //     this.complicationData = res.data;
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   });
+    //获取管理统计依从性列表
     this.$http
       .get("/api" + "/analysis/manager/3")
       .then(res => {
-        console.log(res.data);
         this.tableData = res.data;
       })
       .catch(err => {
