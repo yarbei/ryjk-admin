@@ -86,7 +86,7 @@
             :limit="1"
           >
             
-            <img width="100%" class="imgg" ref="img1" :src="dialogImageUrl" alt/>
+            <img width="100%"  class="imgg" @click="deleteimg" :src="dialogImageUrl" alt/>
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
@@ -131,6 +131,9 @@ export default {
     };
   },
   methods: {
+    deleteimg() {
+      this.handleRemove()
+    },
     // 获取广告广告列表
     getyyList() {
       var that = this;
