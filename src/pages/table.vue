@@ -756,11 +756,8 @@ export default {
     },
     // 获取组名
     getGroupName() {
-      if(typeof this.user.id != "undefined"){
-        this.doctorId = this.user.id;
-      }
       this.$http
-        .get("/api" + `/groups/getGroupListByDoctorId?doctorId= ${typeof this.user.id !== "undefined" ? this.user.id:null}`)
+        .get("/api" + `/groups/getGroupList`)
         .then(res => {
           this.groupNameList = res.data;
         })

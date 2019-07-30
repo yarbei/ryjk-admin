@@ -2,6 +2,7 @@
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+      <el-card>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="随访状态 : ">
@@ -68,7 +69,12 @@
         </el-col>
       </el-row>
 
+
+</el-card>
+<el-card>
+      <div slot="header">
       <h2>体征</h2>
+      </div>
       <el-row :gutter="0">
         <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
         <el-col :span="8">
@@ -127,7 +133,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+    </el-card>
+    <el-card>
+      <div slot="header">
       <h2>目前症状</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="有无症状 : ">
@@ -158,7 +168,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>生活自理情况</h2>
+        </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="自理情况 : ">
@@ -173,7 +187,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>生活方式</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="吸烟量 : ">
@@ -221,7 +239,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>睡眠情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="睡眠情况 : ">
@@ -236,7 +258,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>运动情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="运动(次/周)">
@@ -259,7 +285,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>心理情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="心理状况 : ">
@@ -274,7 +304,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>并发症</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否有并发症状 : ">
@@ -318,7 +352,12 @@
         </el-col>
       </el-row>
 
+
+</el-card>
+<el-card>
+      <div slot="header">
       <h2>用药情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="依从性 : ">
@@ -362,13 +401,19 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
       <!-- 药物不良反应 -->
-      <select-input
+      <el-card>
+        <select-input
         :selectInputData="reactionsData"
         @listenSelect="reactionsSelect"
         @listenInput="reactionsInput"
       ></select-input>
+      </el-card>
+      <el-card>
+      <div slot="header">
       <h2>健康教育知晓</h2>
+        </div>
 
       <el-row :gutter="80">
         <el-col :span="8">
@@ -400,7 +445,12 @@
         </el-col>
       </el-row>
 
+
+</el-card>
+<el-card>
+      <div slot="header">
       <h2>随访记录</h2>
+      </div>
 
       <el-row :gutter="80">
         <el-col :span="8">
@@ -481,9 +531,12 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-form-item label="随访备注 : ">
+</el-card>
+      <el-card>
+        <el-form-item label="随访备注 : ">
         <el-input type="textarea" v-model="form.remark"></el-input>
       </el-form-item>
+      </el-card>
 
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit(2)">完成随访</el-button>

@@ -106,8 +106,10 @@
       </el-card>
 
       <el-card>
-        <h2>体征</h2>
-        <div slot="header"></div>
+        
+        <div slot="header">
+          <h2>体征</h2>
+        </div>
         <el-row :gutter="80">
           <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">体重</el-col>
           <el-col :span="8">
