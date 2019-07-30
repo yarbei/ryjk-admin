@@ -64,6 +64,7 @@
 
 <script>
 import { pagination } from "@/mixins";
+import menus from '../components/menus'
 export default {
   mixins: [pagination],
   data() {
@@ -78,7 +79,8 @@ export default {
       usersList: [],
       user: null,
       ewArray: [],
-      status: false
+      status: false,
+      datalength:''
     };
   },
   methods: {
@@ -98,7 +100,9 @@ export default {
             `/notice/getDoctorNoticeList?userId=${this.$store.state.user.user.id}&titleType=1&receiverRole=${this.$store.state.user.user.type}&noticeType=1&name=${this.filters.name}&status=${this.filters.status}`
         )
         .then(res => {
+          console.log(res.data)
           this.ewArray = res.data.list;
+          console.log(this.menus[3].submenu[1].count)
           this.page.total = res.data.total;
         })
         .catch(err => {

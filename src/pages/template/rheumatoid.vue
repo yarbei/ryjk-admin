@@ -2,6 +2,7 @@
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+      <el-card>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="随访状态 : ">
@@ -67,7 +68,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>体征</h2>
+      </el-card>
+      <el-card>
+      <div slot="header">
+        <h2>体征</h2>
+      </div>
       <!-- 类风湿结节组件 -->
       <select-input
         :selectInputData="rheumatoidData"
@@ -88,7 +93,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
       <h2>目前症状</h2>
+        </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="有无症状 : ">
@@ -119,8 +128,12 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
 
+      <el-card>
+<div slot="header">
       <h2>生活方式</h2>
+</div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="吸烟史 : ">
@@ -287,7 +300,12 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header"> 
       <h2>并发症</h2>
+
+        </div>
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="是否有并发症状 : ">
@@ -330,7 +348,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
       <h2>用药情况</h2>
+        </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="依从性 : ">
@@ -352,15 +374,17 @@
           </el-form-item>
         </el-col>
         <el-col :span="6">
-          <el-form-item label="次/日">
+          <el-form-item label="">
             <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
           </el-form-item>
         </el-col>
+        <span class="span">次/日</span>
         <el-col :span="6">
-          <el-form-item label="mg/次">
+          <el-form-item label="">
             <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
           </el-form-item>
         </el-col>
+        <span class="span">mg/次</span>
         <el-col :span="6">
           <el-form-item>
             <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
@@ -380,8 +404,11 @@
         @listenSelect="reactionsSelect"
         @listenInput="reactionsInput"
       ></select-input>
-
-      <h2>健康教育知晓</h2>
+      </el-card>
+<el-card>
+      <div slot="header">
+        <h2>健康教育知晓</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="是否进行健康指导 : ">
@@ -411,7 +438,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>随访记录</h2>
+</el-card>
+<el-card>
+      <div slot="header">
+        <h2>随访记录</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="已提醒复诊 : ">
@@ -492,6 +523,7 @@
       <el-form-item label="随访备注 : ">
         <el-input type="textarea" v-model="form.remark"></el-input>
       </el-form-item>
+</el-card>
 
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit(3)">完成随访</el-button>
@@ -554,7 +586,11 @@ export default {
 .cr_titleTag {
   margin-left: 30px;
 }
-
+.span{
+  float: left;
+    margin-left: 15px;
+    margin-top: 10px;
+}
 .el-input-number {
   width: 100%;
 }

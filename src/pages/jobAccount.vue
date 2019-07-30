@@ -3,6 +3,51 @@
     <div slot="header" class="clearfix">
       <h2 style="float:left">出院后疾病管理情况统计</h2>
       <el-button
+      @click="exportsTable1"
+      type="primary"
+      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+      >
+      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+      </el-button>
+    </div>
+    <el-row :gutter="80">
+      <el-col :span="24">
+        <el-card class="box-card">
+          <div slot="header" class="clearfix">
+          </div>
+          <el-table
+          :data="hospitalData"
+          :border="true"
+          stripe
+          highlight-current-row
+          style="width: 100%"
+        >
+          <el-table-column prop="depName" align="center" label="科室" width="150" ></el-table-column>
+          <el-table-column prop="rzzCount" align="center" width="150" label="出院总人次"></el-table-column>
+          <el-table-column prop="successCount" align="center" label="抓取成功" width="100"></el-table-column>
+          <el-table-column prop="failireCount" align="center" label="失败" width="100" ></el-table-column>
+          <el-table-column prop="schedulingCount" align="center" label="排期人次" width="100"></el-table-column>
+          <el-table-column prop="overdueCount" align="center" label="排期过期人次" width="100" ></el-table-column>
+          <el-table-column prop="firstVisit" align="center" label="首访" width="100"></el-table-column>
+          <el-table-column prop="secondVisit" align="center" label="二访" width="120"></el-table-column>
+          <el-table-column prop="thirdVisit" align="center" label="三访及以上" width="150"></el-table-column>
+          <el-table-column prop="totalVisit" align="center" label="随访总人次" width="150"></el-table-column>
+          <el-table-column prop="terminationVisit" align="center" label="终止随访" width="150"></el-table-column>
+          <el-table-column prop="validVisitRate" align="center" label="有效随访人次" width="150"></el-table-column>
+          <el-table-column prop="notCount" align="center" label="勿访人次" width="150"></el-table-column>
+          <el-table-column prop="timelyRate" align="center" label="排期率" width="150"></el-table-column>
+          <el-table-column prop="validVisitRate" align="center" label="有效随访率" width="150"></el-table-column>
+          </el-table>
+        </el-card>
+      </el-col>
+    </el-row>
+
+
+
+
+    <div slot="header" class="clearfix">
+      <h2 style="float:left">随访情况统计</h2>
+      <el-button
       @click="exports"
       type="primary"
       style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
@@ -123,13 +168,25 @@ export default {
       flag3 : true,
       btnText1: '表格',
       btnText2: '表格',
-      btnText3: '表格'
+      btnText3: '表格',
+      hospitalData:[], //出院后疾病管理情况
     };
   },
   methods: {
     cutTable(btnText, index) {
       this['flag' + index] = !this['flag' + index]
       this['btnText' + index] = this['flag' + index] ? '表格' : '图表'
+    },
+    hospitalDataList(){
+      this.$http
+      .get("/api" + "/analysis/work/work/sinknessManager?patientType=1&page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01")
+      .then(res => {
+        this.hospitalData = res;
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
     },
     //导出表格
     exports() {
@@ -180,6 +237,7 @@ export default {
       .catch(err => {
         console.log(err);
       });
+      this.hospitalDataList();
   }
 };
 </script>

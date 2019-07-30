@@ -2,6 +2,7 @@
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+      <el-card>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="随访状态 : ">
@@ -40,6 +41,7 @@
           </el-form-item>
         </el-col>
       </el-row>
+      
 
       <el-row :gutter="80">
         <el-col :span="8">
@@ -67,7 +69,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>体征</h2>
+      </el-card>
+      <el-card>
+      <div slot="header">
+        <h2>体征</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="体重(kg): ">
@@ -112,7 +118,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
       <h2>化验数值</h2>
+        </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="红细胞">
@@ -137,7 +147,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>异常指标</h2>
+      </el-card>
+      <el-card>
+      <div slot="header"> 
+        <h2>异常指标</h2>
+      </div>
       <el-row :gutter="0">
         <el-col :span="8">
           <el-form-item label="有无异常">
@@ -161,7 +175,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>生活自理情况</h2>
+      </el-card>
+      <el-card>
+      <div slot="header">
+        <h2>生活自理情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="自理情况 : ">
@@ -176,7 +194,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
       <h2>生活方式</h2>
+        </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="吸烟量 : ">
@@ -224,7 +246,11 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
       <h2>睡眠情况</h2>
+        </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="睡眠情况 : ">
@@ -289,7 +315,11 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <h2>用药情况</h2>
+      </el-card>
+      <el-card>
+      <div slot="header">
+        <h2>用药情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="依从性 : ">
@@ -310,7 +340,11 @@
         @listenSelect="reactionsSelect"
         @listenInput="reactionsInput"
       ></select-input>
-      <h2>疼痛控制情况</h2>
+      </el-card>
+      <el-card>
+      <div slot="header">
+        <h2>疼痛控制情况</h2>
+      </div>
       <el-row :gutter="80">
         <el-col :span="8">
           <el-form-item label="疼痛性质 : ">
@@ -373,7 +407,12 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card
+      >
+      <el-card>
+        <div slot="header">
       <h2>健康教育知晓</h2>
+        </div>
 
       <el-row :gutter="80">
         <el-col :span="8">
@@ -404,8 +443,12 @@
           </el-form-item>
         </el-col>
       </el-row>
+      </el-card>
 
-      <h2>随访记录</h2>
+      <el-card>
+        <div slot="header">
+          <h2>随访记录</h2>
+        </div>
 
       <el-row :gutter="80">
         <el-col :span="8">
@@ -489,6 +532,7 @@
       <el-form-item label="随访备注 : ">
         <el-input type="textarea" v-model="form.remark"></el-input>
       </el-form-item>
+      </el-card>
 
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit(10)">完成随访</el-button>

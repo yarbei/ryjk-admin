@@ -106,8 +106,10 @@
       </el-card>
 
       <el-card>
-        <h2>体征</h2>
-        <div slot="header"></div>
+        
+        <div slot="header">
+          <h2>体征</h2>
+        </div>
         <el-row :gutter="80">
           <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">体重</el-col>
           <el-col :span="8">
@@ -354,16 +356,20 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
+
           <el-col :span="6">
-            <el-form-item label="次/日">
+            <el-form-item label="">
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">次/日</span>
           <el-col :span="6">
-            <el-form-item label="mg/次">
+            <el-form-item label="">
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">mg/日</span>
+
           <el-col :span="6">
             <el-form-item>
               <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
@@ -521,6 +527,11 @@ export default {
 </script>
 
 <style type="text/css" scoped>
+.span{
+  float: left;
+    margin-left: 15px;
+    margin-top: 10px;
+}
 .cr_container {
   width: 100%;
   height: auto;
@@ -584,5 +595,10 @@ export default {
 }
 .el-card >>> .el-card__header {
   padding: 0px 20px;
+}
+.span{
+  float: left;
+    margin-left: 15px;
+    margin-top: 10px;
 }
 </style>

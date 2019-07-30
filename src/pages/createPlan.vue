@@ -45,14 +45,14 @@
                 placeholder="选择时间"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 style="margin-left:20px;"
-              ></el-date-picker>-->
+              ></el-date-picker> -->
               <!-- <h2>随访备注{{item.id}}</h2> -->
               <el-input
                 type="textarea"
                 v-model="item.desc"
                 rows="1.5"
                 style="width:60%;margin-left:20px;"
-              >{{item.desc}}</el-input>
+              ></el-input>
               <!-- </el-card> -->
             </el-form-item>
           </el-col>
@@ -106,9 +106,7 @@ export default {
       datecontent: "",
       isdate: true, //计划时间是否显示
       planId: {},
-      visitManager: "",
       dose: "",
-      createDate: [], //新建计划时间
       number: [
         {
           value: 1
@@ -206,6 +204,7 @@ export default {
       this.$http
         .get(`/api/plan/getPlanDetail?planId=${id}`)
         .then(res => {
+          console.log(res.data.item);
           const data = res.data;
           this.name = data.name;
           this.dose = data.dose;
@@ -255,17 +254,20 @@ export default {
         return {
           detailType: v.value,
           content: v.content
-        };
-      });
-      let now = new Date();
-
+        }
+      })
+       let visitManager = this.visit.map((v, i) => {
+         console.log(v);
+        return {
+          visitTime: v.date,
+          visitContent: v.desc
+        }
+      })
       const params = {
         departmentName: this.personInfo.departmentName,
-        id: this.planId ? Number(this.planId) : null,
+        // id: this.planId ? Number(this.planId) : null,
         dose: this.dose || 0,
-        createDate: this.createDate || 
-          [{ visitTime: item.date, visitContent: this.item.desc }]
-        ,
+        visitManager: visitManager,
         name: this.name || "",
         patientId: this.personInfo.id,
         doctorId: this.user.id,
@@ -276,10 +278,10 @@ export default {
         this.$message.warning("请填写计划名称！");
         return;
       }
-      // if (params.createDate == "") {
-      //   this.$message.warning("请选择计划时间！");
-      //   return;
-      // }
+      if (params.createDate == "") {
+        this.$message.warning("请选择计划时间！");
+        return;
+      }
       if (params.dose == "") {
         this.$message.warning("请选择随访总数！");
         return;
@@ -288,6 +290,7 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
+      console.log(this.params)
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -316,6 +319,7 @@ export default {
         this.$http
           .post(`/api/plan/addPlan`, params)
           .then(res => {
+            console.log(res.data)
             if (res.data) {
               this.$message({
                 type: "success",
