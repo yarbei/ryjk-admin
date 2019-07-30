@@ -321,9 +321,6 @@
         </el-row>
         <el-row
           v-for="(dosage, index) in  form.visitRecordContent.dosages"
-
-
-          
           :key="index"
           :gutter="80"
         >
@@ -332,7 +329,7 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="    margin-left: 70px!important;">
+          <el-col :span="6" style="    margin-left: 70px;">
             <el-form-item label="">
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
