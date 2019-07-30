@@ -2,52 +2,86 @@
   <div class="cp_container">
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" label-width="100px">
-      <h2>疾病计划名称</h2>
-      <el-input v-model="name" placeholder="请输入名称" required></el-input>
-      <h2>管理随访总数</h2>
-      <el-select v-model="dose" placeholder="请选择" @change="doseChange">
-        <el-option v-for="item in number" :key="item.value" :label="item.value" :value="item.value"></el-option>
-      </el-select>
-      <el-row :gutter="40" style="margin-top:30px;">
-        <el-col
-          :span="24"
-          v-for="item in visit"
-          :key="item.id"
-          v-show="isVisit"
-          style="display:flex;justify-content:flex-start;align-items:flex-start;"
-        >
-          <!-- <el-card style="margin-top:30px"> -->
-          <el-form-item :label="'随访时间'+item.id" style="width:100%;">
-            <el-date-picker
-              v-show="isdate"
-              v-model="item.date"
-              type="datetime"
-              placeholder="选择时间"
-              value-format="yyyy-MM-dd HH:mm:ss"
-              style="margin-left:20px;"
-            ></el-date-picker>
-            <!-- <h2>随访备注{{item.id}}</h2> -->
-            <el-input type="textarea" v-model="item.desc" style="width:60%;margin-left:20px;"></el-input>
-            <!-- </el-card> -->
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <h2>疾病计划分类</h2>
-      <el-row>
-        <el-col :span="24" v-for="(v,i) in planList" :key="i">
-          <el-form-item :label="v.label">
-            <el-input type="textarea" v-model="v.content" placeholder="请输入建议"></el-input>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <h2>疾病必测体征项</h2>
-      <el-checkbox-group v-model="slectedBodySignList">
-        <el-checkbox
-          v-for="item in bodySignList"
-          :label="item.bodySignId"
-          :key="item.bodySignId"
-        >{{item.bodySignName}}</el-checkbox>
-      </el-checkbox-group>
+      <el-card>
+        <div slot="header">
+          <h2>疾病计划名称</h2>
+        </div>
+        <el-input v-model="name" placeholder="请输入名称" required></el-input>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>管理随访总数</h2>
+        </div>
+        <el-select v-model="dose" placeholder="请选择" @change="doseChange">
+          <el-option
+            v-for="item in number"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          ></el-option>
+        </el-select>
+        <el-row :gutter="40" style="margin-top:30px;">
+          <el-col
+            :span="24"
+            v-for="item in visit"
+            :key="item.id"
+            v-show="isVisit"
+            style="display:flex;justify-content:flex-start;align-items:flex-start;"
+          >
+            <!-- <el-card style="margin-top:30px"> -->
+            <el-form-item :label="'随访时间'+item.id" style="width:100%;">
+              <el-date-picker
+                v-show="isdate"
+                type="date"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-left:20px;"
+                v-model="item.date"
+                placeholder="选择日期"
+              ></el-date-picker>
+              <!-- <el-date-picker
+                v-show="isdate"
+                v-model="item.date"
+                type="datetime"
+                placeholder="选择时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-left:20px;"
+              ></el-date-picker>-->
+              <!-- <h2>随访备注{{item.id}}</h2> -->
+              <el-input
+                type="textarea"
+                v-model="item.desc"
+                rows="1.5"
+                style="width:60%;margin-left:20px;"
+              >{{item.desc}}</el-input>
+              <!-- </el-card> -->
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>疾病计划分类</h2>
+        </div>
+        <el-row>
+          <el-col :span="24" v-for="(v,i) in planList" :key="i">
+            <el-form-item :label="v.label">
+              <el-input type="textarea" v-model="v.content" placeholder="请输入建议"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>疾病必测体征项</h2>
+        </div>
+        <el-checkbox-group v-model="slectedBodySignList">
+          <el-checkbox
+            v-for="item in bodySignList"
+            :label="item.bodySignId"
+            :key="item.bodySignId"
+          >{{item.bodySignName}}</el-checkbox>
+        </el-checkbox-group>
+      </el-card>
       <el-button @click="back" style="margin-left:10px;" class="submitBtn">取消</el-button>
       <el-button type="success" @click="onSubmit" class="submitBtn">发布</el-button>
     </el-form>
@@ -69,10 +103,12 @@ export default {
   name: "createPlan",
   data() {
     return {
+      datecontent: "",
       isdate: true, //计划时间是否显示
-      planId: null,
+      planId: {},
+      visitManager: "",
       dose: "",
-      createDate: "", //新建计划时间
+      createDate: [], //新建计划时间
       number: [
         {
           value: 1
@@ -221,12 +257,15 @@ export default {
           content: v.content
         };
       });
+      let now = new Date();
 
       const params = {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         dose: this.dose || 0,
-        createDate: this.createDate || String(new Date()),
+        createDate: this.createDate || 
+          [{ visitTime: item.date, visitContent: this.item.desc }]
+        ,
         name: this.name || "",
         patientId: this.personInfo.id,
         doctorId: this.user.id,
@@ -237,10 +276,10 @@ export default {
         this.$message.warning("请填写计划名称！");
         return;
       }
-      if (params.createDate == "") {
-        this.$message.warning("请选择计划时间！");
-        return;
-      }
+      // if (params.createDate == "") {
+      //   this.$message.warning("请选择计划时间！");
+      //   return;
+      // }
       if (params.dose == "") {
         this.$message.warning("请选择随访总数！");
         return;
@@ -273,6 +312,7 @@ export default {
             console.log(err);
           });
       } else {
+        console.log(params);
         this.$http
           .post(`/api/plan/addPlan`, params)
           .then(res => {
@@ -349,5 +389,8 @@ export default {
   margin-top: 30px;
   margin-bottom: 30px;
   float: right;
+}
+.el-card {
+  margin-top: 10px;
 }
 </style>
