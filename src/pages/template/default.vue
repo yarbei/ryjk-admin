@@ -1,7 +1,13 @@
 <template>
   <div>
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form"  label-position="right">
+    <el-form
+      ref="form"
+      :model="form"
+      label-width="135px"
+      class="createVisit_form"
+      label-position="right"
+    >
       <el-card>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -191,11 +197,9 @@
         <el-row :gutter="80">
           <el-col :span="8">
             <el-form-item label="运动(次/周)">
-              <el-input-number
-                v-model="form.visitRecordContent.motionNum"
-                :min="0"
-                :max="9999"
-              ><template slot="append">(次/周)</template></el-input-number>
+              <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999">
+                <template slot="append">(次/周)</template>
+              </el-input-number>
             </el-form-item>
           </el-col>
           <el-col :span="8">
@@ -311,15 +315,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="次/日">
-              <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
+            <el-form-item label>
+              <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次">
+              </el-input-number>
             </el-form-item>
           </el-col>
+                <span class="span">次/日</span>
           <el-col :span="6">
-            <el-form-item label="mg/次">
+            <el-form-item label="">
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">mg/次</span>
           <el-col :span="6">
             <el-form-item>
               <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
@@ -575,17 +582,22 @@ export default {
 .el-card {
   margin: 30px;
 }
-.el-card h2{
+.el-card h2 {
   font-size: 16px;
 }
-.el-card h2::before{
-  content:'';
+.el-card h2::before {
+  content: "";
   width: 5px;
-  height:5px;
+  height: 5px;
   border-radius: 50%;
   font-size: 16px;
 }
-.el-card >>>.el-card__header{
+.el-card >>> .el-card__header {
   padding: 0px 20px;
+}
+.span{
+  float: left;
+    margin-left: 15px;
+    margin-top: 10px;
 }
 </style>

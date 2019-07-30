@@ -438,7 +438,7 @@ export default {
         relation: [
           { required: true, message: "请选择与患者关系", trigger: "change" }
         ],
-        groupId: [{ required: true, message: "请选择分组", trigger: "change" }]
+        // groupId: [{ required: true, message: "请选择分组", trigger: "change" }]
       },
       // 新增界面数据
       addForm: {

@@ -307,15 +307,17 @@
             </el-form-item>
           </el-col>
           <el-col :span="6">
-            <el-form-item label="次/日">
+            <el-form-item label="">
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">次/日</span>
           <el-col :span="6">
-            <el-form-item label="mg/次">
+            <el-form-item label="">
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">mg/次</span>
           <el-col :span="6">
             <el-form-item>
               <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
@@ -585,5 +587,10 @@ export default {
 }
 .el-card >>> .el-card__header {
   padding: 0px 20px;
+}
+.span{
+  float: left;
+    margin-left: 15px;
+    margin-top: 10px;
 }
 </style>
