@@ -142,6 +142,7 @@
           highlight-current-row
           style="width: 100%"
         >
+          <el-table-column prop="healthAwareness" align="center" label="健康知晓率" width="150" ></el-table-column>
           <el-table-column prop="compliance" align="center" label="依从性好人次" width="150" ></el-table-column>
           <el-table-column prop="medicalCompliance" align="center" width="150" label="依从性好占比"></el-table-column>
           <el-table-column prop="giveUpSmoking" align="center" label="已戒烟人次" width="100"></el-table-column>

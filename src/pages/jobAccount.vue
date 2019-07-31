@@ -3,7 +3,7 @@
     <div slot="header" class="clearfix">
       <h2 style="float:left">出院后疾病管理情况统计</h2>
       <el-button
-      @click="exportsTable1"
+      @click="exportsHospital"
       type="primary"
       style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
       >
@@ -45,7 +45,7 @@
     <div slot="header" class="clearfix">
       <h2 style="float:left">门诊疾病管理情况统计</h2>
       <el-button
-      @click="exportsDepart"
+      @click="exportDepartData"
       type="primary"
       style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
       >
@@ -84,6 +84,22 @@
 
     <div slot="header" class="clearfix">
       <h2 style="float:left">随访情况统计</h2>
+      <el-form :inline="true" :model="filters" class="toolbar_form">
+        <el-select
+          v-model="dorctorNameChoose"
+          clearable
+          placeholder="选择疾病管理师"
+          @change="getVisitByDoctorId"
+          style="margin-right: 10px;float: left;margin-top: 12px;margin-left: 14px"
+        >
+          <el-option
+            v-for="item in doctoArray"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id"
+          ></el-option>
+        </el-select>
+      </el-form>
       <el-button
       @click="exports"
       type="primary"
@@ -180,9 +196,13 @@
 
 </template>
 <script>
+import { lchown } from 'fs';
 export default {
   data() {
     return {
+      filters: {
+        
+      },
       width:8,
       followUpMode:false,
       visitStatus:{
@@ -193,6 +213,12 @@ export default {
         columns: ["name", "value"],
         rows: []
       },
+      doctoArray: [
+        {
+          id: "",
+          name: ""
+        }
+      ],
       tiZhenYuJing: {
         columns: ["name", "value"],
         rows: []
@@ -200,6 +226,7 @@ export default {
       visitStatusTable : [],
       visitTypeTable : [],
       tiZhenYuJingTable : [],
+      dorctorNameChoose:"", //选择疾病管理师名字
       flag1 : true,
       flag2 : true,
       flag3 : true,
@@ -215,10 +242,32 @@ export default {
       this['flag' + index] = !this['flag' + index]
       this['btnText' + index] = this['flag' + index] ? '表格' : '图表'
     },
+
+    //随访情况统计
+    visitData(){
+      this.$http
+      .get("/api" + "/analysis/work/3?userRole="+this.$store.state.user.user.type+"&userId="+this.$store.state.user.user.id)
+      .then(res => {
+        this.visitStatus.rows=res.data.visitStatus
+        this.visitType.rows=res.data.visitType
+        this.tiZhenYuJing.rows=[
+          {name:'已处理',value:res.data.tiZhenYuJing.status_0},
+          {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
+        this.visitStatusTable = res.data.visitStatus
+        this.visitTypeTable = res.data.visitType
+        this.tiZhenYuJingTable = [
+          {name:'已处理',value:res.data.tiZhenYuJing.status_0},
+          {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    },
     //出院后疾病管理情况
     hospitalDataList(){
       this.$http
-      .post("/api" + "/analysis/work/sinknessManager?patientType=1&page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01")
+      .post("/api" + "/analysis/work/sinknessManager?patientType=0&page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01")
       .then(res => {
         console.log(res);
         this.hospitalData = res;
@@ -239,6 +288,75 @@ export default {
         console.log(err);
       });
     },
+    // 根据疾病管理师筛选随访情况
+    getVisitByDoctorId() {
+      if (this.dorctorNameChoose === "") {
+        this.visitData();
+      } else {
+        this.$http
+        .get("/api" + "/analysis/work/3?userRole="+this.$store.state.user.user.type+"&userId="+this.dorctorNameChoose)
+        .then(res => {
+          this.visitStatus.rows=res.data.visitStatus
+          this.visitType.rows=res.data.visitType
+          this.tiZhenYuJing.rows=[
+            {name:'已处理',value:res.data.tiZhenYuJing.status_0},
+            {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
+          this.visitStatusTable = res.data.visitStatus
+          this.visitTypeTable = res.data.visitType
+          this.tiZhenYuJingTable = [
+            {name:'已处理',value:res.data.tiZhenYuJing.status_0},
+            {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
+          console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+      }
+    },
+    //获取医生列表
+    dorctorList(){
+      this.$http
+        .get(
+          "/api" +
+            `/doctor/getDoctorAll?hospitalId=1`    
+        )
+        .then(res => {
+          console.log(res.data);
+          this.doctoArray = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //导出出院后疾病管理情况表格
+    exportsHospital() {
+      this.$http({
+        url: "/api" + "/excel/exprotHospitalData?patientType=0&rows=100&startTime=1970-01-01&endTime=2099-01-01",
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res,"出院后疾病管理情况统计");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //导出门诊疾病管理情况表格
+    exportDepartData() {
+      this.$http({
+        url: "/api" + "/excel/exportDepartData?page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01",
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res,"门诊疾病管理情况统计");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+
     //导出表格
     exports() {
       this.$http({
@@ -247,14 +365,15 @@ export default {
         method: "get"
       })
         .then(res => {
-          this.download(res);
+          this.download(res,"随访情况统计");
         })
         .catch(err => {
           console.log(err);
         });
     },
+    
     // 下载文件
-    download(data) {
+    download(data,name) {
       if (!data) {
         return;
       }
@@ -262,34 +381,17 @@ export default {
       let link = document.createElement("a");
       link.style.display = "none";
       link.href = url;
-      link.setAttribute("download", "出院后疾病管理情况统计.xlsx");
+      link.setAttribute("download",name+".xlsx");
 
       document.body.appendChild(link);
       link.click();
     }
   },
   created() {
-
-    this.$http
-      .get("/api" + "/analysis/work/3?userRole="+0+"&userId="+this.$store.state.user.user.id)
-      .then(res => {
-        this.visitStatus.rows=res.data.visitStatus
-        this.visitType.rows=res.data.visitType
-        this.tiZhenYuJing.rows=[
-          {name:'已处理',value:res.data.tiZhenYuJing.status_0},
-          {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
-        this.visitStatusTable = res.data.visitStatus
-        this.visitTypeTable = res.data.visitType
-        this.tiZhenYuJingTable = [
-          {name:'已处理',value:res.data.tiZhenYuJing.status_0},
-          {name:'未处理',value:res.data.tiZhenYuJing.status_1}]
-        console.log(res);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-      this.hospitalDataList();
-      this.departDataList();
+    this.hospitalDataList();
+    this.departDataList();
+    this.visitData();
+    this.dorctorList();
   }
 };
 </script>

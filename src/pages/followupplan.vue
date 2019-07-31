@@ -11,7 +11,7 @@
           </span>
         </div>
         <div class="text item grtz_content">
-            <h2>随访建议 : {{item.content.content}}</h2>
+            <h2>随访建议 : {{item.content}}</h2>
             <span v-for="index in item.content" :key="index.id">{{index.content}}</span>
         </div>
         <div class="jhxx_btn">
@@ -19,7 +19,7 @@
             <el-button
               class="f-right"
               type="primary"
-              @click="createVisit"
+              @click="createVisit(item.id)"
               :disabled="item.status==1?true:false"
             >去随访</el-button>
           </el-row>
@@ -131,8 +131,8 @@ export default {
         });
     },
     // 去随访
-    createVisit() {
-      this.$router.push({path:"/createVisit",query:{planId:this.$route.query.planId,patientType:this.$route.query.patientType}});
+    createVisit(managerId) {
+      this.$router.push({path:"/createVisit",query:{managerId:managerId,planId:this.$route.query.planId,patientType:this.$route.query.patientType}});
     }
   }
 };

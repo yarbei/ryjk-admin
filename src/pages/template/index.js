@@ -12,6 +12,7 @@ export default {
   data () {
     return {
       form: {
+        managerId: this.$route.query.managerId,
         visitAuthor: '',
         patientId: '',
         visitRecordContent: {
