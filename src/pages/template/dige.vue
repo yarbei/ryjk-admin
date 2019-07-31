@@ -329,14 +329,14 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="    margin-left: 70px;">
-            <el-form-item label="">
+          <el-col :span="6">
+            <el-form-item style="margin-left: -70px;">
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
           </el-col>
           <span class="span">次/日</span>
           <el-col :span="6">
-            <el-form-item label="" style="    margin-left: 70px;">
+            <el-form-item label="" style="    margin-left: -70px;">
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
@@ -578,7 +578,7 @@ export default {
 <style type="text/css" scoped>
 .span{
   float: left;
-    margin-left: 15px;
+    margin-left: -35px;
     margin-top: 10px;
 }
 .cr_container {

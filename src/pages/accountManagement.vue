@@ -81,7 +81,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="选择角色 : " required>
-          <el-select v-model="addAccountForm.roleIds" @change="selectName" placeholder="请选择" multiple>
+          <el-select v-model="addAccountForm.roleIds" placeholder="请选择" multiple>
             <el-option
               v-for="item in roleList"
               :key="item.roleId"
@@ -92,14 +92,10 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="addClose">取消</el-button>
+        <el-button @click.native="addclose">取消</el-button>
         <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
     </el-dialog>
-
-
-
-
 
     <!--修改账号界面-->
     <el-dialog title="修改账号" :visible.sync="editFormVisible" :modal-append-to-body="false">
@@ -117,8 +113,10 @@
         <el-form-item label="选择角色 : " required>
           <el-select
             v-model="editAccountForm.roleIds"
+            @change="selectName"
             placeholder="请选择"
-            multiple>
+            multiple
+          >
             <el-option
               v-for="item in roleList"
               :key="item.roleId"
@@ -133,14 +131,6 @@
         <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
       </div>
     </el-dialog>
-
-
-
-
-
-
-
-
   </section>
 </template>
 
@@ -159,7 +149,7 @@ export default {
       roleList: [],
       //新增账号界面数据
       addAccountForm: {
-        userId: '',
+        userId: "",
         roleIds: []
       },
       addFormVisible: false, //新增界面是否显示
@@ -167,40 +157,44 @@ export default {
       editLoading: false,
       // 编辑界面数据
       editAccountForm: {
-        id: '',
+        id: "",
         roleIds: []
       },
       addLoading: false,
-      user: null
+      user: null,
+      ids: []
     };
   },
   created() {
-    this.getAccount()
     // 获取角色
-    this.getUser()
+    this.getUser();
     // 获取姓名
-    this.getDoctor()
+    this.getDoctor();
+
+    this.getAccount();
   },
   methods: {
     // 获取角色
     getUser() {
       this.$http("/api" + "/doctor/getDoctorAll?hospitalId=1")
         .then(res => {
-          this.doctorName = res.data
+          console.log(res.date);
+          this.doctorName = res.data;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // 获取姓名
     getDoctor() {
       this.$http("/api" + "/user/getRoleList")
         .then(res => {
-          this.roleList = res.data
+          console.log(res.data);
+          this.roleList = res.data;
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     // //分页查询方法
     // handleSearch() {
@@ -212,22 +206,22 @@ export default {
     //   this.getUsers(this.page.current, this.page.size)
     // },
     searchFn() {
+      let str = this.filters.groupName;
 
-      let str = this.filters.groupName
-
-      if(this.filters.groupName) {
+      if (this.filters.groupName) {
         this.accountList = this.accountList.filter((v, i) => {
-          if(v.jobNum == str || v.name == str) {
-            return v
+          if (v.jobNum == str || v.name == str) {
+            return v;
           }
-        })
+        });
       } else {
-        this.getAccount()
+        // this.getAccount();
       }
-
     },
     selectName(event) {
-      console.log(event)
+      console.log(event);
+      this.editAccountForm.roleIds = ["1"];
+      this.editAccountForm.roleIds = event;
     },
     // 删除账号
     deleteGroup(index, row) {
@@ -238,22 +232,22 @@ export default {
       })
         .then(() => {
           this.$http
-            .post("/api" + "/user/deleteUserRole?userId="+row.id)
+            .post("/api" + "/user/deleteUserRole?userId=" + row.id)
             .then(res => {
-              console.log(res)
-              this.getAccount()
+              console.log(res);
               this.$message({
                 type: "success",
                 message: "删除成功!"
-              })
+              });
+              // this.getAccount();
             })
             .catch(err => {
-              console.log(err)
+              console.log(err);
               this.$message({
                 type: "warning",
                 message: "删除失败!"
-              })
-            })
+              });
+            });
         })
         .catch(() => {
           this.$message({
@@ -264,100 +258,126 @@ export default {
     },
     // 显示编辑界面
     handleEdit: function(index, row) {
-      this.editFormVisible = true
-      this.editForm = Object.assign({}, row)
+      this.editFormVisible = true;
+      this.editForm = Object.assign({}, row);
     },
     // 显示新增界面
     addAccount: function() {
-      this.addFormVisible = true
+      this.addFormVisible = true;
     },
     // 提交新增
     addSubmit: function() {
       let o = {
         userId: this.addAccountForm.userId,
         roleIds: this.addAccountForm.roleIds.join(",")
-      }
+      };
+      console.log(o);
       this.$http
         .post("/api" + "/user/userAssignmentRoles", o)
         .then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data == true) {
-            this.$message.success(res.message)
-            this.addFormVisible = false
+            this.$message.success(res.message);
+            this.addFormVisible = false;
             this.addAccountForm = {
-              userId: '',
+              userId: "",
               roleIds: []
-            }
-            this.getAccount()
+            };
+            // this.getAccount();
           } else {
-            this.$message.warning(res.message)
+            this.$message.warning(res.message);
           }
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-
-
-    // 显示修改界面
-    editAccount: function(index, row) {
-      this.editFormVisible = true;
-      this.$http("/api" + "user/getRolesByUserId?userId="+row.userId)
-        .then(res => {
-          console.log(res)
-          this.roleList = res.data;
         })
         .catch(err => {
           console.log(err);
         });
-      this.$http("/api" + "/doctor/getDoctorList?hospitalId=1&type=2")
-        .then(res => {
-          this.doctorName = res.data.list;
-          console.log(res);
-        })
-        this.editAccountForm = {
+    },
+
+    // 显示修改界面
+    editAccount: function(index, row) {
+      this.editFormVisible = true;
+
+      this.editAccountForm = {
           id: row.id,
-          roleIds: n_arr
-        }
-      } 
+          roleIds: row.roleNames.split(",")
+        };
+      console.log(this.editAccountForm.roleIds);
+      let ids;
+      for (let i = 0; i < this.editAccountForm.roleIds.length; i++) {
+        ids = row.editAccountForm.roleIds[i];
+      }
+      console.log(ids);
+      for (let i = 0; i < this.roleList.length; i++) {
+        this.roleList = [this.roleList[i]]
+      }
+      console.log(this.roleList);
+      if (this.roleList[ids]) {
+        this.addAccountForm.roleIds.splice(1,ids.length,)
+      }
+      // this.$http("/api" + "/user/getRolesByUserId?userId=" + ids)
+      //   .then(res => {
+      //     console.log(res);
+      //     // this.roleList = res.data;
+      //   })
+      //   .catch(err => {
+      //     console.log(err);
+      //   });
+      // this.$http
+      //   .get("/api" + "/doctor/getDoctorList?hospitalId=1&type=2")
+      //   .then(res => {
+      //     this.doctorName = res.data.list;
+      //     console.log(res);
+      //   });
+      // console.log(row.roleNames);
+
+      this.ids = this.ids.push(row.roleIds.split(","));
     },
     // 取消
     editClose() {
-      this.editFormVisible = false
+      this.editFormVisible = false;
       this.editAccountForm = {
-        id: '',
+        id: "",
         roleIds: []
-      }
+      };
     },
     // 提交修改
     editSubmit: function() {
+      this.editAccountForm.roleIds = [];
+      let arr = [];
       let o = {
         userId: this.editAccountForm.id,
-        roleIds: this.editAccountForm.roleIds.join(',')
-      }
+        roleIds: Array.prototype.concat
+          .apply(
+            [],
+            Array.from(
+              new Set(this.editAccountForm.roleIds.push(arr.push(this.ids)))
+            )
+          )
+          .join(",")
+      };
+      console.log(o.roleIds);
+      console.log(o);
       this.$http
         .post("api" + "/user/userAssignmentRoles", o)
         .then(res => {
+          console.log(res.data);
           if (res.data == true) {
-            this.$message.success(res.message)
-
-            this.editFormVisible = false
-
-            this.getAccount()
-
+            this.$message.success(res.message);
+            this.editFormVisible = false;
+            this.getAccount();
           } else {
-            this.$message.warning(res.message)
+            this.$message.warning(res.message);
           }
         })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
     // 关闭新增
-    addClose() {
-      this.addFormVisible = false
-      this.editFormVisible = false
+    addclose() {
+      this.addFormVisible = false;
+      this.editFormVisible = false;
     },
 
     //获取账号列表
@@ -370,16 +390,19 @@ export default {
           this.filters.jobNum
       )
         .then(res => {
+          console.log(res.data);
           this.accountList = res.data;
         })
         .catch(err => {
           console.log(err);
         });
-    },
-    handleCheckChange(data, checked, indeterminate) {
-      console.log(data, checked, indeterminate);
     }
+  },
+
+  handleCheckChange(data, checked, indeterminate) {
+    console.log(data, checked, indeterminate);
   }
+};
 </script>
 
 <style scoped>
