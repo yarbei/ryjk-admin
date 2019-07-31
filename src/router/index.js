@@ -42,7 +42,8 @@ export default new Router({
         { path: '/accountManagement', name: 'accountManagement', component: page('accountManagement') },
         { path: '/role', name: 'role', component: page('role') },
         { path: '/member', name: 'member', component: page('member') },
-        { path: '/doctor', name: 'doctor', component: page('doctor') }
+        { path: '/doctor', name: 'doctor', component: page('doctor') },
+        { path: '/account', name: 'account', component: page('account') }
       ]
     },
     { path: '/login', name: 'login', component: page('login') },

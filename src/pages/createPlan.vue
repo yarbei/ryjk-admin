@@ -178,6 +178,7 @@ export default {
     }
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
     this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+    console.log(this.user);
   },
   mounted() {
     this.getBodySignList();
@@ -270,10 +271,11 @@ export default {
         visitManager: visitManager,
         name: this.name || "",
         patientId: this.personInfo.id,
-        doctorId: this.user.id,
+        doctorId: this.user.id == undefined ?  0: this.user.id,
         monitorItem: this.slectedBodySignList.join(","),
         item: list
       };
+      console.log(params.doctorId);
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
         return;

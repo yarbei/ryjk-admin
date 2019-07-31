@@ -298,22 +298,25 @@ export default {
       this.editFormVisible = true;
 
       this.editAccountForm = {
-          id: row.id,
-          roleIds: row.roleNames.split(",")
-        };
-      console.log(this.editAccountForm.roleIds);
-      let ids;
-      for (let i = 0; i < this.editAccountForm.roleIds.length; i++) {
-        ids = row.editAccountForm.roleIds[i];
-      }
-      console.log(ids);
-      for (let i = 0; i < this.roleList.length; i++) {
-        this.roleList = [this.roleList[i]]
-      }
-      console.log(this.roleList);
-      if (this.roleList[ids]) {
-        this.addAccountForm.roleIds.splice(1,ids.length,)
-      }
+        id: row.id,
+        roleIds: row.roleNames.split(",")
+      };
+      // console.log(this.editAccountForm.roleIds);
+      // let ids;
+      // for (let i = 0; i < this.editAccountForm.roleIds.length; i++) {
+      //   ids = row.editAccountForm.roleIds[i];
+      // }
+      // console.log(ids);
+      // for (let i = 0; i < this.editAccountForm.roleIds.length; i++) {
+      //   this.roleList = [this.roleList[i]];
+      // }
+      // console.log(this.roleList);
+      // if (this.roleList[ids]) {
+      //   this.addAccountForm.roleIds.remove(
+      //     0,
+      //     ids.length
+      //   );
+      // }
       // this.$http("/api" + "/user/getRolesByUserId?userId=" + ids)
       //   .then(res => {
       //     console.log(res);
@@ -329,8 +332,6 @@ export default {
       //     console.log(res);
       //   });
       // console.log(row.roleNames);
-
-      this.ids = this.ids.push(row.roleIds.split(","));
     },
     // 取消
     editClose() {
@@ -342,21 +343,10 @@ export default {
     },
     // 提交修改
     editSubmit: function() {
-      this.editAccountForm.roleIds = [];
-      let arr = [];
       let o = {
         userId: this.editAccountForm.id,
-        roleIds: Array.prototype.concat
-          .apply(
-            [],
-            Array.from(
-              new Set(this.editAccountForm.roleIds.push(arr.push(this.ids)))
-            )
-          )
-          .join(",")
+        roleIds: this.editAccountForm.roleIds.join(",")
       };
-      console.log(o.roleIds);
-      console.log(o);
       this.$http
         .post("api" + "/user/userAssignmentRoles", o)
         .then(res => {

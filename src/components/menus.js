@@ -48,7 +48,8 @@ const menus = [
     label: '账号/角色管理',
     submenu: [
       { id: 'accountManagement', path: '/accountManagement', label: '账号管理' },
-      { id: 'role', path: '/role', label: '角色管理' }
+      { id: 'role', path: '/role', label: '角色管理' },
+      { id: 'account', path: '/account', label: '分配账号' }
     ]
   },
   {
