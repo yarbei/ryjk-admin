@@ -181,7 +181,7 @@
               class="f-right"
               type="primary"
               @click="createVisit(item.planId,item.patientType)"
-              :disabled="item.status==1?true:false"
+              :disabled="item.status==0?true:false"
             >去随访</el-button>
           </el-row>
         </div>
