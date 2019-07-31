@@ -149,10 +149,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-show="isSmokingAmount">
-            <el-form-item label="支/天">
+            <el-form-item label>
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">支/天</span>
         </el-row>
 
         <el-row :gutter="80">
@@ -173,7 +174,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-show="isAlcoholConsumptionAmount">
-            <el-form-item label="ML/天">
+            <el-form-item label>
               <el-input-number
                 v-model="form.visitRecordContent.alcoholConsumptionAmount"
                 :min="0"
@@ -181,6 +182,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">ML/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -189,21 +191,23 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="摄盐情况(克/天)">
+            <el-form-item label="摄盐情况">
               <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
             </el-form-item>
           </el-col>
+          <span class="span">克/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
-            <el-form-item label="运动(次/周)">
+            <el-form-item label="运动">
               <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999">
-                <template slot="append">(次/周)</template>
+                <!-- <template slot="append">(次/周)</template> -->
               </el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">次/周</span>
           <el-col :span="8">
-            <el-form-item label="运动(分钟/次)">
+            <el-form-item label="运动">
               <el-input-number
                 v-model="form.visitRecordContent.otionLength"
                 :min="0"
@@ -212,6 +216,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">分钟/次</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -316,13 +321,12 @@
           </el-col>
           <el-col :span="6">
             <el-form-item label>
-              <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次">
-              </el-input-number>
+              <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
           </el-col>
-                <span class="span">次/日</span>
+          <span class="span">次/日</span>
           <el-col :span="6">
-            <el-form-item label="">
+            <el-form-item label>
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
@@ -595,9 +599,9 @@ export default {
 .el-card >>> .el-card__header {
   padding: 0px 20px;
 }
-.span{
+.span {
   float: left;
-    margin-left: 15px;
-    margin-top: 10px;
+  margin-left: 15px;
+  margin-top: 10px;
 }
 </style>
