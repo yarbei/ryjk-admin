@@ -116,7 +116,7 @@
           </el-card>
         </el-col>
       </el-row>
-    </el-tab-pane> -->
+    </el-tab-pane>-->
 
     <!--随访计划-->
     <!-- <el-tab-pane label="随访计划" class="sfjh" name="sfjh">
@@ -156,14 +156,8 @@
             <span class="jhxx_titleTime" v-show="item.status==1?true:false"></span>
             <span class="jhxx_patientType">{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
           </span>
-          
+
           <!--<el-tag type="success">{{item.description}}</el-tag>-->
-          <ul class="suggest-list">
-            <li v-for="(v,i) in item.item" :key="i">
-              <span>{{v.detailType}}:</span>
-              <span>{{v.content}}</span>
-            </li>
-          </ul>
         </div>
         <div class="jhxx_btn">
           <el-row>
@@ -181,7 +175,7 @@
             <el-button
               class="f-right"
               type="primary"
-              @click="createVisit(item.planId,item.patientType)"
+              @click="createVisit(item.planId,item.item)"
               :disabled="item.status==1?true:false"
             >去随访</el-button>
           </el-row>
@@ -381,8 +375,8 @@ import ElContainer from "../../node_modules/element-ui/packages/container/src/ma
 import ElRow from "element-ui/packages/row/src/row";
 import Vue from "vue";
 import { connect } from "net";
-import { get } from 'http';
-import merge from 'webpack-merge'
+import { get } from "http";
+import merge from "webpack-merge";
 
 Vue.filter("type", function(value) {
   switch (value) {
@@ -476,11 +470,11 @@ export default {
         columns: ["date", "count"],
         rows: []
       },
-      yaowei: {
+      yaowei: { 
         columns: ["date", "count"],
         rows: []
       },
-      date: [ "2019-07-01T16:00:00.000Z", "2019-08-01T15:59:59.000Z" ],
+      date: ["2019-07-01T16:00:00.000Z", "2019-08-01T15:59:59.000Z"],
       personInfoId: "",
       personInfo: {},
       jhxxStopdialog: false,
@@ -495,6 +489,7 @@ export default {
         phone: "",
         q1: ""
       },
+      state:0,
       cyxjArray: [],
       sfjyArray: [],
       jhxxArray: [],
@@ -548,19 +543,19 @@ export default {
       getSignStatus: false,
       getsfjlStatus: false,
       planId: null,
-      bodySignTypeIdArray: [],
-    }
+      bodySignTypeIdArray: []
+    };
   },
   methods: {
     handleClick(tab, event) {
-      this.activeName = tab.name
+      this.activeName = tab.name;
       this.$router.push({
-          query: merge(this.$route.query, {name: tab.name})
-      })
+        query: merge(this.$route.query, { name: tab.name })
+      });
     },
     //获取随访列表以及随访图表
     selectDate(event) {
-      console.log('shijian---->' + event);
+      console.log("shijian---->" + event);
       //获取个人体征列表
       this.$http
         .get(
@@ -662,7 +657,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-        this.$http
+      this.$http
         .get(
           "/api" +
             `/bodySignRecord/getBodySignRecordByTime?openId=${
@@ -681,7 +676,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-        this.$http
+      this.$http
         .get(
           "/api" +
             `/bodySignRecord/getBodySignRecordByTime?openId=${
@@ -700,7 +695,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-        this.$http
+      this.$http
         .get(
           "/api" +
             `/bodySignRecord/getBodySignRecordByTime?openId=${
@@ -742,17 +737,18 @@ export default {
       });
     },
     showjhxxStop(id) {
+      console.log(id);
       this.jhxxStopdialog = true;
       this.planId = id;
     },
     // 终止疾病管理计划弹窗
     stopjhxx(event) {
       this.$http
-        .post("/api" + `/plan/updatePlanStatus`, { planId: this.planId })
+        .post("/api" + `/plan/updatePlanStatus`, { planId: this.planId } , {status:0})
         .then(res => {
           if (res.data) {
-            this.$message.success("终止计划成功");
             this.jhxxStopdialog = false;
+            this.$message.success("终止计划成功");
             this.getHealthPlan(this.page.current, this.page.size);
           } else {
             this.$message.error("终止计划失败");
@@ -780,10 +776,11 @@ export default {
     },
     // 获取随访记录列表
     getVisitRecord() {
+      console.log(this.$store.state.user.user.userInfo.id);
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.id}`
+            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.userInfo.id}`
         )
         .then(res => {
           if (res.data.list.length == 0) {
@@ -834,6 +831,7 @@ export default {
             this.page.total = 0;
           } else {
             this.jhglList = res.data.list;
+            console.log(this.jhglList);
             this.page.total = res.data.total;
           }
         })
@@ -842,161 +840,162 @@ export default {
         });
     },
     // 去随访 传递当前的计划ID和当前患者的类型
-    createVisit(planId,patientType) {
-      console.log(patientType);
-      this.$router.push({ path: "/followupplan", query: { planId: planId, patientType: patientType} });
+    createVisit(planId, patientType) {
+      console.log(planId,patientType);
+      this.$router.push({
+        path: "/followupplan",
+        query: { planId: planId, patientType: patientType }
+      });
     }
   },
   created() {
-    this.activeName = this.$route.query.name
-
+    this.activeName = this.$route.query.name;
 
     this.personInfoId = this.$route.params.id;
     this.getUsers();
     this.getVisitRecord();
     this.getSummary();
     this.getHealthPlan(this.page.current, this.page.size);
-      event = this.date;
-      // 获取个人体征图表数据
-      this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=1&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.xueya.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.xueya.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i],
-              count2: res.data.count2[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=2&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.xuetang.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.xuetang.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i],
-              count2: res.data.count2[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=3&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.shuimian.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.shuimian.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=4&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.xinlv.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.xinlv.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-        this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=5&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.tiwen.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.tiwen.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-        this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=6&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.tizhong.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.tizhong.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-        this.$http
-        .get(
-          "/api" +
-            `/bodySignRecord/getBodySignRecordByTime?openId=${
-              this.personInfo.openId
-            }&bodySignTypeId=7&beginDate=${event[0]}&endDate=${event[1]}`
-        )
-        .then(res => {
-          this.yaowei.rows = [];
-          for (let i = 0; i < res.data.date.length; i++) {
-            this.yaowei.rows.push({
-              date: res.data.date[i],
-              count: res.data.count[i]
-            });
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-
+    event = this.date;
+    // 获取个人体征图表数据
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=1&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.xueya.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.xueya.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i],
+            count2: res.data.count2[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=2&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.xuetang.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.xuetang.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i],
+            count2: res.data.count2[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=3&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.shuimian.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.shuimian.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=4&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.xinlv.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.xinlv.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=5&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.tiwen.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.tiwen.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=6&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.tizhong.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.tizhong.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    this.$http
+      .get(
+        "/api" +
+          `/bodySignRecord/getBodySignRecordByTime?openId=${
+            this.personInfo.openId
+          }&bodySignTypeId=7&beginDate=${event[0]}&endDate=${event[1]}`
+      )
+      .then(res => {
+        this.yaowei.rows = [];
+        for (let i = 0; i < res.data.date.length; i++) {
+          this.yaowei.rows.push({
+            date: res.data.date[i],
+            count: res.data.count[i]
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   },
   mounted() {
-    console.log(this.$route.query)
+    console.log(this.$route.query);
     // if (this.$route.params.selectId == "sfjl") {
     //   this.activeName = "sfjl";
     // }
@@ -1004,7 +1003,7 @@ export default {
     //   this.activeName = "jhxx";
     // }
   }
-}
+};
 </script>
 
 <style type="text/css" scoped>
@@ -1085,7 +1084,7 @@ export default {
   font-size: 16px;
   margin: 0 10px;
 }
-.jhxx_patientType{
+.jhxx_patientType {
   font-size: 16px;
   margin: 0 10px;
 }
