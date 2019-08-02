@@ -247,7 +247,7 @@ export default {
     },
     //点击取消
     back() {
-      this.$router.go(-1);
+      this.$router.go(-1)
     },
     //点击发布
     onSubmit() {
