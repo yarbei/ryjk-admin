@@ -852,6 +852,12 @@ export default {
 
     //导出表格
     exports() {
+      this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+        this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
+        this.type = this.$store.state.user.user.type;
+      }
+      this.type = parseInt(this.type);
       this.$http({
         url: "/api/patient/exportExcel?hospitalId=1&uniqueAccountId="+this.$store.state.user.user.uniqueAccountId+'&type='+this.$store.state.user.user.type,
         responseType: "blob",
