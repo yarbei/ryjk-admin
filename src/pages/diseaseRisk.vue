@@ -75,7 +75,7 @@ export default {
       let link = document.createElement("a");
       link.style.display = "none";
       link.href = url;
-      link.setAttribute("download", "疾病风险筛查统计与分析.xlsx");
+      link.setAttribute("download", "疾病风险筛查统计与分析.xls");
 
       document.body.appendChild(link);
       link.click();
