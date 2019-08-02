@@ -864,7 +864,7 @@ export default {
       }
       this.type = parseInt(this.type);
       this.$http({
-        url: "/api/patient/exportExcel?hospitalId=1&uniqueAccountId="+this.$store.state.user.user.uniqueAccountId+'&type='+this.$store.state.user.user.type,
+        url: "/api/patient/exportExcel?hospitalId=1&uniqueAccountId="+this.uniqueAccountId+'&type='+this.type,
         responseType: "blob",
         method: "get"
       })
@@ -884,7 +884,7 @@ export default {
       let link = document.createElement("a");
       link.style.display = "none";
       link.href = url;
-      link.setAttribute("download", "患者列表.xlsx");
+      link.setAttribute("download", "患者列表.xls");
 
       document.body.appendChild(link);
       link.click();
