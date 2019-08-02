@@ -116,7 +116,7 @@
               <el-input-number v-model="form.visitRecordContent.weight" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">KG</span>
+          <span class="span span1">KG</span>
           <el-col :span="8">
             <el-form-item label="体重范围">
               <el-select v-model="form.visitRecordContent.weightType" multiple placeholder="请选择">
@@ -137,13 +137,13 @@
               <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">mmHg</span>
+          <span class="span span1">mmHg</span>
           <el-col :span="8">
             <el-form-item label="低压">
               <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">mmHg</span>
+          <span class="span span1">mmHg</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">化验数值</el-col>
@@ -152,7 +152,7 @@
               <el-input-number v-model="form.visitRecordContent.hemameba" :min="0" :max="9999">/L</el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">WBC</span>
+          <span class="span span1">WBC</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="4" style="font-size:16px;text-align:center;line-height:3em;">体温</el-col>
@@ -201,7 +201,7 @@
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">支/天</span>
+          <span class="span span1">支/天</span>
         </el-row>
 
         <el-row :gutter="80">
@@ -230,7 +230,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">ML/天</span>
+          <span class="span span1">ML/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -311,7 +311,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/周</span>
+          <span class="span span1">次/周</span>
           <el-col :span="8">
             <el-form-item label="运动">
               <el-input-number
@@ -322,7 +322,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">分钟/次</span>
+          <span class="span span1">分钟/次</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -607,5 +607,8 @@ export default {
   float: left;
   margin-left: 15px;
   margin-top: 10px;
+}
+.span1 {
+  margin-left: -30px;
 }
 </style>

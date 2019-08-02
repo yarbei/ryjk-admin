@@ -375,13 +375,13 @@
               <el-input-number v-model="form.motionNum" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/周</span>
+          <span class="span" style="margin-left: -30px;">次/周</span>
           <el-col :span="8">
             <el-form-item label="运动">
               <el-input-number v-model="form.motionLength" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">分钟/次</span>
+          <span class="span" style="margin-left: -30px;">分钟/次</span>
         </el-row>
       </el-card>
 

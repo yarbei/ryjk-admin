@@ -150,7 +150,7 @@
               <el-input v-model="form.visitRecordContent.uricAcid"></el-input>
             </el-form-item>
           </el-col>
-          <span class="span">mol/L</span>
+          <span class="span" style="margin-left:-30px">mol/L</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -165,7 +165,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <span class="span">kg</span>
+          <span class="span" style="margin-left:-30px">kg</span>
         </el-row>
       </el-card>
       <el-card>
@@ -194,7 +194,7 @@
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">支/天</span>
+          <span class="span" style="margin-left:-30px">支/天</span>
         </el-row>
 
         <el-row :gutter="80">
@@ -223,7 +223,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">ML/天</span>
+          <span class="span" style="margin-left:-30px">ML/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -262,7 +262,7 @@
               <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
             </el-form-item>
           </el-col>
-          <span class="span">克/天</span>
+          <span class="span" style="margin-left:-30px">克/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -275,7 +275,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/周</span>
+          <span class="span" style="margin-left:-30px">次/周</span>
           <el-col :span="8">
             <el-form-item label="运动">
               <el-input-number
@@ -286,7 +286,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">分钟/次</span>
+          <span class="span" style="margin-left:-30px">分钟/次</span>
         </el-row>
       </el-card>
       <el-card>

@@ -92,8 +92,8 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <span class="span span1">kg</span>
         </el-row>
-        <span class="span">kg</span>
       </el-card>
       <el-card>
         <div slot="header">
@@ -165,7 +165,7 @@
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">支/天</span>
+          <span class="span span1">支/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -189,7 +189,7 @@
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">支/天</span>
+          <span class="span span1">支/天</span>
         </el-row>
 
         <el-row :gutter="80">
@@ -218,7 +218,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">ML/天</span>
+          <span class="span span1">ML/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -257,7 +257,7 @@
               <el-input v-model="form.visitRecordContent.saltUptake"></el-input>
             </el-form-item>
           </el-col>
-          <span class="span">克/天</span>
+          <span class="span span1">克/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -270,7 +270,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/周</span>
+          <span class="span span1">次/周</span>
           <el-col :span="8">
             <el-form-item label="运动">
               <el-input-number
@@ -281,7 +281,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">分钟/次</span>
+          <span class="span span1">分钟/次</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -619,5 +619,8 @@ export default {
 }
 .el-card >>> .el-card__header {
   padding: 0px 20px;
+}
+.span1 {
+  margin-left: -30px;
 }
 </style>

@@ -205,7 +205,7 @@
               </el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/周</span>
+          <span class="span span1">次/周</span>
           <el-col :span="8">
             <el-form-item label="运动">
               <el-input-number
@@ -216,7 +216,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">分钟/次</span>
+          <span class="span span1">分钟/次</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -537,6 +537,9 @@ export default {
 </script>
 
 <style type="text/css" scoped>
+.span.span1 {
+  margin-left: -70px;
+}
 .cr_container {
   width: 100%;
   height: auto;
@@ -581,7 +584,7 @@ export default {
 }
 
 .el-input-number {
-  width: 100%;
+  width: 81%;
 }
 .el-card {
   margin: 30px;
@@ -601,7 +604,7 @@ export default {
 }
 .span {
   float: left;
-  margin-left: 15px;
+  margin-left: -25px;
   margin-top: 10px;
 }
 </style>

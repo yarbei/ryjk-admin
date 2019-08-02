@@ -282,7 +282,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/周</span>
+          <span class="span" style="margin-left:-60px">次/周</span>
           <el-col :span="8">
             <el-form-item label="运动">
               <el-input-number
@@ -293,7 +293,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">分钟/次</span>
+          <span class="span" style="margin-left:-60px">分钟/次</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -343,13 +343,13 @@
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/日</span>
+          <span class="span" style="margin-left:-60px">次/日</span>
           <el-col :span="6">
             <el-form-item label style="    margin-left: -70px;">
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">mg/日</span>
+          <span class="span" style="margin-left:-60px">mg/日</span>
 
           <el-col :span="6">
             <el-form-item>
