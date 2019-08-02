@@ -13,6 +13,7 @@
 <script type="text/javascript">
 import VMenu from "./vmenu";
 import menus from "./menus";
+
 export default {
   props: {
     collapse: Boolean,
@@ -30,7 +31,21 @@ export default {
   },
   watch: {
     $route() {
-      this.setCurrentRoute();
+      this.setCurrentRoute()
+    },
+    s(n, o) {
+      console.log('n')
+      console.log(n)
+      var Menus = JSON.parse(sessionStorage.getItem("loginUser"))
+      this.menus = Menus.menu.map((v, i) => {
+        v.id = 'x' + i
+        return v
+      })
+    }
+  },
+  computed: {
+    s() {
+      return this.$store.state.status.status
     }
   },
   methods: {
@@ -39,11 +54,16 @@ export default {
     }
   },
   created() {
-    this.setCurrentRoute();
-    var Menus = JSON.parse(sessionStorage.getItem("loginUser"));
-    this.menus = Menus.menu;
+    console.log(this.s)
+    this.setCurrentRoute()
+    var Menus = JSON.parse(sessionStorage.getItem("loginUser"))
+    this.menus = Menus.menu.map((v, i) => {
+      v.id = 'x' + i
+      return v
+    })
+    console.log(Menus.menu)
   }
-};
+}
 </script>
 
 

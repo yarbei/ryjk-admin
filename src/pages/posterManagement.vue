@@ -16,7 +16,7 @@
     >
       <el-table-column prop="content" :show-overflow-tooltip="true" align="center" label="广告名称"></el-table-column>
       <el-table-column label="广告地址">
-        <template width="90" scope="scope">
+        <template width="90" slot-scope="scope">
           <img style="width:160px;height:80px;border:none;" :src="scope.row.link" />
         </template>
       </el-table-column>

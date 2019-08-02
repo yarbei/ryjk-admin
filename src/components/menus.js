@@ -4,7 +4,7 @@ const menus = [
     path: '/',
     icon: 'fa fa-dashboard'
   },
-  { id: 'hospitalManagement',
+  { id: '1',
     icon: 'fa fa-hospital-o',
     label: '医院管理',
     path: '/hospitalManagement',
@@ -43,7 +43,8 @@ const menus = [
     path: '/posterManagement',
     name: 'posterManagement'
   },
-  { id: 'accountManagement',
+  { 
+    id: '2',
     icon: 'fa fa-microchip',
     label: '账号/角色管理',
     submenu: [
@@ -53,7 +54,7 @@ const menus = [
     ]
   },
   {
-    id: 'tjfx',
+    id: '3',
     icon: 'fa fa-bar-chart-o',
     label: '统计分析',
     submenu: [

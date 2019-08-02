@@ -65,6 +65,7 @@
 <script>
 import { pagination } from "@/mixins";
 import menus from '../components/menus'
+import {mapActions} from 'vuex'
 export default {
   mixins: [pagination],
   data() {
@@ -83,7 +84,19 @@ export default {
       datalength:''
     };
   },
+  created() {
+    this.getEwList()
+    console.log(this.s)
+  },
+  computed: {
+    s() {
+      return this.$store.state.status.status
+    }
+  },
   methods: {
+    ...mapActions([
+      'setStatus'
+    ]),
     handleSearch() {
       this.getEwList();
     },
@@ -112,28 +125,50 @@ export default {
     formatSatus(row) {
       return row.status == 0 ? "已完成" : row.status == 1 ? "未完成" : "无";
     },
+    editStorage() {
+      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
 
+      let menu = loginUser.menu
+
+      let arr = menu.map((v, i) => {
+        if(v.type === 4) {
+          v.submenu[1].earlyWarningCount = v.submenu[1].earlyWarningCount - 1
+          return v
+        } else {
+          return v
+        }
+      })
+
+      loginUser.menu = arr
+
+      console.log(loginUser.menu)
+
+      sessionStorage.setItem('loginUser', JSON.stringify(loginUser))
+
+      this.setStatus(this.s + 1)
+    },
+    
     changelInfo(index, row) {
+
       this.$http
         .post("/api" + `/notice/updateStatus`, { messageId: row.id })
         .then(res => {
           if (res.data) {
-            this.$message.success("操作成功");
-            this.getEwList();
+            this.$message.success("操作成功")
+            this.getEwList()
+
+            this.editStorage()
           } else {
-            this.$message.error("操作失败");
+            this.$message.error("操作失败")
           }
         })
         .catch(err => {
           console.log(err);
         });
-      console.log(row);
+      console.log(row)
     },
-  },
-  created() {
-    this.getEwList();
   }
-};
+}
 </script>
 
 <style scoped>

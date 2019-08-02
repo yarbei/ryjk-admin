@@ -15,23 +15,22 @@
   @select="select"
   >
 
-
   <template v-for="item in menus">
-
+    
     <template v-if="isArr(item)">
-    <el-menu-item-group
-      :title="typeof item[0] === 'string' ? item[0] : ''"
-      >
-      <el-menu-item
-        v-for="(val, index) in item[1]"
-        :key="val.id"
-        :index="val.id + ''"
-        :route="toRoute(val)"
+      <el-menu-item-group
+        :title="typeof item[0] === 'string' ? item[0] : ''"
         >
-        <i v-if="val.icon" :class="val.icon" class="menu_icon"></i>
-        <span slot="title">{{val.label}}</span>
-      </el-menu-item>
-    </el-menu-item-group>
+        <el-menu-item
+          v-for="(val, index) in item[1]"
+          :key="val.id"
+          :index="val.id + ''"
+          :route="toRoute(val)"
+          >
+          <i v-if="val.icon" :class="val.icon" class="menu_icon"></i>
+          <span slot="title">{{val.label}}</span>
+        </el-menu-item>
+      </el-menu-item-group>
     </template>
 
 

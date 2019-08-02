@@ -566,7 +566,13 @@ export default {
     },
     // 返回按钮
     cancelBtn () {
-      this.$router.go(-1)
+      // this.$router.go(-1)
+      this.$router.push({
+        path: '/EssentialInfo',
+        query: {
+          name: 'sfjl'
+        }
+      })
     },
     // 获取随访详情
     getFormList (id) {

@@ -85,37 +85,42 @@
         <el-row :gutter="0">
           <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">血压</el-col>
           <el-col :span="8">
-            <el-form-item label="高压(mmHg)">
+            <el-form-item label="高压">
               <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">mmHg</span>
           <el-col :span="8">
-            <el-form-item label="低压(mmHg)">
+            <el-form-item label="低压">
               <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">mmHg</span>
         </el-row>
         <el-row :gutter="0">
           <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">化验数值</el-col>
           <el-col :span="8">
-            <el-form-item label="红细胞(RBC)">
+            <el-form-item label="红细胞">
               <el-input-number v-model="form.visitRecordContent.redBloodCell" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">RBC</span>
           <el-col :span="8">
-            <el-form-item label="血红蛋白(HGB)">
+            <el-form-item label="血红蛋白">
               <el-input-number v-model="form.visitRecordContent.hemoglobin" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">HGB</span>
         </el-row>
         <el-row :gutter="0">
           <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">体温</el-col>
           <el-col :span="8">
-            <el-form-item label="体温(℃)">
+            <el-form-item label="体温">
               <el-input-number v-model="form.visitRecordContent.animalheat" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
         </el-row>
+        <span class="span">℃</span>
         <el-row :gutter="0">
           <el-col :span="3" style="font-size:16px;text-align:center;line-height:3em;">异常指标</el-col>
           <el-col :span="8">
@@ -163,10 +168,11 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-show="isSmokingAmount">
-            <el-form-item label="支/天">
+            <el-form-item label>
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">支/天</span>
         </el-row>
 
         <el-row :gutter="80">
@@ -187,7 +193,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-show="isAlcoholConsumptionAmount">
-            <el-form-item label="ML/天">
+            <el-form-item label>
               <el-input-number
                 v-model="form.visitRecordContent.alcoholConsumptionAmount"
                 :min="0"
@@ -195,6 +201,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span">ML/天</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -266,7 +273,7 @@
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
-            <el-form-item label="运动(次/周)">
+            <el-form-item label="运动">
               <el-input-number
                 v-model="form.visitRecordContent.motionNum"
                 :min="0"
@@ -275,8 +282,9 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span" style="margin-left:-60px">次/周</span>
           <el-col :span="8">
-            <el-form-item label="运动(分钟/次)">
+            <el-form-item label="运动">
               <el-input-number
                 v-model="form.visitRecordContent.otionLength"
                 :min="0"
@@ -285,6 +293,7 @@
               ></el-input-number>
             </el-form-item>
           </el-col>
+          <span class="span" style="margin-left:-60px">分钟/次</span>
         </el-row>
         <el-row :gutter="80">
           <el-col :span="8">
@@ -334,13 +343,13 @@
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">次/日</span>
+          <span class="span" style="margin-left:-60px">次/日</span>
           <el-col :span="6">
-            <el-form-item label="" style="    margin-left: -70px;">
+            <el-form-item label style="    margin-left: -70px;">
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">mg/日</span>
+          <span class="span" style="margin-left:-60px">mg/日</span>
 
           <el-col :span="6">
             <el-form-item>
@@ -576,10 +585,10 @@ export default {
 </script>
 
 <style type="text/css" scoped>
-.span{
+.span {
   float: left;
-    margin-left: -35px;
-    margin-top: 10px;
+  margin-left: -35px;
+  margin-top: 10px;
 }
 .cr_container {
   width: 100%;
@@ -627,7 +636,7 @@ export default {
 }
 
 .el-input-number {
-  width: 100%;
+  width: 80%;
 }
 .el-card {
   margin: 30px;

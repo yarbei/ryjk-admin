@@ -77,7 +77,9 @@
 </template>
 
 <script>
-import { connect } from 'net';
+import { connect } from 'net'
+import {mapActions} from 'vuex'
+
 export default {
   data() {
     return {
@@ -99,7 +101,15 @@ export default {
       personInfo:{} //患者信息
     };
   },
+  computed: {
+    s() {
+      return this.$store.state.status.status
+    }
+  },
   methods: {
+    ...mapActions([
+      'setStatus'
+    ]),
     handleSearch() {
       this.getwVList();
     },
@@ -127,6 +137,29 @@ export default {
       return row.status == 1 ? "待随访" : "已随访";
     },
 
+    editStorage() {
+      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
+
+      let menu = loginUser.menu
+
+      let arr = menu.map((v, i) => {
+        if(v.type === 4) {
+          v.submenu[0].waitForCount = v.submenu[0].waitForCount - 1
+          return v
+        } else {
+          return v
+        }
+      })
+
+      loginUser.menu = arr
+
+      console.log(loginUser.menu)
+
+      sessionStorage.setItem('loginUser', JSON.stringify(loginUser))
+
+      this.setStatus(this.s + 1)
+    },
+
     changelInfo(index, row) {
       this.$http
         .get(
@@ -135,6 +168,8 @@ export default {
         )
         .then(res => {
           this.personInfo = res.data;
+
+          this.editStorage()
         })
         .catch(err => {
           console.log(err);
@@ -144,7 +179,9 @@ export default {
         sessionStorage.setItem("personInfo",JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
         this.$router.replace({ 
           name: 'EssentialInfo',
-          params: { selectId: 'jhxx'}
+          query: {
+            name: 'jhxx'
+          }
         }); 
       }, 1500)
     }

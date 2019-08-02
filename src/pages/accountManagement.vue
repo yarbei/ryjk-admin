@@ -5,7 +5,7 @@
       <h3>账号管理</h3>
       <el-form :inline="true" :model="filters" class="toolbar_form">
         <el-form-item class="f-right search_input">
-          <el-input v-model="filters.groupName" placeholder="请输入姓名/账号">
+          <el-input v-model="filters.groupName" placeholder="请输入关键字">
             <template slot="append" icon="el-icon-search">
               <el-button
                 type="primary"
@@ -17,22 +17,23 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item>
+<!--         <el-form-item>
           <el-button
             type="primary"
             @click="addAccount"
             style="background-color: #52d7ac; border: 0; font-size: 14px"
           >新建账号</el-button>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
     </el-col>
 
     <!--列表-->
     <el-table :data="accountList" :border="true" stripe highlight-current-row style="width: 100%;">
-      <el-table-column prop="name" align="center" label="姓名"></el-table-column>
+      <el-table-column prop="userName" align="center" label="姓名"></el-table-column>
       <el-table-column prop="jobNum" align="center" label="账号"></el-table-column>
-      <el-table-column prop="roleNames" align="center" label="角色"></el-table-column>
-      <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column>
+      <el-table-column prop="roleName" align="center" label="角色"></el-table-column>
+      <el-table-column prop="hospitalName" align="center" label="医院"></el-table-column>
+<!--       <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column> -->
       <el-table-column align="center" label="操作" min-width="140">
         <template slot-scope="scope">
           <el-button
@@ -41,16 +42,16 @@
             style="color: #f8b14b"
             @click="editAccount(scope.$index, scope.row)"
           >
-            <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改账号
+            <i class="el-icon-edit-outline" style="margin-right: 5px"></i>分配角色
           </el-button>
-          <el-button
+<!--           <el-button
             round
             type="text"
             style="color: #7de1c1"
             @click="deleteGroup(scope.$index, scope.row)"
           >
             <i class="el-icon-delete" style="margin-right: 5px"></i>删除账号
-          </el-button>
+          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -68,7 +69,7 @@
       </el-col>
     </el-row>-->
     <!--新建账号界面-->
-    <el-dialog title="新建账号" :visible.sync="addFormVisible" :modal-append-to-body="false">
+<!--     <el-dialog title="新建账号" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addAccountForm" label-width="120px">
         <el-form-item label="姓名" required>
           <el-select v-model="addAccountForm.userId" placeholder="请选择">
@@ -95,18 +96,19 @@
         <el-button @click.native="addclose">取消</el-button>
         <el-button type="primary" @click.native="addSubmit" :loading="addLoading">提交</el-button>
       </div>
-    </el-dialog>
+    </el-dialog> -->
 
     <!--修改账号界面-->
     <el-dialog title="修改账号" :visible.sync="editFormVisible" :modal-append-to-body="false">
       <el-form :model="editAccountForm" label-width="120px">
         <el-form-item label="姓名" required>
-          <el-select v-model="editAccountForm.id" placeholder="请选择">
+          <el-select v-model="editAccountForm.id" placeholder="请选择" disabled>
             <el-option
               v-for="item in doctorName"
               :key="item.id"
               :value="item.id"
               :label="item.name"
+              disabled
             ></el-option>
           </el-select>
         </el-form-item>
@@ -207,16 +209,16 @@ export default {
     // },
     searchFn() {
       let str = this.filters.groupName;
-
-      if (this.filters.groupName) {
-        this.accountList = this.accountList.filter((v, i) => {
-          if (v.jobNum == str || v.name == str) {
-            return v;
-          }
-        });
-      } else {
-        // this.getAccount();
-      }
+      this.getAccount(str)
+      // if (this.filters.groupName) {
+      //   this.accountList = this.accountList.filter((v, i) => {
+      //     if (v.jobNum == str || v.name == str) {
+      //       return v
+      //     }
+      //   })
+      // } else {
+      //   this.getAccount();
+      // }
     },
     selectName(event) {
       console.log(event);
@@ -299,8 +301,8 @@ export default {
 
       this.editAccountForm = {
         id: row.id,
-        roleIds: row.roleNames.split(",")
-      };
+        roleIds: row.roleName.split(",")
+      }
       // console.log(this.editAccountForm.roleIds);
       // let ids;
       // for (let i = 0; i < this.editAccountForm.roleIds.length; i++) {
@@ -339,7 +341,7 @@ export default {
       this.editAccountForm = {
         id: "",
         roleIds: []
-      };
+      }
     },
     // 提交修改
     editSubmit: function() {
@@ -350,13 +352,13 @@ export default {
       this.$http
         .post("api" + "/user/userAssignmentRoles", o)
         .then(res => {
-          console.log(res.data);
+          console.log(res.data)
           if (res.data == true) {
-            this.$message.success(res.message);
-            this.editFormVisible = false;
-            this.getAccount();
+            this.$message.success(res.message)
+            this.editFormVisible = false
+            this.getAccount()
           } else {
-            this.$message.warning(res.message);
+            this.$message.warning(res.message)
           }
         })
         .catch(err => {
@@ -371,17 +373,14 @@ export default {
     },
 
     //获取账号列表
-    getAccount() {
+    getAccount(str) {
+      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
       this.$http(
-        "/api" +
-          "/user/userList?name=" +
-          this.filters.name +
-          "&jobNum=" +
-          this.filters.jobNum
+        "/api" + `/user/adminList?keywords=${str || ''}&roleType=${loginUser.userInfo.roleId}&hospitalId=${loginUser.userInfo.hospitalId}`
       )
         .then(res => {
           console.log(res.data);
-          this.accountList = res.data;
+          this.accountList = res.data.list;
         })
         .catch(err => {
           console.log(err);

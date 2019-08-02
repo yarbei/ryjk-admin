@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar toolbar_title" style="padding-bottom: 0px;">
       <h3>患者操作</h3>
       <el-form :inline="true" :model="filters" class="toolbar_form">
-        <el-select
+<!--         <el-select
           v-model="groupNameChoose"
           clearable
           placeholder="选择组名"
@@ -17,7 +17,7 @@
             :label="item.groupName"
             :value="item.groupId"
           ></el-option>
-        </el-select>
+        </el-select> -->
 
         <el-select
           v-model="hospitalNameChoose"
@@ -47,13 +47,13 @@
             </template>
           </el-input>
         </el-form-item>
-        <el-form-item>
+<!--         <el-form-item>
           <el-button
             type="primary"
             @click="addGroup"
             style="background-color: #52a3d7; border: 0; font-size: 14px"
           >新建组别</el-button>
-        </el-form-item>
+        </el-form-item> -->
         <el-form-item>
           <el-button
             type="primary"
@@ -86,7 +86,7 @@
     >
       <el-table-column align="center" type="selection"></el-table-column>
       <el-table-column prop="name" align="center" label="姓名" width="80" sortable></el-table-column>
-      <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column>
+      <!-- <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column> -->
       <el-table-column prop="idCard" align="center" label="身份证号" width="200"></el-table-column>
       <el-table-column
         prop="sex"
@@ -158,13 +158,13 @@
               style="margin-right: 5px;color: #52a3d7"
             ></i>
           </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
+<!--           <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
             <i
               class="el-icon-edit-outline"
               @click="editInfo(scope.$index, scope.row)"
               style="margin-right: 5px;color: #7de1c1"
             ></i>
-          </el-tooltip>
+          </el-tooltip> -->
           <el-tooltip class="item" effect="dark" content="新增随访" placement="top">
             <i
               class="el-icon-circle-plus-outline"
@@ -183,13 +183,13 @@
       </el-table-column>
     </el-table>
     <el-row style="margin-top:20px;" :gutter="80">
-      <el-col :span="8">
+<!--       <el-col :span="8">
         <el-button
           type="primary"
           @click="batchEditGroup"
           style="background-color: #52a3d7; border: 0; font-size: 14px"
         >批量修改分组</el-button>
-      </el-col>
+      </el-col> -->
       <!-- <el-col :span="4">
         <el-button>批量删除</el-button>
       </el-col>-->
@@ -478,8 +478,13 @@ export default {
     },
     // 查看详情
     essentialInfo(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row));
-      this.$router.push({ name: "EssentialInfo" });
+      sessionStorage.setItem("personInfo", JSON.stringify(row))
+      this.$router.push({
+        name: "EssentialInfo",
+        query: {
+          name: 'jbxx'
+        }
+      })
     },
     // 修改组别获取组别id
     editGroup(value) {

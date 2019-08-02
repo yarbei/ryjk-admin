@@ -125,7 +125,10 @@ export default {
     },
     // 指定人群列表
     getUserList () {
-      this.$http.get('/api' + `/user/userList`)
+      
+      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
+
+      this.$http.get('/api' + `/user/userList?hospitalId=${loginUser.userInfo.hospitalId}`)
         .then(res => {
           if (res.data) {
             this.optionsList = res.data

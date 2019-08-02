@@ -4,6 +4,7 @@
     v-model="activeName"
     :stretch="true"
     style="padding: 30px; background-color: #fff"
+    @tab-click="handleClick"
   >
     <!--基本信息-->
     <el-tab-pane label="基本信息" name="jbxx" lazy>
@@ -181,7 +182,7 @@
               class="f-right"
               type="primary"
               @click="createVisit(item.planId,item.patientType)"
-              :disabled="item.status==0?true:false"
+              :disabled="item.status==1?true:false"
             >去随访</el-button>
           </el-row>
         </div>
@@ -381,6 +382,8 @@ import ElRow from "element-ui/packages/row/src/row";
 import Vue from "vue";
 import { connect } from "net";
 import { get } from 'http';
+import merge from 'webpack-merge'
+
 Vue.filter("type", function(value) {
   switch (value) {
     case 1:
@@ -481,7 +484,7 @@ export default {
       personInfoId: "",
       personInfo: {},
       jhxxStopdialog: false,
-      activeName: "jbxx",
+      activeName: "sfjl",
       form1: {
         name: "",
         sex: -1,
@@ -549,6 +552,12 @@ export default {
     }
   },
   methods: {
+    handleClick(tab, event) {
+      this.activeName = tab.name
+      this.$router.push({
+          query: merge(this.$route.query, {name: tab.name})
+      })
+    },
     //获取随访列表以及随访图表
     selectDate(event) {
       console.log('shijian---->' + event);
@@ -839,6 +848,9 @@ export default {
     }
   },
   created() {
+    this.activeName = this.$route.query.name
+
+
     this.personInfoId = this.$route.params.id;
     this.getUsers();
     this.getVisitRecord();
@@ -984,14 +996,15 @@ export default {
 
   },
   mounted() {
-    if (this.$route.params.selectId == "sfjl") {
-      this.activeName = "sfjl";
-    }
-    if (this.$route.params.selectId == "jhxx") {
-      this.activeName = "jhxx";
-    }
+    console.log(this.$route.query)
+    // if (this.$route.params.selectId == "sfjl") {
+    //   this.activeName = "sfjl";
+    // }
+    // if (this.$route.params.selectId == "jhxx") {
+    //   this.activeName = "jhxx";
+    // }
   }
-};
+}
 </script>
 
 <style type="text/css" scoped>
