@@ -470,7 +470,7 @@ export default {
         columns: ["date", "count"],
         rows: []
       },
-      yaowei: { 
+      yaowei: {
         columns: ["date", "count"],
         rows: []
       },
