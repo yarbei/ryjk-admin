@@ -175,7 +175,7 @@
             <el-button
               class="f-right"
               type="primary"
-              @click="createVisit(item.planId,item.item)"
+              @click="createVisit(item.planId,item)"
               :disabled="item.status==1?true:false"
             >去随访</el-button>
           </el-row>

@@ -132,6 +132,7 @@ export default {
     },
     // 去随访
     createVisit(managerId) {
+      console.log(this.$route.query.planId,this.$route.query.patientType);
       this.$router.push({
         path: "/createVisit",
         query: {
@@ -286,5 +287,4 @@ export default {
 .suggest-list {
   font-size: 14px;
 }
-.span{}
 </style>

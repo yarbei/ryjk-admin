@@ -22,7 +22,8 @@
       <el-table-column prop="mengzhen" align="center" label="门诊"></el-table-column>
       <el-table-column prop="zhuyuan" align="center" label="住院"></el-table-column>
       <el-table-column prop="ageGroupTatal" align="center" label="40岁以上人次"></el-table-column>
-      <el-table-column prop="ageGroup" align="center" label="40岁以上人次占比"></el-table-column>
+      <el-table-column prop="ageGroup" align="center" label="40岁以上人次"></el-table-column>
+      <el-table-column prop="colorectal" align="center" label="占比"></el-table-column>
       <el-table-column prop="questionnaireTotal" align="center" label="风险评估总数"></el-table-column>
       <el-table-column prop="total" align="center" label="评估率"></el-table-column>
       <el-table-column prop="lungsTotal" align="center" label="肺部疾病人次"></el-table-column>
