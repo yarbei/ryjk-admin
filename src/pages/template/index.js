@@ -557,11 +557,8 @@ export default {
       formData.planId = parseInt(this.planId) // 计划Id
       formData.patientType = parseInt(this.patientType) // 患者类型
       formData.templateType = templateType // 模板Id
-<<<<<<< HEAD
       console.log(formData)
-=======
       formData.assessment = this.form.assessment.pop()
->>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
       // 数组转字符串complication
       if (formData.complication && formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(',')
