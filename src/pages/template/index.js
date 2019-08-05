@@ -16,8 +16,8 @@ export default {
         visitAuthor: '',
         patientId: '',
         visitRecordContent: {
-          reactions: {value: '', desc: ''}, // 药物不良反应
-          rheumatoid: {value: '', desc: ''}, // 类风湿结节触及部位
+          reactions: { value: '', desc: '' }, // 药物不良反应
+          rheumatoid: { value: '', desc: '' }, // 类风湿结节触及部位
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
@@ -32,7 +32,7 @@ export default {
       personInfoId: '', // 患者Id
       personInfo: {}, // 患者信息
       planId: '', // 计划Id
-      patientType: '',//患者类型
+      patientType: '', // 患者类型
       // 药物不良反应传入子组件的数据
       reactionsData: {
         selectLabel: '药物不良反应：', // select选择框的label值
@@ -49,8 +49,8 @@ export default {
         inputLabel: '触及部位：', // input输入框的label值
         // select下拉框的内容
         option: [
-          {value: 0, label: '未触及'},
-          {value: 1, label: '已触及'}
+          { value: 0, label: '未触及' },
+          { value: 1, label: '已触及' }
         ]
       },
       // 随访状态
@@ -78,11 +78,16 @@ export default {
       ],
       // 随访评估
       sfassessment: [
-        { value: 1, label: '并发症' },
-        { value: 2, label: '相关指标控制不住' },
-        { value: 3, label: '控制不满意' },
-        { value: 4, label: '控制满意' },
-        { value: 5, label: '不良生活方式未改善' }
+        { value: 1, label: '控制满意' },
+        {
+          value: 2,
+          label: '控制不满意',
+          children: [
+            { value: 3, label: '并发症' },
+            { value: 4, label: '相关指标控制不住' },
+            { value: 5, label: '不良生活方式未改善' }
+          ]
+        }
       ],
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
@@ -119,6 +124,16 @@ export default {
         { value: 2, label: '普通饮食' },
         { value: 3, label: '鼻饲饮食' },
         { value: 4, label: '其他' }
+      ],
+      // 肝病模板饮食情况
+      sfhepatopathyeat: [
+        { value: 0, label: '凉' },
+        { value: 1, label: '热' },
+        { value: 2, label: '无渣饮食' },
+        { value: 3, label: '少渣饮食' },
+        { value: 4, label: '低脂饮食' },
+        { value: 5, label: '普通饮食' },
+        { value: 6, label: '其他' }
       ],
       // 肿瘤模板疼痛性质
       sfpainNature: [
@@ -542,7 +557,11 @@ export default {
       formData.planId = parseInt(this.planId) // 计划Id
       formData.patientType = parseInt(this.patientType) // 患者类型
       formData.templateType = templateType // 模板Id
+<<<<<<< HEAD
       console.log(formData)
+=======
+      formData.assessment = this.form.assessment.pop()
+>>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
       // 数组转字符串complication
       if (formData.complication && formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(',')

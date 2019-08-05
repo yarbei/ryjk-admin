@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item>
     </el-col>
-    <el-col :span="8" v-show="isshow">
+    <el-col :span="16" v-show="isshow">
       <el-form-item :label="selectInputData.inputLabel">
         <el-input v-model="inputData" placeholder="请输入内容" @change="inputChange"></el-input>
       </el-form-item>

@@ -813,6 +813,7 @@ export default {
 
     // 查看随访详情
     lookInfo(id) {
+      console.log(id)
       this.$router.replace({
         name: "queryVisit",
         params: { routerForm: "EssentialInfo", id: id }
@@ -996,12 +997,12 @@ export default {
   },
   mounted() {
     console.log(this.$route.query);
-    // if (this.$route.params.selectId == "sfjl") {
-    //   this.activeName = "sfjl";
-    // }
-    // if (this.$route.params.selectId == "jhxx") {
-    //   this.activeName = "jhxx";
-    // }
+    if (this.$route.params.selectId == "sfjl") {
+      this.activeName = "sfjl";
+    }
+    if (this.$route.params.selectId == "jhxx") {
+      this.activeName = "jhxx";
+    }
   }
 };
 </script>

@@ -211,7 +211,10 @@ export default {
     console.log(planId);
     if (planId) {
       this.isdate = true;
+<<<<<<< HEAD
       this.timeIsShow = true;
+=======
+>>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
       this.getPlanInfo(planId);
     } else {
       this.timeIsShow1 = true;
@@ -219,7 +222,10 @@ export default {
     }
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
     this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+<<<<<<< HEAD
     console.log(this.user);
+=======
+>>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
   },
   mounted() {
     this.getBodySignList();
@@ -263,7 +269,10 @@ export default {
           const data = res.data;
           this.name = data.name;
           this.dose = data.dose;
+<<<<<<< HEAD
           this.startTime = data.createDate;
+=======
+>>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
           this.doseChange(this.dose);
           const list = this.planList;
           this.content = data.visitManager;
@@ -321,7 +330,6 @@ export default {
         };
       });
       let visitManager = this.visit.map((v, i) => {
-        console.log(v);
         return {
           visitTime: v.date,
           visitContent: JSON.stringify(list)
@@ -342,10 +350,14 @@ export default {
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
+<<<<<<< HEAD
         // item: list
       };
       console.log(params);
       console.log(params);
+=======
+      };
+>>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
         return;
@@ -362,7 +374,10 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
+<<<<<<< HEAD
       console.log(this.planId);
+=======
+>>>>>>> 38e3fcbf0b11f88b510ec559d38ccc285847e844
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -387,11 +402,9 @@ export default {
             console.log(err);
           });
       } else {
-        console.log(params);
         this.$http
           .post(`/api/plan/addPlan`, params)
           .then(res => {
-            console.log(res.data);
             if (res.data) {
               this.$message({
                 type: "success",
