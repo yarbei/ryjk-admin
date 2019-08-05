@@ -446,14 +446,49 @@
       </el-card>
       <el-card>
         <div slot="header">
-          <h2>复诊情况</h2>
+          <h2>健康教育知晓</h2>
+        </div>
+
+        <el-row :gutter="80">
+          <el-col :span="8">
+            <el-form-item label="是否进行健康指导 : ">
+              <el-select
+                v-model="form.visitRecordContent.healthGuidance"
+                @change="healthGuidanceChange"
+              >
+                <el-option
+                  v-for="item in sfhealthGuidance"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" v-show="ishealthGuidanceContent">
+            <el-form-item label="健康指导内容  : ">
+              <el-select v-model="form.visitRecordContent.healthGuidanceContent">
+                <el-option
+                  v-for="item in sfhealthGuidanceContent"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>随访记录</h2>
         </div>
         <el-row :gutter="80">
           <el-col :span="8">
-            <el-form-item label="是否按时复诊 : ">
-              <el-select v-model="form.visitRecordContent.isOnSchedule">
+            <el-form-item label="已提醒复诊 : ">
+              <el-select v-model="form.reminderRevisit">
                 <el-option
-                  v-for="item in sfisOnSchedule"
+                  v-for="item in sfreminderRevisit"
                   :key="item.value"
                   :value="item.value"
                   :label="item.label"
@@ -462,8 +497,8 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="是否预约复诊 : ">
-              <el-select v-model="form.appointmentRevisit">
+            <el-form-item label="已预约复诊 : ">
+              <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
                 <el-option
                   v-for="item in sfappointmentRevisit"
                   :key="item.value"
@@ -474,25 +509,13 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="80">
-          <el-col :span="8">
-            <el-form-item label="上次复诊情况：">
-              <el-input v-model="form.visitRecordContent.subsequentVisit"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-card>
 
-      <el-card>
-        <div slot="header">
-          <h2>知晓情况</h2>
-        </div>
-        <el-row :gutter="80">
+        <el-row :gutter="80" v-show="isAppointmentRevisit">
           <el-col :span="8">
-            <el-form-item label="疾病指导 : ">
-              <el-select v-model="form.visitRecordContent.sickness">
+            <el-form-item label="预约科室 : ">
+              <el-select v-model="form.department">
                 <el-option
-                  v-for="item in sfsickness"
+                  v-for="item in sfdepartment"
                   :key="item.value"
                   :value="item.value"
                   :label="item.label"
@@ -501,21 +524,33 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="疾病知晓度 : ">
-              <el-select v-model="form.sicknessKnow">
-                <el-option
-                  v-for="item in sfsicknessKnow"
-                  :key="item.value"
-                  :value="item.value"
-                  :label="item.label"
-                ></el-option>
-              </el-select>
+            <el-form-item label="复诊时间 : ">
+              <el-date-picker
+                v-model="form.revisitTime"
+                type="date"
+                placeholder="选择日期"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+              ></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
+
         <el-row :gutter="80">
           <el-col :span="8">
-            <el-form-item label="满意度情况 : ">
+            <el-form-item label="健康知晓度 : ">
+              <el-select v-model="form.healthAwareness">
+                <el-option
+                  v-for="item in sfhealthAwareness"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="满意度调研 : ">
               <el-select v-model="form.satisfactionSurvey">
                 <el-option
                   v-for="item in sfsatisfactionSurvey"
@@ -526,34 +561,12 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
-            <el-form-item label="患者提出的问题 : ">
-              <el-input type="textarea" v-model="form.visitRecordContent.question"></el-input>
-            </el-form-item>
-          </el-col>
         </el-row>
-        <el-row :gutter="80">
-          <el-col :span="8">
-            <el-form-item label="此次随访分类 : ">
-              <el-select v-model="form.visitRecordContent.assessment" placeholder="请选择">
-                <el-option
-                  v-for="item in sfassessment"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="80">
-          <el-col :span="16">
-            <el-form-item label="此次随访建议 : ">
-              <el-input type="textarea" v-model="form.visitRecordContent.suggestion"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-form-item label="随访备注 : ">
+          <el-input type="textarea" v-model="form.remark"></el-input>
+        </el-form-item>
       </el-card>
+
 
       <el-form-item style="text-align: center">
         <el-button type="success" @click="onSubmit(4)">完成随访</el-button>
