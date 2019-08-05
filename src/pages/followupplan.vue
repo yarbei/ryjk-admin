@@ -35,7 +35,7 @@
           </el-row>
         </div>
       </el-card>
-      <el-pagination
+      <!-- <el-pagination
         @size-change="handlePageSizeChange"
         @current-change="handlePageCurrentChange"
         :current-page="page.current"
@@ -43,7 +43,7 @@
         :page-size="page.size"
         :layout="page.layout"
         :total="page.total"
-      ></el-pagination>
+      ></el-pagination> -->
     </el-col>
   </div>
 </template>

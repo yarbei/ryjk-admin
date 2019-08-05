@@ -57,14 +57,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="本次随访评估:">
-              <el-select v-model="form.assessment" placeholder="请选择">
-                <el-option
-                  v-for="item in sfassessment"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
+            <el-cascader v-model="form.assessment" :options="sfassessment" :show-all-levels="false"></el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -525,6 +518,7 @@
 </template>
 <script>
 import template from "./index";
+import "./index.css";
 export default {
   components: template.components,
   data: template.data,
@@ -532,83 +526,3 @@ export default {
   methods: template.methods
 };
 </script>
-
-<style type="text/css" scoped>
-.span {
-  float: left;
-  margin-left: 15px;
-  margin-top: 10px;
-}
-.cr_container {
-  width: 100%;
-  height: auto;
-  min-height: 100%;
-  /*padding: 30px 50px 80px 50px;*/
-  background-color: #fff;
-  padding: 0 20px;
-}
-
-.createVisit_form .el-select {
-  width: 100%;
-}
-
-.createVisit_form .el-cascader {
-  width: 100%;
-}
-
-.cr_title {
-  height: 170px;
-  /*background-color: #2DB7F5;*/
-  border-bottom: 1px solid #999;
-  margin-bottom: 30px;
-  line-height: 170px;
-}
-
-.cr_titleContent {
-  height: 170px;
-  padding: 20px 30px 0;
-}
-
-.cr_titleContent p {
-  height: 30px;
-  line-height: 30px;
-}
-
-.cr_titleImg img {
-  width: 100%;
-  vertical-align: middle;
-  margin-left: 10px;
-}
-
-.cr_titleTag {
-  margin-left: 30px;
-}
-
-.el-input-number {
-  width: 100%;
-}
-.el-card {
-  margin: 30px;
-}
-.el-card h2 {
-  font-size: 16px;
-}
-.el-card h2::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  font-size: 16px;
-}
-.el-card >>> .el-card__header {
-  padding: 0px 20px;
-}
-.span {
-  float: left;
-  margin-left: 15px;
-  margin-top: 10px;
-}
-.span1 {
-  margin-left: -30px;
-}
-</style>

@@ -172,27 +172,26 @@ export default {
     const planId = this.$route.query.planId;
     this.planId = planId;
     if (planId) {
-      this.isdate = false;
+      this.isdate = true;
       this.getPlanInfo(planId);
     } else {
       this.getPlanList();
     }
-    this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"))
-    this.user = JSON.parse(sessionStorage.getItem("loginUser"))
-    console.log(this.user);
+    this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
+    this.user = JSON.parse(sessionStorage.getItem("loginUser"));
   },
   mounted() {
     this.getBodySignList();
   },
   methods: {
     sureAdvise() {
-      this.advise = false
-      this.v.content = []
+      this.advise = false;
+      this.v.content = [];
     },
     // 关闭建议
     closeAdvise() {
-      this.advise = false
-      this.v.content = []
+      this.advise = false;
+      this.v.content = [];
     },
     // 查看详细建议
     lookAdviseFun() {
@@ -219,10 +218,10 @@ export default {
       this.$http
         .get(`/api/plan/getPlanDetail?planId=${id}`)
         .then(res => {
-          console.log(res.data.item);
           const data = res.data;
           this.name = data.name;
           this.dose = data.dose;
+          this.doseChange(this.dose);
           const list = this.planList;
           this.planList = data.item.map((v, i) => {
             return {
@@ -272,7 +271,6 @@ export default {
         };
       });
       let visitManager = this.visit.map((v, i) => {
-        console.log(v);
         return {
           visitTime: v.date,
           visitContent: JSON.stringify(list)
@@ -286,10 +284,8 @@ export default {
         name: this.name || "",
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
-        monitorItem: this.slectedBodySignList.join(","),
-        // item: list
+        monitorItem: this.slectedBodySignList.join(",")
       };
-      console.log(params);
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
         return;
@@ -306,7 +302,6 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
-      console.log(this.params);
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -330,11 +325,9 @@ export default {
             console.log(err);
           });
       } else {
-        console.log(params);
         this.$http
           .post(`/api/plan/addPlan`, params)
           .then(res => {
-            console.log(res.data);
             if (res.data) {
               this.$message({
                 type: "success",
