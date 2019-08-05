@@ -94,7 +94,6 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
-              {{form.visitRecordContent.issymptom}}
             </el-form-item>
           </el-col>
           <el-col :span="8" v-show="issfsymptomName">

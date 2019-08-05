@@ -535,12 +535,14 @@ export default {
         this.$message.warning('本次随访评估未选择！')
         return
       }
+      console.log(this.$route);
       var formData = this.form
       formData.patientId = this.personInfo.id // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
       formData.planId = parseInt(this.planId) // 计划Id
       formData.patientType = parseInt(this.patientType) // 患者类型
       formData.templateType = templateType // 模板Id
+      console.log(formData)
       // 数组转字符串complication
       if (formData.complication && formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(',')
