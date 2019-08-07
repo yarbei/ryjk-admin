@@ -1,7 +1,7 @@
 <template>
   <div class="cp_container">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" label-width="100px">
+    <el-form label-width="100px">
       <el-card>
         <div slot="header">
           <h2>疾病计划名称</h2>
@@ -12,96 +12,97 @@
         <div slot="header">
           <h2>管理随访总数</h2>
         </div>
-        <el-select v-model="dose" placeholder="请选择" @change="doseChange">
-          <el-option
-            v-for="item in number"
-            :key="item.value"
-            :label="item.value"
-            :value="item.value"
-          ></el-option>
+        <el-select
+          v-model="dose"
+          placeholder="请选择"
+          @change="doseChange"
+          style="margin-bottom:20px;"
+          :disabled="isEdit"
+        >
+          <el-option label="1" value="1"></el-option>
+          <el-option label="2" value="2"></el-option>
+          <el-option label="3" value="3"></el-option>
+          <el-option label="4" value="4"></el-option>
+          <el-option label="5" value="5"></el-option>
         </el-select>
-        <el-row :gutter="40" style="margin-top:30px;" v-if="timeIsShow1">
-          <el-col
-            :span="24"
-            v-for="item in visit"
-            :key="item.id"
-            v-show="isVisit"
-            style="display:flex;justify-content:flex-start;align-items:flex-start;"
-          >
-            <!-- <el-card style="margin-top:30px"> -->
-            <el-form-item :label="'随访时间'+item.id" style="width:100%;">
+        <el-row :gutter="40" v-show="isVisit" v-for="item in visit" :key="item.id">
+          <el-col :span="24">
+            <el-form-item :label="'随访时间'+item.visitContent.id" style="width:100%;">
               <el-date-picker
-                v-show="isdate"
                 type="date"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                value-format="yyyy-MM-dd"
                 style="margin-left:20px;"
-                v-model="item.date"
+                v-model="item.visitTime"
                 placeholder="选择日期"
+                :disabled="isEdit"
               ></el-date-picker>
-              <el-button type="danger" @click="lookAdviseFun">查看详细建议</el-button>
-              <!-- <el-date-picker
-                v-show="isdate"
-                v-model="item.date"
-                type="datetime"
-                placeholder="选择时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="margin-left:20px;"
-              ></el-date-picker>-->
-              <!-- <h2>随访备注{{item.id}}</h2> -->
-              <!-- </el-card> -->
+              <el-button type @click="openVisitAdvice(item.visitContent.id)">查看详细建议</el-button>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="40" style="margin-top:30px;" v-if="timeIsShow">
-          <el-col
-            :span="24"
-            v-for="item in visit"
-            :key="item.id"
-            v-show="isVisit"
-            style="display:flex;justify-content:flex-start;align-items:flex-start;"
-          >
-            <!-- <el-card style="margin-top:30px"> -->
-            <el-form-item :label="'随访时间'+item.id" style="width:100%;">
-              <el-date-picker
-                v-show="isdate"
-                type="date"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="margin-left:20px;"
-                v-model="item.date"
-                placeholder="选择日期"
-              ></el-date-picker>
-              <el-button type="danger" @click="lookAdviseFun">查看详细建议</el-button>
-              <!-- <el-date-picker
-                v-show="isdate"
-                v-model="item.date"
-                type="datetime"
-                placeholder="选择时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
-                style="margin-left:20px;"
-              ></el-date-picker>-->
-              <!-- <h2>随访备注{{item.id}}</h2> -->
-              <!-- </el-card> -->
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <div class="box" v-show="advise">
-          <el-card>
-            <div slot="header">
-              <h2 style="display: contents;">疾病计划分类</h2>
-              <span class="closeAdvise" @click="closeAdvise">x</span>
-            </div>
-            <el-row>
-              <el-col :span="24" v-for="(v,i) in planList" :key="i">
-                <el-form-item :label="v.label">
-                  <el-input type="textarea" v-model="content" placeholder="请输入建议"></el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-            <el-button type="success" @click="sureAdvise">确定</el-button>
-          </el-card>
-        </div>
+        <el-dialog :visible.sync="isVisitAdvice">
+          <el-form-item label="用药建议">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.drug"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="饮食建议">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.diet"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="运动建议">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.motion"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="戒烟限酒建议">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.smok"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="心理建议">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.psychology"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="康复建议">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.recovery"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <el-form-item label="其他">
+            <el-input
+              :disabled="isEdit"
+              type="textarea"
+              v-model="adviceDesc.other"
+              placeholder="请输入建议"
+            ></el-input>
+          </el-form-item>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="isVisitAdvice=false">取 消</el-button>
+            <el-button type="primary" @click="confirmVisitAdvice">确 定</el-button>
+          </div>
+        </el-dialog>
       </el-card>
-
       <el-card>
         <div slot="header">
           <h2>疾病必测体征项</h2>
@@ -125,6 +126,7 @@
 import ElCol from "element-ui/packages/col/src/col";
 import ElButton from "../../node_modules/element-ui/packages/button/src/button.vue";
 import tabHeader from "../components/tabHeader";
+import { constants } from "fs";
 
 export default {
   components: {
@@ -135,89 +137,29 @@ export default {
   name: "createPlan",
   data() {
     return {
-      isno:false,
-      timeIsShow: false,
-      timeIsShow1: false,
-      advise: false,
-      datecontent: "",
-      isdate: true, //计划时间是否显示
-      planId: {},
+      isVisitAdvice: false, //随访建议弹窗是否显示
+      visitDescId: "", //点击查看随访详情的Id
+      adviceDesc: {}, //点击查看随访详情弹窗绑定的数据
+      isEdit: false, //根据planId是否存在决定是否可修改
+      planId: "", //根据是否存在planId判断是新增还是修改
       dose: "",
-      number: [
-        {
-          value: 1
-        },
-        {
-          value: 2
-        },
-        {
-          value: 3
-        },
-        {
-          value: 4
-        },
-        {
-          value: 5
-        }
-      ],
       name: "",
-      date: "",
       user: {},
-      planList: [
-        {
-          value: 1,
-          label: "用药建议"
-        },
-        {
-          value: 2,
-          label: "饮食建议"
-        },
-        {
-          value: 3,
-          label: "运动建议"
-        },
-        {
-          value: 4,
-          label: "戒烟限酒建议"
-        },
-        {
-          value: 5,
-          label: "心理建议"
-        },
-        {
-          value: 6,
-          label: "康复建议"
-        },
-        {
-          value: 7,
-          label: "其他"
-        }
-      ],
       bodySignList: [],
       slectedBodySignList: [],
-      form: {},
-      // 患者信息
       personInfo: {},
       visit: [], //随访时间，内容
       isVisit: false, //随访时间、内容是否显示
-      startTime: {},
-      content: ""
     };
   },
   created() {
     // url存在planId时表示修改计划，没有则为新增计划
-    const planId = this.$route.query.planId;
-    this.planId = planId;
-    console.log(planId);
-    if (planId) {
-      this.isdate = true;
-
-      this.timeIsShow = true;
-
-      this.getPlanInfo(planId);
+    this.planId = this.$route.query.planId;
+    if (this.planId) {
+      this.getPlanInfo(this.planId);
+      this.isEdit = true;
     } else {
-      this.timeIsShow1 = true;
-      this.getPlanList();
+      this.isEdit = false;
     }
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
     this.user = JSON.parse(sessionStorage.getItem("loginUser"));
@@ -226,18 +168,19 @@ export default {
     this.getBodySignList();
   },
   methods: {
-    sureAdvise() {
-      this.advise = false;
-      this.v.content = [];
+    //查看随访建议
+    openVisitAdvice(id) {
+      console.log(id)
+      this.isVisitAdvice = true;
+      this.visitDescId = id;
+      console.log(this.adviceDesc)
+      this.adviceDesc = this.visit[id - 1].visitContent;
+
     },
-    // 关闭建议
-    closeAdvise() {
-      this.advise = false;
-      this.v.content = [];
-    },
-    // 查看详细建议
-    lookAdviseFun() {
-      this.advise = true;
+    //确认随访建议
+    confirmVisitAdvice() {
+      this.isVisitAdvice = false;
+      this.visit[this.visitDescId - 1].visitContent = this.adviceDesc;
     },
     //选择随访总数
     doseChange(event) {
@@ -246,53 +189,30 @@ export default {
         this.visit = [];
         for (let i = 1; i <= event; i++) {
           this.visit.push({
-            id: i,
-            date: "",
-            desc: ""
+            visitTime: "",
+            visitContent: {
+              id:i
+            }
           });
         }
       } else {
         this.isVisit = false;
       }
     },
-    //获取必测体征项
+    //获取计划详情
     getPlanInfo(id) {
-      console.log(id);
       this.$http
         .get(`/api/plan/getPlanDetail?planId=${id}`)
         .then(res => {
-          const data = res.data;
-          this.name = data.name;
-          this.dose = data.dose;
-          this.startTime = data.createDate;
+          this.name = res.data.name;
+          this.dose = res.data.dose;
           this.doseChange(this.dose);
-          const list = this.planList;
-          this.content = data.visitManager;
-          for(let i=0;i<data.visitManager.length;i++) {
-            this.startTime = data.visitManager[i].visitTime
-            for(let a=0;a<data.visitManager[i].content.length;a++) {
-              this.content= data.visitManager[i].content[a].content;
-            }
-          }
-          // this.planList = data.item.map((v, i) => {
-          //   return {
-          //     label: v.detailType,
-          //     value: list[i].value,
-          //     content: v.content
-          //   };
-          // });
-          this.slectedBodySignList = data.monitorItem;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    // 获取计划分类
-    getPlanList() {
-      this.$http
-        .get(`/api/plan/getPlanItem`)
-        .then(res => {
-          this.planList = res.data;
+          this.visit = res.data.visitManager;
+          this.visit.forEach(item=>{
+            item.visitContent=JSON.parse(item.visitContent)
+          })
+          console.log(this.visit)
+          this.slectedBodySignList = res.data.monitorItem;
         })
         .catch(err => {
           console.log(err);
@@ -315,50 +235,39 @@ export default {
     },
     //点击发布
     onSubmit() {
-      let list = this.planList.map((v, i) => {
-        return {
-          detailType: v.value,
-          content: v.content
-        };
-      });
-      let visitManager = this.visit.map((v, i) => {
-        return {
-          visitTime: v.date,
-          visitContent: JSON.stringify(list)
+      if (this.name === "") {
+        this.$message.warning("请填写计划名称！");
+        return;
+      }
+      if (this.dose === "") {
+        this.$message.warning("请选择随访总数！");
+        return;
+      } else {
+        for (let i = 0; i < this.visit.length; i++) {
+          if (this.visit[i].visitTime === "") {
+            this.$message.warning("请选择随访时间！");
+            break;
+            return;
+          }
         }
-        if (this.planId) {
-          return {
-            visitTime: this.startTime.substring(1,12),
-            visitContent: JSON.stringify(list)
-          };
-        }
+      }
+      if (this.slectedBodySignList === []) {
+        this.$message.warning("请选择必测体征项！");
+        return;
+      }
+      this.visit.forEach(item => {
+        item.visitContent = JSON.stringify(item.visitContent);
       });
       const params = {
         departmentName: this.personInfo.departmentName,
-        // id: this.planId ? Number(this.planId) : null,
-        dose: this.dose || 0,
-        visitManager: visitManager,
+        id: this.planId ? Number(this.planId) : null,
         name: this.name || "",
+        dose: Number(this.dose),
+        visitManager: this.visit,
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
       };
-      if (params.name == "") {
-        this.$message.warning("请填写计划名称！");
-        return;
-      }
-      if (params.createDate == "") {
-        this.$message.warning("请选择计划时间！");
-        return;
-      }
-      if (params.dose == "") {
-        this.$message.warning("请选择随访总数！");
-        return;
-      }
-      if (params.monitorItem == "") {
-        this.$message.warning("请选择必测体征项！");
-        return;
-      }
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -406,13 +315,6 @@ export default {
             console.log(err);
           });
       }
-    },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
     }
   }
 };

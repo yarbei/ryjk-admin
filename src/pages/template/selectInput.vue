@@ -1,5 +1,5 @@
 <template>
-  <el-row :gutter="80">
+  <el-row :gutter="0">
     <el-col :span="8">
       <el-form-item :label="selectInputData.selectLabel">
         <el-select v-model="selectData" @change="selectChange($event,'isshow')">

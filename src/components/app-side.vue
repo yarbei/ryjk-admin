@@ -54,14 +54,12 @@ export default {
     }
   },
   created() {
-    console.log(this.s)
     this.setCurrentRoute()
     var Menus = JSON.parse(sessionStorage.getItem("loginUser"))
     this.menus = Menus.menu.map((v, i) => {
       v.id = 'x' + i
       return v
     })
-    console.log(Menus.menu)
   }
 }
 </script>
