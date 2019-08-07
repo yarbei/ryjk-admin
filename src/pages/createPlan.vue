@@ -221,7 +221,10 @@ export default {
     }
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
     this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+<<<<<<< HEAD
     console.log(this.user);
+=======
+>>>>>>> aa4e759d60779690bb371e74f31eeb91983b9995
   },
   mounted() {
     this.getBodySignList();
@@ -343,7 +346,10 @@ export default {
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
+<<<<<<< HEAD
         // item: list
+=======
+>>>>>>> aa4e759d60779690bb371e74f31eeb91983b9995
       };
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
@@ -361,7 +367,10 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
+<<<<<<< HEAD
       console.log(this.planId);
+=======
+>>>>>>> aa4e759d60779690bb371e74f31eeb91983b9995
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)

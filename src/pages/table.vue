@@ -584,7 +584,7 @@ export default {
     createVisit(index, row) {
       sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.replace({
-        name: "createVisit",
+        name: "EssentialInfo",
         params: { selectId: "jhxx" }
       });
     },

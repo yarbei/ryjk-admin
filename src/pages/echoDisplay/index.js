@@ -15,8 +15,8 @@ export default {
         visitAuthor: '',
         patientId: '',
         visitRecordContent: {
-          reactions: {value: '', desc: ''}, // 药物不良反应
-          rheumatoid: {value: '', desc: ''}, // 类风湿结节触及部位
+          reactions: { value: '', desc: '' }, // 药物不良反应
+          rheumatoid: { value: '', desc: '' }, // 类风湿结节触及部位
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
         }
       },
@@ -40,8 +40,8 @@ export default {
         inputLabel: '触及部位：', // input输入框的label值
         // select下拉框的内容
         option: [
-          {value: 0, label: '未触及'},
-          {value: 1, label: '已触及'}
+          { value: 0, label: '未触及' },
+          { value: 1, label: '已触及' }
         ]
       },
       // 随访状态
@@ -69,11 +69,16 @@ export default {
       ],
       // 随访评估
       sfassessment: [
-        { value: 1, label: '并发症' },
-        { value: 2, label: '相关指标控制不住' },
-        { value: 3, label: '控制不满意' },
-        { value: 4, label: '控制满意' },
-        { value: 5, label: '不良生活方式未改善' }
+        { value: 1, label: '控制满意' },
+        {
+          value: 2,
+          label: '控制不满意',
+          children: [
+            { value: 3, label: '并发症' },
+            { value: 4, label: '相关指标控制不住' },
+            { value: 5, label: '不良生活方式未改善' }
+          ]
+        }
       ],
       // 症状
       sfsymptom: [{ value: 0, label: '无症状' }, { value: 1, label: '有症状' }],
@@ -615,13 +620,13 @@ export default {
               .catch(err => {
                 console.log(err)
               })
-              // 请求并发症具体数据
+            // 请求并发症具体数据
             if (this.form.complicationCategory) {
               this.$http
                 .get(
                   '/api' +
-                    '/common/getDataList?dataType=2&dataNum=' +
-                    this.form.complicationCategory
+                  '/common/getDataList?dataType=2&dataNum=' +
+                  this.form.complicationCategory
                 )
                 .then(res => {
                   this.sfbfzName = res.data
