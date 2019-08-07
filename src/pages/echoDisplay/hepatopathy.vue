@@ -93,13 +93,13 @@
         </el-row>
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="谷丙转氨酶(ALT)">
+            <el-form-item label="谷丙转氨酶">
               <el-input-number v-model="form.visitRecordContent.transaminase" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">U/L</span>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="谷草转氨酶(AST)">
+            <el-form-item label="谷草转氨酶">
               <el-input-number v-model="form.visitRecordContent.transaminase" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">U/L</span>
