@@ -164,7 +164,7 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>患者有无症状</span>
+            <span><b>症状</b></span>
             <span style="margin-left: 100px">模版类型</span>
             <el-select v-model="filters.templateType1" placeholder="请选择模版" @change="getSymptomList">
               <el-option :value="0" label="通用"></el-option>
@@ -204,7 +204,7 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>患者有无并发症</span>
+            <span><b>并发症</b></span>
             <span style="margin-left: 100px">模版类型</span>
             <el-select
               v-model="filters.templateType2"
