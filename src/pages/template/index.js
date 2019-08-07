@@ -48,10 +48,7 @@ export default {
         selectLabel: '类风湿结节部位：', // select选择框的label值
         inputLabel: '触及部位：', // input输入框的label值
         // select下拉框的内容
-        option: [
-          { value: 0, label: '未触及' },
-          { value: 1, label: '已触及' }
-        ]
+        option: [{ value: 0, label: '未触及' }, { value: 1, label: '已触及' }]
       },
       // 随访状态
       sfstatus: [{ value: 0, label: '未完成' }, { value: 1, label: '已完成' }],
@@ -162,10 +159,7 @@ export default {
         { value: 2, label: '不满意' }
       ],
       // 异常指标
-      sfanomalyIndex: [
-        { value: 0, label: '无' },
-        { value: 1, label: '有' }
-      ],
+      sfanomalyIndex: [{ value: 0, label: '无' }, { value: 1, label: '有' }],
       // 体重
       sfweight: [
         { value: 0, label: '超重' },
@@ -271,20 +265,14 @@ export default {
         { value: 1, label: '有改善' }
       ],
       // 吸烟史
-      sfsmokingHistory: [
-        { value: 0, label: '无' },
-        { value: 1, label: '有' }
-      ],
+      sfsmokingHistory: [{ value: 0, label: '无' }, { value: 1, label: '有' }],
       // 吸烟量
       sfsmokingVolume: [
         { value: 0, label: '未戒烟' },
         { value: 1, label: '已戒烟' }
       ],
       // 饮酒史
-      sfdrinkingHistory: [
-        { value: 0, label: '无' },
-        { value: 1, label: '有' }
-      ],
+      sfdrinkingHistory: [{ value: 0, label: '无' }, { value: 1, label: '有' }],
       // 饮酒量
       sfalcoholConsumption: [
         { value: 0, label: '未减量' },
@@ -322,10 +310,7 @@ export default {
         { value: 1, label: '不足剂量' }
       ],
       // 用药次数
-      sfpharmacy: [
-        { value: 0, label: '减少' },
-        { value: 1, label: '增加' }
-      ],
+      sfpharmacy: [{ value: 0, label: '减少' }, { value: 1, label: '增加' }],
       // 是否需要用药
       sfisNeed: [
         { value: 0, label: '不需要服药' },
@@ -357,10 +342,7 @@ export default {
         { value: 5, label: '预防措施指导' }
       ],
       // 是否按时复诊
-      sfisOnSchedule: [
-        { value: 1, label: '是' },
-        { value: 0, label: '否' }
-      ],
+      sfisOnSchedule: [{ value: 1, label: '是' }, { value: 0, label: '否' }],
       // 已提醒复诊
       sfreminderRevisit: [
         { value: 1, label: '已提醒' },
@@ -415,7 +397,9 @@ export default {
       if (event === 1) {
         this.issfsymptomName = true
         this.$http
-          .get('/api' + '/common/getDataList?dataType=1&sourceType=' + sourceType)
+          .get(
+            '/api' + '/common/getDataList?dataType=1&sourceType=' + sourceType
+          )
           .then(res => {
             this.sfsymptomName = res.data
           })
@@ -457,7 +441,9 @@ export default {
         this.$http
           .get(
             ' /api' +
-            `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
+              `/medicalSections/getMedicalSectionsList?hospitalId=${
+                this.$store.state.user.user.hospitalId.id
+              }`
           )
           .then(res => {
             this.sfdepartment = res.data
@@ -482,7 +468,9 @@ export default {
       if (event === 1) {
         this.iscomplication = true
         this.$http
-          .get('/api' + '/common/getDataList?dataType=2&sourceType=' + sourceType)
+          .get(
+            '/api' + '/common/getDataList?dataType=2&sourceType=' + sourceType
+          )
           .then(res => {
             this.sfbfz = res.data
           })
@@ -501,7 +489,13 @@ export default {
         this.iscomplicationName = false
       }
       this.$http
-        .get('/api' + '/common/getDataList?dataType=2&dataNum=' + event + '&sourceType=' + sourceType)
+        .get(
+          '/api' +
+            '/common/getDataList?dataType=2&dataNum=' +
+            event +
+            '&sourceType=' +
+            sourceType
+        )
         .then(res => {
           this.sfbfzName = res.data
         })
@@ -547,19 +541,13 @@ export default {
         this.$message.warning('本次随访评估未选择！')
         return
       }
-      console.log(this.$route)
       var formData = this.form
       formData.patientId = this.personInfo.id // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
       formData.planId = parseInt(this.planId) // 计划Id
       formData.patientType = parseInt(this.patientType) // 患者类型
       formData.templateType = templateType // 模板Id
-<<<<<<< HEAD
-      console.log(formData)
-=======
->>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       formData.assessment = this.form.assessment.pop()
-      // 数组转字符串complication
       if (formData.complication && formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(',')
       }
@@ -570,10 +558,7 @@ export default {
       formData.visitRecordContent = str
       // 发送新增随访请求
       this.$http
-        .post(
-          '/api' + '/visitRecord/insertVisitRecord',
-          formData
-        )
+        .post('/api' + '/visitRecord/insertVisitRecord', formData)
         .then(res => {
           if (res.data) {
             this.$message.success('新增随访成功！')
