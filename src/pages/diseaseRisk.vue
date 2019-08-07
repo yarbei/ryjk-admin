@@ -17,31 +17,47 @@
       highlight-current-row
       height="460"
       style="width: 100%;"
+      class="el-table"
     >
       <el-table-column prop="department" align="center" label="科室"></el-table-column>
-      <el-table-column prop="mengzhen" align="center" label="门诊"></el-table-column>
-      <el-table-column prop="zhuyuan" align="center" label="住院"></el-table-column>
-      <el-table-column prop="ageGroupTatal" align="center" label="40岁以上人次"></el-table-column>
-      <el-table-column prop="ageGroup" align="center" label="40岁以上人次"></el-table-column>
-      <el-table-column prop="colorectal" align="center" label="占比"></el-table-column>
-      <el-table-column prop="questionnaireTotal" align="center" label="风险评估总数"></el-table-column>
-      <el-table-column prop="total" align="center" label="评估率"></el-table-column>
-      <el-table-column prop="lungsTotal" align="center" label="肺部疾病人次"></el-table-column>
-      <el-table-column prop="lungs" align="center" label="占比"></el-table-column>
-      <el-table-column prop="colorectalTotal" align="center" label="结直肠类疾病人次"></el-table-column>
-      <el-table-column prop="colorectal" align="center" label="占比"></el-table-column>
-      <el-table-column prop="upperGastrointestinalTractTotal" align="center" label="上消化道疾病人次"></el-table-column>
-      <el-table-column prop="upperGastrointestinalTract" align="center" label="占比"></el-table-column>
-      <el-table-column prop="cerebralApoplexyTotal1" align="center" label="脑卒中疾病高危人次"></el-table-column>
-      <el-table-column prop="cerebralApoplexy1" align="center" label="占比"></el-table-column>
-      <el-table-column prop="cerebralApoplexyTotal2" align="center" label="脑卒中疾病中危人次"></el-table-column>
-      <el-table-column prop="cerebralApoplexy2" align="center" label="占比"></el-table-column>
-      <el-table-column prop="cerebralApoplexyTotal3" align="center" label="脑卒中疾病非常高危人次"></el-table-column>
-      <el-table-column prop="cerebralApoplexy3" align="center" label="占比"></el-table-column>
-      <el-table-column prop="cardiovascularTotal0" align="center" label="心血管疾病低风险人次"></el-table-column>
-      <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>
-      <el-table-column prop="cardiovascularTotal1" align="center" label="心血管疾病非常高危人次"></el-table-column>
-      <el-table-column prop="cardiovascular1" align="center" label="占比"></el-table-column>
+      <el-table-column label="本季度病历数" align="center">
+        <el-table-column prop="mengzhen" align="center" label="门诊"></el-table-column>
+        <el-table-column prop="zhuyuan" align="center" label="住院"></el-table-column>
+      </el-table-column>
+      <el-table-column label="40岁以上" align="center">
+        <el-table-column prop="ageGroupTatal" align="center" label="人次"></el-table-column>
+        <el-table-column prop="ageGroup" align="center" label="占比"></el-table-column>
+      </el-table-column>
+      <el-table-column prop="questionnaireTotal" align="center" label="风险评估总数" width="110px"></el-table-column>
+      <el-table-column prop="total" align="center" label="评估率" width="80px"></el-table-column>
+      <el-table-column label="评估结果" align="center"> 
+        <el-table-column label="肺部疾病" align="center">
+          <el-table-column prop="lungsTotal" align="center" label="高风险"></el-table-column>
+          <el-table-column prop="lungs" align="center" label="占比"></el-table-column>
+        </el-table-column>
+        <el-table-column label="结直肠类疾病" align="center">
+          <el-table-column prop="colorectalTotal" align="center" label="高风险"></el-table-column>
+          <el-table-column prop="colorectal" align="center" label="占比"></el-table-column>
+        </el-table-column>
+        <el-table-column label="上消化道疾病" align="center">
+          <el-table-column prop="upperGastrointestinalTractTotal" align="center" label="高风险"></el-table-column>
+          <el-table-column prop="upperGastrointestinalTract" align="center" label="占比"></el-table-column>
+        </el-table-column>
+        <el-table-column label="脑卒中" align="center">
+          <el-table-column prop="cerebralApoplexyTotal1" align="center" label="高危"></el-table-column>
+          <el-table-column prop="cerebralApoplexy1" align="center" label="占比"></el-table-column>
+          <el-table-column prop="cerebralApoplexyTotal2" align="center" label="中危"></el-table-column>
+          <el-table-column prop="cerebralApoplexy2" align="center" label="占比"></el-table-column>
+          <el-table-column prop="cerebralApoplexyTotal3" align="center" label="非常高危"></el-table-column>
+          <el-table-column prop="cerebralApoplexy3" align="center" label="占比"></el-table-column>
+        </el-table-column>
+        <el-table-column label="心血管疾病" align="center">
+          <el-table-column prop="cardiovascularTotal1" align="center" label="高危"></el-table-column>
+          <el-table-column prop="cardiovascular1" align="center" label="占比"></el-table-column>
+          <el-table-column prop="cardiovascularTotal0" align="center" label="中危"></el-table-column>
+          <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>   
+        </el-table-column> 
+      </el-table-column> 
     </el-table>
   </div>
 </template>
@@ -94,4 +110,14 @@ export default {
   }
 };
 </script>
+<style>
+  .el-table--border th, .el-table__fixed-right-patch {
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-right: 1px solid #DBDBDB;
+}
+</style>
+
 
