@@ -211,6 +211,12 @@ export default {
     console.log(planId);
     if (planId) {
       this.isdate = true;
+<<<<<<< HEAD
+
+      this.timeIsShow = true;
+
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       this.getPlanInfo(planId);
     } else {
       this.timeIsShow1 = true;
@@ -218,6 +224,10 @@ export default {
     }
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
     this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+<<<<<<< HEAD
+    console.log(this.user);
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
   },
   mounted() {
     this.getBodySignList();
@@ -261,6 +271,10 @@ export default {
           const data = res.data;
           this.name = data.name;
           this.dose = data.dose;
+<<<<<<< HEAD
+          this.startTime = data.createDate;
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
           this.doseChange(this.dose);
           const list = this.planList;
           this.content = data.visitManager;
@@ -338,6 +352,10 @@ export default {
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
+<<<<<<< HEAD
+        // item: list
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       };
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
@@ -355,6 +373,10 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
+<<<<<<< HEAD
+      console.log(this.planId);
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
