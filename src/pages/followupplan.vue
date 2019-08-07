@@ -11,8 +11,10 @@
           </span>
         </div>
         <div class="text item grtz_content">
-            <h2>随访建议 : {{item.content}}</h2>
-            <span v-for="index in item.content" :key="index.id">{{index.content}}</span>
+          <h2>随访建议 : </h2>
+          <ul v-for="(item1,index) in item.content" :key="index" class="text item">
+            <li>{{ item1.content }}</li>
+          </ul>
         </div>
         <div class="jhxx_btn">
           <el-row>
@@ -29,15 +31,11 @@
         <h2 style="text-align: center; color: #999; font-size: 21px; line-height: 60px">暂无数据！</h2>
         <div class="jhxx_btn">
           <el-row>
-            <el-button
-              class="f-right"
-              type="primary"
-              @click="createVisit"
-            >去随访</el-button>
+            <el-button class="f-right" type="primary" @click="createVisit">去随访</el-button>
           </el-row>
         </div>
       </el-card>
-      <el-pagination
+      <!-- <el-pagination
         @size-change="handlePageSizeChange"
         @current-change="handlePageCurrentChange"
         :current-page="page.current"
@@ -45,7 +43,7 @@
         :page-size="page.size"
         :layout="page.layout"
         :total="page.total"
-      ></el-pagination>
+      ></el-pagination> -->
     </el-col>
   </div>
 </template>
@@ -76,6 +74,7 @@ export default {
     };
   },
   created() {
+    console.log(this.$route.query);
     this.personInfoId = this.$route.params.id;
     this.getUsers();
     this.getPlan();
@@ -117,13 +116,14 @@ export default {
             this.$route.query.planId
         )
         .then(res => {
-          console.log(res)
+          console.log(res);
           if (res.data.length === 0) {
             this.getsfjhStatus = true;
           } else {
             this.getsfjhStatus = false;
             this.page.total = res.data.total;
             this.sfjyArray = res.data;
+            console.log(this.sfjyArray);
           }
         })
         .catch(err => {
@@ -132,7 +132,15 @@ export default {
     },
     // 去随访
     createVisit(managerId) {
-      this.$router.push({path:"/createVisit",query:{managerId:managerId,planId:this.$route.query.planId,patientType:this.$route.query.patientType}});
+      console.log(this.$route.query.planId,this.$route.query.patientType);
+      this.$router.push({
+        path: "/createVisit",
+        query: {
+          managerId: managerId,
+          planId: this.$route.query.planId,
+          patientType: this.$route.query.patientType
+        }
+      });
     }
   }
 };

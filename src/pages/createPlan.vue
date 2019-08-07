@@ -20,7 +20,7 @@
             :value="item.value"
           ></el-option>
         </el-select>
-        <el-row :gutter="40" style="margin-top:30px;">
+        <el-row :gutter="40" style="margin-top:30px;" v-if="timeIsShow1">
           <el-col
             :span="24"
             v-for="item in visit"
@@ -38,6 +38,7 @@
                 v-model="item.date"
                 placeholder="选择日期"
               ></el-date-picker>
+              <el-button type="danger" @click="lookAdviseFun">查看详细建议</el-button>
               <!-- <el-date-picker
                 v-show="isdate"
                 v-model="item.date"
@@ -45,31 +46,62 @@
                 placeholder="选择时间"
                 value-format="yyyy-MM-dd HH:mm:ss"
                 style="margin-left:20px;"
-              ></el-date-picker> -->
+              ></el-date-picker>-->
               <!-- <h2>随访备注{{item.id}}</h2> -->
-              <el-input
-                type="textarea"
-                v-model="item.desc"
-                rows="1.5"
-                style="width:60%;margin-left:20px;"
-              ></el-input>
               <!-- </el-card> -->
             </el-form-item>
           </el-col>
         </el-row>
-      </el-card>
-      <el-card>
-        <div slot="header">
-          <h2>疾病计划分类</h2>
-        </div>
-        <el-row>
-          <el-col :span="24" v-for="(v,i) in planList" :key="i">
-            <el-form-item :label="v.label">
-              <el-input type="textarea" v-model="v.content" placeholder="请输入建议"></el-input>
+        <el-row :gutter="40" style="margin-top:30px;" v-if="timeIsShow">
+          <el-col
+            :span="24"
+            v-for="item in visit"
+            :key="item.id"
+            v-show="isVisit"
+            style="display:flex;justify-content:flex-start;align-items:flex-start;"
+          >
+            <!-- <el-card style="margin-top:30px"> -->
+            <el-form-item :label="'随访时间'+item.id" style="width:100%;">
+              <el-date-picker
+                v-show="isdate"
+                type="date"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-left:20px;"
+                v-model="item.date"
+                placeholder="选择日期"
+              ></el-date-picker>
+              <el-button type="danger" @click="lookAdviseFun">查看详细建议</el-button>
+              <!-- <el-date-picker
+                v-show="isdate"
+                v-model="item.date"
+                type="datetime"
+                placeholder="选择时间"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                style="margin-left:20px;"
+              ></el-date-picker>-->
+              <!-- <h2>随访备注{{item.id}}</h2> -->
+              <!-- </el-card> -->
             </el-form-item>
           </el-col>
         </el-row>
+        <div class="box" v-show="advise">
+          <el-card>
+            <div slot="header">
+              <h2 style="display: contents;">疾病计划分类</h2>
+              <span class="closeAdvise" @click="closeAdvise">x</span>
+            </div>
+            <el-row>
+              <el-col :span="24" v-for="(v,i) in planList" :key="i">
+                <el-form-item :label="v.label">
+                  <el-input type="textarea" v-model="content" placeholder="请输入建议"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+            <el-button type="success" @click="sureAdvise">确定</el-button>
+          </el-card>
+        </div>
       </el-card>
+
       <el-card>
         <div slot="header">
           <h2>疾病必测体征项</h2>
@@ -103,6 +135,10 @@ export default {
   name: "createPlan",
   data() {
     return {
+      isno:false,
+      timeIsShow: false,
+      timeIsShow1: false,
+      advise: false,
       datecontent: "",
       isdate: true, //计划时间是否显示
       planId: {},
@@ -163,27 +199,53 @@ export default {
       // 患者信息
       personInfo: {},
       visit: [], //随访时间，内容
-      isVisit: false //随访时间、内容是否显示
+      isVisit: false, //随访时间、内容是否显示
+      startTime: {},
+      content: ""
     };
   },
   created() {
     // url存在planId时表示修改计划，没有则为新增计划
     const planId = this.$route.query.planId;
     this.planId = planId;
+    console.log(planId);
     if (planId) {
-      this.isdate = false;
+      this.isdate = true;
+<<<<<<< HEAD
+
+      this.timeIsShow = true;
+
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       this.getPlanInfo(planId);
     } else {
+      this.timeIsShow1 = true;
       this.getPlanList();
     }
     this.personInfo = JSON.parse(sessionStorage.getItem("personInfo"));
     this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+<<<<<<< HEAD
     console.log(this.user);
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
   },
   mounted() {
     this.getBodySignList();
   },
   methods: {
+    sureAdvise() {
+      this.advise = false;
+      this.v.content = [];
+    },
+    // 关闭建议
+    closeAdvise() {
+      this.advise = false;
+      this.v.content = [];
+    },
+    // 查看详细建议
+    lookAdviseFun() {
+      this.advise = true;
+    },
     //选择随访总数
     doseChange(event) {
       if (event) {
@@ -202,21 +264,33 @@ export default {
     },
     //获取必测体征项
     getPlanInfo(id) {
+      console.log(id);
       this.$http
         .get(`/api/plan/getPlanDetail?planId=${id}`)
         .then(res => {
-          console.log(res.data.item);
           const data = res.data;
           this.name = data.name;
           this.dose = data.dose;
+<<<<<<< HEAD
+          this.startTime = data.createDate;
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
+          this.doseChange(this.dose);
           const list = this.planList;
-          this.planList = data.item.map((v, i) => {
-            return {
-              label: v.detailType,
-              value: list[i].value,
-              content: v.content
-            };
-          });
+          this.content = data.visitManager;
+          for(let i=0;i<data.visitManager.length;i++) {
+            this.startTime = data.visitManager[i].visitTime
+            for(let a=0;a<data.visitManager[i].content.length;a++) {
+              this.content= data.visitManager[i].content[a].content;
+            }
+          }
+          // this.planList = data.item.map((v, i) => {
+          //   return {
+          //     label: v.detailType,
+          //     value: list[i].value,
+          //     content: v.content
+          //   };
+          // });
           this.slectedBodySignList = data.monitorItem;
         })
         .catch(err => {
@@ -247,7 +321,7 @@ export default {
     },
     //点击取消
     back() {
-      this.$router.go(-1)
+      this.$router.go(-1);
     },
     //点击发布
     onSubmit() {
@@ -255,15 +329,20 @@ export default {
         return {
           detailType: v.value,
           content: v.content
-        }
-      })
-       let visitManager = this.visit.map((v, i) => {
-         console.log(v);
+        };
+      });
+      let visitManager = this.visit.map((v, i) => {
         return {
           visitTime: v.date,
-          visitContent: v.desc
+          visitContent: JSON.stringify(list)
         }
-      })
+        if (this.planId) {
+          return {
+            visitTime: this.startTime.substring(1,12),
+            visitContent: JSON.stringify(list)
+          };
+        }
+      });
       const params = {
         departmentName: this.personInfo.departmentName,
         // id: this.planId ? Number(this.planId) : null,
@@ -271,11 +350,13 @@ export default {
         visitManager: visitManager,
         name: this.name || "",
         patientId: this.personInfo.id,
-        doctorId: this.user.id == undefined ?  0: this.user.id,
-        monitorItem: this.slectedBodySignList.join(","),
-        item: list
+        doctorId: this.user.id == undefined ? 0 : this.user.id,
+        monitorItem: this.slectedBodySignList.join(",")
+<<<<<<< HEAD
+        // item: list
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       };
-      console.log(params.doctorId);
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
         return;
@@ -292,7 +373,10 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
-      console.log(this.params)
+<<<<<<< HEAD
+      console.log(this.planId);
+=======
+>>>>>>> 798db764f033695ed311c5cc9c737cd267606f75
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -305,7 +389,7 @@ export default {
                 onClose: () => {
                   this.$router.push({
                     name: "EssentialInfo",
-                    params: { selectId: "jhxx" }
+                    query: { name: "jhxx" }
                   });
                 }
               });
@@ -317,11 +401,9 @@ export default {
             console.log(err);
           });
       } else {
-        console.log(params);
         this.$http
           .post(`/api/plan/addPlan`, params)
           .then(res => {
-            console.log(res.data)
             if (res.data) {
               this.$message({
                 type: "success",
@@ -330,7 +412,7 @@ export default {
                 onClose: () => {
                   this.$router.push({
                     name: "EssentialInfo",
-                    params: { selectId: "jhxx" }
+                    query: { name: "jhxx" }
                   });
                 }
               });
@@ -355,6 +437,16 @@ export default {
 </script>
 
 <style type="text/css">
+.closeAdvise {
+  float: right;
+  cursor: pointer;
+}
+.box {
+  position: absolute;
+  top: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.5);
+}
 .cp_container {
   width: 100%;
   height: auto;
