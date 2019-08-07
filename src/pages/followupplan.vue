@@ -13,7 +13,7 @@
         <div class="text item grtz_content">
           <h2>随访建议 : </h2>
           <ul v-for="(item1,index) in item.content" :key="index" class="text item">
-            <li>{{ item1.content }}</li>
+            <li>{{item1.detailType}}</li>
           </ul>
         </div>
         <div class="jhxx_btn">

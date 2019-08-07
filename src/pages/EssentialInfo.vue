@@ -175,7 +175,7 @@
             <el-button
               class="f-right"
               type="primary"
-              @click="createVisit(item.planId,item)"
+              @click="createVisit(item.planId,item.patientType)"
               :disabled="item.status==1?true:false"
             >去随访</el-button>
           </el-row>
@@ -780,7 +780,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.userInfo.id}`
+            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.id}`
         )
         .then(res => {
           if (res.data.list.length == 0) {
@@ -842,7 +842,6 @@ export default {
     },
     // 去随访 传递当前的计划ID和当前患者的类型
     createVisit(planId, patientType) {
-      console.log(planId,patientType);
       this.$router.push({
         path: "/followupplan",
         query: { planId: planId, patientType: patientType }
