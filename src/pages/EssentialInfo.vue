@@ -555,7 +555,6 @@ export default {
     },
     //获取随访列表以及随访图表
     selectDate(event) {
-      console.log("shijian---->" + event);
       //获取个人体征列表
       this.$http
         .get(
@@ -737,7 +736,6 @@ export default {
       });
     },
     showjhxxStop(id) {
-      console.log(id);
       this.jhxxStopdialog = true;
       this.planId = id;
     },
@@ -776,11 +774,10 @@ export default {
     },
     // 获取随访记录列表
     getVisitRecord() {
-      console.log(this.$store.state.user.user.userInfo.id);
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.userInfo.id}`
+            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.id}`
         )
         .then(res => {
           if (res.data.list.length == 0) {
@@ -813,7 +810,6 @@ export default {
 
     // 查看随访详情
     lookInfo(id) {
-      console.log(id)
       this.$router.replace({
         name: "queryVisit",
         params: { routerForm: "EssentialInfo", id: id }
@@ -832,7 +828,6 @@ export default {
             this.page.total = 0;
           } else {
             this.jhglList = res.data.list;
-            console.log(this.jhglList);
             this.page.total = res.data.total;
           }
         })
@@ -842,7 +837,6 @@ export default {
     },
     // 去随访 传递当前的计划ID和当前患者的类型
     createVisit(planId, patientType) {
-      console.log(planId,patientType);
       this.$router.push({
         path: "/followupplan",
         query: { planId: planId, patientType: patientType }
@@ -996,7 +990,6 @@ export default {
       });
   },
   mounted() {
-    console.log(this.$route.query);
     if (this.$route.params.selectId == "sfjl") {
       this.activeName = "sfjl";
     }
