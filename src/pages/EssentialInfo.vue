@@ -211,8 +211,7 @@
             <span class="sfjlTime">{{item.visitDate}}</span>
             <span class="sfjlTime">{{item.type | type}}</span>
             <span class="sfjlTime">
-              备注 : {{item.remark}}
-              <span :v-show="item.remark==null?true:false">无</span>
+              备注 : {{item.remark == '' ? 无 : item.remark}}
             </span>
           </span>
           <el-button class="f-right" type="primary" @click="lookInfo(item.id)" round>查看随访详情</el-button>

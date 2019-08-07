@@ -234,7 +234,8 @@ export default {
       btnText2: '表格',
       btnText3: '表格',
       hospitalData:[], //出院后疾病管理情况
-      departData:[] //门诊疾病管理情况
+      departData:[], //门诊疾病管理情况
+      userId: '',  //用户ID
     };
   },
   methods: {
@@ -245,8 +246,11 @@ export default {
 
     //随访情况统计
     visitData(){
+      if(this.$store.state.user.user.type != 3){
+          this.userId = this.$store.state.user.user.id;
+      }
       this.$http
-      .get("/api" + "/analysis/work/3?userRole="+this.$store.state.user.user.type+"&userId="+this.$store.state.user.user.id)
+      .get("/api" + "/analysis/work/3?userRole="+this.$store.state.user.user.type+"&userId="+this.userId)
       .then(res => {
         this.visitStatus.rows=res.data.visitStatus
         this.visitType.rows=res.data.visitType
@@ -296,6 +300,7 @@ export default {
         this.$http
         .get("/api" + "/analysis/work/3?userRole="+this.$store.state.user.user.type+"&userId="+this.dorctorNameChoose)
         .then(res => {
+          console.log(res.data);
           this.visitStatus.rows=res.data.visitStatus
           this.visitType.rows=res.data.visitType
           this.tiZhenYuJing.rows=[

@@ -342,10 +342,6 @@ export default {
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
-<<<<<<< HEAD
-        // item: list
-=======
->>>>>>> a5894c214e710cc05e2299f71b899dd99dcbc7dc
       };
       if (params.name == "") {
         this.$message.warning("请填写计划名称！");
@@ -470,7 +466,7 @@ export default {
 }
 
 .submitBtn {
-  margin-top: 30px;
+  margin-top: 30px; 
   margin-bottom: 30px;
   float: right;
 }
