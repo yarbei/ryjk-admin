@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-card>
@@ -603,83 +603,3 @@ export default {
   methods: echoDisplay.methods
 };
 </script>
-<style scoped>
-.cr_container {
-  width: 100%;
-  height: auto;
-  min-height: 100%;
-  background-color: #fff;
-  padding: 0 20px;
-}
-
-.createVisit_form .el-select,
-.createVisit_form .el-input,
-.createVisit_form .el-cascader,
-.createVisit_form .el-input-number {
-  width: 100%;
-}
-
-.cr_title {
-  height: 170px;
-  border-bottom: 1px solid #999;
-  margin-bottom: 30px;
-  line-height: 170px;
-}
-
-.cr_titleContent {
-  height: 170px;
-  padding: 20px 30px 0;
-}
-
-.cr_titleContent p {
-  height: 30px;
-  line-height: 30px;
-}
-
-.cr_titleImg img {
-  width: 100%;
-  vertical-align: middle;
-  margin-left: 10px;
-}
-
-.cr_titleTag {
-  margin-left: 30px;
-}
-
-.el-card {
-  margin: 30px 0;
-}
-.el-card h2 {
-  font-size: 16px;
-}
-.el-card h2::before {
-  content: "";
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  font-size: 16px;
-}
-.el-card >>> .el-card__header {
-  padding: 0px 20px;
-}
-.unit {
-  position: absolute;
-  left: 103%;
-  top: 20%;
-  width: 100px;
-}
-.el-card .el-row {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin-bottom: 1%;
-}
-.el-form-item {
-  margin-bottom: 0;
-  width: 100%;
-}
-.el-col {
-  position: relative;
-}
-
-</style>
