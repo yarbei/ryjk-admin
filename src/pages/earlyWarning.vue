@@ -86,7 +86,6 @@ export default {
   },
   created() {
     this.getEwList()
-    console.log(this.s)
   },
   computed: {
     s() {
@@ -147,7 +146,7 @@ export default {
 
       this.setStatus(this.s + 1)
     },
-    
+
     changelInfo(index, row) {
 
       this.$http

@@ -327,7 +327,9 @@ export default {
         { value: 4, label: '心理指导' },
         { value: 5, label: '睡眠指导' },
         { value: 6, label: '康复指导' },
-        { value: 7, label: '戒烟限酒指导' }
+        { value: 7, label: '戒烟限酒指导' },
+        { value: 8, label: '并发症' },
+        { value: 9, label: '其他' }
       ],
       // 疾病指导
       sfsickness: [
