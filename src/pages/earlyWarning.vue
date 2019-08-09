@@ -44,7 +44,7 @@
             style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
             @click="changelInfo(scope.$index, scope.row)"
             :disabled="scope.row.status==0?true:false"
-          >{{scope.row.status==0?'未完成':'完成'}}</el-button>
+          >{{scope.row.status==0?'已完成':'完成'}}</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -17,6 +17,7 @@
         <a href="#" style="display: inline-block; padding: 0px; color: inherit">
           <img  :src="user.head == null?'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1560381260690&di=b38e30b354bc5c88130b810f7c62d0ea&imgtype=0&src=http%3A%2F%2Fimgsa.baidu.com%2Fexp%2Fw%3D500%2Fsign%3D3874fd12cebf6c81f7372ce88c3fb1d7%2Fd53f8794a4c27d1e76ed22be19d5ad6edcc43884.jpg':user.head" alt="" style="border-radius: 3px;vertical-align: middle; width: 35px; height: 35px;">
           <span>{{user.name}}</span>
+          
           <span class="caret"></span>
         </a>
         <m-dropdown-panel>

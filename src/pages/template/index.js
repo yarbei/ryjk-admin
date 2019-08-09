@@ -400,7 +400,7 @@ export default {
         this.issfsymptomName = true
         this.$http
           .get(
-            '/api' + '/common/getDataList?dataType=1&sourceType=' + sourceType
+            '/api' + '/common/getCommonDataList?dataType=0&sourceType=' + sourceType
           )
           .then(res => {
             this.sfsymptomName = res.data
@@ -466,15 +466,16 @@ export default {
       }
     },
     // 选择是否有并发症决定是否弹出并发症选择框
-    complicationChange (event, sourceType) {
+    complicationChangeClass (event, sourceType) {
       if (event === 1) {
         this.iscomplication = true
         this.$http
           .get(
-            '/api' + '/common/getDataList?dataType=2&sourceType=' + sourceType
+            '/api' + '/common/getCommonDataList?dataType=1&sourceType=' + sourceType
           )
           .then(res => {
             this.sfbfz = res.data
+            console.log(this.sfbfz)
           })
           .catch(err => {
             console.log(err)
@@ -487,23 +488,43 @@ export default {
     bfzChange (event, sourceType) {
       if (event) {
         this.iscomplicationName = true
+        this.$http
+          .get(
+            '/api' +
+            '/common/getCommonDataList?dataType=1&dataNum=' +
+            event +
+            '&sourceType=' +
+            sourceType
+          )
+          .then(res => {
+            this.sfbfzName = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
       } else {
         this.iscomplicationName = false
       }
-      this.$http
-        .get(
-          '/api' +
-          '/common/getDataList?dataType=2&dataNum=' +
-          event +
-          '&sourceType=' +
-          sourceType
-        )
-        .then(res => {
-          this.sfbfzName = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    },
+    // 选择有并发症弹出具体症状
+    complicationChange (event, sourceType) {
+      if (event === 1) {
+        this.iscomplicationName = true
+        this.$http
+          .get(
+            '/api' +
+            '/common/getCommonDataList?dataType=1&sourceType=' +
+            sourceType
+          )
+          .then(res => {
+            this.sfbfzName = res.data
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      } else {
+        this.iscomplicationName = false
+      }
     },
     // 新增一条用药情况
     addDosage () {

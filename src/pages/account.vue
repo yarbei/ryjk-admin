@@ -15,18 +15,20 @@
       </el-form-item>
       <el-form-item label="密码" prop="passWord">
         <el-input type="password" v-model="ruleForm.passWord"></el-input>
-      </el-form-item>  
-      <el-form-item label="角色" prop="roleId" required>
-        <el-select v-model="ruleForm.roleId" placeholder="请选择角色">
+      </el-form-item>
+
+      <el-form-item label="角色">
+        <el-input v-model="roleName" disabled></el-input>
+        <!-- <el-select v-model="ruleForm.roleId" placeholder="请选择角色">
           <el-option
             v-for="item in Rolelist"
             :label="item.roleName"
             :key="item.roleId"
             :value="item.roleId"
           ></el-option>
-        </el-select>
+        </el-select> -->
       </el-form-item>
-      <el-form-item label="医院" prop="hospitalId">
+      <el-form-item label="医院" prop="hospitalId" v-show="isHospital">
         <el-select v-model="ruleForm.hospitalId" placeholder="请选择医院">
           <el-option v-for="item in hospital" :label="item.name" :key="item.id" :value="item.id"></el-option>
         </el-select>
@@ -43,6 +45,7 @@
 export default {
   data() {
     return {
+      isHospital: true,
       ruleForm: {},
       rules: {
         passWord: [
@@ -50,22 +53,30 @@ export default {
             required: true,
             message: "请输入密码",
             trigger: "blur"
-          },
+          }
         ],
-        account: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
-        ],
+        account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
         hospitalId: [
           { required: true, message: "请选择医院", trigger: "change" }
         ],
-        roleId: [{ required: true, message: "请选择角色", trigger: "change" }]
+        // roleId: [{ required: true, message: "请选择角色", trigger: "change" }]
       },
       Rolelist: [],
       hospital: [],
-      GroupList: []
+      GroupList: [],
+      roleName:''
     };
   },
   mounted() {
+    if (this.$store.state.user.user.type == 3) {
+      this.isHospital = false;
+      this.ruleForm.roleId=2;
+      this.roleName="医生"
+    } else if(this.$store.state.user.user.type == 1){
+      this.isHospital = true;
+      this.ruleForm.roleId=3;
+      this.roleName="医院管理员"
+    }
     // 获取角色数据
     this.getRolelist();
     // 获取医院数据
@@ -78,7 +89,7 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$http.post("/api/user/addUser", this.ruleForm).then(res => {
-            this.resetForm()
+            this.resetForm();
           });
         } else {
           console.log("error submit!!");

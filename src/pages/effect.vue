@@ -136,25 +136,50 @@
             <span></span>
           </div>
           <el-table
-          :data="tableData"
-          :border="true"
-          stripe
-          highlight-current-row
-          style="width: 100%"
-        >
-          <el-table-column prop="healthAwareness" align="center" label="健康知晓率" width="150" ></el-table-column>
-          <el-table-column prop="compliance" align="center" label="依从性好人次" width="150" ></el-table-column>
-          <el-table-column prop="medicalCompliance" align="center" width="150" label="依从性好占比"></el-table-column>
-          <el-table-column prop="giveUpSmoking" align="center" label="已戒烟人次" width="100"></el-table-column>
-          <el-table-column prop="smokingVolume" align="center" label="已戒烟占比" width="100" ></el-table-column>
-          <el-table-column prop="quitDrinking" align="center" label="已戒酒人次" width="100"></el-table-column>
-          <el-table-column prop="alcoholConsumption" align="center" label="已戒酒占比" width="100" ></el-table-column>
-          <el-table-column prop="medicationComplianceTotal0" align="center" label="不服药人次" width="100"></el-table-column>
-          <el-table-column prop="medicationCompliance0" align="center" label="不服药占比" width="120"></el-table-column>
-          <el-table-column prop="medicationComplianceTotal1" align="center" label="服药部分依从人次" width="150"></el-table-column>
-          <el-table-column prop="medicationCompliance1" align="center" label="服药部分依从占比" width="150"></el-table-column>
-          <el-table-column prop="medicationComplianceTotal2" align="center" label="服药完全依从人次" width="150"></el-table-column>
-          <el-table-column prop="medicationCompliance2" align="center" label="服药完全依从占比" width="150"></el-table-column>
+            :data="tableData"
+            :border="true"
+            stripe
+            highlight-current-row
+            style="width: 100%"
+          >
+            <el-table-column prop="healthAwareness" align="center" label="健康知晓率" width="150"></el-table-column>
+            <el-table-column prop="compliance" align="center" label="依从性好人次" width="150"></el-table-column>
+            <el-table-column prop="medicalCompliance" align="center" width="150" label="依从性好占比"></el-table-column>
+            <el-table-column prop="giveUpSmoking" align="center" label="已戒烟人次" width="100"></el-table-column>
+            <el-table-column prop="smokingVolume" align="center" label="已戒烟占比" width="100"></el-table-column>
+            <el-table-column prop="quitDrinking" align="center" label="已戒酒人次" width="100"></el-table-column>
+            <el-table-column prop="alcoholConsumption" align="center" label="已戒酒占比" width="100"></el-table-column>
+            <el-table-column
+              prop="medicationComplianceTotal0"
+              align="center"
+              label="不服药人次"
+              width="100"
+            ></el-table-column>
+            <el-table-column prop="medicationCompliance0" align="center" label="不服药占比" width="120"></el-table-column>
+            <el-table-column
+              prop="medicationComplianceTotal1"
+              align="center"
+              label="服药部分依从人次"
+              width="150"
+            ></el-table-column>
+            <el-table-column
+              prop="medicationCompliance1"
+              align="center"
+              label="服药部分依从占比"
+              width="150"
+            ></el-table-column>
+            <el-table-column
+              prop="medicationComplianceTotal2"
+              align="center"
+              label="服药完全依从人次"
+              width="150"
+            ></el-table-column>
+            <el-table-column
+              prop="medicationCompliance2"
+              align="center"
+              label="服药完全依从占比"
+              width="150"
+            ></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -164,7 +189,9 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span><b>症状</b></span>
+            <span>
+              <b>症状</b>
+            </span>
             <span style="margin-left: 100px">模版类型</span>
             <el-select v-model="filters.templateType1" placeholder="请选择模版" @change="getSymptomList">
               <el-option :value="0" label="通用"></el-option>
@@ -195,7 +222,7 @@
             height="460"
             style="width: 100%;"
           >
-            <el-table-column prop="lable" align="center" label="症状名称"></el-table-column>
+            <el-table-column prop="label" align="center" label="症状名称"></el-table-column>
             <el-table-column prop="symptomTotal" align="center" label="人次"></el-table-column>
             <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
@@ -204,7 +231,9 @@
       <el-col :span="12">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span><b>并发症</b></span>
+            <span>
+              <b>并发症</b>
+            </span>
             <span style="margin-left: 100px">模版类型</span>
             <el-select
               v-model="filters.templateType2"
@@ -239,7 +268,7 @@
             height="460"
             style="width: 100%;"
           >
-            <el-table-column prop="lable" align="center" label="症状名称"></el-table-column>
+            <el-table-column prop="label" align="center" label="症状名称"></el-table-column>
             <el-table-column prop="complicationTotal" align="center" label="人次"></el-table-column>
             <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
@@ -313,6 +342,7 @@ export default {
         )
         .then(res => {
           this.symptomData = res.data;
+          console.log(res.data)
         })
         .catch(err => {
           console.log(err);
@@ -327,7 +357,6 @@ export default {
             `/analysis/complication?templateType=${this.filters.templateType2}`
         )
         .then(res => {
-          console.log(res);
           this.complicationData = res.data;
         })
         .catch(err => {
@@ -419,6 +448,10 @@ export default {
     this.$http
       .get("/api" + "/analysis/manager/1")
       .then(res => {
+        this.leaveHospitalTable = res.data.discharge; //出院/转出归属情况表格赋值
+        this.administrationTable = res.data.assessment; //管理效果评估表格赋值
+        this.reminderRevisitTable = res.data.reminderRevisit; //复诊提醒率表格赋值
+        this.appointmentRevisitTable = res.data.appointmentRevisit; //复诊预约率表格赋值
         this.leaveHospitalData.rows = res.data.discharge;
         this.administrationData.rows = res.data.assessment;
         this.administrationData.rows.push({
@@ -429,20 +462,7 @@ export default {
             this.administrationData.rows[3].value
         });
         this.reminderRevisit.rows = res.data.reminderRevisit;
-        this.reminderRevisit.rows.push({
-          name: "未提醒",
-          value: 100 - this.reminderRevisit.rows[0].value
-        });
         this.appointmentRevisit.rows = res.data.appointmentRevisit;
-        this.appointmentRevisit.rows.push({
-          name: "未预约",
-          value: 100 - this.appointmentRevisit.rows[0].value
-        });
-
-        this.leaveHospitalTable = res.data.discharge; //出院/转出归属情况表格赋值
-        this.administrationTable = res.data.assessment; //管理效果评估表格赋值
-        this.reminderRevisitTable = res.data.reminderRevisit; //复诊提醒率表格赋值
-        this.appointmentRevisitTable = res.data.appointmentRevisit; //复诊预约率表格赋值
       })
       .catch(err => {
         console.log(err);

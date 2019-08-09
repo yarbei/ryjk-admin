@@ -9,7 +9,7 @@
         <el-form-item label="公告内容" prop="content">
           <el-input type="textarea" :rows="5" v-model="addForm.content" auto-complete="off"></el-input>
         </el-form-item>
-        
+
         <el-form-item label="接收对象" prop="titleType">
             <el-select v-model="addForm.titleType" placeholder="接收对象">
                 <el-option
@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     cancel () {
-      console.log(1) 
+      console.log(1)
       this.$router.go(-1)
     },
     // 新增公告
@@ -125,10 +125,8 @@ export default {
     },
     // 指定人群列表
     getUserList () {
-      
       let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
-
-      this.$http.get('/api' + `/user/userList?hospitalId=${loginUser.userInfo.hospitalId}`)
+      this.$http.get('/api' + `/user/userList?hospitalId=${loginUser.hospitalId}`)
         .then(res => {
           if (res.data) {
             this.optionsList = res.data
@@ -224,6 +222,6 @@ export default {
 </script>
 
 <style scoped>
-  
+
 
 </style>

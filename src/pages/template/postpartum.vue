@@ -96,14 +96,15 @@
             <el-form-item label="餐前">
               <el-input-number v-model="form.visitRecordContent.bmbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmol/l</span>
           </el-col>
-          <span class="unit">mmol/l</span>
+
           <el-col :span="8">
             <el-form-item label="餐后">
               <el-input-number v-model="form.visitRecordContent.ambs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmol/l</span>
           </el-col>
-          <span class="unit">mmol/l</span>
         </el-row>
       </el-card>
 
@@ -459,7 +460,6 @@
           </el-col>
         </el-row>
       </el-card>
-
       <el-card>
         <div slot="header">
           <h2>用药情况</h2>
@@ -470,6 +470,18 @@
               <el-select v-model="form.medicationCompliance">
                 <el-option
                   v-for="item in sfmedicationCompliance"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="是否需要用药 : ">
+              <el-select v-model="form.visitRecordContent.isNeed">
+                <el-option
+                  v-for="item in sfisNeed"
                   :key="item.value"
                   :value="item.value"
                   :label="item.label"
@@ -488,34 +500,30 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" style="margin-left:-50px;">
+          <el-col :span="6" style="margin-left:-50px;">
             <el-form-item>
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
             <span class="unit">次/日</span>
           </el-col>
-          <el-col :span="8" style="margin-left:-50px;">
+          <el-col :span="6" style="margin-left:-50px;">
             <el-form-item>
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
             <span class="unit">mg/次</span>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="2">
             <el-form-item>
-              <el-button
-                style="float:right;background:#fff;"
-                @click.prevent="removeDosage(dosage)"
-              >删除</el-button>
+              <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
+            </el-form-item>
+          </el-col>
+          <el-col :span="2">
+            <el-form-item>
+              <el-button @click.prevent="addDosage">新增</el-button>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item>
-              <el-button style="float:right;background:#fff;" @click.prevent="addDosage">新增</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-row></el-row>
         <!-- 药物不良反应 -->
         <select-input
           :selectInputData="reactionsData"

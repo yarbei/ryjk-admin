@@ -1,6 +1,6 @@
 <template>
   <el-row :gutter="0">
-    <el-col :span="8">
+    <el-col :span="6">
       <el-form-item :label="selectInputData.selectLabel">
         <el-select v-model="selectData" @change="selectChange($event,'isshow')">
           <el-option

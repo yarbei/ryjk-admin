@@ -17,7 +17,7 @@
             :label="item.groupName"
             :value="item.groupId"
           ></el-option>
-        </el-select> -->
+        </el-select>-->
 
         <el-select
           v-model="hospitalNameChoose"
@@ -158,13 +158,13 @@
               style="margin-right: 5px;color: #52a3d7"
             ></i>
           </el-tooltip>
-<!--           <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
+          <!--           <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
             <i
               class="el-icon-edit-outline"
               @click="editInfo(scope.$index, scope.row)"
               style="margin-right: 5px;color: #7de1c1"
             ></i>
-          </el-tooltip> -->
+          </el-tooltip>-->
           <el-tooltip class="item" effect="dark" content="新增随访" placement="top">
             <i
               class="el-icon-circle-plus-outline"
@@ -437,7 +437,7 @@ export default {
         ],
         relation: [
           { required: true, message: "请选择与患者关系", trigger: "change" }
-        ],
+        ]
         // groupId: [{ required: true, message: "请选择分组", trigger: "change" }]
       },
       // 新增界面数据
@@ -451,7 +451,7 @@ export default {
       dialogFormVisible: false, //批量修改患者分组显示
       uniqueAccountId: "",
       type: 0,
-      doctorId: 0,
+      doctorId: 0
     };
   },
   methods: {
@@ -478,13 +478,13 @@ export default {
     },
     // 查看详情
     essentialInfo(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row))
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.push({
         name: "EssentialInfo",
         query: {
-          name: 'jbxx'
+          name: "jbxx"
         }
-      })
+      });
     },
     // 修改组别获取组别id
     editGroup(value) {
@@ -636,10 +636,7 @@ export default {
     // 获取科室方法
     getMedicalList() {
       this.$http
-        .get(
-          "/api" +
-            `/medicalSections/getMedicalSectionsList?hospitalId=1`
-        )
+        .get("/api" + `/medicalSections/getMedicalSectionsList?hospitalId=1`)
         .then(res => {
           this.ksdepartmentName = res.data;
         })
@@ -650,7 +647,10 @@ export default {
     // 获取患者列表
     getUsers(page, pageSize) {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
-      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
         this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
         this.type = this.$store.state.user.user.type;
       }
@@ -707,12 +707,7 @@ export default {
             return;
           }
           if (this.addForm.groupId == "") {
-            this.$message({
-              showClose: true,
-              message: "您还未选择组别",
-              type: "error"
-            });
-            return;
+            this.addForm.groupId = 0;
           }
           this.addLoading = true;
           this.$http
@@ -771,7 +766,7 @@ export default {
         });
     },
     //获取医院
-    getHospital(){
+    getHospital() {
       this.$http
         .get("/api" + `/hospital/getHospitalList`)
         .then(res => {
@@ -830,16 +825,19 @@ export default {
       }
     },
     //根据医院ID获取患者
-    getPatientByHospitalId(){
+    getPatientByHospitalId() {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
-      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
         this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
         this.type = this.$store.state.user.user.type;
       }
       this.type = parseInt(this.type);
-      if(this.hospitalNameChoose == ""){
+      if (this.hospitalNameChoose == "") {
         this.getUsers();
-      }else{
+      } else {
         this.hospitalNameChoose = parseInt(this.hospitalNameChoose);
         this.$http
           .get(
@@ -858,13 +856,20 @@ export default {
     //导出表格
     exports() {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
-      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
         this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
         this.type = this.$store.state.user.user.type;
       }
       this.type = parseInt(this.type);
       this.$http({
-        url: "/api/patient/exportExcel?hospitalId=1&uniqueAccountId="+this.uniqueAccountId+'&type='+this.type,
+        url:
+          "/api/patient/exportExcel?hospitalId=1&uniqueAccountId=" +
+          this.uniqueAccountId +
+          "&type=" +
+          this.type,
         responseType: "blob",
         method: "get"
       })

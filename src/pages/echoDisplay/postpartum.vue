@@ -78,14 +78,15 @@
             <el-form-item label="高压">
               <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmHg</span>
           </el-col>
-          <span class="unit">mmHg</span>
+
           <el-col :span="8">
             <el-form-item label="低压">
               <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmHg</span>
           </el-col>
-          <span class="unit">mmHg</span>
         </el-row>
         <el-row>
           <h3>血糖</h3>
@@ -95,14 +96,14 @@
             <el-form-item label="餐前">
               <el-input-number v-model="form.visitRecordContent.bmbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmol/l</span>
           </el-col>
-          <span class="unit">mmol/l</span>
           <el-col :span="8">
             <el-form-item label="餐后">
               <el-input-number v-model="form.visitRecordContent.ambs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmol/l</span>
           </el-col>
-          <span class="unit">mmol/l</span>
         </el-row>
       </el-card>
 

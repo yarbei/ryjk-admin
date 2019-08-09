@@ -82,7 +82,7 @@
       <h2 style="float:left">随访情况统计</h2>
       <el-form :inline="true" :model="filters" class="toolbar_form">
         <el-select
-          v-show="this.$store.state.user.user.type == 3 ? true : false"
+          v-show="this.$store.state.user.user.type == 3||1 ? true : false"
           v-model="dorctorNameChoose"
           clearable
           placeholder="选择疾病管理师"

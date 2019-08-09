@@ -298,10 +298,7 @@ export default {
       ],
 
       // 药物剂量
-      dosage: [
-        { value: 0, label: '超过剂量' },
-        { value: 1, label: '不足剂量' }
-      ],
+      dosage: {},
       // 用药次数
       sfpharmacy: [
         { value: 0, label: '减少' },
