@@ -154,7 +154,7 @@
               v-show="item.createDate && item.endDate"
             >{{item.createDate}}</span>
             <span class="jhxx_titleTime" v-show="item.status==1?true:false"></span>
-            <span class="jhxx_patientType">{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
+            <span class="tb_titleTag el-tag el-tag--success el-tag--mini el-tag--light ">{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
           </span>
 
           <!--<el-tag type="success">{{item.description}}</el-tag>-->
@@ -211,7 +211,7 @@
             <span class="sfjlTime">{{item.visitDate}}</span>
             <span class="sfjlTime">{{item.type | type}}</span>
             <span class="sfjlTime">
-              备注 : {{item.remark == '' ? 无 : item.remark}}
+              备注 : {{item.remark == '' ? '无' : item.remark}}
             </span>
           </span>
           <el-button class="f-right" type="primary" @click="lookInfo(item.id)" round>查看随访详情</el-button>
@@ -414,8 +414,8 @@ export default {
     };
     this.xuetangSettings = {
       labelMap: {
-        count: "饭前",
-        count2: "饭后"
+        count: "空腹血糖",
+        count2: "餐后2小时血糖"
       }
     };
     this.shuimianSettings = {

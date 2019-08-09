@@ -30,7 +30,7 @@
       </el-table-column>
       <el-table-column prop="questionnaireTotal" align="center" label="风险评估总数" width="110px"></el-table-column>
       <el-table-column prop="total" align="center" label="评估率" width="80px"></el-table-column>
-      <el-table-column label="评估结果" align="center"> 
+      <el-table-column label="评估结果" align="center">
         <el-table-column label="肺部疾病" align="center">
           <el-table-column prop="lungsTotal" align="center" label="高风险"></el-table-column>
           <el-table-column prop="lungs" align="center" label="占比"></el-table-column>
@@ -55,9 +55,9 @@
           <el-table-column prop="cardiovascularTotal1" align="center" label="高危"></el-table-column>
           <el-table-column prop="cardiovascular1" align="center" label="占比"></el-table-column>
           <el-table-column prop="cardiovascularTotal0" align="center" label="中危"></el-table-column>
-          <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>   
-        </el-table-column> 
-      </el-table-column> 
+          <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>
+        </el-table-column>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -112,11 +112,11 @@ export default {
 </script>
 <style>
   .el-table--border th, .el-table__fixed-right-patch {
-    border-bottom: 1px solid #D9D9D9;
+    border-bottom: 1px solid #D3D3D3
 }
 
 .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
-    border-right: 1px solid #DBDBDB;
+    border-right: 1px solid #D3D3D3
 }
 </style>
 

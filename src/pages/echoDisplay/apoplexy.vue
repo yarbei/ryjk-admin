@@ -1,7 +1,7 @@
 <template>
   <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form" disabled>
       <el-card>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -87,7 +87,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8" >
+          <el-col :span="8">
             <el-form-item label="请选择症状 : ">
               <el-select v-model="form.symptom" multiple placeholder="请选择">
                 <el-option
@@ -247,7 +247,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6" >
+          <el-col :span="6">
             <el-form-item label="饮酒量">
               <el-input-number
                 v-model="form.visitRecordContent.alcoholConsumptionAmount"
@@ -586,12 +586,8 @@
           <el-input type="textarea" v-model="form.remark"></el-input>
         </el-form-item>
       </el-card>
-
-      <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit(5)">完成随访</el-button>
-        <el-button @click="cancelBtn">取消</el-button>
-      </el-form-item>
     </el-form>
+    <el-button type="success" style="float:right" @click="cancelBtn">返回</el-button>
   </div>
 </template>
 <script>

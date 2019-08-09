@@ -1,13 +1,7 @@
 <template>
   <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form
-      ref="form"
-      :model="form"
-      label-width="135px"
-      class="createVisit_form"
-      label-position="right"
-    >
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
       <el-card>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -524,6 +518,7 @@
   </div>
 </template>
 <script>
+import "./templatecss.less";
 import template from "./index";
 export default {
   components: template.components,

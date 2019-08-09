@@ -1,13 +1,7 @@
 <template>
   <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form
-      ref="form"
-      :model="form"
-      label-width="135px"
-      class="createVisit_form"
-      label-position="right"
-    >
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form" disabled>
       <el-card>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -63,7 +57,11 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="本次随访评估:">
-            <el-cascader v-model="form.assessment" :options="sfassessment" :show-all-levels="false"></el-cascader>
+              <el-cascader
+                v-model="form.assessment"
+                :options="sfassessment"
+                :show-all-levels="false"
+              ></el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -192,23 +190,17 @@
         <el-row :gutter="0">
           <el-col :span="8">
             <el-form-item label="运动">
-              <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999">
-              </el-input-number>
+              <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999"></el-input-number>
             </el-form-item>
-             <span class="unit">次/周</span>
+            <span class="unit">次/周</span>
           </el-col>
 
           <el-col :span="8">
             <el-form-item label>
-              <el-input-number
-                v-model="form.visitRecordContent.otionLength"
-                :min="0"
-                :max="9999"
-              ></el-input-number>
+              <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">分钟/次</span>
           </el-col>
-
         </el-row>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -518,11 +510,8 @@
           <el-input type="textarea" v-model="form.remark"></el-input>
         </el-form-item>
       </el-card>
-      <el-form-item style="text-align: center;margin-left:-135px">
-        <el-button type="success" @click="onSubmit(0)">完成随访</el-button>
-        <el-button @click="cancelBtn">取消</el-button>
-      </el-form-item>
     </el-form>
+    <el-button type="success" style="float:right" @click="cancelBtn">返回</el-button>
   </div>
 </template>
 <script>

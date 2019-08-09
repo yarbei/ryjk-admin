@@ -7,7 +7,7 @@
         <div slot="header" class="clearfix grtz_title">
           <span>
             {{item.visitTime}}
-            <span class="f-right">{{item.status ==1?"已随访":"未随访"}}</span>
+            <span class="f-right">{{item.status}}</span>
           </span>
         </div>
         <div class="text item grtz_content">
@@ -22,7 +22,7 @@
               class="f-right"
               type="primary"
               @click="createVisit(item.id)"
-              :disabled="item.status==1?true:false"
+              :disabled="item.status=='已随访'?true:false"
             >去随访</el-button>
           </el-row>
         </div>

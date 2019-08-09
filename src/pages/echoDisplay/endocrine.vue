@@ -1,7 +1,7 @@
 <template>
   <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form" disabled>
       <el-card>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -126,13 +126,14 @@
           <h3>血糖</h3>
         </el-row>
         <el-row :gutter="0">
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="空腹血糖">
               <el-input-number v-model="form.visitRecordContent.bmbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">mmol/l</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="4"></el-col>
+          <el-col :span="8">
             <el-form-item label="餐后两小时血糖">
               <el-input-number v-model="form.visitRecordContent.ambs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -140,13 +141,14 @@
           </el-col>
         </el-row>
         <el-row :gutter="0">
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="随机血糖">
               <el-input-number v-model="form.visitRecordContent.smbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">mmol/l</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="4"></el-col>
+          <el-col :span="8">
             <el-form-item label="糖化血红蛋白">
               <el-input-number v-model="form.visitRecordContent.smbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -157,13 +159,13 @@
           <h3>血压</h3>
         </el-row>
         <el-row :gutter="0">
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="高压">
               <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">mmHg</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="低压">
               <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -765,16 +767,12 @@
           <el-input type="textarea" v-model="form.remark"></el-input>
         </el-form-item>
       </el-card>
-
-      <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit(6)">完成随访</el-button>
-        <el-button @click="cancelBtn">取消</el-button>
-      </el-form-item>
     </el-form>
+    <el-button type="success" style="float:right" @click="cancelBtn">返回</el-button>
   </div>
 </template>
 <script>
-import echoDisplay from './index';
+import echoDisplay from "./index";
 export default {
   components: echoDisplay.components,
   data: echoDisplay.data,

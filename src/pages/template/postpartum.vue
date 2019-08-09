@@ -78,14 +78,15 @@
             <el-form-item label="高压">
               <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmHg</span>
           </el-col>
-          <span class="span">mmHg</span>
+
           <el-col :span="8">
             <el-form-item label="低压">
               <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
+            <span class="unit">mmHg</span>
           </el-col>
-          <span class="span">mmHg</span>
         </el-row>
         <el-row>
           <h3>血糖</h3>
@@ -96,13 +97,13 @@
               <el-input-number v-model="form.visitRecordContent.bmbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">mmol/l</span>
+          <span class="unit">mmol/l</span>
           <el-col :span="8">
             <el-form-item label="餐后">
               <el-input-number v-model="form.visitRecordContent.ambs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
           </el-col>
-          <span class="span">mmol/l</span>
+          <span class="unit">mmol/l</span>
         </el-row>
       </el-card>
 
@@ -162,12 +163,9 @@
           <el-col :span="8">
             <el-form-item label="心理状况 : ">
               <el-select v-model="form.region" placeholder="请选择">
-                <el-option
-                  v-for="item in sfregion"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+                <el-option value="0" label="愉悦"></el-option>
+                <el-option value="1" label="低落"></el-option>
+                <el-option value="2" label="感到身心疲惫"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -291,7 +289,7 @@
         <el-row :gutter="0">
           <el-col :span="8">
             <el-form-item label="饮食习惯 : ">
-              <el-select v-model="form.visitRecordContent.diet" placeholder="请选择">
+              <el-select v-model="form.visitRecordContent.diet" multiple placeholder="请选择">
                 <el-option
                   v-for="item in sfdiet"
                   :key="item.value"
@@ -374,22 +372,40 @@
         </div>
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="运动方式">
-              <el-select v-model="form.motion" placeholder="请选择">
-                <el-option value="1" label="运动方式1"></el-option>
-                <el-option value="2" label="运动方式2"></el-option>
+            <el-form-item label="运动情况 : ">
+              <el-select v-model="form.visitRecordContent.sportSituation" placeholder="请选择">
+                <el-option
+                  v-for="item in sfsportSituation"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
               </el-select>
             </el-form-item>
           </el-col>
           <el-col :span="8">
+            <el-form-item label="运动强度 : ">
+              <el-select v-model="form.visitRecordContent.exerciseIntensity" placeholder="请选择">
+                <el-option
+                  v-for="item in sfexerciseIntensity"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0">
+          <el-col :span="8">
             <el-form-item label="运动">
-              <el-input-number v-model="form.motionNum" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
+              <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">次/周</span>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="运动">
-              <el-input-number v-model="form.motionLength" :min="0" :max="9999" label="运动(次/周)"></el-input-number>
+            <el-form-item label>
+              <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">分钟/次</span>
           </el-col>

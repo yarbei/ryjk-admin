@@ -133,6 +133,7 @@
             </el-form-item>
             <span class="unit">g/L</span>
           </el-col>
+          <el-col :span="1"></el-col>
           <el-col :span="8">
             <el-form-item label="血红蛋白(HGB)">
               <el-input-number v-model="form.visitRecordContent.hemoglobin" :min="0" :max="9999"></el-input-number>

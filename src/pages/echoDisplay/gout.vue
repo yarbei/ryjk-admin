@@ -1,7 +1,7 @@
 <template>
   <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form" disabled>
       <el-card>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -583,12 +583,8 @@
           <el-input type="textarea" v-model="form.remark"></el-input>
         </el-form-item>
       </el-card>
-
-      <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit(7)">完成随访</el-button>
-        <el-button @click="cancelBtn">取消</el-button>
-      </el-form-item>
     </el-form>
+    <el-button type="success" style="float:right" @click="cancelBtn">返回</el-button>
   </div>
 </template>
 <script>
