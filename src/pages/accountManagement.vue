@@ -29,10 +29,10 @@
 
     <!--列表-->
     <el-table :data="accountList" :border="true" stripe highlight-current-row style="width: 100%;">
-      <el-table-column prop="userName" align="center" label="姓名"></el-table-column>
+      <el-table-column prop="name" align="center" label="姓名"></el-table-column>
       <el-table-column prop="jobNum" align="center" label="账号"></el-table-column>
       <el-table-column prop="roleName" align="center" label="角色"></el-table-column>
-      <el-table-column prop="hospitalName" align="center" label="医院"></el-table-column>
+      <el-table-column prop="hospitalName.name" align="center" label="医院"></el-table-column>
 <!--       <el-table-column prop="createTime" align="center" label="创建时间"></el-table-column> -->
       <el-table-column align="center" label="操作" min-width="140">
         <template slot-scope="scope">

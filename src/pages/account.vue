@@ -15,19 +15,7 @@
       </el-form-item>
       <el-form-item label="密码" prop="passWord">
         <el-input type="password" v-model="ruleForm.passWord"></el-input>
-      </el-form-item>
-      <el-form-item label="性别" prop="sex">
-        <el-radio-group v-model="ruleForm.sex">
-          <el-radio label="男"></el-radio>
-          <el-radio label="女"></el-radio>
-        </el-radio-group>
-      </el-form-item>
-      <el-form-item prop="email" label="邮箱">
-        <el-input v-model="ruleForm.email"></el-input>
-      </el-form-item>
-      <el-form-item label="手机号" prop="phone">
-        <el-input v-model="ruleForm.phone"></el-input>
-      </el-form-item>
+      </el-form-item>  
       <el-form-item label="角色" prop="roleId" required>
         <el-select v-model="ruleForm.roleId" placeholder="请选择角色">
           <el-option
@@ -35,16 +23,6 @@
             :label="item.roleName"
             :key="item.roleId"
             :value="item.roleId"
-          ></el-option>
-        </el-select>
-      </el-form-item>
-      <el-form-item label="组名" prop="deptId" required>
-        <el-select v-model="ruleForm.deptId" placeholder="请选择角色">
-          <el-option
-            v-for="item in GroupList"
-            :label="item.groupName"
-            :key="item.groupId"
-            :value="item.groupName"
           ></el-option>
         </el-select>
       </el-form-item>
@@ -73,25 +51,10 @@ export default {
             message: "请输入密码",
             trigger: "blur"
           },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
-        ],
-        email: [
-          { required: true, message: "请输入邮箱地址", trigger: "blur" },
-          {
-            type: "email",
-            message: "请输入正确的邮箱地址",
-            trigger: ["blur", "change"]
-          }
-        ],
-        phone: [
-          { required: true, message: "请输入正确的手机号", trigger: "blur" }
         ],
         account: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" }
         ],
-        sex: [{ required: true, message: "请选择性别", trigger: "change" }],
-        deptId: [{ required: true, message: "请选择组名", trigger: "change" }],
         hospitalId: [
           { required: true, message: "请选择医院", trigger: "change" }
         ],
@@ -115,7 +78,6 @@ export default {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.$http.post("/api/user/addUser", this.ruleForm).then(res => {
-            console.log(res.data);
             this.resetForm()
           });
         } else {

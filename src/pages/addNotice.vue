@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     cancel () {
-      console.log(1)
+      console.log(1) 
       this.$router.go(-1)
     },
     // 新增公告

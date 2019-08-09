@@ -23,7 +23,7 @@
 
       <el-table-column prop="createAuthor" :show-overflow-tooltip="true" align="center" label="创建人"></el-table-column>
 
-      <el-table-column prop="createDate" align="center" label="创建时间" sortable></el-table-column>
+      <el-table-column prop="createDate" align="center" label="创建时间" sortable formatter="dateFormatter"></el-table-column>
 
       <el-table-column align="center" width="420" fixed="right" label="操作">
         <template slot-scope="scope">
