@@ -36,7 +36,7 @@
                 placeholder="选择日期"
                 :disabled="isEdit"
               ></el-date-picker>
-              <el-button type @click="openVisitAdvice(item.visitContent.id)">查看详细建议</el-button>
+              <el-button @click="openVisitAdvice(item.visitContent.id)">查看详细建议</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -170,10 +170,8 @@ export default {
   methods: {
     //查看随访建议
     openVisitAdvice(id) {
-      console.log(id)
       this.isVisitAdvice = true;
       this.visitDescId = id;
-      console.log(this.adviceDesc)
       this.adviceDesc = this.visit[id - 1].visitContent;
 
     },
@@ -211,7 +209,6 @@ export default {
           this.visit.forEach(item=>{
             item.visitContent=JSON.parse(item.visitContent)
           })
-          console.log(this.visit)
           this.slectedBodySignList = res.data.monitorItem;
         })
         .catch(err => {

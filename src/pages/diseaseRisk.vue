@@ -3,11 +3,11 @@
     <div slot="header" class="clearfix">
       <h2 style="float:left">疾病风险筛查统计与分析</h2>
       <el-button
-      @click="exportRisk"
-      type="primary"
-      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+        @click="exportRisk"
+        type="primary"
+        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
       >
-      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+        <i class="el-icon-download" style="margin-right: 5px"></i>导出
       </el-button>
     </div>
     <el-table
@@ -110,14 +110,5 @@ export default {
   }
 };
 </script>
-<style>
-  .el-table--border th, .el-table__fixed-right-patch {
-    border-bottom: 1px solid #D3D3D3
-}
-
-.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
-    border-right: 1px solid #D3D3D3
-}
-</style>
 
 

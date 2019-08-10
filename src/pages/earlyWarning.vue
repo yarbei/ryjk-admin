@@ -130,7 +130,7 @@ export default {
       let menu = loginUser.menu
 
       let arr = menu.map((v, i) => {
-        if(v.type === 4) {
+        if(v.id === 4) {
           v.submenu[1].earlyWarningCount = v.submenu[1].earlyWarningCount - 1
           return v
         } else {

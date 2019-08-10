@@ -7,7 +7,6 @@
   font-weight: 100;
 }
 .el-table .el-table__header thead th{
-  background: #E6EBF5;
   color: #3c464e;
 }
 
@@ -18,4 +17,16 @@
 #nprogress .spinner-icon {
   border-top-color: #812CB2 !important;
   border-left-color: #812CB2 !important;
+}
+
+
+.el-table--border th,
+.el-table__fixed-right-patch {
+  border-bottom: 1px solid #d3d3d3;
+}
+
+.el-table--border td,
+.el-table--border th,
+.el-table__body-wrapper .el-table--border.is-scrolling-left ~ .el-table__fixed {
+  border-right: 1px solid #d3d3d3;
 }

@@ -118,7 +118,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`    
+            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`
         )
         .then(res => {
           this.wvArray = res.data.list;
@@ -143,7 +143,7 @@ export default {
       let menu = loginUser.menu
 
       let arr = menu.map((v, i) => {
-        if(v.type === 4) {
+        if(v.id === 4) {
           v.submenu[0].waitForCount = v.submenu[0].waitForCount - 1
           return v
         } else {
@@ -177,12 +177,12 @@ export default {
 
       setTimeout(() => {
         sessionStorage.setItem("personInfo",JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
-        this.$router.replace({ 
+        this.$router.replace({
           name: 'EssentialInfo',
           query: {
             name: 'jhxx'
           }
-        }); 
+        });
       }, 1500)
     }
   },
