@@ -99,8 +99,10 @@ export default {
             );
             this.isLoging = false;
             //todo 删除假信息
-            res.data.yunXinAccount = 'test99';
-            res.data.yunXinToken = '123456';
+            // res.data.yunXinAccount = 'test99';
+            // res.data.yunXinToken = '123456';
+            res.data.yunXinAccount = '32cd967fbf12428292d35fb6b4d83ddd ';
+            res.data.yunXinToken = 'a5d1969aae54baf8efcf34f10bd487b6';
             this.loginIM(res.data.yunXinAccount,res.data.yunXinToken);
            
           } else {
@@ -116,7 +118,7 @@ export default {
         });
     },
     loginIM(account,pwd){
-      //todo 如果用接口返回的用户名密码，就不用md5加密
+      //todo 可以删除判断，改为 let token = pwd; 如果用接口返回的用户名密码，就不用md5加密
       let token = pwd == '123456' ? utils.MD5(pwd) : pwd;
       this.$http
       .get(

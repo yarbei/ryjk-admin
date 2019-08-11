@@ -6,10 +6,14 @@
     display: none;
 }
 #rightPanel{
-    margin:0 100px;
+    margin:0 100px 0 150px;
+    width: 710px;
+}
+.cloud-msg-container{
+    margin-left: 150px;
 }
 .asideBox{
-    right:-50px;
+    right:-30px;
 }
 .personInfo{
     background: #fff;
