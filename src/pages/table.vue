@@ -179,6 +179,13 @@
               style="margin-right: 5px;color:red;"
             ></i>
           </el-tooltip>
+          <el-tooltip class="item" effect="dark" content="聊天" placement="top">
+            <i
+              class="el-icon-delete"
+              @click="openIM(scope.$index, scope.row)"
+              style="margin-right: 5px;color:red;"
+            ></i>
+          </el-tooltip>
         </template>
       </el-table-column>
     </el-table>
@@ -363,6 +370,7 @@ import { pagination } from "@/mixins";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 import { constants } from "os";
+import utils from '../utils/utils';
 export default {
   mixins: [pagination],
   data() {
@@ -893,6 +901,21 @@ export default {
 
       document.body.appendChild(link);
       link.click();
+    },
+    // 打开聊天窗口
+    openIM(index, row){
+      //location.href="../../static/IM/im/main.html";
+      sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
+      let account = row.yunXinAccount ;
+      if(account){
+       window.open('../../static/IM/im/main.html?account='+account);
+      }else{
+        //todo  删除
+        account = 'test99'
+        window.open('../../static/IM/im/main.html?account='+account);
+        this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
+      }
+     
     }
   },
   created() {
@@ -900,6 +923,12 @@ export default {
     this.getUsers(this.page.current, this.page.size);
     this.getGroupName();
     this.getHospital();
+  },
+  mounted(){
+    if(sessionStorage.getItem('sdkuid')){
+      utils.setCookie('uid', sessionStorage.getItem('sdkuid'));
+      utils.setCookie('sdktoken', sessionStorage.getItem('sdktoken'));
+    }
   }
 };
 </script>

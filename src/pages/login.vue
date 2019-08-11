@@ -43,6 +43,7 @@
 </template>
 <script>
 import { mapActions } from "vuex";
+import utils from '../utils/utils';
 
 export default {
   name: "login",
@@ -97,7 +98,11 @@ export default {
               "4eea90fd-2752-481d-ae67-c75f8641a94a"
             );
             this.isLoging = false;
-            this.$router.push({ name: "home" });
+            //todo 删除假信息
+            res.data.yunXinAccount = 'test99';
+            res.data.yunXinToken = '123456';
+            this.loginIM(res.data.yunXinAccount,res.data.yunXinToken);
+           
           } else {
             this.$message({
               message: "登录失败！",
@@ -109,6 +114,20 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+    loginIM(account,pwd){
+      //todo 如果用接口返回的用户名密码，就不用md5加密
+      let token = pwd == '123456' ? utils.MD5(pwd) : pwd;
+      this.$http
+      .get(
+        "https://lbs.netease.im/lbs/webconf.jsp?" +`k=${token}&id=${account}`+"&sv=52&pv=1" 
+      ).then(res => {
+        utils.setCookie('uid', account.toLocaleLowerCase());
+        utils.setCookie('sdktoken', token);
+        sessionStorage.setItem('sdkuid',account.toLocaleLowerCase())
+        sessionStorage.setItem('sdktoken',token)
+        this.$router.push({ name: "home" });
+      })
     }
   },
   created() {

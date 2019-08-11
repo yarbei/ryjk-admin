@@ -1,0 +1,32 @@
+.left-panel,
+.chat-editor .u-netcall-video-link,
+.chat-editor .u-netcall-audio-link,
+.chat-editor .u-whiteboard,
+.chat-btn .u-voice{
+    display: none;
+}
+#rightPanel{
+    margin:0 100px;
+}
+.asideBox{
+    right:-50px;
+}
+.personInfo{
+    background: #fff;
+    width: 120px;
+    height: 120px; 
+    border-radius:6px;
+    text-align: center;
+    padding:10px 3px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.personInfo h3{
+    margin-bottom:10px;
+}
+.personInfo p{
+    line-height:24px;
+}
+.msg-input.p2p{
+    margin-left:107px;
+}
