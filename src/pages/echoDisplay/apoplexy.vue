@@ -73,11 +73,7 @@
         <el-row :gutter="0">
           <el-col :span="8">
             <el-form-item label="有无症状 : ">
-              <el-select
-                v-model="form.visitRecordContent.issymptom"
-                @change="sfsymptomChange($event,5)"
-                placeholder="请选择"
-              >
+              <el-select v-model="form.visitRecordContent.issymptom" placeholder="请选择">
                 <el-option
                   v-for="item in sfsymptom"
                   :key="item.value"
@@ -144,8 +140,8 @@
         </el-row>
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="体重 : ">
-              <el-select v-model="form.visitRecordContent.weight" placeholder="请选择">
+            <el-form-item label="体重范围 : ">
+              <el-select v-model="form.visitRecordContent.weightType" placeholder="请选择">
                 <el-option
                   v-for="item in sfweight"
                   :key="item.value"
@@ -154,6 +150,12 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="具体体重数值">
+              <el-input-number v-model="form.visitRecordContent.weightNum"></el-input-number>
+            </el-form-item>
+            <span class="unit">KG</span>
           </el-col>
         </el-row>
         <el-row>
@@ -196,11 +198,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="是否戒烟 : ">
-              <el-select
-                v-model="form.smokingVolume"
-                @change="smokingVolumeChange"
-                placeholder="请选择"
-              >
+              <el-select v-model="form.smokingVolume" placeholder="请选择">
                 <el-option
                   v-for="item in sfsmokingVolume"
                   :key="item.value"
@@ -233,11 +231,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="是否戒酒 : ">
-              <el-select
-                v-model="form.alcoholConsumption"
-                @change="alcoholConsumptionChange"
-                placeholder="请选择"
-              >
+              <el-select v-model="form.alcoholConsumption" placeholder="请选择">
                 <el-option
                   v-for="item in sfalcoholConsumption"
                   :key="item.value"
@@ -361,11 +355,7 @@
         <el-row :gutter="0">
           <el-col :span="8">
             <el-form-item label="是否有并发症状 : ">
-              <el-select
-                v-model="form.visitRecordContent.iscomplication"
-                @change="complicationChange($event,5)"
-                placeholder="请选择"
-              >
+              <el-select v-model="form.visitRecordContent.iscomplication" placeholder="请选择">
                 <el-option
                   v-for="item in sfcomplication"
                   :key="item.value"
@@ -377,7 +367,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="并发症 : ">
-              <el-select v-model="form.complicationCategory" @change="bfzChange($event,5)">
+              <el-select v-model="form.complicationCategory">
                 <el-option
                   v-for="item in sfbfz"
                   :key="item.value"
@@ -472,7 +462,25 @@
           @listenInput="reactionsInput"
         ></select-input>
       </el-card>
-
+      <el-card>
+        <div slot="header">
+          <h2>康复治疗方式</h2>
+        </div>
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item label="康复治疗方式 : ">
+              <el-select v-model="form.visitRecordContent.therapy" multiple>
+                <el-option
+                  v-for="item in sftherapy"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-card>
       <el-card>
         <div slot="header">
           <h2>健康教育知晓</h2>
@@ -480,10 +488,7 @@
         <el-row :gutter="0">
           <el-col :span="8">
             <el-form-item label="是否进行健康指导 : ">
-              <el-select
-                v-model="form.visitRecordContent.healthGuidance"
-                @change="healthGuidanceChange"
-              >
+              <el-select v-model="form.visitRecordContent.healthGuidance">
                 <el-option
                   v-for="item in sfhealthGuidance"
                   :key="item.value"
@@ -526,7 +531,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="已预约复诊 : ">
-              <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
+              <el-select v-model="form.appointmentRevisit">
                 <el-option
                   v-for="item in sfappointmentRevisit"
                   :key="item.value"

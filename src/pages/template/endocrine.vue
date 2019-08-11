@@ -361,6 +361,15 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="饮食控制 : ">
+              <el-select v-model="form.visitRecordContent.dietcontrol" placeholder="请选择">
+                <el-option label="理想" value="1"></el-option>
+                <el-option label="超量" value="2"></el-option>
+                <el-option label="不足" value="3"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <h3>早餐</h3>
         <el-row :gutter="0">
@@ -621,24 +630,24 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="margin-left:-50px;">
+          <el-col :span="4">
             <el-form-item>
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
             <span class="unit">次/日</span>
           </el-col>
-          <el-col :span="6" style="margin-left:-50px;">
+          <el-col :span="4">
             <el-form-item>
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
             <span class="unit">mg/次</span>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <el-form-item>
               <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <el-form-item>
               <el-button @click.prevent="addDosage">新增</el-button>
             </el-form-item>

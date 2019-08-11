@@ -12,12 +12,11 @@
     </div>
     <el-table
       :data="diseaseRiskData"
-      :border="true"
       stripe
       highlight-current-row
       height="460"
       style="width: 100%;"
-      class="el-table"
+      class="el-table-cyn"
     >
       <el-table-column prop="department" align="center" label="科室"></el-table-column>
       <el-table-column label="本季度病历数" align="center">
@@ -110,5 +109,16 @@ export default {
   }
 };
 </script>
+<style scoped>
 
+.el-table-cyn /deep/ table tr th{
+  border-bottom:1px solid #d3d3d3 !important;
+  border-right:1px solid #d3d3d3 !important;
+}
+.el-table-cyn /deep/ table tr:nth-child(1) th{
+  border-top:1px solid #d3d3d3 !important;
+}
+
+
+</style>
 

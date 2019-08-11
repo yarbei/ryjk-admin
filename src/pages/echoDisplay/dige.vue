@@ -75,7 +75,6 @@
             <el-form-item label="有无症状 : ">
               <el-select
                 v-model="form.visitRecordContent.issymptom"
-                @change="sfsymptomChange($event,8)"
                 placeholder="请选择"
               >
                 <el-option
@@ -196,7 +195,6 @@
             <el-form-item label="是否戒烟 : ">
               <el-select
                 v-model="form.smokingVolume"
-                @change="smokingVolumeChange"
                 placeholder="请选择"
               >
                 <el-option
@@ -233,7 +231,6 @@
             <el-form-item label="是否戒酒 : ">
               <el-select
                 v-model="form.alcoholConsumption"
-                @change="alcoholConsumptionChange"
                 placeholder="请选择"
               >
                 <el-option
@@ -372,7 +369,6 @@
             <el-form-item label="是否有并发症状 : ">
               <el-select
                 v-model="form.visitRecordContent.iscomplication"
-                @change="complicationChange($event,6)"
                 placeholder="请选择"
               >
                 <el-option
@@ -386,7 +382,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="并发症 : ">
-              <el-select v-model="form.complicationCategory" @change="bfzChange($event,6)">
+              <el-select v-model="form.complicationCategory">
                 <el-option
                   v-for="item in sfbfz"
                   :key="item.value"
@@ -490,7 +486,6 @@
             <el-form-item label="是否进行健康指导 : ">
               <el-select
                 v-model="form.visitRecordContent.healthGuidance"
-                @change="healthGuidanceChange"
               >
                 <el-option
                   v-for="item in sfhealthGuidance"
@@ -534,7 +529,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="已预约复诊 : ">
-              <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
+              <el-select v-model="form.appointmentRevisit" >
                 <el-option
                   v-for="item in sfappointmentRevisit"
                   :key="item.value"
