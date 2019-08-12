@@ -318,7 +318,7 @@ export default {
     getRole() {
       this.$http(
         "/api" +
-          "/menu/getRoleList"
+          "/menu/getRoleList?type="+this.$store.state.user.user.type
       )
         .then(res => {
           this.roleList = res.data;

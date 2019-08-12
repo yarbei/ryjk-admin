@@ -70,21 +70,17 @@
           <el-input type="password" v-model="ruleForm.passWord"></el-input>
         </el-form-item>
         <el-form-item label="角色">
-          <el-input v-model="roleName" disabled></el-input>
-          <!-- <el-select v-model="ruleForm.roleId" placeholder="请选择角色">
-          <el-option
-            v-for="item in Rolelist"
-            :label="item.roleName"
-            :key="item.roleId"
-            :value="item.roleId"
-          ></el-option>
-          </el-select>-->
+          <!-- <el-input v-model="roleName" disabled></el-input> -->
+          <el-select v-model="ruleForm.roleId" placeholder="请选择角色">
+            <el-option
+              v-for="item in Rolelist"
+              :label="item.roleName"
+              :key="item.roleId"
+              :value="item.roleId"
+            ></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item
-          label="医院"
-          prop="hospitalId"
-          v-show="isHospital"
-        >
+        <el-form-item label="医院" prop="hospitalId" v-show="isHospital">
           <el-select v-model="ruleForm.hospitalId" placeholder="请选择医院">
             <el-option v-for="item in hospital" :label="item.name" :key="item.id" :value="item.id"></el-option>
           </el-select>
@@ -141,7 +137,7 @@ export default {
       user: null,
       ids: [],
       roleName: "",
-      isHospital:true
+      isHospital: true
     };
   },
   created() {
@@ -168,11 +164,12 @@ export default {
     this.getGroupList();
   },
   methods: {
-    // 获取角色
+    // 获取用户信息
     getUser() {
       this.$http("/api" + "/doctor/getDoctorAll?hospitalId=1")
         .then(res => {
           this.doctorName = res.data;
+          console.log(res.data);
         })
         .catch(err => {
           console.log(err);
@@ -237,6 +234,7 @@ export default {
         if (valid) {
           this.$http.post("/api/user/addUser", this.ruleForm).then(res => {
             this.$message.success("添加成功！");
+            this.addFormVisible = false;
           });
         } else {
           console.log("error submit!!");
@@ -245,9 +243,11 @@ export default {
       });
     },
     getRolelist() {
-      this.$http.get("/api/user/getRoleList").then(res => {
-        this.Rolelist = res.data;
-      });
+      this.$http
+        .get("/api/user/getRoleList?type=" + this.$store.state.user.user.type)
+        .then(res => {
+          this.Rolelist = res.data;
+        });
     },
     getHospital() {
       this.$http.get("/api/hospital/getHospitalListNoPage").then(res => {
@@ -278,11 +278,11 @@ export default {
         "/api" +
           `/user/adminList?keywords=${str || ""}&roleType=${
             this.$store.state.user.user.type
-          }&hospitalId=${this.$store.state.user.user.hospitalId||''}`
+          }&hospitalId=${this.$store.state.user.user.hospitalId || ""}`
       )
         .then(res => {
           this.accountList = res.data.list;
-          console.log(this.accountList)
+          console.log(this.accountList);
         })
         .catch(err => {
           console.log(err);

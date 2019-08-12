@@ -149,7 +149,7 @@ export default {
       slectedBodySignList: [],
       personInfo: {},
       visit: [], //随访时间，内容
-      isVisit: false, //随访时间、内容是否显示
+      isVisit: false //随访时间、内容是否显示
     };
   },
   created() {
@@ -173,7 +173,6 @@ export default {
       this.isVisitAdvice = true;
       this.visitDescId = id;
       this.adviceDesc = this.visit[id - 1].visitContent;
-
     },
     //确认随访建议
     confirmVisitAdvice() {
@@ -189,7 +188,7 @@ export default {
           this.visit.push({
             visitTime: "",
             visitContent: {
-              id:i
+              id: i
             }
           });
         }
@@ -206,9 +205,9 @@ export default {
           this.dose = res.data.dose;
           this.doseChange(this.dose);
           this.visit = res.data.visitManager;
-          this.visit.forEach(item=>{
-            item.visitContent=JSON.parse(item.visitContent)
-          })
+          this.visit.forEach(item => {
+            item.visitContent = JSON.parse(item.visitContent);
+          });
           this.slectedBodySignList = res.data.monitorItem;
         })
         .catch(err => {
@@ -248,23 +247,26 @@ export default {
           }
         }
       }
-      if (this.slectedBodySignList === []) {
+      if (this.slectedBodySignList == "") {
         this.$message.warning("请选择必测体征项！");
         return;
       }
+      console.log(this.selectedBodySignList)
+      var visitManager=JSON.parse(JSON.stringify(this.visit));
       const params = {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         name: this.name || "",
         dose: Number(this.dose),
-        visitManager: this.visit,
+        visitManager: visitManager,
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
       };
-      params.visitManager.forEach(item=>{
-item.visitContent = JSON.stringify(item.visitContent);
-      })
+      params.visitManager.forEach(item => {
+        item.visitContent = JSON.stringify(item.visitContent);
+      });
+
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -296,7 +298,7 @@ item.visitContent = JSON.stringify(item.visitContent);
               this.$message({
                 type: "success",
                 message: "新增计划成功",
-                duration: 1000,
+                duration: 1000
                 // onClose: () => {
                 //   this.$router.push({
                 //     name: "EssentialInfo",
@@ -305,9 +307,9 @@ item.visitContent = JSON.stringify(item.visitContent);
                 // }
               });
               this.$router.push({
-                    name: "EssentialInfo",
-                    query: { name: "jhxx" }
-                  });
+                name: "EssentialInfo",
+                query: { name: "jhxx" }
+              });
             } else {
               this.$message.error("新增计划失败");
             }
