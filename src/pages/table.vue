@@ -165,6 +165,13 @@
               style="margin-right: 5px;color: #7de1c1"
             ></i>
           </el-tooltip>-->
+          <el-tooltip class="item" effect="dark" content="联系患者" placement="top">
+            <i
+              class="el-icon-chat-dot-square"
+              @click="openIM(scope.$index, scope.row)"
+              style="margin-right: 5px;color:blue;"
+            ></i>
+          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="新增随访" placement="top">
             <i
               class="el-icon-circle-plus-outline"
@@ -176,13 +183,6 @@
             <i
               class="el-icon-delete"
               @click="deletePatient(scope.$index, scope.row)"
-              style="margin-right: 5px;color:red;"
-            ></i>
-          </el-tooltip>
-          <el-tooltip class="item" effect="dark" content="聊天" placement="top">
-            <i
-              class="el-icon-delete"
-              @click="openIM(scope.$index, scope.row)"
               style="margin-right: 5px;color:red;"
             ></i>
           </el-tooltip>
@@ -370,7 +370,7 @@ import { pagination } from "@/mixins";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 import { constants } from "os";
-import utils from '../utils/utils';
+import utils from "../utils/utils";
 export default {
   mixins: [pagination],
   data() {
@@ -902,19 +902,47 @@ export default {
       link.click();
     },
     // 打开聊天窗口
-    openIM(index, row){
+    openIM(index, row) {
       //location.href="../../static/IM/im/main.html";
       sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
-      let account = row.yunXinAccount ;
-      if(account){
-       window.open('../../static/IM/im/main.html?account='+account);
-      }else{
+      //获取计划列表
+      this.$http({
+        url: "/api/plan/getPlanByPatientId?patientId=" + row.id
+      })
+        .then(res => {
+          sessionStorage.setItem(
+            "openIMPlanList",
+            JSON.stringify(res.data.list)
+          );
+          var openIMVisitList = {};
+          res.data.list.forEach(item => {
+            // 获取随访列表
+            this.$http({
+              url:
+                "/api" +
+                "/visitRecord/getVisistManagerList?planId=" +
+                item.planId
+            })
+              .then(res => {
+                sessionStorage.setItem(item.planId, JSON.stringify(res.data));
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      let account = row.yunXinAccount;
+      if (account) {
+        window.open("../../static/IM/im/main.html?account=" + account);
+      } else {
         //todo  删除
-        account = 'test99'
-        window.open('../../static/IM/im/main.html?account='+account);
+        account = "test99";
+        window.open("../../static/IM/im/main.html?account=" + account);
         this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
       }
-     
     }
   },
   created() {
@@ -923,10 +951,10 @@ export default {
     this.getGroupName();
     this.getHospital();
   },
-  mounted(){
-    if(sessionStorage.getItem('sdkuid')){
-      utils.setCookie('uid', sessionStorage.getItem('sdkuid'));
-      utils.setCookie('sdktoken', sessionStorage.getItem('sdktoken'));
+  mounted() {
+    if (sessionStorage.getItem("sdkuid")) {
+      utils.setCookie("uid", sessionStorage.getItem("sdkuid"));
+      utils.setCookie("sdktoken", sessionStorage.getItem("sdktoken"));
     }
   }
 };

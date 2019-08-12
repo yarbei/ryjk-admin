@@ -45,6 +45,11 @@
             @click="changelInfo(scope.$index, scope.row)"
             :disabled="scope.row.status==0?true:false"
           >{{scope.row.status==0?'已完成':'完成'}}</el-button>
+          <el-button
+            type="success"
+            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
+            @click="openIM(scope.$index, scope.row)"
+          >联系患者</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,6 +98,49 @@ export default {
     }
   },
   methods: {
+    // 打开聊天窗口
+    openIM(index, row) {
+      //location.href="../../static/IM/im/main.html";
+      sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
+      //获取计划列表
+      this.$http({
+        url: "/api/plan/getPlanByPatientId?patientId=" + row.id
+      })
+        .then(res => {
+          sessionStorage.setItem(
+            "openIMPlanList",
+            JSON.stringify(res.data.list)
+          );
+          var openIMVisitList = {};
+          res.data.list.forEach(item => {
+            // 获取随访列表
+            this.$http({
+              url:
+                "/api" +
+                "/visitRecord/getVisistManagerList?planId=" +
+                item.planId
+            })
+              .then(res => {
+                sessionStorage.setItem(item.planId, JSON.stringify(res.data));
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      let account = row.yunXinAccount;
+      if (account) {
+        window.open("../../static/IM/im/main.html?account=" + account);
+      } else {
+        //todo  删除
+        account = "test99";
+        window.open("../../static/IM/im/main.html?account=" + account);
+        this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
+      }
+    },
     ...mapActions([
       'setStatus'
     ]),
@@ -127,7 +175,7 @@ export default {
     editStorage() {
 
       let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
-  
+
       let menu = loginUser.menu
 
       let arr = menu.map((v, i) => {

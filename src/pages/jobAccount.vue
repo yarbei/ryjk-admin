@@ -293,7 +293,7 @@ export default {
     },
     // 根据疾病管理师筛选随访情况
     getVisitByDoctorId() {
-      if (this.dorctorNameChoose === "") {
+      if (this.dorctorNameChoose == "") {
         this.visitData();
       } else {
         this.$http

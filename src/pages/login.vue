@@ -99,10 +99,10 @@ export default {
             );
             this.isLoging = false;
             //todo 删除假信息
-            res.data.yunXinAccount = 'test99';
-            res.data.yunXinToken = '123456';
-            // res.data.yunXinAccount = '32cd967fbf12428292d35fb6b4d83ddd ';
-            // res.data.yunXinToken = 'a5d1969aae54baf8efcf34f10bd487b6';
+            // res.data.yunXinAccount = 'test99';
+            // res.data.yunXinToken = '123456';
+            res.data.yunXinAccount = '32cd967fbf12428292d35fb6b4d83ddd ';
+            res.data.yunXinToken = 'a5d1969aae54baf8efcf34f10bd487b6';
             this.loginIM(res.data.yunXinAccount,res.data.yunXinToken);
           } else {
             this.$message({

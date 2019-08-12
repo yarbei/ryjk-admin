@@ -11,9 +11,15 @@
           </span>
         </div>
         <div class="text item grtz_content">
-          <h2>随访建议 : </h2>
-          <ul v-for="(item1,index) in item.content" :key="index" class="text item">
-            <li>{{item1.detailType}}</li>
+          <h2>随访建议 :</h2>
+          <ul class="text item">
+            <li :v-show="item.visitContent.drug">用药建议： {{item.visitContent.drug}}</li>
+            <li :v-show="item.visitContent.diet">饮食建议： {{item.visitContent.diet}}</li>
+            <li :v-show="item.visitContent.motion">运动建议： {{item.visitContent.motion}}</li>
+            <li :v-show="item.visitContent.smok">戒烟限酒建议： {{item.visitContent.smok}}</li>
+            <li :v-show="item.visitContent.psychology">心理建议： {{item.visitContent.psychology}}</li>
+            <li :v-show="item.visitContent.recovery">康复建议： {{item.visitContent.recovery}}</li>
+            <li :v-show="item.visitContent.other">其他建议： {{item.visitContent.other}}</li>
           </ul>
         </div>
         <div class="jhxx_btn">
@@ -43,7 +49,7 @@
         :page-size="page.size"
         :layout="page.layout"
         :total="page.total"
-      ></el-pagination> -->
+      ></el-pagination>-->
     </el-col>
   </div>
 </template>
@@ -123,6 +129,9 @@ export default {
             this.getsfjhStatus = false;
             this.page.total = res.data.total;
             this.sfjyArray = res.data;
+            this.sfjyArray.forEach(item => {
+              item.visitContent = JSON.parse(item.visitContent);
+            });
             console.log(this.sfjyArray);
           }
         })
@@ -132,7 +141,7 @@ export default {
     },
     // 去随访
     createVisit(managerId) {
-      console.log(this.$route.query.planId,this.$route.query.patientType);
+      console.log(this.$route.query.planId, this.$route.query.patientType);
       this.$router.push({
         path: "/createVisit",
         query: {

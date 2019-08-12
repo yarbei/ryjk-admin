@@ -33,7 +33,7 @@
             v-show="flag1 == false"
           >
             <el-table-column prop="name" align="center" label="出院情况"></el-table-column>
-            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="value" align="center" label="人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -63,7 +63,7 @@
             v-show="flag2 == false"
           >
             <el-table-column prop="name" align="center" label="随访评估"></el-table-column>
-            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="value" align="center" label="人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -91,7 +91,7 @@
             v-show="flag3 == false"
           >
             <el-table-column prop="name" align="center" label="提醒情况"></el-table-column>
-            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="value" align="center" label="人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -117,7 +117,7 @@
             v-show="flag4 == false"
           >
             <el-table-column prop="name" align="center" label="预约情况"></el-table-column>
-            <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="value" align="center" label="人次"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -289,8 +289,8 @@ export default {
       radius: 120,
       offsetY: 200,
       level: [
-        ["并发症", "相关指标控制不佳", "不良生活方式未改善"],
-        ["控制满意", "控制不满意"]
+        ["并发症人次", "相关指标控制不佳人次", "不良生活方式未改善人次"],
+        ["控制满意人次", "控制不满意人次"]
       ]
     };
     return {
@@ -342,7 +342,6 @@ export default {
         )
         .then(res => {
           this.symptomData = res.data;
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err);
@@ -455,9 +454,9 @@ export default {
         this.leaveHospitalData.rows = res.data.discharge;
         this.administrationData.rows = res.data.assessment;
         this.administrationData.rows.push({
-          name: "控制不满意",
+          name: "控制不满意人次",
           value:
-            this.administrationData.rows[1].value +
+            this.administrationData.rows[0].value +
             this.administrationData.rows[2].value +
             this.administrationData.rows[3].value
         });
