@@ -305,7 +305,7 @@ export default {
     list() {
       this.$http(
         "/api" +
-          "/user/getRoleList"
+          "/user/getRoleList?type="+this.$store.state.user.user.type
       )
         .then(res => {
           this.partList = res.data;

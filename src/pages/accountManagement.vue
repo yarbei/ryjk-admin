@@ -29,8 +29,8 @@
 
     <!--列表-->
     <el-table :data="accountList" :border="true" stripe highlight-current-row style="width: 100%;">
-      <el-table-column prop="userName" align="center" label="姓名"></el-table-column>
-      <el-table-column prop="jobNum" align="center" label="账号"></el-table-column>
+      <el-table-column v-if="isName"  prop="userName" align="center" label="姓名"></el-table-column>
+      <el-table-column :prop="account" align="center" label="账号"></el-table-column>
       <el-table-column prop="roleName" align="center" label="角色"></el-table-column>
       <el-table-column prop="hospitalName" align="center" label="医院"></el-table-column>
       <!-- <el-table-column align="center" label="操作" min-width="140">
@@ -136,8 +136,9 @@ export default {
 
       user: null,
       ids: [],
-      roleName: "",
-      isHospital: true
+      isHospital: true,
+      isName:true,
+      account:''
     };
   },
   created() {
@@ -150,11 +151,12 @@ export default {
     if (this.$store.state.user.user.type == 3) {
       this.isHospital = false;
       this.ruleForm.roleId = 2;
-      this.roleName = "医生";
+      this.account='jobNum'
     } else if (this.$store.state.user.user.type == 1) {
       this.isHospital = true;
+      this.isName=false;
       this.ruleForm.roleId = 3;
-      this.roleName = "医院管理员";
+      this.account='account'
     }
     // 获取角色数据
     this.getRolelist();
