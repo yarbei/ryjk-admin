@@ -2,7 +2,7 @@
   <el-row :gutter="0">
     <el-col :span="6">
       <el-form-item :label="selectInputData.selectLabel">
-        <el-select v-model="selectData" @change="selectChange($event,'isshow')">
+        <el-select v-model="selectData">
           <el-option
             v-for="item in selectInputData.option"
             :key="item.value"
@@ -12,9 +12,9 @@
         </el-select>
       </el-form-item>
     </el-col>
-    <el-col :span="8" v-show="isshow">
+    <el-col :span="8">
       <el-form-item :label="selectInputData.inputLabel">
-        <el-input v-model="inputData" placeholder="请输入内容" @change="inputChange"></el-input>
+        <el-input v-model="inputData" placeholder="请输入内容"></el-input>
       </el-form-item>
     </el-col>
   </el-row>

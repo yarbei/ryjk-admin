@@ -125,8 +125,9 @@ export default {
       return row.status == 0 ? "已完成" : row.status == 1 ? "未完成" : "无";
     },
     editStorage() {
-      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
 
+      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
+  
       let menu = loginUser.menu
 
       let arr = menu.map((v, i) => {
@@ -148,14 +149,12 @@ export default {
     },
 
     changelInfo(index, row) {
-
       this.$http
         .post("/api" + `/notice/updateStatus`, { messageId: row.id })
         .then(res => {
           if (res.data) {
             this.$message.success("操作成功")
             this.getEwList()
-
             this.editStorage()
           } else {
             this.$message.error("操作失败")

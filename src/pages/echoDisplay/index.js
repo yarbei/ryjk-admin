@@ -9,7 +9,7 @@ export default {
     tabHeader,
     SelectInput
   },
-  data () {
+  data() {
     return {
       form: {
         visitAuthor: '',
@@ -23,7 +23,6 @@ export default {
       personInfoId: '', // 患者Id
       personInfo: {}, // 患者信息
       planId: '', // 计划Id
-      sfid: '', // 随访记录Id
       // 药物不良反应传入子组件的数据
       reactionsData: {
         selectLabel: '药物不良反应：', // select选择框的label值
@@ -118,18 +117,19 @@ export default {
       ],
       // 肿瘤模板疼痛性质
       sfpainNature: [
-        { value: 0, label: '酸痛' },
-        { value: 1, label: '胀痛' },
-        { value: 2, label: '刺痛' },
-        { value: 3, label: '痉挛痛' },
-        { value: 4, label: '麻刺痛' },
-        { value: 5, label: '钝痛' },
-        { value: 6, label: '电击痛' },
-        { value: 7, label: '刀割痛' },
-        { value: 8, label: '牵拉痛' },
-        { value: 9, label: '灼烧痛' },
-        { value: 10, label: '搏动性疼痛' },
-        { value: 11, label: '其他' }
+        { value: 0, label: '无' },
+        { value: 1, label: '酸痛' },
+        { value: 2, label: '胀痛' },
+        { value: 3, label: '刺痛' },
+        { value: 4, label: '痉挛痛' },
+        { value: 5, label: '麻刺痛' },
+        { value: 6, label: '钝痛' },
+        { value: 7, label: '电击痛' },
+        { value: 8, label: '刀割痛' },
+        { value: 9, label: '牵拉痛' },
+        { value: 10, label: '灼烧痛' },
+        { value: 11, label: '搏动性疼痛' },
+        { value: 12, label: '其他' }
       ],
       // 肿瘤模板疼痛程度
       sfpainDegree: [
@@ -164,7 +164,6 @@ export default {
       ],
       // 康复治疗方式
       sftherapy: [
-        { value: 0, label: '无' },
         { value: 1, label: '按摩' },
         { value: 2, label: '针灸' },
         { value: 3, label: '运动训练' },
@@ -377,199 +376,21 @@ export default {
   },
   methods: {
     // 类风湿结节部位输入框父组件接受子组件的值并放入
-    rheumatoidSelect (data) {
+    rheumatoidSelect(data) {
       this.form.visitRecordContent.rheumatoid.value = data
     },
-    rheumatoidInput (data) {
+    rheumatoidInput(data) {
       this.form.visitRecordContent.rheumatoid.desc = data
     },
     // 药物不良反应输入框父组件接受子组件的值并放入
-    reactionsSelect (data) {
+    reactionsSelect(data) {
       this.form.visitRecordContent.reactions.value = data
     },
-    reactionsInput (data) {
+    reactionsInput(data) {
       this.form.visitRecordContent.reactions.desc = data
     },
-    // 选择是否有症状决定是否弹出症状选择框
-    sfsymptomChange (event, sourceType) {
-      if (event === 1) {
-        this.issfsymptomName = true
-        this.$http
-          .get('/api' + '/common/getDataList?dataType=1&sourceType=' + sourceType)
-          .then(res => {
-            this.sfsymptomName = res.data
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      } else {
-        this.issfsymptomName = false
-      }
-    },
-    // 选择是否有痛风部位弹出痛风部位选择框
-    positionChange (event) {
-      if (event === 1) {
-        this.ispositionName = true
-      } else {
-        this.ispositionName = false
-      }
-    },
-    // 选择是否戒烟决定是否弹出抽烟情况输入框
-    smokingVolumeChange (event) {
-      if (event === 0) {
-        this.isSmokingAmount = true
-      } else {
-        this.isSmokingAmount = false
-      }
-    },
-    // 选择是否戒酒决定是否弹出饮酒情况输入框
-    alcoholConsumptionChange (event) {
-      if (event === 0) {
-        this.isAlcoholConsumptionAmount = true
-      } else {
-        this.isAlcoholConsumptionAmount = false
-      }
-    },
-    // 选择是否预约复诊决定是否弹出预约科室及复诊时间输入框
-    appointmentRevisitChange (event) {
-      if (event === 1) {
-        this.isAppointmentRevisit = true
-        this.$http
-          .get(
-            ' /api' +
-            `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`
-          )
-          .then(res => {
-            this.sfdepartment = res.data
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      } else {
-        this.isAppointmentRevisit = false
-      }
-    },
-    // 选择是否进行健康指导决定是否显示健康指导内容输入框
-    healthGuidanceChange (event) {
-      if (event === 1) {
-        this.ishealthGuidanceContent = true
-      } else {
-        this.ishealthGuidanceContent = false
-      }
-    },
-    // 选择是否有并发症决定是否弹出并发症选择框
-    complicationChange (event, sourceType) {
-      if (event === 1) {
-        this.iscomplication = true
-        this.$http
-          .get('/api' + '/common/getDataList?dataType=2&sourceType=' + sourceType)
-          .then(res => {
-            this.sfbfz = res.data
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      } else {
-        this.iscomplication = false
-      }
-    },
-    // 选择并发症类型决定是否弹出并发症名字选择框
-    bfzChange (event, sourceType) {
-      if (event) {
-        this.iscomplicationName = true
-      } else {
-        this.iscomplicationName = false
-      }
-      this.$http
-        .get('/api' + '/common/getDataList?dataType=2&dataNum=' + event + '&sourceType=' + sourceType)
-        .then(res => {
-          this.sfbfzName = res.data
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    // 新增一条用药情况
-    addDosage () {
-      this.form.visitRecordContent.dosages.push({
-        eventue: '',
-        frequency: 0,
-        dose: 0
-      })
-    },
-    // 删除一条用药情况
-    removeDosage (item) {
-      var index = this.form.visitRecordContent.dosages.indexOf(item)
-      if (index !== -1) {
-        this.form.visitRecordContent.dosages.splice(index, 1)
-      }
-      if (index !== -1) {
-        this.form.visitRecordContent.dosages.splice(index, 1)
-      }
-    },
-
-    // 点击完成随访
-    onSubmit (templateType) {
-      if (this.form.status === undefined) {
-        this.$message.warning('随访状态未选择！')
-        return
-      }
-      if (this.form.result === undefined) {
-        this.$message.warning('随访结果未选择！')
-        return
-      }
-      if (this.form.type === undefined) {
-        this.$message.warning('随访方式未选择！')
-        return
-      }
-      if (this.form.dischargeStatus === undefined) {
-        this.$message.warning('出院/转院情况未选择！')
-        return
-      }
-      if (this.form.assessment === undefined) {
-        this.$message.warning('本次随访评估未选择！')
-        return
-      }
-      var formData = this.form
-      formData.patientId = this.personInfo.id // 患者ID，必传
-      formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
-      formData.planId = this.planId // 计划Id
-      formData.templateType = templateType // 模板Id
-      // 数组转字符串complication
-      if (formData.complication && formData.complication instanceof Array) {
-        formData.complication = this.form.complication.join(',')
-      }
-      if (formData.symptom && formData.symptom instanceof Array) {
-        formData.symptom = this.form.symptom.join(',')
-      }
-      var str = JSON.stringify(formData.visitRecordContent)
-      formData.visitRecordContent = str
-      // 发送新增随访请求
-      this.$http
-        .post(
-          '/api' + '/visitRecord/insertVisitRecord',
-          formData
-        )
-        .then(res => {
-          if (res.data) {
-            this.$message.success('新增随访成功！')
-            setTimeout(() => {
-              this.$router.replace({
-                name: 'EssentialInfo',
-                params: { selectId: 'sfjl' }
-              })
-            }, 1500)
-          } else {
-            this.$message.error('新增随访失败！')
-          }
-        })
-        .catch(err => {
-          this.$message.error('随访新增失败！')
-          console.log(err)
-        })
-    },
     // 返回按钮
-    cancelBtn () {
+    cancelBtn() {
       // this.$router.go(-1)
       this.$router.push({
         path: '/EssentialInfo',
@@ -579,7 +400,7 @@ export default {
       })
     },
     // 获取随访详情
-    getFormList (id) {
+    getFormList(id) {
       this.$http
         .get('/api' + '/visitRecord/getVisitRecordById?id=' + id)
         .then(res => {
@@ -591,17 +412,16 @@ export default {
             this.form.department = Number(res.data.department)// 将科室由str变为num
           }
           if (res.data.symptom != null) {
-            this.form.symptom = res.data.symptom.split(',').map(Number)// 将症状由str数组变为num数组
+            this.form.symptom = res.data.symptom.split(',')// 将症状由str数组变为num数组
           }
           if (res.data.complication != null) {
             this.form.complication = res.data.complication
-              .split(',')
-              .map(Number)// 将并发症由str数组变为num数组
+              .split(',')// 将并发症由str数组变为num数组
           }
           // 如果有症状将请求症状数据
           if (this.form.visitRecordContent.issymptom === 1) {
             this.$http
-              .get('/api' + `/common/getDataList?dataType=1`)
+              .get('/api' + `/common/getCommonDataList?dataType=0&sourceType=`)
               .then(res => {
                 this.sfsymptomName = res.data
               })
@@ -612,7 +432,7 @@ export default {
           // 如果有并发症将请求并发症的分类数据
           if (this.form.visitRecordContent.iscomplication === 1) {
             this.$http
-              .get('/api' + `/common/getDataList?dataType=2`)
+              .get('/api' + `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}`)
               .then(res => {
                 this.sfbfz = res.data
               })
@@ -624,7 +444,7 @@ export default {
               this.$http
                 .get(
                   '/api' +
-                  '/common/getDataList?dataType=2&dataNum=' +
+                  '/common/getCommonDataList?dataType=0&dataNum=' +
                   this.form.complicationCategory
                 )
                 .then(res => {
@@ -639,12 +459,23 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    // 请求科室数据
+    getMedicalSectionsList() {
+      this.$http.get(' /api' + `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`)
+        .then(res => {
+          this.sfdepartment = res.data
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
+
   },
-  created () {
+  created() {
     this.planId = this.$route.query.planId // 获取计划Id
-    this.sfid = this.$route.params.id // 获取随访记录id
     this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息
-    this.getFormList(this.sfid) // 获取随访详情
+    this.getMedicalSectionsList()
+    this.getFormList(this.$route.params.id) // 获取随访详情
   }
 }

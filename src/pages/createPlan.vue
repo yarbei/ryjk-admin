@@ -252,9 +252,6 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
-      this.visit.forEach(item => {
-        item.visitContent = JSON.stringify(item.visitContent);
-      });
       const params = {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
@@ -265,6 +262,9 @@ export default {
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
       };
+      params.visitManager.forEach(item=>{
+item.visitContent = JSON.stringify(item.visitContent);
+      })
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -297,13 +297,17 @@ export default {
                 type: "success",
                 message: "新增计划成功",
                 duration: 1000,
-                onClose: () => {
-                  this.$router.push({
+                // onClose: () => {
+                //   this.$router.push({
+                //     name: "EssentialInfo",
+                //     query: { name: "jhxx" }
+                //   });
+                // }
+              });
+              this.$router.push({
                     name: "EssentialInfo",
                     query: { name: "jhxx" }
                   });
-                }
-              });
             } else {
               this.$message.error("新增计划失败");
             }

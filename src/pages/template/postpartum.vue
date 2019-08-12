@@ -500,24 +500,24 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="6" style="margin-left:-50px;">
+          <el-col :span="4" >
             <el-form-item>
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
             <span class="unit">次/日</span>
           </el-col>
-          <el-col :span="6" style="margin-left:-50px;">
+          <el-col :span="4" >
             <el-form-item>
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
             <span class="unit">mg/次</span>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <el-form-item>
               <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
             </el-form-item>
           </el-col>
-          <el-col :span="2">
+          <el-col :span="4">
             <el-form-item>
               <el-button @click.prevent="addDosage">新增</el-button>
             </el-form-item>
