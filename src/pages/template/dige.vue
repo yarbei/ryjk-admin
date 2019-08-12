@@ -373,7 +373,7 @@
             <el-form-item label="是否有并发症状 : ">
               <el-select
                 v-model="form.visitRecordContent.iscomplication"
-                @change="complicationChange($event,6)"
+                @change="complicationChange($event,8)"
                 placeholder="请选择"
               >
                 <el-option
