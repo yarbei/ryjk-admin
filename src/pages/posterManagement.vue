@@ -23,7 +23,7 @@
 
       <el-table-column prop="createAuthor" :show-overflow-tooltip="true" align="center" label="创建人"></el-table-column>
 
-      <el-table-column prop="createDate" align="center" label="创建时间" sortable formatter="dateFormatter"></el-table-column>
+      <el-table-column prop="createDate" align="center" label="创建时间" sortable ></el-table-column>
 
       <el-table-column align="center" width="420" fixed="right" label="操作">
         <template slot-scope="scope">
@@ -48,7 +48,7 @@
     </el-table>
 
     <!--工具条-->
-    <el-col
+    <!-- <el-col
       :span="24"
       class="toolbar toolbar_page"
       v-if="ggArray !== undefined  &&  ggArray.length > 0 "
@@ -60,7 +60,7 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
       ></el-pagination>
-    </el-col>
+    </el-col> -->
 
     <!--修改广告"界面-->
     <el-dialog title="修改广告" :visible.sync="editFormVisible" :modal-append-to-body="false">
@@ -72,7 +72,7 @@
           <el-input v-model="editForm.imgPath" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="	广告地址" prop="link" style="position: relative;">
-          
+
           <el-upload
             action="/api/common/upload"
             :show-file-list="istrue"
@@ -85,7 +85,7 @@
             :on-exceed="handleExceed"
             :limit="1"
           >
-            
+
             <img width="100%"  class="imgg" @click="deleteimg" :src="dialogImageUrl" alt/>
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -188,10 +188,10 @@ export default {
         }
       }else{
         this.dialogImageUrl = s2.link;
-        
+
       }
 
-      
+
     },
     // 修改广告
     upDateDepartment() {

@@ -22,6 +22,7 @@ $(document).ready(function () {
 
     // 获取患者信息
     let personInfo = JSON.parse(sessionStorage.getItem('openIMPersonInfo'))
+    console.log(personInfo)
 
     // 获取计划列表
     let planList = JSON.parse(sessionStorage.getItem('openIMPlanList'))
@@ -34,6 +35,11 @@ $(document).ready(function () {
     $('.personInfo .name').html(personInfo.name)
     $('.personInfo .age').html(personInfo.age)
     $('.personInfo .sex').html(personInfo.sex == 2 ? '女' : '男')
+    $('.personInfo .idCard').html(personInfo.idCard)
+    $('.personInfo .phone').html(personInfo.phone)
+    $('.personInfo .departmentName').html(personInfo.departmentName)
+    $('.personInfo .doctorName').html(personInfo.doctorName)
+
 
 
     // 设置计划列表

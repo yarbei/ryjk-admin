@@ -33,6 +33,7 @@
     padding:10px;
     box-sizing: border-box;
     font-size: 14px;
+    overflow: auto;
 }
 .personInfo h3{
     margin-bottom:10px;
