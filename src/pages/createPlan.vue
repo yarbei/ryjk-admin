@@ -1,7 +1,7 @@
 <template>
   <div class="cp_container">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form label-width="100px">
+    <el-form label-width="135px">
       <el-card>
         <div slot="header">
           <h2>疾病计划名称</h2>
@@ -378,4 +378,18 @@ export default {
 .el-card {
   margin-top: 10px;
 }
+  .el-form-item label:after {
+    content: " ";
+    display: inline-block;
+    width: 100%;
+  }
+
+  .el-form-item__label {
+    padding-left: 20px;
+    text-align: justify;
+  }
+  /* 这里去除必选字段的*,这个符号会造成一定影响,去掉之后我用了li列表进行定位,在前面加上" * ". */
+  .el-form-item.is-required .el-form-item__label:before {
+    content: none !important;
+  }
 </style>

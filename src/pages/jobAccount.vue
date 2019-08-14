@@ -53,6 +53,14 @@
         <el-card class="box-card" style="margin-top:30px;">
           <div slot="header" class="clearfix">
             <h2 style="float:left">门诊疾病管理情况统计</h2>
+            <el-date-picker
+              v-model="outpatientDepartmentDate"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="margin:12px;"
+            ></el-date-picker>
             <el-button
               @click="exportDepartData"
               type="primary"
@@ -88,7 +96,7 @@
       <h2 style="float:left">随访情况统计</h2>
       <el-form :inline="true" :model="filters" class="toolbar_form">
         <el-select
-          v-show="this.$store.state.user.user.type===4||this.$store.state.user.user.type===1 ? true : false"
+          v-show="this.$store.state.user.user.type==4||this.$store.state.user.user.type==1 ? true : false"
           v-model="dorctorNameChoose"
           clearable
           placeholder="选择疾病管理师"
@@ -131,6 +139,7 @@
           >
             <el-table-column prop="name" align="center" label="随访情况"></el-table-column>
             <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -158,6 +167,7 @@
           >
             <el-table-column prop="name" align="center" label="体征预警"></el-table-column>
             <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -184,6 +194,8 @@
           >
             <el-table-column prop="name" align="center" label="随访方式"></el-table-column>
             <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
+
           </el-table>
         </el-card>
       </el-col>
@@ -231,8 +243,8 @@ export default {
       departData: [], //门诊疾病管理情况
       userId: "", //用户ID
       isTemplateTypeShow: false, //是否显示选择模板下拉框
-      afterDischargeDate:[], //出院后疾病管理情况统计选择时间
-
+      afterDischargeDate: this.getDate(), //出院后疾病管理情况统计选择时间
+      outpatientDepartmentDate: this.getDate() //门诊疾病管理选择时间
     };
   },
   methods: {
@@ -256,16 +268,10 @@ export default {
         .then(res => {
           this.visitStatus.rows = res.data.visitStatus;
           this.visitType.rows = res.data.visitType;
-          this.tiZhenYuJing.rows = [
-            { name: "已处理", value: res.data.tiZhenYuJing.status_0 },
-            { name: "未处理", value: res.data.tiZhenYuJing.status_1 }
-          ];
+          this.tiZhenYuJing.rows = res.data.tiZhenYuJing;
           this.visitStatusTable = res.data.visitStatus;
           this.visitTypeTable = res.data.visitType;
-          this.tiZhenYuJingTable = [
-            { name: "已处理", value: res.data.tiZhenYuJing.status_0 },
-            { name: "未处理", value: res.data.tiZhenYuJing.status_1 }
-          ];
+          this.tiZhenYuJingTable = res.data.tiZhenYuJing;
         })
         .catch(err => {
           console.log(err);
@@ -276,7 +282,10 @@ export default {
       this.$http
         .post(
           "/api" +
-            "/analysis/work/sinknessManager?patientType=0&page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01"
+            "/analysis/work/sinknessManager?patientType=0&page=1&rows=100&startTime=" +
+            this.afterDischargeDate[0] +
+            "&endTime=" +
+            this.afterDischargeDate[1]
         )
         .then(res => {
           this.hospitalData = res;
@@ -290,7 +299,10 @@ export default {
       this.$http
         .post(
           "/api" +
-            "/analysis/work/outpatientService?page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01"
+            "/analysis/work/outpatientService?page=1&rows=100&startTime=" +
+            this.outpatientDepartmentDate[0] +
+            "&endTime=" +
+            this.outpatientDepartmentDate[1]
         )
         .then(res => {
           this.departData = res;
@@ -315,16 +327,10 @@ export default {
           .then(res => {
             this.visitStatus.rows = res.data.visitStatus;
             this.visitType.rows = res.data.visitType;
-            this.tiZhenYuJing.rows = [
-              { name: "已处理", value: res.data.tiZhenYuJing.status_0 },
-              { name: "未处理", value: res.data.tiZhenYuJing.status_1 }
-            ];
+            this.tiZhenYuJing.rows = res.data.tiZhenYuJing;
             this.visitStatusTable = res.data.visitStatus;
             this.visitTypeTable = res.data.visitType;
-            this.tiZhenYuJingTable = [
-              { name: "已处理", value: res.data.tiZhenYuJing.status_0 },
-              { name: "未处理", value: res.data.tiZhenYuJing.status_1 }
-            ];
+            this.tiZhenYuJingTable = res.data.tiZhenYuJing;
           })
           .catch(err => {
             console.log(err);
@@ -347,7 +353,10 @@ export default {
       this.$http({
         url:
           "/api" +
-          "/excel/exprotHospitalData?patientType=0&rows=100&startTime=1970-01-01&endTime=2099-01-01",
+          "/excel/exprotHospitalData?patientType=0&rows=100&startTime=" +
+          this.afterDischargeDate[0] +
+          "&endTime=" +
+          this.afterDischargeDate[1],
         responseType: "blob",
         method: "get"
       })
@@ -363,7 +372,10 @@ export default {
       this.$http({
         url:
           "/api" +
-          "/excel/exportDepartData?page=1&rows=100&startTime=1970-01-01&endTime=2099-01-01",
+          "/excel/exportDepartData?page=1&rows=100&startTime=" +
+          this.outpatientDepartmentDate[0] +
+          "&endTime=" +
+          this.outpatientDepartmentDate[1],
         responseType: "blob",
         method: "get"
       })
@@ -374,7 +386,6 @@ export default {
           console.log(err);
         });
     },
-
     //导出表格
     exports() {
       this.$http({
@@ -408,6 +419,35 @@ export default {
 
       document.body.appendChild(link);
       link.click();
+    },
+    //获取当前日期和三十天前的日期
+    getDate() {
+      //获取当前日期
+      var myDate = new Date();
+      var nowY = myDate.getFullYear();
+      var nowM = myDate.getMonth() + 1;
+      var nowD = myDate.getDate();
+      var enddate =
+        nowY +
+        "-" +
+        (nowM < 10 ? "0" + nowM : nowM) +
+        "-" +
+        (nowD < 10 ? "0" + nowD : nowD); //当前日期
+      //获取三十天前日期
+      var lw = new Date(myDate - 1000 * 60 * 60 * 24 * 30); //最后一个数字30可改，30天的意思
+      var lastY = lw.getFullYear();
+      var lastM = lw.getMonth() + 1;
+      var lastD = lw.getDate();
+      var startdate =
+        lastY +
+        "-" +
+        (lastM < 10 ? "0" + lastM : lastM) +
+        "-" +
+        (lastD < 10 ? "0" + lastD : lastD); //三十天之前日期
+      var date = [];
+      date.push(startdate);
+      date.push(enddate);
+      return date;
     }
   },
   created() {

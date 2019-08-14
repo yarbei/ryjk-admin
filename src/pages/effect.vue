@@ -34,6 +34,7 @@
           >
             <el-table-column prop="name" align="center" label="出院情况"></el-table-column>
             <el-table-column prop="value" align="center" label="人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -64,6 +65,7 @@
           >
             <el-table-column prop="name" align="center" label="随访评估"></el-table-column>
             <el-table-column prop="value" align="center" label="人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -92,6 +94,7 @@
           >
             <el-table-column prop="name" align="center" label="提醒情况"></el-table-column>
             <el-table-column prop="value" align="center" label="人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -118,6 +121,7 @@
           >
             <el-table-column prop="name" align="center" label="预约情况"></el-table-column>
             <el-table-column prop="value" align="center" label="人次"></el-table-column>
+            <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -148,51 +152,41 @@
               <el-table-column prop="medicalCompliance" align="center" width="150" label="占比"></el-table-column>
             </el-table-column>
             <el-table-column align="center" label="已戒烟">
-            <el-table-column prop="giveUpSmoking" align="center" label="人次" width="100"></el-table-column>
-            <el-table-column prop="smokingVolume" align="center" label="占比" width="100"></el-table-column>
+              <el-table-column prop="giveUpSmoking" align="center" label="人次" width="100"></el-table-column>
+              <el-table-column prop="smokingVolume" align="center" label="占比" width="100"></el-table-column>
             </el-table-column>
             <el-table-column align="center" label="已戒酒">
-            <el-table-column prop="quitDrinking" align="center" label="人次" width="100"></el-table-column>
-            <el-table-column prop="alcoholConsumption" align="center" label="占比" width="100"></el-table-column>
+              <el-table-column prop="quitDrinking" align="center" label="人次" width="100"></el-table-column>
+              <el-table-column prop="alcoholConsumption" align="center" label="占比" width="100"></el-table-column>
             </el-table-column>
             <el-table-column align="center" label="用药依从性">
               <el-table-column align="center" label="不服药">
-            <el-table-column
-              prop="medicationComplianceTotal0"
-              align="center"
-              label="人次"
-              width="100"
-            ></el-table-column>
-            <el-table-column prop="medicationCompliance0" align="center" label="占比" width="120"></el-table-column>
-            </el-table-column>
+                <el-table-column
+                  prop="medicationComplianceTotal0"
+                  align="center"
+                  label="人次"
+                  width="100"
+                ></el-table-column>
+                <el-table-column prop="medicationCompliance0" align="center" label="占比" width="120"></el-table-column>
+              </el-table-column>
               <el-table-column align="center" label="服药部分依从">
-            <el-table-column
-              prop="medicationComplianceTotal1"
-              align="center"
-              label="人次"
-              width="150"
-            ></el-table-column>
-            <el-table-column
-              prop="medicationCompliance1"
-              align="center"
-              label="占比"
-              width="150"
-            ></el-table-column>
-            </el-table-column>
-                          <el-table-column align="center" label="服药完全依从">
-            <el-table-column
-              prop="medicationComplianceTotal2"
-              align="center"
-              label="人次"
-              width="150"
-            ></el-table-column>
-            <el-table-column
-              prop="medicationCompliance2"
-              align="center"
-              label="占比"
-              width="150"
-            ></el-table-column>
-            </el-table-column>
+                <el-table-column
+                  prop="medicationComplianceTotal1"
+                  align="center"
+                  label="人次"
+                  width="150"
+                ></el-table-column>
+                <el-table-column prop="medicationCompliance1" align="center" label="占比" width="150"></el-table-column>
+              </el-table-column>
+              <el-table-column align="center" label="服药完全依从">
+                <el-table-column
+                  prop="medicationComplianceTotal2"
+                  align="center"
+                  label="人次"
+                  width="150"
+                ></el-table-column>
+                <el-table-column prop="medicationCompliance2" align="center" label="占比" width="150"></el-table-column>
+              </el-table-column>
             </el-table-column>
           </el-table>
         </el-card>
@@ -478,7 +472,8 @@ export default {
           value:
             this.administrationData.rows[0].value +
             this.administrationData.rows[2].value +
-            this.administrationData.rows[3].value
+            this.administrationData.rows[3].value,
+          proportion:(100-(this.administrationData.rows[1]).proportion.replace("%","")).toFixed(2)+'%'
         });
         this.reminderRevisit.rows = res.data.reminderRevisit;
         this.appointmentRevisit.rows = res.data.appointmentRevisit;
