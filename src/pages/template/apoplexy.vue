@@ -144,8 +144,8 @@
         </el-row>
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="体重 : ">
-              <el-select v-model="form.visitRecordContent.weight" placeholder="请选择">
+            <el-form-item label="体重范围: ">
+              <el-select v-model="form.visitRecordContent.weightType" placeholder="请选择">
                 <el-option
                   v-for="item in sfweight"
                   :key="item.value"
@@ -154,6 +154,12 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="具体体重数值">
+              <el-input-number v-model="form.visitRecordContent.weightNum"></el-input-number>
+            </el-form-item>
+            <span class="unit">KG</span>
           </el-col>
         </el-row>
         <el-row>
@@ -418,6 +424,18 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="是否需要用药 : ">
+              <el-select v-model="form.visitRecordContent.isNeed">
+                <el-option
+                  v-for="item in sfisNeed"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row
           :gutter="0"
@@ -429,40 +447,55 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" style="margin-left:-50px;">
+          <el-col :span="4">
             <el-form-item>
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
             <span class="unit">次/日</span>
           </el-col>
-          <el-col :span="8" style="margin-left:-50px;">
+          <el-col :span="4">
             <el-form-item>
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
             <span class="unit">mg/次</span>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="4">
             <el-form-item>
-              <el-button
-                style="float:right;background:#fff;"
-                @click.prevent="removeDosage(dosage)"
-              >删除</el-button>
+              <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
+            </el-form-item>
+          </el-col>
+          <el-col :span="4">
+            <el-form-item>
+              <el-button @click.prevent="addDosage">新增</el-button>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item>
-              <el-button style="float:right;background:#fff;" @click.prevent="addDosage">新增</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-row></el-row>
         <!-- 药物不良反应 -->
         <select-input
           :selectInputData="reactionsData"
           @listenSelect="reactionsSelect"
           @listenInput="reactionsInput"
         ></select-input>
+      </el-card>
+      <el-card>
+        <div slot="header">
+          <h2>康复治疗方式</h2>
+        </div>
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item label="康复治疗方式 : ">
+              <el-select v-model="form.visitRecordContent.therapy" multiple>
+                <el-option
+                  v-for="item in sftherapy"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
       </el-card>
 
       <el-card>

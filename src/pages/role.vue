@@ -39,19 +39,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-row style="margin-top:20px;" :gutter="80">
-      <el-col :span="24">
-        <el-pagination
-          @size-change="handlePageSizeChange"
-          @current-change="handlePageCurrentChange"
-          :current-page="page.current"
-          :page-sizes="page.sizes"
-          :page-size="page.size"
-          :layout="page.layout"
-          :total="page.total"
-        ></el-pagination>
-      </el-col>
-    </el-row>-->
     <!--新建账号界面-->
     <el-dialog title="新建角色" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addRoleForm" label-width="120px">
@@ -318,7 +305,7 @@ export default {
     list() {
       this.$http(
         "/api" +
-          "/user/getRoleList"
+          "/user/getRoleList?type="+this.$store.state.user.user.type
       )
         .then(res => {
           this.partList = res.data;
@@ -331,7 +318,7 @@ export default {
     getRole() {
       this.$http(
         "/api" +
-          "/menu/getRoleList"
+          "/menu/getRoleList?type="+this.$store.state.user.user.type
       )
         .then(res => {
           this.roleList = res.data;

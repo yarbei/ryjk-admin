@@ -7,7 +7,6 @@
   font-weight: 100;
 }
 .el-table .el-table__header thead th{
-  background: #E6EBF5;
   color: #3c464e;
 }
 
@@ -19,3 +18,5 @@
   border-top-color: #812CB2 !important;
   border-left-color: #812CB2 !important;
 }
+
+

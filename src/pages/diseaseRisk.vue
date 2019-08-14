@@ -3,21 +3,20 @@
     <div slot="header" class="clearfix">
       <h2 style="float:left">疾病风险筛查统计与分析</h2>
       <el-button
-      @click="exportRisk"
-      type="primary"
-      style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+        @click="exportRisk"
+        type="primary"
+        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
       >
-      <i class="el-icon-download" style="margin-right: 5px"></i>导出
+        <i class="el-icon-download" style="margin-right: 5px"></i>导出
       </el-button>
     </div>
     <el-table
       :data="diseaseRiskData"
-      :border="true"
       stripe
       highlight-current-row
       height="460"
       style="width: 100%;"
-      class="el-table"
+      class="el-table-cyn"
     >
       <el-table-column prop="department" align="center" label="科室"></el-table-column>
       <el-table-column label="本季度病历数" align="center">
@@ -30,7 +29,7 @@
       </el-table-column>
       <el-table-column prop="questionnaireTotal" align="center" label="风险评估总数" width="110px"></el-table-column>
       <el-table-column prop="total" align="center" label="评估率" width="80px"></el-table-column>
-      <el-table-column label="评估结果" align="center"> 
+      <el-table-column label="评估结果" align="center">
         <el-table-column label="肺部疾病" align="center">
           <el-table-column prop="lungsTotal" align="center" label="高风险"></el-table-column>
           <el-table-column prop="lungs" align="center" label="占比"></el-table-column>
@@ -55,9 +54,9 @@
           <el-table-column prop="cardiovascularTotal1" align="center" label="高危"></el-table-column>
           <el-table-column prop="cardiovascular1" align="center" label="占比"></el-table-column>
           <el-table-column prop="cardiovascularTotal0" align="center" label="中危"></el-table-column>
-          <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>   
-        </el-table-column> 
-      </el-table-column> 
+          <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>
+        </el-table-column>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -110,14 +109,16 @@ export default {
   }
 };
 </script>
-<style>
-  .el-table--border th, .el-table__fixed-right-patch {
-    border-bottom: 1px solid #D9D9D9;
+<style scoped>
+
+.el-table-cyn /deep/ table tr th{
+  border-bottom:1px solid #d3d3d3 !important;
+  border-right:1px solid #d3d3d3 !important;
+}
+.el-table-cyn /deep/ table tr:nth-child(1) th{
+  border-top:1px solid #d3d3d3 !important;
 }
 
-.el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
-    border-right: 1px solid #DBDBDB;
-}
+
 </style>
-
 

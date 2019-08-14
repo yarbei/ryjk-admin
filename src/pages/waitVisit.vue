@@ -57,6 +57,11 @@
             @click="changelInfo(scope.$index, scope.row)"
             :disabled="scope.row.status ==0?true:false"
           >{{scope.row.status ==1?'去随访':'已随访'}}</el-button>
+          <el-button
+            type="success"
+            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
+            @click="openIM(scope.$index, scope.row)"
+          >联系患者</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -107,6 +112,49 @@ export default {
     }
   },
   methods: {
+    // 打开聊天窗口
+    openIM(index, row) {
+      //location.href="../../static/IM/im/main.html";
+      sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
+      //获取计划列表
+      this.$http({
+        url: "/api/plan/getPlanByPatientId?patientId=" + row.id
+      })
+        .then(res => {
+          sessionStorage.setItem(
+            "openIMPlanList",
+            JSON.stringify(res.data.list)
+          );
+          var openIMVisitList = {};
+          res.data.list.forEach(item => {
+            // 获取随访列表
+            this.$http({
+              url:
+                "/api" +
+                "/visitRecord/getVisistManagerList?planId=" +
+                item.planId
+            })
+              .then(res => {
+                sessionStorage.setItem(item.planId, JSON.stringify(res.data));
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      let account = row.yunXinAccount;
+      if (account) {
+        window.open("../../static/IM/im/main.html?account=" + account);
+      } else {
+        //todo  删除
+        account = "test99";
+        window.open("../../static/IM/im/main.html?account=" + account);
+        this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
+      }
+    },
     ...mapActions([
       'setStatus'
     ]),
@@ -118,7 +166,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`    
+            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`
         )
         .then(res => {
           this.wvArray = res.data.list;
@@ -143,7 +191,7 @@ export default {
       let menu = loginUser.menu
 
       let arr = menu.map((v, i) => {
-        if(v.type === 4) {
+        if(v.id === 4) {
           v.submenu[0].waitForCount = v.submenu[0].waitForCount - 1
           return v
         } else {
@@ -177,12 +225,12 @@ export default {
 
       setTimeout(() => {
         sessionStorage.setItem("personInfo",JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
-        this.$router.replace({ 
+        this.$router.replace({
           name: 'EssentialInfo',
           query: {
             name: 'jhxx'
           }
-        }); 
+        });
       }, 1500)
     }
   },

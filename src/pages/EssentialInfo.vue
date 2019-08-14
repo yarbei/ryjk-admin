@@ -154,7 +154,9 @@
               v-show="item.createDate && item.endDate"
             >{{item.createDate}}</span>
             <span class="jhxx_titleTime" v-show="item.status==1?true:false"></span>
-            <span class="jhxx_patientType">{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
+            <span
+              class="tb_titleTag el-tag el-tag--success el-tag--mini el-tag--light"
+            >{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
           </span>
 
           <!--<el-tag type="success">{{item.description}}</el-tag>-->
@@ -210,9 +212,7 @@
             <span class="sfjlTime">{{item.patient}}</span>
             <span class="sfjlTime">{{item.visitDate}}</span>
             <span class="sfjlTime">{{item.type | type}}</span>
-            <span class="sfjlTime">
-              备注 : {{item.remark == '' ? 无 : item.remark}}
-            </span>
+            <span class="sfjlTime">备注 : {{item.remark == '' ? '无' : item.remark}}</span>
           </span>
           <el-button class="f-right" type="primary" @click="lookInfo(item.id)" round>查看随访详情</el-button>
         </div>
@@ -376,6 +376,7 @@ import Vue from "vue";
 import { connect } from "net";
 import { get } from "http";
 import merge from "webpack-merge";
+import { constants } from "zlib";
 
 Vue.filter("type", function(value) {
   switch (value) {
@@ -414,8 +415,8 @@ export default {
     };
     this.xuetangSettings = {
       labelMap: {
-        count: "饭前",
-        count2: "饭后"
+        count: "空腹血糖",
+        count2: "餐后2小时血糖"
       }
     };
     this.shuimianSettings = {
@@ -488,7 +489,7 @@ export default {
         phone: "",
         q1: ""
       },
-      state:0,
+      state: 0,
       cyxjArray: [],
       sfjyArray: [],
       jhxxArray: [],
@@ -741,7 +742,11 @@ export default {
     // 终止疾病管理计划弹窗
     stopjhxx(event) {
       this.$http
-        .post("/api" + `/plan/updatePlanStatus`, { planId: this.planId } , {status:0})
+        .post(
+          "/api" + `/plan/updatePlanStatus`,
+          { planId: this.planId },
+          { status: 0 }
+        )
         .then(res => {
           if (res.data) {
             this.jhxxStopdialog = false;
@@ -840,153 +845,46 @@ export default {
         path: "/followupplan",
         query: { planId: planId, patientType: patientType }
       });
+    },
+    //获取当前日期和三十天前的日期
+    getDate() {
+      //获取当前日期
+      var myDate = new Date();
+      var nowY = myDate.getFullYear();
+      var nowM = myDate.getMonth() + 1;
+      var nowD = myDate.getDate();
+      var enddate =
+        nowY +
+        "-" +
+        (nowM < 10 ? "0" + nowM : nowM) +
+        "-" +
+        (nowD < 10 ? "0" + nowD : nowD); //当前日期
+      //获取三十天前日期
+      var lw = new Date(myDate - 1000 * 60 * 60 * 24 * 30); //最后一个数字30可改，30天的意思
+      var lastY = lw.getFullYear();
+      var lastM = lw.getMonth() + 1;
+      var lastD = lw.getDate();
+      var startdate =
+        lastY +
+        "-" +
+        (lastM < 10 ? "0" + lastM : lastM) +
+        "-" +
+        (lastD < 10 ? "0" + lastD : lastD); //三十天之前日期
+      var date = [];
+      date.push(startdate);
+      date.push(enddate);
+      return date;
     }
   },
   created() {
     this.activeName = this.$route.query.name;
-
     this.personInfoId = this.$route.params.id;
     this.getUsers();
     this.getVisitRecord();
     this.getSummary();
     this.getHealthPlan(this.page.current, this.page.size);
-    event = this.date;
-    // 获取个人体征图表数据
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=1&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.xueya.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.xueya.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i],
-            count2: res.data.count2[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=2&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.xuetang.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.xuetang.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i],
-            count2: res.data.count2[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=3&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.shuimian.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.shuimian.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=4&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.xinlv.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.xinlv.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=5&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.tiwen.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.tiwen.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=6&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.tizhong.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.tizhong.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    this.$http
-      .get(
-        "/api" +
-          `/bodySignRecord/getBodySignRecordByTime?openId=${
-            this.personInfo.openId
-          }&bodySignTypeId=7&beginDate=${event[0]}&endDate=${event[1]}`
-      )
-      .then(res => {
-        this.yaowei.rows = [];
-        for (let i = 0; i < res.data.date.length; i++) {
-          this.yaowei.rows.push({
-            date: res.data.date[i],
-            count: res.data.count[i]
-          });
-        }
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.date = this.getDate();
+    this.selectDate(this.date);
   },
   mounted() {
     if (this.$route.params.selectId == "sfjl") {

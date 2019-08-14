@@ -43,6 +43,7 @@
 
   .el-card {
     margin: 30px 0;
+    padding-right:20px;
   }
   .el-card h2 {
     font-size: 16px;
@@ -54,7 +55,7 @@
     border-radius: 50%;
     font-size: 16px;
   }
-  .el-card deep .el-card__header {
+  .el-card /deep/ .el-card__header {
     padding: 0px 20px;
   }
   .unit {
@@ -67,6 +68,7 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    flex-wrap: wrap;
     margin-bottom: 1%;
   }
   .el-form-item {
@@ -75,5 +77,15 @@
   }
   .el-col {
     position: relative;
+  }
+  .el-col-4 /deep/ .el-form-item__content{
+    margin-left: 50px !important;
+    margin-right:5px;
+  }
+  .el-col-4 /deep/ .el-button{
+    margin-left:46%;
+  }
+  .el-col-4:last-child /deep/ .el-button{
+    margin-left:10%;
   }
 }

@@ -36,7 +36,7 @@
                 placeholder="选择日期"
                 :disabled="isEdit"
               ></el-date-picker>
-              <el-button type @click="openVisitAdvice(item.visitContent.id)">查看详细建议</el-button>
+              <el-button @click="openVisitAdvice(item.visitContent.id)">查看详细建议</el-button>
             </el-form-item>
           </el-col>
         </el-row>
@@ -149,7 +149,7 @@ export default {
       slectedBodySignList: [],
       personInfo: {},
       visit: [], //随访时间，内容
-      isVisit: false, //随访时间、内容是否显示
+      isVisit: false //随访时间、内容是否显示
     };
   },
   created() {
@@ -170,12 +170,9 @@ export default {
   methods: {
     //查看随访建议
     openVisitAdvice(id) {
-      console.log(id)
       this.isVisitAdvice = true;
       this.visitDescId = id;
-      console.log(this.adviceDesc)
       this.adviceDesc = this.visit[id - 1].visitContent;
-
     },
     //确认随访建议
     confirmVisitAdvice() {
@@ -191,7 +188,7 @@ export default {
           this.visit.push({
             visitTime: "",
             visitContent: {
-              id:i
+              id: i
             }
           });
         }
@@ -208,10 +205,9 @@ export default {
           this.dose = res.data.dose;
           this.doseChange(this.dose);
           this.visit = res.data.visitManager;
-          this.visit.forEach(item=>{
-            item.visitContent=JSON.parse(item.visitContent)
-          })
-          console.log(this.visit)
+          this.visit.forEach(item => {
+            item.visitContent = JSON.parse(item.visitContent);
+          });
           this.slectedBodySignList = res.data.monitorItem;
         })
         .catch(err => {
@@ -251,23 +247,26 @@ export default {
           }
         }
       }
-      if (this.slectedBodySignList === []) {
+      if (this.slectedBodySignList == "") {
         this.$message.warning("请选择必测体征项！");
         return;
       }
-      this.visit.forEach(item => {
-        item.visitContent = JSON.stringify(item.visitContent);
-      });
+      console.log(this.selectedBodySignList)
+      var visitManager=JSON.parse(JSON.stringify(this.visit));
       const params = {
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         name: this.name || "",
         dose: Number(this.dose),
-        visitManager: this.visit,
+        visitManager: visitManager,
         patientId: this.personInfo.id,
         doctorId: this.user.id == undefined ? 0 : this.user.id,
         monitorItem: this.slectedBodySignList.join(",")
       };
+      params.visitManager.forEach(item => {
+        item.visitContent = JSON.stringify(item.visitContent);
+      });
+
       if (this.planId) {
         this.$http
           .post(`/api/plan/updatePlan`, params)
@@ -299,13 +298,17 @@ export default {
               this.$message({
                 type: "success",
                 message: "新增计划成功",
-                duration: 1000,
-                onClose: () => {
-                  this.$router.push({
-                    name: "EssentialInfo",
-                    query: { name: "jhxx" }
-                  });
-                }
+                duration: 1000
+                // onClose: () => {
+                //   this.$router.push({
+                //     name: "EssentialInfo",
+                //     query: { name: "jhxx" }
+                //   });
+                // }
+              });
+              this.$router.push({
+                name: "EssentialInfo",
+                query: { name: "jhxx" }
               });
             } else {
               this.$message.error("新增计划失败");
@@ -368,7 +371,7 @@ export default {
 }
 
 .submitBtn {
-  margin-top: 30px; 
+  margin-top: 30px;
   margin-bottom: 30px;
   float: right;
 }

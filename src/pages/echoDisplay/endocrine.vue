@@ -1,7 +1,7 @@
 <template>
   <div id="template">
     <tab-header :personInfo="personInfo"></tab-header>
-    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form">
+    <el-form ref="form" :model="form" label-width="135px" class="createVisit_form" disabled>
       <el-card>
         <el-row :gutter="0">
           <el-col :span="8">
@@ -78,7 +78,6 @@
             <el-form-item label="有无症状 : ">
               <el-select
                 v-model="form.visitRecordContent.issymptom"
-                @change="sfsymptomChange($event,6)"
                 placeholder="请选择"
               >
                 <el-option
@@ -126,13 +125,14 @@
           <h3>血糖</h3>
         </el-row>
         <el-row :gutter="0">
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="空腹血糖">
               <el-input-number v-model="form.visitRecordContent.bmbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">mmol/l</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="4"></el-col>
+          <el-col :span="8">
             <el-form-item label="餐后两小时血糖">
               <el-input-number v-model="form.visitRecordContent.ambs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -140,13 +140,14 @@
           </el-col>
         </el-row>
         <el-row :gutter="0">
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="随机血糖">
               <el-input-number v-model="form.visitRecordContent.smbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">mmol/l</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="4"></el-col>
+          <el-col :span="8">
             <el-form-item label="糖化血红蛋白">
               <el-input-number v-model="form.visitRecordContent.smbs" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -157,13 +158,13 @@
           <h3>血压</h3>
         </el-row>
         <el-row :gutter="0">
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="高压">
               <el-input-number v-model="form.visitRecordContent.hypertension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
             <span class="unit">mmHg</span>
           </el-col>
-          <el-col :span="10">
+          <el-col :span="8">
             <el-form-item label="低压">
               <el-input-number v-model="form.visitRecordContent.hypotension" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -192,7 +193,6 @@
             <el-form-item label="是否戒烟 : ">
               <el-select
                 v-model="form.smokingVolume"
-                @change="smokingVolumeChange"
                 placeholder="请选择"
               >
                 <el-option
@@ -229,7 +229,6 @@
             <el-form-item label="是否戒酒 : ">
               <el-select
                 v-model="form.alcoholConsumption"
-                @change="alcoholConsumptionChange"
                 placeholder="请选择"
               >
                 <el-option
@@ -304,6 +303,69 @@
               </el-select>
             </el-form-item>
             <span style="float:right">（每人每日摄入量＜25克[半两]）</span>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item label="运动情况 : ">
+              <el-select v-model="form.visitRecordContent.sportSituation" placeholder="请选择">
+                <el-option
+                  v-for="item in sfsportSituation"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="运动强度 : ">
+              <el-select v-model="form.visitRecordContent.exerciseIntensity" placeholder="请选择">
+                <el-option
+                  v-for="item in sfexerciseIntensity"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item label="运动">
+              <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999"></el-input-number>
+            </el-form-item>
+            <span class="unit">次/周</span>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label>
+              <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999"></el-input-number>
+            </el-form-item>
+            <span class="unit">分钟/次</span>
+          </el-col>
+        </el-row>
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item label="心理状况 : ">
+              <el-select v-model="form.visitRecordContent.region" placeholder="请选择">
+                <el-option
+                  v-for="item in sfregion"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="饮食控制 : ">
+              <el-select v-model="form.visitRecordContent.dietcontrol" placeholder="请选择">
+                <el-option label="理想" value="1"></el-option>
+                <el-option label="超量" value="2"></el-option>
+                <el-option label="不足" value="3"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
         <h2>早餐</h2>
@@ -477,60 +539,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter="0">
-          <el-col :span="8">
-            <el-form-item label="运动情况 : ">
-              <el-select v-model="form.visitRecordContent.sportSituation" placeholder="请选择">
-                <el-option
-                  v-for="item in sfsportSituation"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label="运动强度 : ">
-              <el-select v-model="form.visitRecordContent.exerciseIntensity" placeholder="请选择">
-                <el-option
-                  v-for="item in sfexerciseIntensity"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row :gutter="0">
-          <el-col :span="8">
-            <el-form-item label="运动">
-              <el-input-number v-model="form.visitRecordContent.motionNum" :min="0" :max="9999"></el-input-number>
-            </el-form-item>
-            <span class="unit">次/周</span>
-          </el-col>
-          <el-col :span="8">
-            <el-form-item label>
-              <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999"></el-input-number>
-            </el-form-item>
-            <span class="unit">分钟/次</span>
-          </el-col>
-        </el-row>
-        <el-row :gutter="0">
-          <el-col :span="8">
-            <el-form-item label="心理状况 : ">
-              <el-select v-model="form.visitRecordContent.region" placeholder="请选择">
-                <el-option
-                  v-for="item in sfregion"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
       </el-card>
       <el-card>
         <div slot="header">
@@ -541,7 +549,6 @@
             <el-form-item label="是否有并发症状 : ">
               <el-select
                 v-model="form.visitRecordContent.iscomplication"
-                @change="complicationChange($event,6)"
                 placeholder="请选择"
               >
                 <el-option
@@ -555,7 +562,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="并发症 : ">
-              <el-select v-model="form.complicationCategory" @change="bfzChange($event,6)">
+              <el-select v-model="form.complicationCategory">
                 <el-option
                   v-for="item in sfbfz"
                   :key="item.value"
@@ -596,6 +603,18 @@
               </el-select>
             </el-form-item>
           </el-col>
+          <el-col :span="8">
+            <el-form-item label="是否需要用药 : ">
+              <el-select v-model="form.visitRecordContent.isNeed">
+                <el-option
+                  v-for="item in sfisNeed"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row
           :gutter="0"
@@ -607,34 +626,30 @@
               <el-input v-model="dosage.value"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" style="margin-left:-50px;">
+          <el-col :span="6" style="margin-left:-50px;">
             <el-form-item>
               <el-input-number v-model="dosage.frequency" :min="0" :max="9999" label="次"></el-input-number>
             </el-form-item>
             <span class="unit">次/日</span>
           </el-col>
-          <el-col :span="8" style="margin-left:-50px;">
+          <el-col :span="6" style="margin-left:-50px;">
             <el-form-item>
               <el-input-number v-model="dosage.dose" :min="0" :max="9999" label="mg"></el-input-number>
             </el-form-item>
             <span class="unit">mg/次</span>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="2">
             <el-form-item>
-              <el-button
-                style="float:right;background:#fff;"
-                @click.prevent="removeDosage(dosage)"
-              >删除</el-button>
+              <el-button @click.prevent="removeDosage(dosage)">删除</el-button>
+            </el-form-item>
+          </el-col>
+          <el-col :span="2">
+            <el-form-item>
+              <el-button @click.prevent="addDosage">新增</el-button>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item>
-              <el-button style="float:right;background:#fff;" @click.prevent="addDosage">新增</el-button>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-row></el-row>
         <!-- 药物不良反应 -->
         <select-input
           :selectInputData="reactionsData"
@@ -652,7 +667,6 @@
             <el-form-item label="是否进行健康指导 : ">
               <el-select
                 v-model="form.visitRecordContent.healthGuidance"
-                @change="healthGuidanceChange"
               >
                 <el-option
                   v-for="item in sfhealthGuidance"
@@ -697,7 +711,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="已预约复诊 : ">
-              <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
+              <el-select v-model="form.appointmentRevisit">
                 <el-option
                   v-for="item in sfappointmentRevisit"
                   :key="item.value"
@@ -765,16 +779,12 @@
           <el-input type="textarea" v-model="form.remark"></el-input>
         </el-form-item>
       </el-card>
-
-      <el-form-item style="text-align: center">
-        <el-button type="success" @click="onSubmit(6)">完成随访</el-button>
-        <el-button @click="cancelBtn">取消</el-button>
-      </el-form-item>
     </el-form>
+    <el-button type="success" style="float:right" @click="cancelBtn">返回</el-button>
   </div>
 </template>
 <script>
-import echoDisplay from './index';
+import echoDisplay from "./index";
 export default {
   components: echoDisplay.components,
   data: echoDisplay.data,

@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar toolbar_title" style="padding-bottom: 0px;">
       <h3>患者操作</h3>
       <el-form :inline="true" :model="filters" class="toolbar_form">
-<!--         <el-select
+        <!-- <el-select
           v-model="groupNameChoose"
           clearable
           placeholder="选择组名"
@@ -17,7 +17,7 @@
             :label="item.groupName"
             :value="item.groupId"
           ></el-option>
-        </el-select> -->
+        </el-select>-->
 
         <el-select
           v-model="hospitalNameChoose"
@@ -47,13 +47,13 @@
             </template>
           </el-input>
         </el-form-item>
-<!--         <el-form-item>
+        <el-form-item>
           <el-button
             type="primary"
             @click="addGroup"
             style="background-color: #52a3d7; border: 0; font-size: 14px"
           >新建组别</el-button>
-        </el-form-item> -->
+        </el-form-item>
         <el-form-item>
           <el-button
             type="primary"
@@ -158,13 +158,20 @@
               style="margin-right: 5px;color: #52a3d7"
             ></i>
           </el-tooltip>
-<!--           <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
+          <!--           <el-tooltip class="item" effect="dark" content="修改分组" placement="top">
             <i
               class="el-icon-edit-outline"
               @click="editInfo(scope.$index, scope.row)"
               style="margin-right: 5px;color: #7de1c1"
             ></i>
-          </el-tooltip> -->
+          </el-tooltip>-->
+          <el-tooltip class="item" effect="dark" content="联系患者" placement="top">
+            <i
+              class="el-icon-chat-dot-square"
+              @click="openIM(scope.$index, scope.row)"
+              style="margin-right: 5px;color:blue;"
+            ></i>
+          </el-tooltip>
           <el-tooltip class="item" effect="dark" content="新增随访" placement="top">
             <i
               class="el-icon-circle-plus-outline"
@@ -183,13 +190,13 @@
       </el-table-column>
     </el-table>
     <el-row style="margin-top:20px;" :gutter="80">
-<!--       <el-col :span="8">
+      <el-col :span="8">
         <el-button
           type="primary"
           @click="batchEditGroup"
           style="background-color: #52a3d7; border: 0; font-size: 14px"
         >批量修改分组</el-button>
-      </el-col> -->
+      </el-col>
       <!-- <el-col :span="4">
         <el-button>批量删除</el-button>
       </el-col>-->
@@ -363,6 +370,7 @@ import { pagination } from "@/mixins";
 import FileSaver from "file-saver";
 import XLSX from "xlsx";
 import { constants } from "os";
+import utils from "../utils/utils";
 export default {
   mixins: [pagination],
   data() {
@@ -437,7 +445,7 @@ export default {
         ],
         relation: [
           { required: true, message: "请选择与患者关系", trigger: "change" }
-        ],
+        ]
         // groupId: [{ required: true, message: "请选择分组", trigger: "change" }]
       },
       // 新增界面数据
@@ -451,7 +459,7 @@ export default {
       dialogFormVisible: false, //批量修改患者分组显示
       uniqueAccountId: "",
       type: 0,
-      doctorId: 0,
+      doctorId: 0
     };
   },
   methods: {
@@ -478,13 +486,13 @@ export default {
     },
     // 查看详情
     essentialInfo(index, row) {
-      sessionStorage.setItem("personInfo", JSON.stringify(row))
+      sessionStorage.setItem("personInfo", JSON.stringify(row));
       this.$router.push({
         name: "EssentialInfo",
         query: {
-          name: 'jbxx'
+          name: "jbxx"
         }
-      })
+      });
     },
     // 修改组别获取组别id
     editGroup(value) {
@@ -590,16 +598,15 @@ export default {
     },
     // 删除患者
     deletePatient(index, row) {
-      console.log(index, row);
       if (row.sourceType === 1) {
-        this.$confirm("此操作将删除该患者, 是否继续?", "提示", {                               
+        this.$confirm("此操作将删除该患者, 是否继续?", "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
         })
           .then(() => {
             this.$http
-              .post("/api" + "patient/deletePatientById?id=" + row.id)
+              .post("/api" + "/patient/deletePatientById?id=" + row.id)
               .then(res => {
                 this.getUsers();
                 this.$message({
@@ -636,10 +643,7 @@ export default {
     // 获取科室方法
     getMedicalList() {
       this.$http
-        .get(
-          "/api" +
-            `/medicalSections/getMedicalSectionsList?hospitalId=1`
-        )
+        .get("/api" + `/medicalSections/getMedicalSectionsList?hospitalId=1`)
         .then(res => {
           this.ksdepartmentName = res.data;
         })
@@ -650,7 +654,10 @@ export default {
     // 获取患者列表
     getUsers(page, pageSize) {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
-      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
         this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
         this.type = this.$store.state.user.user.type;
       }
@@ -707,12 +714,7 @@ export default {
             return;
           }
           if (this.addForm.groupId == "") {
-            this.$message({
-              showClose: true,
-              message: "您还未选择组别",
-              type: "error"
-            });
-            return;
+            this.addForm.groupId = 0;
           }
           this.addLoading = true;
           this.$http
@@ -765,13 +767,13 @@ export default {
         .get("/api" + `/groups/getGroupList`)
         .then(res => {
           this.groupNameList = res.data;
-        }) 
+        })
         .catch(err => {
           console.log(err);
         });
     },
     //获取医院
-    getHospital(){
+    getHospital() {
       this.$http
         .get("/api" + `/hospital/getHospitalList`)
         .then(res => {
@@ -830,16 +832,19 @@ export default {
       }
     },
     //根据医院ID获取患者
-    getPatientByHospitalId(){
+    getPatientByHospitalId() {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
-      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
         this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
         this.type = this.$store.state.user.user.type;
       }
       this.type = parseInt(this.type);
-      if(this.hospitalNameChoose == ""){
+      if (this.hospitalNameChoose == "") {
         this.getUsers();
-      }else{
+      } else {
         this.hospitalNameChoose = parseInt(this.hospitalNameChoose);
         this.$http
           .get(
@@ -858,13 +863,20 @@ export default {
     //导出表格
     exports() {
       this.user = JSON.parse(sessionStorage.getItem("loginUser"));
-      if(typeof this.$store.state.user.user.uniqueAccountId != "undefined" && typeof this.$store.state.user.user.type != "undefined"){
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
         this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
         this.type = this.$store.state.user.user.type;
       }
       this.type = parseInt(this.type);
       this.$http({
-        url: "/api/patient/exportExcel?hospitalId=1&uniqueAccountId="+this.uniqueAccountId+'&type='+this.type,
+        url:
+          "/api/patient/exportExcel?hospitalId=1&uniqueAccountId=" +
+          this.uniqueAccountId +
+          "&type=" +
+          this.type,
         responseType: "blob",
         method: "get"
       })
@@ -888,6 +900,49 @@ export default {
 
       document.body.appendChild(link);
       link.click();
+    },
+    // 打开聊天窗口
+    openIM(index, row) {
+      //location.href="../../static/IM/im/main.html";
+      sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
+      //获取计划列表
+      this.$http({
+        url: "/api/plan/getPlanByPatientId?patientId=" + row.id
+      })
+        .then(res => {
+          sessionStorage.setItem(
+            "openIMPlanList",
+            JSON.stringify(res.data.list)
+          );
+          var openIMVisitList = {};
+          res.data.list.forEach(item => {
+            // 获取随访列表
+            this.$http({
+              url:
+                "/api" +
+                "/visitRecord/getVisistManagerList?planId=" +
+                item.planId
+            })
+              .then(res => {
+                sessionStorage.setItem(item.planId, JSON.stringify(res.data));
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      let account = row.yunXinAccount;
+      if (account) {
+        window.open("../../static/IM/im/main.html?account=" + account);
+      } else {
+        //todo  删除
+        account = "test99";
+        window.open("../../static/IM/im/main.html?account=" + account);
+        this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
+      }
     }
   },
   created() {
@@ -895,6 +950,12 @@ export default {
     this.getUsers(this.page.current, this.page.size);
     this.getGroupName();
     this.getHospital();
+  },
+  mounted() {
+    if (sessionStorage.getItem("sdkuid")) {
+      utils.setCookie("uid", sessionStorage.getItem("sdkuid"));
+      utils.setCookie("sdktoken", sessionStorage.getItem("sdktoken"));
+    }
   }
 };
 </script>
