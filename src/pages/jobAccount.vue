@@ -22,7 +22,7 @@
           highlight-current-row
           style="width: 100%"
         >
-          <el-table-column prop="depName" align="center" label="科室" width="150" ></el-table-column>
+          <el-table-column prop="departmentName" align="center" label="科室" width="150" ></el-table-column>
           <el-table-column prop="rzzCount" align="center" width="150" label="出院总人次"></el-table-column>
           <el-table-column prop="successCount" align="center" label="抓取成功" width="100"></el-table-column>
           <el-table-column prop="failireCount" align="center" label="失败" width="100" ></el-table-column>
@@ -33,7 +33,7 @@
           <el-table-column prop="thirdVisit" align="center" label="三访及以上" width="150"></el-table-column>
           <el-table-column prop="totalVisit" align="center" label="随访总人次" width="150"></el-table-column>
           <el-table-column prop="terminationVisit" align="center" label="终止随访" width="150"></el-table-column>
-          <el-table-column prop="validVisitRate" align="center" label="有效随访人次" width="150"></el-table-column>
+          <el-table-column prop="validVisit" align="center" label="有效随访人次" width="150"></el-table-column>
           <el-table-column prop="notCount" align="center" label="勿访人次" width="150"></el-table-column>
           <el-table-column prop="timelyRate" align="center" label="排期率" width="150"></el-table-column>
           <el-table-column prop="validVisitRate" align="center" label="有效随访率" width="150"></el-table-column>
