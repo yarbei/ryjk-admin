@@ -19,9 +19,10 @@
       class="el-table-cyn"
     >
       <el-table-column prop="department" align="center" label="科室"></el-table-column>
-      <el-table-column label="本季度病历数" align="center">
+      <el-table-column label="本季度调研数" align="center">
         <el-table-column prop="mengzhen" align="center" label="门诊"></el-table-column>
         <el-table-column prop="zhuyuan" align="center" label="住院"></el-table-column>
+        <el-table-column prop="other" align="center" label="其他"></el-table-column>
       </el-table-column>
       <el-table-column label="40岁以上" align="center">
         <el-table-column prop="ageGroupTatal" align="center" label="人次"></el-table-column>

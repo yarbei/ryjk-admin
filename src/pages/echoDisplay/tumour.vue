@@ -536,7 +536,7 @@
           </el-col>
           <el-col :span="8">
             <el-form-item label="健康指导内容  : ">
-              <el-select v-model="form.visitRecordContent.healthGuidanceContent">
+              <el-select v-model="form.visitRecordContent.healthGuidanceContent" multiple>
                 <el-option
                   v-for="item in sfhealthGuidanceContent"
                   :key="item.value"
