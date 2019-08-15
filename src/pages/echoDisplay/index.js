@@ -452,7 +452,7 @@ export default {
                 )
                 .then(res => {
                   this.sfbfzName = res.data
-                  console.log(res.data)
+
                 })
                 .catch(err => {
                   console.log(err)

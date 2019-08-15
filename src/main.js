@@ -104,12 +104,13 @@ Axios.interceptors.response.use(res => {
     return res.data
   }
 }, err => {
-  app.$notify.error({
-    title: '服务错误',
-    message: '服务器响应错误!'
-  })
+  console.log(err)
+  // app.$notify.error({
+  //   title: '服务错误',
+  //   message: '服务器响应错误!'
+  // })
   // router.replace({name: '500'})
-  return Promise.reject(err)
+  // return Promise.reject(err)
 })
 
 Vue.prototype.$http = Axios

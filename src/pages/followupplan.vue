@@ -125,7 +125,7 @@ export default {
             this.$route.query.planId
         )
         .then(res => {
-          console.log(res);
+          ;
           if (res.data.length === 0) {
             this.getsfjhStatus = true;
           } else {

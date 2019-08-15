@@ -186,7 +186,7 @@ export default {
           this.$http
             .post("/api" + "/groups/delWorkGroup", formData)
             .then(res => {
-              console.log(res);
+              ;
               this.getGroup();
               this.$message({
                 type: "success",
@@ -326,7 +326,7 @@ export default {
       )
         .then(res => {
           this.groupList = res.data;
-          console.log(res);
+          ;
         })
         .catch(err => {
           console.log(err);
@@ -343,7 +343,7 @@ export default {
     )
       .then(res => {
         this.groupList = res.data;
-        console.log(res);
+        ;
       })
       .catch(err => {
         console.log(err);

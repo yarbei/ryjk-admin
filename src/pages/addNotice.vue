@@ -141,7 +141,7 @@ export default {
       this.$http.get('/api' + `/notice/noticeTask?noticeTaskId=${id}`)
         .then(res => {
           if (res.data) {
-            console.log(res.data)
+
             let data = res.data
             this.addForm = {...data}
             this.addForm.receiverUserId = []

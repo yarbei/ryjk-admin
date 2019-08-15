@@ -161,7 +161,7 @@ export default {
         )
         .then(res => {
           this.ewArray = res.data.list;
-          console.log(res)
+
           this.page.total = res.data.total;
         })
         .catch(err => {

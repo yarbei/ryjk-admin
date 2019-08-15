@@ -130,6 +130,7 @@
       <el-col :span="24">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
+            <h2>管理效果依从性统计分析</h2>
             <el-button
               @click="exportCompliance"
               type="primary"

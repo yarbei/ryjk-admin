@@ -144,7 +144,7 @@
         that.$http.get('/api' + `/doctor/getDoctorList`)
           .then(res => {
             that.accountOptions = res.data.list
-            console.log(res)
+
           })
           .catch(err => {
             console.log(err)

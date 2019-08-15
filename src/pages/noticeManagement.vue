@@ -84,7 +84,7 @@ export default {
     getyyList (page, pageSize) {
       this.$http.get('/api' + `/notice/noticeTaskList?title=${this.filters.title}&pageNum=${page}&pageSize=${pageSize}`)
         .then(res => {
-          console.log(res.data)
+
           this.ggArray = res.data.list
           this.page.total = res.data.total
         })

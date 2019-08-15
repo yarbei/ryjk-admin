@@ -197,7 +197,7 @@ export default {
       this.$http
         .post("/api" + `/advertisement/updateAdvertisement`, this.editForm)
         .then(res => {
-            console.log(res)
+
           if (res.data) {
             this.$message.success("修改广告成功");
             this.getyyList();

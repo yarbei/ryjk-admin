@@ -9,7 +9,7 @@ const actions = {
   async getPostList ({commit}, params) {
     commit('SET_LOAD_POST_LIST', true)
     var res = await Vue.http.get('https://cnodejs.org/api/v1/topics', {params})
-    // console.log(res.data)
+    //
     commit('SET_POST_LIST', res.data)
     commit('SET_LOAD_POST_LIST', false)
   },

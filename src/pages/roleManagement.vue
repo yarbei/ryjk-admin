@@ -393,7 +393,7 @@
         that.$http.get('/api' + `/groups/getGroupListByDoctorId?doctorId=${that.user.id}`)
           .then(res => {
             that.groupNameList = res.data
-            console.log(res)
+
           })
           .catch(err => {
             console.log(err)
