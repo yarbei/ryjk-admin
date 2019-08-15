@@ -12,6 +12,8 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               style="margin:12px;"
+              value-format="yyyy-MM-dd"
+              @change="afterDischargeSelectDate"
             ></el-date-picker>
             <el-button
               @click="exportsHospital"
@@ -60,6 +62,8 @@
               start-placeholder="开始日期"
               end-placeholder="结束日期"
               style="margin:12px;"
+              value-format="yyyy-MM-dd"
+              @change="outpatientDepartmentSelectDate"
             ></el-date-picker>
             <el-button
               @click="exportDepartData"
@@ -195,7 +199,6 @@
             <el-table-column prop="name" align="center" label="随访方式"></el-table-column>
             <el-table-column prop="value" align="center" label="所占人次"></el-table-column>
             <el-table-column prop="proportion" align="center" label="占比"></el-table-column>
-
           </el-table>
         </el-card>
       </el-col>
@@ -248,6 +251,16 @@ export default {
     };
   },
   methods: {
+    //选择出院后疾病管理情况统计时间
+    afterDischargeSelectDate(event) {
+      this.afterDischargeDate = event;
+      this.hospitalDataList();
+    },
+    //选择门诊疾病管理情况统计时间
+    outpatientDepartmentSelectDate(event) {
+      this.outpatientDepartmentDate = event;
+      this.departDataList();
+    },
     cutTable(btnText, index) {
       this["flag" + index] = !this["flag" + index];
       this["btnText" + index] = this["flag" + index] ? "表格" : "图表";
@@ -386,13 +399,13 @@ export default {
           console.log(err);
         });
     },
-    //导出表格
+    //导出随访情况统计表格
     exports() {
       this.$http({
         url:
           "/api" +
           "/excel/exportWorkList?userRole=" +
-          0 +
+          this.$store.state.user.user.type +
           "&userId=" +
           this.$store.state.user.user.id,
         responseType: "blob",

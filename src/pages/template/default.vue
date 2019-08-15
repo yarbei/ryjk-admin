@@ -402,7 +402,7 @@
         </div>
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="是否进行健康指导 : ">
+            <el-form-item label="健康指导">
               <el-select
                 v-model="form.visitRecordContent.healthGuidance"
                 @change="healthGuidanceChange"
@@ -417,7 +417,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8" v-show="ishealthGuidanceContent">
-            <el-form-item label="健康指导内容  : ">
+            <el-form-item label="健康指导内容">
               <el-select v-model="form.visitRecordContent.healthGuidanceContent" multiple>
                 <el-option
                   v-for="item in sfhealthGuidanceContent"
@@ -437,7 +437,7 @@
         </div>
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="已提醒复诊 : ">
+            <el-form-item label="已提醒复诊">
               <el-select v-model="form.reminderRevisit">
                 <el-option
                   v-for="item in sfreminderRevisit"
@@ -449,7 +449,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="已预约复诊 : ">
+            <el-form-item label="已预约复诊">
               <el-select v-model="form.appointmentRevisit" @change="appointmentRevisitChange">
                 <el-option
                   v-for="item in sfappointmentRevisit"
@@ -464,7 +464,7 @@
 
         <el-row :gutter="0" v-show="isAppointmentRevisit">
           <el-col :span="8">
-            <el-form-item label="预约科室 : ">
+            <el-form-item label="预约科室">
               <el-select v-model="form.department">
                 <el-option
                   v-for="item in sfdepartment"
@@ -476,7 +476,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="复诊时间 : ">
+            <el-form-item label="复诊时间">
               <el-date-picker
                 v-model="form.revisitTime"
                 type="date"
@@ -490,7 +490,7 @@
 
         <el-row :gutter="0">
           <el-col :span="8">
-            <el-form-item label="健康知晓度 : ">
+            <el-form-item label="健康知晓度">
               <el-select v-model="form.healthAwareness">
                 <el-option
                   v-for="item in sfhealthAwareness"
@@ -502,7 +502,7 @@
             </el-form-item>
           </el-col>
           <el-col :span="8">
-            <el-form-item label="满意度调研 : ">
+            <el-form-item label="满意度调研">
               <el-select v-model="form.satisfactionSurvey">
                 <el-option
                   v-for="item in sfsatisfactionSurvey"
@@ -514,7 +514,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-form-item label="随访备注 : ">
+        <el-form-item label="随访备注">
           <el-input type="textarea" v-model="form.remark"></el-input>
         </el-form-item>
       </el-card>

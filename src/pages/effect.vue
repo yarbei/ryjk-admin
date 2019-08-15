@@ -296,10 +296,6 @@ export default {
     this.administrationSettings = {
       radius: 120,
       offsetY: 200,
-      level: [
-        ["并发症人次", "相关指标控制不佳人次", "不良生活方式未改善人次"],
-        ["控制满意人次", "控制不满意人次"]
-      ]
     };
     return {
       filters: {
@@ -462,19 +458,20 @@ export default {
       .get("/api" + "/analysis/manager/1")
       .then(res => {
         this.leaveHospitalTable = res.data.discharge; //出院/转出归属情况表格赋值
+        [res.data.assessment[0],res.data.assessment[1]]=[res.data.assessment[1],res.data.assessment[0]]
         this.administrationTable = res.data.assessment; //管理效果评估表格赋值
         this.reminderRevisitTable = res.data.reminderRevisit; //复诊提醒率表格赋值
         this.appointmentRevisitTable = res.data.appointmentRevisit; //复诊预约率表格赋值
         this.leaveHospitalData.rows = res.data.discharge;
         this.administrationData.rows = res.data.assessment;
-        this.administrationData.rows.push({
-          name: "控制不满意人次",
-          value:
-            this.administrationData.rows[0].value +
-            this.administrationData.rows[2].value +
-            this.administrationData.rows[3].value,
-          proportion:(100-(this.administrationData.rows[1]).proportion.replace("%","")).toFixed(2)+'%'
-        });
+        // this.administrationData.rows.push({
+        //   name: "控制不满意",
+        //   value:
+        //     this.administrationData.rows[0].value +
+        //     this.administrationData.rows[2].value +
+        //     this.administrationData.rows[3].value,
+        //   proportion:(100-(this.administrationData.rows[1]).proportion.replace("%","")).toFixed(2)+'%'
+        // });
         this.reminderRevisit.rows = res.data.reminderRevisit;
         this.appointmentRevisit.rows = res.data.appointmentRevisit;
       })

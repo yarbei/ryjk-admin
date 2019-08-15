@@ -43,7 +43,7 @@ const menus = [
     path: '/posterManagement',
     name: 'posterManagement'
   },
-  { 
+  {
     id: '2',
     icon: 'fa fa-microchip',
     label: '账号/角色管理',
@@ -74,6 +74,6 @@ const menus = [
     label: '医生管理',
     path: '/doctor',
     name: 'doctor'
-  },
+  }
 ]
 export default menus
