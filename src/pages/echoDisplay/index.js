@@ -25,8 +25,8 @@ export default {
       planId: '', // 计划Id
       // 药物不良反应传入子组件的数据
       reactionsData: {
-        selectLabel: '药物不良反应：', // select选择框的label值
-        inputLabel: '不良反应情况：', // input输入框的label值
+        selectLabel: '药物不良反应', // select选择框的label值
+        inputLabel: '不良反应情况', // input输入框的label值
         // select下拉框的内容
         option: [
           { value: 0, label: '无不良反应' },
@@ -35,7 +35,7 @@ export default {
       },
       // 类风湿结节触及部位传入子组件的数据
       rheumatoidData: {
-        selectLabel: '类风湿结节部位：', // select选择框的label值
+        selectLabel: '类风湿结节部位', // select选择框的label值
         inputLabel: '触及部位：', // input输入框的label值
         // select下拉框的内容
         option: [
@@ -74,7 +74,7 @@ export default {
           label: '控制不满意',
           children: [
             { value: 3, label: '并发症' },
-            { value: 4, label: '相关指标控制不住' },
+            { value: 4, label: '相关指标控制不佳' },
             { value: 5, label: '不良生活方式未改善' }
           ]
         }

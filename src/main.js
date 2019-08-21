@@ -119,11 +119,27 @@ Vue.http = Axios
 
 Vue.config.productionTip = false
 
+// if (
+//   '-ms-scroll-limit' in document.documentElement.style &&
+//   '-ms-ime-align' in document.documentElement.style
+// ) { // detect it's IE11
+//   window.addEventListener('hashchange', function (event) {
+//     var currentPath = window.location.hash.slice(1)
+//     if (store.state.route.path !== currentPath) {
+//       router.push(currentPath)
+//     }
+//   }, false)
+// }
+
+
+if (Number.parseInt === undefined) Number.parseInt = window.parseInt
+if (Number.parseFloat === undefined) Number.parseFloat = window.parseFloat
+
 /* eslint-disable no-new */
 var app = new Vue({
   el: '#app',
-  store,
-  router,
+  store: store,
+  router: router,
   template: '<App/>',
   components: { App }
 })

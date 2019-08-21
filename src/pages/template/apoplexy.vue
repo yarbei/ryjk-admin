@@ -157,6 +157,8 @@
               </el-select>
             </el-form-item>
           </el-col>
+                    <el-col :span="4"></el-col>
+
           <el-col :span="8">
             <el-form-item label="具体体重数值">
               <el-input-number v-model="form.visitRecordContent.weightNum"></el-input-number>
@@ -304,7 +306,7 @@
                 ></el-option>
               </el-select>
             </el-form-item>
-            <span style="float:right">（每日食盐摄入＜6克，为低盐饮食）</span>
+            <span style="float:right;margin-top:-10%">（每日食盐摄入＜6克，为低盐饮食）</span>
           </el-col>
         </el-row>
         <el-row :gutter="0">
@@ -320,6 +322,7 @@
               </el-select>
             </el-form-item>
           </el-col>
+                    <el-col :span="2"></el-col>
           <el-col :span="8">
             <el-form-item label="运动强度">
               <el-select v-model="form.visitRecordContent.exerciseIntensity" placeholder="请选择">
@@ -340,6 +343,7 @@
             </el-form-item>
             <span class="unit">次/周</span>
           </el-col>
+                    <el-col :span="2"></el-col>
           <el-col :span="8">
             <el-form-item label>
               <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999"></el-input-number>
@@ -426,6 +430,7 @@
               </el-select>
             </el-form-item>
           </el-col>
+                    <el-col :span="2"></el-col>
           <el-col :span="8">
             <el-form-item label="是否需要用药">
               <el-select v-model="form.visitRecordContent.isNeed">

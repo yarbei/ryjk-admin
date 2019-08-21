@@ -126,7 +126,7 @@ export default {
     //点击完成随访
     complete(index, row) {
       this.$http
-        .post("api/user/completeOperation", { id: row.id })
+        .post("/api/user/completeOperation", { id: row.id })
         .then(res => {
           this.editStorage(res.data)
           this.getwVList()

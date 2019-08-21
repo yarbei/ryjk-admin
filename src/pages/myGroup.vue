@@ -28,8 +28,15 @@
     </el-col>
 
     <!--列表-->
-    <el-table :data="groupList" :border="true" stripe highlight-current-row style="width: 100%;">
-      <el-table-column align="center" type="index"></el-table-column>
+    <el-table
+      :data="groupList"
+      :border="true"
+      :cell-style="{'padding':'0'}"
+      stripe
+      highlight-current-row
+      style="width: 100%;"
+    >
+      <el-table-column align="center" type="index" label="编号" width="80"></el-table-column>
       <el-table-column prop="groupName" align="center" label="工作组名称" width="500" sortable></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
         <template slot-scope="scope">
@@ -64,7 +71,7 @@
           :total="page.total"
         ></el-pagination>
       </el-col>
-    </el-row> -->
+    </el-row>-->
     <!--新建工作组界面-->
     <el-dialog title="新建工作组" :visible.sync="addFormVisible" :modal-append-to-body="false">
       <el-form :model="addGroupForm" label-width="120px">
@@ -186,7 +193,6 @@ export default {
           this.$http
             .post("/api" + "/groups/delWorkGroup", formData)
             .then(res => {
-              ;
               this.getGroup();
               this.$message({
                 type: "success",
@@ -304,6 +310,7 @@ export default {
           } else {
             this.$message.warning(res.message);
           }
+          this.editGroupForm = {};
           this.addClose();
         })
         .catch(err => {
@@ -326,7 +333,6 @@ export default {
       )
         .then(res => {
           this.groupList = res.data;
-          ;
         })
         .catch(err => {
           console.log(err);
@@ -343,7 +349,6 @@ export default {
     )
       .then(res => {
         this.groupList = res.data;
-        ;
       })
       .catch(err => {
         console.log(err);

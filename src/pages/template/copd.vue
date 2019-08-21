@@ -328,6 +328,7 @@
               </el-select>
             </el-form-item>
           </el-col>
+                    <el-col :span="2"></el-col>
           <el-col :span="8">
             <el-form-item label="运动强度">
               <el-select v-model="form.visitRecordContent.exerciseIntensity" placeholder="请选择">
@@ -348,6 +349,7 @@
             </el-form-item>
             <span class="unit">次/周</span>
           </el-col>
+                    <el-col :span="2"></el-col>
           <el-col :span="8">
             <el-form-item label>
               <el-input-number v-model="form.visitRecordContent.otionLength" :min="0" :max="9999"></el-input-number>
@@ -387,6 +389,7 @@
               </el-select>
             </el-form-item>
           </el-col>
+                    <el-col :span="2"></el-col>
           <el-col :span="8">
             <el-form-item label="是否需要用药">
               <el-select v-model="form.visitRecordContent.isNeed">

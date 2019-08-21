@@ -320,7 +320,7 @@
           <el-card class="box-card grtz_box">
             <div slot="header" class="clearfix grtz_title">
               <p>
-                <span>最新{{grtzArray[5].bodySignType}}记录 : {{grtzArray[0].value}}</span>
+                <span>最新{{grtzArray[5].bodySignType}}记录 : {{grtzArray[5].value}}</span>
                 <span
                   class="f-right"
                 >{{grtzArray[5].sureUpdate == 0?"未更新":"更新时间："+grtzArray[5].createTime}}</span>
@@ -337,7 +337,7 @@
           <el-card class="box-card grtz_box">
             <div slot="header" class="clearfix grtz_title">
               <p>
-                <span>最新{{grtzArray[6].bodySignType}}记录 : {{grtzArray[0].value}}</span>
+                <span>最新{{grtzArray[6].bodySignType}}记录 : {{grtzArray[6].value}}</span>
                 <span
                   class="f-right"
                 >{{grtzArray[6].sureUpdate == 0?"未更新":"更新时间："+grtzArray[6].createTime}}</span>

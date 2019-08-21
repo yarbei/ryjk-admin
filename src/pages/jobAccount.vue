@@ -49,7 +49,6 @@
         </el-card>
       </el-col>
     </el-row>
-
     <el-row :gutter="80">
       <el-col :span="24">
         <el-card class="box-card" style="margin-top:30px;">
@@ -95,43 +94,46 @@
         </el-card>
       </el-col>
     </el-row>
-
-    <div slot="header" class="clearfix" style="margin-top:30px;">
+    <div class="clearfix" style="margin-top:30px;">
       <h2 style="float:left">随访情况统计</h2>
-      <el-form :inline="true" :model="filters" class="toolbar_form">
-        <el-select
-          v-show="this.$store.state.user.user.type==4||this.$store.state.user.user.type==1 ? true : false"
-          v-model="dorctorNameChoose"
-          clearable
-          placeholder="选择疾病管理师"
-          @change="getVisitByDoctorId"
-          style="margin-right: 10px;float: left;margin-top: 12px;margin-left: 14px"
-        >
-          <el-option v-for="item in doctoArray" :key="item.id" :label="item.name" :value="item.id"></el-option>
-        </el-select>
-      </el-form>
-      <el-button
-        @click="exports"
-        type="primary"
-        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
-      >
-        <i class="el-icon-download" style="margin-right: 5px"></i>导出
-      </el-button>
     </div>
     <el-row :gutter="30">
       <el-col :span="width">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>随访人次</span>
-
-            <el-button
-              type="success"
-              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 20px; float: right;"
-              @click="cutTable(btnText1, 1)"
-              v-text="btnText1"
-            ></el-button>
+            <el-row>
+              <span style="font-weight:700;margin-top:10px;float:left;">随访人次</span>
+              <el-button @click="cutTable(btnText1, 1)" v-text="btnText1"></el-button>
+              <el-button @click="followUpPersonnelDerivation">导出</el-button>
+            </el-row>
+            <el-select
+              v-show="this.$store.state.user.user.type==4||this.$store.state.user.user.type==1 ? true : false"
+              v-model="followUpVisitsDoctor"
+              clearable
+              placeholder="选择疾病管理师"
+              @change="followUpPersonnelDoctorId"
+              style="width:100%;margin-top:10px;"
+            >
+              <el-option
+                v-for="item in doctoArray"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+            <el-date-picker
+              v-model="followUpVisitsDate"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width:100%;margin-top:10px;"
+              value-format="yyyy-MM-dd"
+              @change="followUpVisitsSelectDate"
+            ></el-date-picker>
           </div>
           <ve-pie :data="visitStatus" v-show="flag1 == true"></ve-pie>
+
           <el-table
             :border="true"
             :data="visitStatusTable"
@@ -147,17 +149,39 @@
           </el-table>
         </el-card>
       </el-col>
-
       <el-col :span="width">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>体征预警</span>
-            <el-button
-              type="success"
-              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 20px; float: right;"
-              @click="cutTable(btnText2, 2)"
-              v-text="btnText2"
-            ></el-button>
+            <el-row>
+              <span style="font-weight:700;margin-top:10px;float:left;">体征预警</span>
+              <el-button @click="cutTable(btnText2, 2)" v-text="btnText2"></el-button>
+              <el-button @click="earlyWarningExport">导出</el-button>
+            </el-row>
+            <el-select
+              v-show="this.$store.state.user.user.type==4||this.$store.state.user.user.type==1 ? true : false"
+              v-model="earlyWarningDorctor"
+              clearable
+              placeholder="选择疾病管理师"
+              @change="earlyWarningDoctorId"
+              style="width:100%;margin-top:10px;"
+            >
+              <el-option
+                v-for="item in doctoArray"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+            <el-date-picker
+              v-model="earlyWarningDate"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width:100%;margin-top:10px;"
+              value-format="yyyy-MM-dd"
+              @change="earlyWarningSelectDate"
+            ></el-date-picker>
           </div>
           <ve-pie :data="tiZhenYuJing" v-show="flag2 == true"></ve-pie>
           <el-table
@@ -178,13 +202,36 @@
       <el-col :span="width" v-show="ismode">
         <el-card class="box-card">
           <div slot="header" class="clearfix">
-            <span>随访方式</span>
-            <el-button
-              type="success"
-              style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 20px; float: right;"
-              @click="cutTable(btnText3, 3)"
-              v-text="btnText3"
-            ></el-button>
+            <el-row>
+              <span style="font-weight:700;margin-top:10px;float:left;">随访方式</span>
+              <el-button @click="cutTable(btnText3, 3)" v-text="btnText3"></el-button>
+              <el-button @click="visitTypeExport">导出</el-button>
+            </el-row>
+            <el-select
+              v-show="this.$store.state.user.user.type==4||this.$store.state.user.user.type==1 ? true : false"
+              v-model="visitTypeDorctor"
+              clearable
+              placeholder="选择疾病管理师"
+              @change="visitTypeDoctorId"
+              style="width:100%;margin-top:10px;"
+            >
+              <el-option
+                v-for="item in doctoArray"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              ></el-option>
+            </el-select>
+            <el-date-picker
+              v-model="visitTypeDate"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="width:100%;margin-top:10px;"
+              value-format="yyyy-MM-dd"
+              @change="visitTypeSelectDate"
+            ></el-date-picker>
           </div>
           <ve-pie :data="visitType" v-show="flag3 == true"></ve-pie>
           <el-table
@@ -235,22 +282,126 @@ export default {
       visitStatusTable: [],
       visitTypeTable: [],
       tiZhenYuJingTable: [],
-      dorctorNameChoose: "", //选择疾病管理师名字
+      followUpVisitsDoctor: "", //随访人次选择疾病管理师名字
+      earlyWarningDorctor: "", //体征预警选择疾病管理师名字
+      visitTypeDorctor: "", //随访方式选择疾病管理师名字
       flag1: true,
       flag2: true,
       flag3: true,
-      btnText1: "表格",
-      btnText2: "表格",
-      btnText3: "表格",
+      btnText1: "切换表格",
+      btnText2: "切换表格",
+      btnText3: "切换表格",
       hospitalData: [], //出院后疾病管理情况
       departData: [], //门诊疾病管理情况
       userId: "", //用户ID
       isTemplateTypeShow: false, //是否显示选择模板下拉框
       afterDischargeDate: this.getDate(), //出院后疾病管理情况统计选择时间
-      outpatientDepartmentDate: this.getDate() //门诊疾病管理选择时间
+      outpatientDepartmentDate: this.getDate(), //门诊疾病管理选择时间
+      followUpVisitsDate: this.getDate(), //随访人次选择时间
+      earlyWarningDate: this.getDate(), //体征预警选择时间
+      visitTypeDate: this.getDate() //随访方式选择时间
     };
   },
   methods: {
+    //随访人次导出功能
+    followUpPersonnelDerivation() {
+      this.$http({
+        url:
+          "/api" +
+          "/analysis/work/3/sfrc?userRole=" +
+          this.$store.state.user.user.type +
+          "&userId=" +
+          this.userId +
+          "&startTime=" +
+          this.followUpVisitsDate[0] +
+          "&endTime=" +
+          this.followUpVisitsDate[1],
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res, "随访人次");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //随访人次选择疾病管理师获取数据
+    followUpPersonnelDoctorId(doctorId) {
+      this.userId = doctorId;
+      this.followUpVisitsData();
+    },
+    //随放人次选择时间
+    followUpVisitsSelectDate(event) {
+      this.followUpVisitsDate = event;
+      this.followUpVisitsData();
+    },
+    //体征预警导出功能
+    earlyWarningExport() {
+      this.$http({
+        url:
+          "/api" +
+          "/analysis/work/3/tzyj?userRole=" +
+          this.$store.state.user.user.type +
+          "&userId=" +
+          this.userId +
+          "&startTime=" +
+          this.followUpVisitsDate[0] +
+          "&endTime=" +
+          this.followUpVisitsDate[1],
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res, "体征预警");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //体征预警选择疾病管理师获取数据
+    earlyWarningDoctorId(doctorId) {
+      this.userId = doctorId;
+      this.earlyWarningData();
+    },
+    //体征预警选择时间获取数据
+    earlyWarningSelectDate(event) {
+      this.earlyWarningDate = event;
+      this.earlyWarningData();
+    },
+    //随访方式导出功能
+    visitTypeExport() {
+      this.$http({
+        url:
+          "/api" +
+          "/analysis/work/3/sffs?userRole=" +
+          this.$store.state.user.user.type +
+          "&userId=" +
+          this.userId +
+          "&startTime=" +
+          this.visitTypeDate[0] +
+          "&endTime=" +
+          this.visitTypeDate[1],
+        responseType: "blob",
+        method: "get"
+      })
+        .then(res => {
+          this.download(res, "随访方式");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //随访方式选择疾病管理师获取数据
+    visitTypeDoctorId(doctorId) {
+      this.userId = doctorId;
+      this.visitTypeData();
+    },
+    //随访方式选择时间获取数据
+    visitTypeSelectDate(event) {
+      this.visitTypeDate = event;
+      this.visitTypeData();
+    },
     //选择出院后疾病管理情况统计时间
     afterDischargeSelectDate(event) {
       this.afterDischargeDate = event;
@@ -261,36 +412,104 @@ export default {
       this.outpatientDepartmentDate = event;
       this.departDataList();
     },
+    //切换表格，图表
     cutTable(btnText, index) {
       this["flag" + index] = !this["flag" + index];
-      this["btnText" + index] = this["flag" + index] ? "表格" : "图表";
+      this["btnText" + index] = this["flag" + index] ? "切换表格" : "切换图表";
     },
-    //随访情况统计
-    visitData() {
-      if (this.$store.state.user.user.type != 3) {
+    //获取随访人次数据
+    followUpVisitsData() {
+      if (this.followUpVisitsDoctor == "") {
         this.userId = this.$store.state.user.user.id;
       }
       this.$http
         .get(
           "/api" +
-            "/analysis/work/3?userRole=" +
+            "/analysis/work/3/sfrc?userRole=" +
             this.$store.state.user.user.type +
             "&userId=" +
-            this.userId
+            this.followUpVisitsDoctor +
+            "&startTime=" +
+            this.followUpVisitsDate[0] +
+            "&endTime=" +
+            this.followUpVisitsDate[1]
         )
         .then(res => {
-          this.visitStatus.rows = res.data.visitStatus;
-          this.visitType.rows = res.data.visitType;
-          this.tiZhenYuJing.rows = res.data.tiZhenYuJing;
-          this.visitStatusTable = res.data.visitStatus;
-          this.visitTypeTable = res.data.visitType;
-          this.tiZhenYuJingTable = res.data.tiZhenYuJing;
+          this.visitStatus.rows = res.data;
+          this.visitStatusTable = res.data;
+          // this.visitType.rows = res.data;
+          // this.visitTypeTable = res.data;
+          // this.tiZhenYuJing.rows = res.data.tiZhenYuJing;
+          // this.tiZhenYuJingTable = res.data.tiZhenYuJing;
         })
         .catch(err => {
           console.log(err);
         });
     },
-    //出院后疾病管理情况
+    //获取体征预警数据
+    earlyWarningData() {
+      if (this.earlyWarningDorctor == "") {
+        this.userId = this.$store.state.user.user.id;
+      }
+      this.$http
+        .get(
+          "/api" +
+            "/analysis/work/3/tzyj?userRole=" +
+            this.$store.state.user.user.type +
+            "&userId=" +
+            this.earlyWarningDorctor +
+            "&startTime=" +
+            this.earlyWarningDate[0] +
+            "&endTime=" +
+            this.earlyWarningDate[1]
+        )
+        .then(res => {
+          // this.visitType.rows = res.data;
+          // this.visitTypeTable = res.data;
+          this.tiZhenYuJing.rows = res.data;
+          this.tiZhenYuJingTable = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //获取随访方式数据
+    visitTypeData() {
+      if (this.visitTypeDorctor == "") {
+        this.userId = this.$store.state.user.user.id;
+      }
+      this.$http
+        .get(
+          "/api" +
+            "/analysis/work/3/sffs?userRole=" +
+            this.$store.state.user.user.type +
+            "&userId=" +
+            this.visitTypeDorctor +
+            "&startTime=" +
+            this.visitTypeDate[0] +
+            "&endTime=" +
+            this.visitTypeDate[1]
+        )
+        .then(res => {
+          this.visitType.rows = res.data;
+          this.visitTypeTable = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //获取医生列表
+    dorctorList() {
+      this.$http
+        .get("/api" + `/doctor/getDoctorAll?hospitalId=1`)
+        .then(res => {
+          this.doctoArray = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    //出院后疾病管理情况数据
     hospitalDataList() {
       this.$http
         .post(
@@ -307,7 +526,7 @@ export default {
           console.log(err);
         });
     },
-    //门诊疾病管理情况
+    //门诊疾病管理情况数据
     departDataList() {
       this.$http
         .post(
@@ -319,43 +538,6 @@ export default {
         )
         .then(res => {
           this.departData = res;
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-    // 根据疾病管理师筛选随访情况
-    getVisitByDoctorId() {
-      if (this.dorctorNameChoose == "") {
-        this.visitData();
-      } else {
-        this.$http
-          .get(
-            "/api" +
-              "/analysis/work/3?userRole=" +
-              this.$store.state.user.user.type +
-              "&userId=" +
-              this.dorctorNameChoose
-          )
-          .then(res => {
-            this.visitStatus.rows = res.data.visitStatus;
-            this.visitType.rows = res.data.visitType;
-            this.tiZhenYuJing.rows = res.data.tiZhenYuJing;
-            this.visitStatusTable = res.data.visitStatus;
-            this.visitTypeTable = res.data.visitType;
-            this.tiZhenYuJingTable = res.data.tiZhenYuJing;
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      }
-    },
-    //获取医生列表
-    dorctorList() {
-      this.$http
-        .get("/api" + `/doctor/getDoctorAll?hospitalId=1`)
-        .then(res => {
-          this.doctoArray = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -399,26 +581,6 @@ export default {
           console.log(err);
         });
     },
-    //导出随访情况统计表格
-    exports() {
-      this.$http({
-        url:
-          "/api" +
-          "/excel/exportWorkList?userRole=" +
-          this.$store.state.user.user.type +
-          "&userId=" +
-          this.$store.state.user.user.id,
-        responseType: "blob",
-        method: "get"
-      })
-        .then(res => {
-          this.download(res, "随访情况统计");
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    },
-
     // 下载文件
     download(data, name) {
       if (!data) {
@@ -466,7 +628,9 @@ export default {
   created() {
     this.hospitalDataList();
     this.departDataList();
-    this.visitData();
+    this.followUpVisitsData(); //获取随访人次数据
+    this.earlyWarningData(); //获取体征预警数据
+    this.visitTypeData(); //获取随访方式数据
     this.dorctorList();
     if (this.$store.state.user.user.type == 1) {
       this.ismode = true;
@@ -478,3 +642,15 @@ export default {
   }
 };
 </script>
+<style scoped>
+.el-button {
+  background-color: #52d7ac;
+  border-radius: 0;
+  color: #fff;
+  border: 1px solid #52d7ac;
+  padding: 10px 20px;
+  margin-left: 10px;
+  float: right;
+  border-radius: 5px;
+}
+</style>

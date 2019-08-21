@@ -3,6 +3,7 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
+require('babel-polyfill');
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -22,7 +23,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    app: './src/main.js'
+    app: ["babel-polyfill", "./src/main.js"],
   },
   output: {
     path: config.build.assetsRoot,
@@ -40,17 +41,24 @@ module.exports = {
   },
   module: {
     rules: [
-      // ...(config.dev.useEslint ? [createLintingRule()] : []),
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
       },
       {
-        test: /\.js$/,
+        test: /.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('test'), resolve('node_modules/webpack-dev-server/client')]
-      },
+        include: [
+        resolve('src'),
+        resolve('test'),
+        resolve('node_modules/webpack-dev-server/client'),
+        resolve('/node_modules/^2.11.1@element-ui/src'), //说明：2.6.1是你引入element-ui的版本号
+        resolve('/node_modules/^2.11.1@element-ui/packages'),
+        resolve('/static/js/commonFun.js')
+        ]
+        },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

@@ -196,7 +196,7 @@ export default {
     },
 
     changelInfo(index, row) {
-      this.$http.post('api/user/completeOperation',{id:row.id}).then(res=>{
+      this.$http.post('/api/user/completeOperation',{id:row.id}).then(res=>{
         this.editStorage(res.data)
       }).catch(err=>{
         console.log(err)
