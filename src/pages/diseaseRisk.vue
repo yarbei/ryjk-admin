@@ -99,7 +99,7 @@ export default {
         responseType: "blob",
         method: "get"
       })
-        .then(res => {
+        .then(res => { 
           this.download(res);
         })
         .catch(err => {
