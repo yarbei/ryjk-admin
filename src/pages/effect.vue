@@ -512,7 +512,7 @@ export default {
         "/api" +
           "/analysis/manager/3?startTime=" +
           this.ComplianceDate[0] +
-          "&endTime" +
+          "&endTime=" +
           this.ComplianceDate[1]
       )
         .then(res => {
@@ -529,7 +529,7 @@ export default {
           "/api" +
           "/excel/exportCompliance?startTime=" +
           this.ComplianceDate[0] +
-          "&endTime" +
+          "&endTime=" +
           this.ComplianceDate[1],
         responseType: "blob",
         method: "get"
@@ -724,7 +724,7 @@ export default {
       "/api" +
         "/analysis/manager/3?startTime=" +
         this.ComplianceDate[0] +
-        "&endTime" +
+        "&endTime=" +
         this.ComplianceDate[1]
     )
       .then(res => {

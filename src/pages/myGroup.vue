@@ -59,7 +59,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- <el-row style="margin-top:20px;" :gutter="80">
+    <!-- <el-row style="margin-top:10px;" :gutter="80">
       <el-col :span="24">
         <el-pagination
           @size-change="handlePageSizeChange"
@@ -221,6 +221,7 @@ export default {
     },
     // 显示新增界面
     addGroup: function() {
+      this.addGroupForm={groupName: "",diseaseManagerIds: [],doctorIds: []},
       this.addFormVisible = true;
       this.$http("/api" + "/user/users?userType=2")
         .then(res => {

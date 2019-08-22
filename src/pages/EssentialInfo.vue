@@ -156,7 +156,7 @@
             <span class="jhxx_titleTime" v-show="item.status==1?true:false"></span>
             <span
               class="tb_titleTag el-tag el-tag--success el-tag--mini el-tag--light"
-            >{{item.patientType == 0 ? '门诊患者' : '出院患者'}}</span>
+            >{{item.patientType == 0 ? '出院患者' : '门诊患者'}}</span>
           </span>
 
           <!--<el-tag type="success">{{item.description}}</el-tag>-->

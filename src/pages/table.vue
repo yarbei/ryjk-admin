@@ -189,7 +189,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <el-row style="margin-top:20px;" :gutter="80">
+    <el-row style="margin-top:10px;" :gutter="80">
       <el-col :span="8">
         <el-button
           type="primary"

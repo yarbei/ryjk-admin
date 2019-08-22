@@ -74,6 +74,12 @@ const menus = [
     label: '医生管理',
     path: '/doctor',
     name: 'doctor'
+  },
+  { id: 'zzzz',
+    icon: 'fa fa-circle-o',
+    label: '资质证照',
+    path: '/qualificationCertificate',
+    name: 'qualificationCertificate'
   }
 ]
 export default menus
