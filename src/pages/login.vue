@@ -86,7 +86,7 @@ export default {
             `/user/login?userAccount=${this.username}&password=${this.password}&roleType=${this.roleType}`,
         )
         .then(res => {
-          console.log(res)
+
           if (res.data) {
             this.$message.success("登录成功");
             this.isLoging = true;

@@ -130,7 +130,6 @@ export default {
       addFormVisible: false, //新增界面是否显示
       editLoading: false,
       // 编辑界面数据
-
       user: null,
       ids: [],
       isHospital: true,
@@ -168,7 +167,7 @@ export default {
       this.$http("/api" + "/doctor/getDoctorAll?hospitalId=1")
         .then(res => {
           this.doctorName = res.data;
-          console.log(res.data);
+          ;
         })
         .catch(err => {
           console.log(err);
@@ -200,7 +199,7 @@ export default {
           this.$http
             .post("/api" + "/user/deleteUserRole?userId=" + row.id)
             .then(res => {
-              console.log(res);
+              ;
               this.$message({
                 type: "success",
                 message: "删除成功!"
@@ -249,11 +248,13 @@ export default {
           this.Rolelist = res.data;
         });
     },
+
     getHospital() {
       this.$http.get("/api/hospital/getHospitalListNoPage").then(res => {
         this.hospital = res.data;
       });
     },
+
     getGroupList() {
       this.$http.get("/api/groups/getGroupList").then(res => {
         this.GroupList = res.data;
@@ -282,7 +283,6 @@ export default {
       )
         .then(res => {
           this.accountList = res.data.list;
-          console.log(this.accountList);
         })
         .catch(err => {
           console.log(err);

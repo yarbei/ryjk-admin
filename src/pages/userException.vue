@@ -142,10 +142,6 @@
 </script>
 
 <style scoped>
-  .table_container{
-    /*padding: 30px 50px 80px 50px;*/
-  }
-
   .toolbar_page{
     margin-top: 20px;
     text-align: center;

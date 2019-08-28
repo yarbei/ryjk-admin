@@ -67,7 +67,7 @@
   .el-card .el-row {
     display: flex;
     justify-content: flex-start;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
     margin-bottom: 1%;
   }
@@ -95,10 +95,27 @@
   }
 
   .el-form-item__label {
+    padding-left: 20px;
     text-align: justify;
   }
   /* 这里去除必选字段的*,这个符号会造成一定影响,去掉之后我用了li列表进行定位,在前面加上" * ". */
   .el-form-item.is-required .el-form-item__label:before {
     content: none !important;
   }
+  .el-input-number__decrease:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled), .el-input-number__increase:hover:not(.is-disabled)~.el-input .el-input__inner:not(.is-disabled),.el-textarea__inner:focus,.el-input.is-active .el-input__inner, .el-input__inner:focus,.el-select .el-input.is-focus .el-input__inner,.el-cascader .el-input .el-input__inner:focus, .el-cascader .el-input.is-focus .el-input__inner{
+    border-color:#4bd88a;
+  }
+  .el-input-number__decrease:hover, .el-input-number__increase:hover{
+    color: #4bd88a;
+  }
+  .el-button:focus, .el-button:hover {
+    color: #4bd88a;
+    border-color: #4bd88a;
+    background-color: #ecf5ff;
+}
+.el-button--success{
+  color: #FFF;
+  background-color: #4bd88a;
+  border-color: #4bd88a;
+}
 }

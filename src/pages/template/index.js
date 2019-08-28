@@ -9,7 +9,7 @@ export default {
     tabHeader,
     SelectInput
   },
-  data() {
+  data () {
     return {
       form: {
         managerId: this.$route.query.managerId,
@@ -35,8 +35,8 @@ export default {
       patientType: '', // 患者类型
       // 药物不良反应传入子组件的数据
       reactionsData: {
-        selectLabel: '药物不良反应：', // select选择框的label值
-        inputLabel: '不良反应情况：', // input输入框的label值
+        selectLabel: '药物不良反应', // select选择框的label值
+        inputLabel: '不良反应情况', // input输入框的label值
         // select下拉框的内容
         option: [
           { value: 0, label: '无不良反应' },
@@ -45,7 +45,7 @@ export default {
       },
       // 类风湿结节触及部位传入子组件的数据
       rheumatoidData: {
-        selectLabel: '类风湿结节部位：', // select选择框的label值
+        selectLabel: '类风湿结节部位', // select选择框的label值
         inputLabel: '触及部位：', // input输入框的label值
         // select下拉框的内容
         option: [{ value: 0, label: '未触及' }, { value: 1, label: '已触及' }]
@@ -81,7 +81,7 @@ export default {
           label: '控制不满意',
           children: [
             { value: 3, label: '并发症' },
-            { value: 4, label: '相关指标控制不住' },
+            { value: 4, label: '相关指标控制不佳' },
             { value: 5, label: '不良生活方式未改善' }
           ]
         }
@@ -382,21 +382,21 @@ export default {
   },
   methods: {
     // 类风湿结节部位输入框父组件接受子组件的值并放入
-    rheumatoidSelect(data) {
+    rheumatoidSelect (data) {
       this.form.visitRecordContent.rheumatoid.value = data
     },
-    rheumatoidInput(data) {
+    rheumatoidInput (data) {
       this.form.visitRecordContent.rheumatoid.desc = data
     },
     // 药物不良反应输入框父组件接受子组件的值并放入
-    reactionsSelect(data) {
+    reactionsSelect (data) {
       this.form.visitRecordContent.reactions.value = data
     },
-    reactionsInput(data) {
+    reactionsInput (data) {
       this.form.visitRecordContent.reactions.desc = data
     },
     // 选择是否有症状决定是否弹出症状选择框
-    sfsymptomChange(event, sourceType) {
+    sfsymptomChange (event, sourceType) {
       if (event === 1) {
         this.issfsymptomName = true
         this.$http
@@ -414,7 +414,7 @@ export default {
       }
     },
     // 选择是否有痛风部位弹出痛风部位选择框
-    positionChange(event) {
+    positionChange (event) {
       if (event === 1) {
         this.ispositionName = true
       } else {
@@ -422,7 +422,7 @@ export default {
       }
     },
     // 选择是否戒烟决定是否弹出抽烟情况输入框
-    smokingVolumeChange(event) {
+    smokingVolumeChange (event) {
       if (event === 0) {
         this.isSmokingAmount = true
       } else {
@@ -430,7 +430,7 @@ export default {
       }
     },
     // 选择是否戒酒决定是否弹出饮酒情况输入框
-    alcoholConsumptionChange(event) {
+    alcoholConsumptionChange (event) {
       if (event === 0) {
         this.isAlcoholConsumptionAmount = true
       } else {
@@ -438,14 +438,14 @@ export default {
       }
     },
     // 选择是否预约复诊决定是否弹出预约科室及复诊时间输入框
-    appointmentRevisitChange(event) {
+    appointmentRevisitChange (event) {
       if (event === 1) {
         this.isAppointmentRevisit = true
         this.$http
           .get(
             ' /api' +
             `/medicalSections/getMedicalSectionsList?hospitalId=${
-            this.$store.state.user.user.hospitalId.id
+              this.$store.state.user.user.hospitalId.id
             }`
           )
           .then(res => {
@@ -459,7 +459,7 @@ export default {
       }
     },
     // 选择是否进行健康指导决定是否显示健康指导内容输入框
-    healthGuidanceChange(event) {
+    healthGuidanceChange (event) {
       if (event === 1) {
         this.ishealthGuidanceContent = true
       } else {
@@ -467,7 +467,7 @@ export default {
       }
     },
     // 选择是否有并发症决定是否弹出并发症选择框
-    complicationChangeClass(event, sourceType) {
+    complicationChangeClass (event, sourceType) {
       if (event === 1) {
         this.iscomplication = true
         this.$http
@@ -486,7 +486,7 @@ export default {
       }
     },
     // 选择并发症类型决定是否弹出并发症名字选择框
-    bfzChange(event, sourceType) {
+    bfzChange (event, sourceType) {
       if (event) {
         this.iscomplicationName = true
         this.$http
@@ -508,7 +508,7 @@ export default {
       }
     },
     // 选择有并发症弹出具体症状
-    complicationChange(event, sourceType) {
+    complicationChange (event, sourceType) {
       if (event === 1) {
         this.iscomplicationName = true
         this.$http
@@ -528,7 +528,7 @@ export default {
       }
     },
     // 新增一条用药情况
-    addDosage() {
+    addDosage () {
       this.form.visitRecordContent.dosages.push({
         eventue: '',
         frequency: 0,
@@ -536,7 +536,7 @@ export default {
       })
     },
     // 删除一条用药情况
-    removeDosage(item) {
+    removeDosage (item) {
       var index = this.form.visitRecordContent.dosages.indexOf(item)
       if (index !== -1) {
         this.form.visitRecordContent.dosages.splice(index, 1)
@@ -544,7 +544,7 @@ export default {
     },
 
     // 点击完成随访
-    onSubmit(templateType) {
+    onSubmit (templateType) {
       if (this.form.status === undefined) {
         this.$message.warning('随访状态未选择！')
         return
@@ -603,11 +603,11 @@ export default {
         })
     },
     // 返回按钮
-    cancelBtn() {
+    cancelBtn () {
       this.$router.go(-1)
     }
   },
-  created() {
+  created () {
     this.planId = this.$route.query.planId // 获取计划Id
     this.patientType = this.$route.query.patientType // 获取患者类型
     this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息

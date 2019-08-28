@@ -190,7 +190,7 @@ export default {
       // this.addFormVisible = true;
       this.$http("/api" + "/menu/getMenuList")
         .then(res => {
-          console.log(res)
+
           this.jurisdiction = res.data.menu
         })
         .catch(err => {
