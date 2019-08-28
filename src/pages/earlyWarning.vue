@@ -55,7 +55,7 @@
     </el-table>
 
     <!--工具条-->
-    <el-pagination
+    <!-- <el-pagination
       @size-change="handlePageSizeChange"
       @current-change="handlePageCurrentChange"
       :current-page="page.current"
@@ -63,7 +63,7 @@
       :page-size="page.size"
       :layout="page.layout"
       :total="page.total"
-    ></el-pagination>
+    ></el-pagination> -->
   </section>
 </template>
 
@@ -172,7 +172,7 @@ export default {
     formatSatus(row) {
       return row.status == 0 ? "已完成" : row.status == 1 ? "未完成" : "无";
     },
-    editStorage() {
+    editStorage(earlyWarningCount) {
 
       let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
 
@@ -180,7 +180,7 @@ export default {
 
       let arr = menu.map((v, i) => {
         if(v.id === 4) {
-          v.submenu[1].earlyWarningCount = v.submenu[1].earlyWarningCount - 1
+          v.submenu[1].earlyWarningCount = earlyWarningCount
           return v
         } else {
           return v
@@ -197,13 +197,17 @@ export default {
     },
 
     changelInfo(index, row) {
+      this.$http.post('api/user/completeOperation',{id:row.id}).then(res=>{
+        this.editStorage(res.data)
+      }).catch(err=>{
+        console.log(err)
+      })
       this.$http
         .post("/api" + `/notice/updateStatus`, { messageId: row.id })
         .then(res => {
           if (res.data) {
             this.$message.success("操作成功")
             this.getEwList()
-            this.editStorage()
           } else {
             this.$message.error("操作失败")
           }

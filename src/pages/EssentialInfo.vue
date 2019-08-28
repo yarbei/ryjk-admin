@@ -173,7 +173,7 @@
               type="danger"
               :disabled="item.status==1?true:false"
               @click="showjhxxStop(item.planId)"
-            >{{item.status == 1?"已终止":"终止计划"}}</el-button>
+            >{{item.status == 1?"已&nbsp;&nbsp;终&nbsp;&nbsp;止":"终止计划"}}</el-button>
             <el-button
               class="f-right"
               type="primary"

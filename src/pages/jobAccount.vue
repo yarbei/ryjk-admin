@@ -1,60 +1,66 @@
 <template>
   <div>
-    <div slot="header" class="clearfix">
-      <h2 style="float:left">出院后疾病管理情况统计</h2>
-      <el-button
-        @click="exportsHospital"
-        type="primary"
-        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
-      >
-        <i class="el-icon-download" style="margin-right: 5px"></i>导出
-      </el-button>
-    </div>
     <el-row :gutter="80">
       <el-col :span="24">
         <el-card class="box-card">
-          <div slot="header" class="clearfix"></div>
+          <div slot="header" class="clearfix">
+            <h2 style="float:left">出院后疾病管理情况统计</h2>
+            <el-date-picker
+              v-model="afterDischargeDate"
+              type="daterange"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              style="margin:12px;"
+            ></el-date-picker>
+            <el-button
+              @click="exportsHospital"
+              type="primary"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+            >
+              <i class="el-icon-download" style="margin-right: 5px"></i>导出
+            </el-button>
+          </div>
           <el-table
-          :data="hospitalData"
-          :border="true"
-          stripe
-          highlight-current-row
-          style="width: 100%"
-        >
-          <el-table-column prop="depName" align="center" label="科室" width="150" ></el-table-column>
-          <el-table-column prop="rzzCount" align="center" width="150" label="出院总人次"></el-table-column>
-          <el-table-column prop="successCount" align="center" label="抓取成功" width="100"></el-table-column>
-          <el-table-column prop="failireCount" align="center" label="失败" width="100" ></el-table-column>
-          <el-table-column prop="schedulingCount" align="center" label="排期人次" width="100"></el-table-column>
-          <el-table-column prop="overdueCount" align="center" label="排期过期人次" width="100" ></el-table-column>
-          <el-table-column prop="firstVisit" align="center" label="首访" width="100"></el-table-column>
-          <el-table-column prop="secondVisit" align="center" label="二访" width="120"></el-table-column>
-          <el-table-column prop="thirdVisit" align="center" label="三访及以上" width="150"></el-table-column>
-          <el-table-column prop="totalVisit" align="center" label="随访总人次" width="150"></el-table-column>
-          <el-table-column prop="terminationVisit" align="center" label="终止随访" width="150"></el-table-column>
-          <el-table-column prop="validVisit" align="center" label="有效随访人次" width="150"></el-table-column>
-          <el-table-column prop="notCount" align="center" label="勿访人次" width="150"></el-table-column>
-          <el-table-column prop="timelyRate" align="center" label="排期率" width="150"></el-table-column>
-          <el-table-column prop="validVisitRate" align="center" label="有效随访率" width="150"></el-table-column>
+            :data="hospitalData"
+            :border="true"
+            stripe
+            highlight-current-row
+            style="width: 100%"
+          >
+            <el-table-column prop="departmentName" align="center" label="科室" width="150"></el-table-column>
+            <el-table-column prop="rzzCount" align="center" width="150" label="出院总人次"></el-table-column>
+            <el-table-column prop="successCount" align="center" label="抓取成功" width="100"></el-table-column>
+            <el-table-column prop="failireCount" align="center" label="失败" width="100"></el-table-column>
+            <el-table-column prop="schedulingCount" align="center" label="排期人次" width="100"></el-table-column>
+            <el-table-column prop="overdueCount" align="center" label="排期过期人次" width="100"></el-table-column>
+            <el-table-column prop="firstVisit" align="center" label="首访" width="100"></el-table-column>
+            <el-table-column prop="secondVisit" align="center" label="二访" width="120"></el-table-column>
+            <el-table-column prop="thirdVisit" align="center" label="三访及以上" width="150"></el-table-column>
+            <el-table-column prop="totalVisit" align="center" label="随访总人次" width="150"></el-table-column>
+            <el-table-column prop="terminationVisit" align="center" label="终止随访" width="150"></el-table-column>
+            <el-table-column prop="validVisitRate" align="center" label="有效随访人次" width="150"></el-table-column>
+            <el-table-column prop="notCount" align="center" label="勿访人次" width="150"></el-table-column>
+            <el-table-column prop="timelyRate" align="center" label="排期率" width="150"></el-table-column>
+            <el-table-column prop="validVisitRate" align="center" label="有效随访率" width="150"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
     </el-row>
 
-    <div slot="header" class="clearfix">
-      <h2 style="float:left">门诊疾病管理情况统计</h2>
-      <el-button
-        @click="exportDepartData"
-        type="primary"
-        style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
-      >
-        <i class="el-icon-download" style="margin-right: 5px"></i>导出
-      </el-button>
-    </div>
     <el-row :gutter="80">
       <el-col :span="24">
-        <el-card class="box-card">
-          <div slot="header" class="clearfix"></div>
+        <el-card class="box-card" style="margin-top:30px;">
+          <div slot="header" class="clearfix">
+            <h2 style="float:left">门诊疾病管理情况统计</h2>
+            <el-button
+              @click="exportDepartData"
+              type="primary"
+              style="background-color: #52a3d7; border: 0; font-size: 14px; float:right; margin-top: 12px"
+            >
+              <i class="el-icon-download" style="margin-right: 5px"></i>导出
+            </el-button>
+          </div>
           <el-table
             :data="departData"
             :border="true"
@@ -62,27 +68,27 @@
             highlight-current-row
             style="width: 100%"
           >
-            <el-table-column prop="depName" align="center" label="科室" width="150"></el-table-column>
+            <el-table-column prop="departmentName" align="center" label="科室" width="150"></el-table-column>
             <el-table-column prop="mzCount" align="center" width="150" label="就诊人次"></el-table-column>
             <el-table-column prop="successCount" align="center" label="抓取成功" width="100"></el-table-column>
             <el-table-column prop="schedulingCount" align="center" label="排期人次" width="100"></el-table-column>
-            <el-table-column prop="validCount" align="center" label="有效随访人次" width="150"></el-table-column>
+            <el-table-column prop="validVisit" align="center" label="有效随访人次" width="150"></el-table-column>
             <el-table-column prop="totalVisit" align="center" label="随访总人次" width="150"></el-table-column>
             <el-table-column prop="firstVisit" align="center" label="首访" width="100"></el-table-column>
-            <el-table-column prop="secondCount" align="center" label="二访" width="120"></el-table-column>
-            <el-table-column prop="serviceevaluationRate" align="center" label="满意率" width="150"></el-table-column>
+            <el-table-column prop="secondVisit" align="center" label="二访" width="120"></el-table-column>
+            <el-table-column prop="satisfactionSurvey" align="center" label="满意率" width="150"></el-table-column>
             <el-table-column prop="timelyRate" align="center" label="排期率" width="150"></el-table-column>
-            <el-table-column prop="validRate" align="center" label="有效随访率" width="150"></el-table-column>
+            <el-table-column prop="validVisitRate" align="center" label="有效随访率" width="150"></el-table-column>
           </el-table>
         </el-card>
       </el-col>
     </el-row>
 
-    <div slot="header" class="clearfix">
+    <div slot="header" class="clearfix" style="margin-top:30px;">
       <h2 style="float:left">随访情况统计</h2>
       <el-form :inline="true" :model="filters" class="toolbar_form">
         <el-select
-          v-show="this.$store.state.user.user.type == 3||1 ? true : false"
+          v-show="this.$store.state.user.user.type===4||this.$store.state.user.user.type===1 ? true : false"
           v-model="dorctorNameChoose"
           clearable
           placeholder="选择疾病管理师"
@@ -223,7 +229,10 @@ export default {
       btnText3: "表格",
       hospitalData: [], //出院后疾病管理情况
       departData: [], //门诊疾病管理情况
-      userId: "" //用户ID
+      userId: "", //用户ID
+      isTemplateTypeShow: false, //是否显示选择模板下拉框
+      afterDischargeDate:[], //出院后疾病管理情况统计选择时间
+
     };
   },
   methods: {
@@ -231,7 +240,6 @@ export default {
       this["flag" + index] = !this["flag" + index];
       this["btnText" + index] = this["flag" + index] ? "表格" : "图表";
     },
-
     //随访情况统计
     visitData() {
       if (this.$store.state.user.user.type != 3) {

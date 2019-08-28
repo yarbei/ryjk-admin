@@ -9,7 +9,7 @@ export default {
     tabHeader,
     SelectInput
   },
-  data() {
+  data () {
     return {
       form: {
         visitAuthor: '',
@@ -376,21 +376,21 @@ export default {
   },
   methods: {
     // 类风湿结节部位输入框父组件接受子组件的值并放入
-    rheumatoidSelect(data) {
+    rheumatoidSelect (data) {
       this.form.visitRecordContent.rheumatoid.value = data
     },
-    rheumatoidInput(data) {
+    rheumatoidInput (data) {
       this.form.visitRecordContent.rheumatoid.desc = data
     },
     // 药物不良反应输入框父组件接受子组件的值并放入
-    reactionsSelect(data) {
+    reactionsSelect (data) {
       this.form.visitRecordContent.reactions.value = data
     },
-    reactionsInput(data) {
+    reactionsInput (data) {
       this.form.visitRecordContent.reactions.desc = data
     },
     // 返回按钮
-    cancelBtn() {
+    cancelBtn () {
       // this.$router.go(-1)
       this.$router.push({
         path: '/EssentialInfo',
@@ -400,7 +400,7 @@ export default {
       })
     },
     // 获取随访详情
-    getFormList(id) {
+    getFormList (id) {
       this.$http
         .get('/api' + '/visitRecord/getVisitRecordById?id=' + id)
         .then(res => {
@@ -417,6 +417,9 @@ export default {
           if (res.data.complication != null) {
             this.form.complication = res.data.complication
               .split(',')// 将并发症由str数组变为num数组
+          }
+          if (res.data.complicationCategory != null) {
+            res.data.complicationCategory = String(res.data.complicationCategory)
           }
           // 如果有症状将请求症状数据
           if (this.form.visitRecordContent.issymptom === 1) {
@@ -444,11 +447,12 @@ export default {
               this.$http
                 .get(
                   '/api' +
-                  '/common/getCommonDataList?dataType=0&dataNum=' +
+                  '/common/getCommonDataList?dataType=1&dataNum=' +
                   this.form.complicationCategory
                 )
                 .then(res => {
                   this.sfbfzName = res.data
+                  console.log(res.data)
                 })
                 .catch(err => {
                   console.log(err)
@@ -461,7 +465,7 @@ export default {
         })
     },
     // 请求科室数据
-    getMedicalSectionsList() {
+    getMedicalSectionsList () {
       this.$http.get(' /api' + `/medicalSections/getMedicalSectionsList?hospitalId=${this.$store.state.user.user.hospitalId.id}`)
         .then(res => {
           this.sfdepartment = res.data
@@ -472,7 +476,7 @@ export default {
     }
 
   },
-  created() {
+  created () {
     this.planId = this.$route.query.planId // 获取计划Id
     this.personInfo = JSON.parse(sessionStorage.getItem('personInfo')) // 从session中获取患者信息
     this.getMedicalSectionsList()

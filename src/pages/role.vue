@@ -93,7 +93,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click.native="editClose">取消</el-button>
+        <el-button @click.native="addClose">取消</el-button>
         <el-button type="primary" @click.native="editSubmit" :loading="editLoading">提交</el-button>
       </div>
     </el-dialog>
@@ -282,6 +282,7 @@ export default {
         .then(res => {
           if (res.data == true) {
             this.$message.success(res.message)
+          this.addClose();
             this.addFormVisible = false
 
             this.getRole()
@@ -331,7 +332,7 @@ export default {
       let res = this.$refs.tree.getCheckedNodes()
       let arr = []
       res.forEach((item) => {
-        arr.push(item.id)
+        arr.push(item.menuId)
       })
       this.listArr = arr
     },
@@ -339,7 +340,7 @@ export default {
       let arr = []
       let res = this.$refs.editTree.getCheckedNodes()
       res.forEach((item) => {
-        arr.push(item.id)
+        arr.push(item.menuId)
       })
       this.listArr = arr
     }

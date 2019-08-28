@@ -122,9 +122,6 @@ export default {
           }
         ],
         account: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-        hospitalId: [
-          { required: true, message: "请选择医院", trigger: "change" }
-        ],
         roleId: [{ required: true, message: "请选择角色", trigger: "change" }]
       },
       Rolelist: [],
@@ -237,6 +234,7 @@ export default {
           this.$http.post("/api/user/addUser", this.ruleForm).then(res => {
             this.$message.success("添加成功！");
             this.addFormVisible = false;
+            getAccount();
           });
         } else {
           console.log("error submit!!");

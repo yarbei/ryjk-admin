@@ -43,7 +43,7 @@
 
   .el-card {
     margin: 30px 0;
-    padding-right:20px;
+    padding-right: 20px;
   }
   .el-card h2 {
     font-size: 16px;
@@ -78,14 +78,27 @@
   .el-col {
     position: relative;
   }
-  .el-col-4 /deep/ .el-form-item__content{
+  .el-col-4 /deep/ .el-form-item__content {
     margin-left: 50px !important;
-    margin-right:5px;
+    margin-right: 5px;
   }
-  .el-col-4 /deep/ .el-button{
-    margin-left:46%;
+  .el-col-4 /deep/ .el-button {
+    margin-left: 46%;
   }
-  .el-col-4:last-child /deep/ .el-button{
-    margin-left:10%;
+  .el-col-4:last-child /deep/ .el-button {
+    margin-left: 10%;
+  }
+  .el-form-item label:after {
+    content: " ";
+    display: inline-block;
+    width: 100%;
+  }
+
+  .el-form-item__label {
+    text-align: justify;
+  }
+  /* 这里去除必选字段的*,这个符号会造成一定影响,去掉之后我用了li列表进行定位,在前面加上" * ". */
+  .el-form-item.is-required .el-form-item__label:before {
+    content: none !important;
   }
 }

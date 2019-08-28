@@ -46,9 +46,16 @@
       v-loading="listLoading"
       style="width: 100%;"
     >
-      <el-table-column prop="patientName" align="center" label="患者姓名" sortable></el-table-column>
-      <el-table-column prop="publishDate" align="center" label="随访时间" sortable></el-table-column>
-      <el-table-column prop="status" align="center" label="状态" :formatter="formatSatus" sortable></el-table-column>
+      <el-table-column prop="patientName" align="center" label="患者姓名" sortable width="200"></el-table-column>
+      <el-table-column prop="publishDate" align="center" label="随访时间" sortable width="200"></el-table-column>
+      <el-table-column
+        prop="status"
+        align="center"
+        label="状态"
+        :formatter="formatSatus"
+        sortable
+        width="200"
+      ></el-table-column>
       <el-table-column align="center" label="操作">
         <template slot-scope="scope">
           <el-button
@@ -62,6 +69,11 @@
             style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
             @click="openIM(scope.$index, scope.row)"
           >联系患者</el-button>
+          <el-button
+            type="success"
+            style="background-color: #52d7ac; border-radius: 0; color: #fff; border: 1px solid #52d7ac;padding: 10px 30px"
+            @click="complete(scope.$index, scope.row)"
+          >完成</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,16 +94,15 @@
 </template>
 
 <script>
-import { connect } from 'net'
-import {mapActions} from 'vuex'
+import { connect } from "net";
+import { mapActions } from "vuex";
 
 export default {
   data() {
     return {
-
       filters: {
         name: "",
-        date: ["",""],
+        date: ["", ""],
         status: ""
       },
       date: "",
@@ -103,15 +114,28 @@ export default {
       usersList: [],
       user: null,
       wvArray: [],
-      personInfo:{} //患者信息
+      personInfo: {} //患者信息
     };
   },
   computed: {
     s() {
-      return this.$store.state.status.status
+      return this.$store.state.status.status;
     }
   },
   methods: {
+    //点击完成随访
+    complete(index, row) {
+      this.$http
+        .post("api/user/completeOperation", { id: row.id })
+        .then(res => {
+          this.editStorage(res.data)
+          this.getwVList()
+          this.$message.success('操作成功!')
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     // 打开聊天窗口
     openIM(index, row) {
       //location.href="../../static/IM/im/main.html";
@@ -155,9 +179,7 @@ export default {
         this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
       }
     },
-    ...mapActions([
-      'setStatus'
-    ]),
+    ...mapActions(["setStatus"]),
     handleSearch() {
       this.getwVList();
     },
@@ -166,7 +188,13 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/notice/getWaitForVisitList?userId=${this.$store.state.user.user.id}&name=${this.filters.name}&startTime=${this.filters.date[0]}&endTime=${this.filters.date[1]}&status=${this.filters.status}&receiverRole=${this.$store.state.user.user.type}&noticeType=1`
+            `/notice/getWaitForVisitList?userId=${
+              this.$store.state.user.user.id
+            }&name=${this.filters.name}&startTime=${
+              this.filters.date[0]
+            }&endTime=${this.filters.date[1]}&status=${
+              this.filters.status
+            }&receiverRole=${this.$store.state.user.user.type}&noticeType=1`
         )
         .then(res => {
           this.wvArray = res.data.list;
@@ -185,53 +213,47 @@ export default {
       return row.status == 1 ? "待随访" : "已随访";
     },
 
-    editStorage() {
-      let loginUser =  JSON.parse(sessionStorage.getItem('loginUser'))
+    editStorage(waitForCount) {
+      let loginUser = JSON.parse(sessionStorage.getItem("loginUser"));
 
-      let menu = loginUser.menu
+      let menu = loginUser.menu;
 
       let arr = menu.map((v, i) => {
-        if(v.id === 4) {
-          v.submenu[0].waitForCount = v.submenu[0].waitForCount - 1
-          return v
+        if (v.id === 4) {
+          v.submenu[0].waitForCount = waitForCount;
+          return v;
         } else {
-          return v
+          return v;
         }
-      })
+      });
 
-      loginUser.menu = arr
+      loginUser.menu = arr;
 
-      console.log(loginUser.menu)
+      console.log(loginUser.menu);
 
-      sessionStorage.setItem('loginUser', JSON.stringify(loginUser))
+      sessionStorage.setItem("loginUser", JSON.stringify(loginUser));
 
-      this.setStatus(this.s + 1)
+      this.setStatus(this.s + 1);
     },
 
     changelInfo(index, row) {
       this.$http
-        .get(
-          "/api" +
-            `/patient/getPatientInfoByUserId?userId=${row.patientId}`
-        )
+        .get("/api" + `/patient/getPatientInfoByUserId?userId=${row.patientId}`)
         .then(res => {
           this.personInfo = res.data;
-
-          this.editStorage()
         })
         .catch(err => {
           console.log(err);
         });
-
       setTimeout(() => {
-        sessionStorage.setItem("personInfo",JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
+        sessionStorage.setItem("personInfo", JSON.stringify(this.personInfo)); //将患者信息存进session缓存中
         this.$router.replace({
-          name: 'EssentialInfo',
+          name: "EssentialInfo",
           query: {
-            name: 'jhxx'
+            name: "jhxx"
           }
         });
-      }, 1500)
+      }, 1500);
     }
   },
   created() {

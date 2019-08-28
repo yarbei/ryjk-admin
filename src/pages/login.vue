@@ -80,17 +80,16 @@ export default {
       if (this.roleType == null) {
         return this.$message.error("未选择角色");
       }
-
-      this.isLoging = true;
       this.$http
         .get(
           "/api" +
-            `/user/login?userAccount=${this.username}&password=${this.password}&roleType=${this.roleType}`
+            `/user/login?userAccount=${this.username}&password=${this.password}&roleType=${this.roleType}`,
         )
         .then(res => {
           console.log(res)
           if (res.data) {
             this.$message.success("登录成功");
+            this.isLoging = true;
             sessionStorage.setItem("loginUser", JSON.stringify(res.data));
             this.$store.commit("SET_LOGIN_USER", res.data);
             this.$store.commit(

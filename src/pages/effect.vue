@@ -143,43 +143,57 @@
             style="width: 100%"
           >
             <el-table-column prop="healthAwareness" align="center" label="健康知晓率" width="150"></el-table-column>
-            <el-table-column prop="compliance" align="center" label="依从性好人次" width="150"></el-table-column>
-            <el-table-column prop="medicalCompliance" align="center" width="150" label="依从性好占比"></el-table-column>
-            <el-table-column prop="giveUpSmoking" align="center" label="已戒烟人次" width="100"></el-table-column>
-            <el-table-column prop="smokingVolume" align="center" label="已戒烟占比" width="100"></el-table-column>
-            <el-table-column prop="quitDrinking" align="center" label="已戒酒人次" width="100"></el-table-column>
-            <el-table-column prop="alcoholConsumption" align="center" label="已戒酒占比" width="100"></el-table-column>
+            <el-table-column prop align="center" label="依从性好" width="150">
+              <el-table-column prop="compliance" align="center" label="人次" width="150"></el-table-column>
+              <el-table-column prop="medicalCompliance" align="center" width="150" label="占比"></el-table-column>
+            </el-table-column>
+            <el-table-column align="center" label="已戒烟">
+            <el-table-column prop="giveUpSmoking" align="center" label="人次" width="100"></el-table-column>
+            <el-table-column prop="smokingVolume" align="center" label="占比" width="100"></el-table-column>
+            </el-table-column>
+            <el-table-column align="center" label="已戒酒">
+            <el-table-column prop="quitDrinking" align="center" label="人次" width="100"></el-table-column>
+            <el-table-column prop="alcoholConsumption" align="center" label="占比" width="100"></el-table-column>
+            </el-table-column>
+            <el-table-column align="center" label="用药依从性">
+              <el-table-column align="center" label="不服药">
             <el-table-column
               prop="medicationComplianceTotal0"
               align="center"
-              label="不服药人次"
+              label="人次"
               width="100"
             ></el-table-column>
-            <el-table-column prop="medicationCompliance0" align="center" label="不服药占比" width="120"></el-table-column>
+            <el-table-column prop="medicationCompliance0" align="center" label="占比" width="120"></el-table-column>
+            </el-table-column>
+              <el-table-column align="center" label="服药部分依从">
             <el-table-column
               prop="medicationComplianceTotal1"
               align="center"
-              label="服药部分依从人次"
+              label="人次"
               width="150"
             ></el-table-column>
             <el-table-column
               prop="medicationCompliance1"
               align="center"
-              label="服药部分依从占比"
+              label="占比"
               width="150"
             ></el-table-column>
+            </el-table-column>
+                          <el-table-column align="center" label="服药完全依从">
             <el-table-column
               prop="medicationComplianceTotal2"
               align="center"
-              label="服药完全依从人次"
+              label="人次"
               width="150"
             ></el-table-column>
             <el-table-column
               prop="medicationCompliance2"
               align="center"
-              label="服药完全依从占比"
+              label="占比"
               width="150"
             ></el-table-column>
+            </el-table-column>
+            </el-table-column>
           </el-table>
         </el-card>
       </el-col>
@@ -400,7 +414,10 @@ export default {
     //导出症状统计分析表格
     exportSymptom() {
       this.$http({
-        url: "/api" + "/excel/exportSymptom",
+        url:
+          "/api" +
+          "/excel/exportSymptom?templateType=" +
+          this.filters.templateType1,
         responseType: "blob",
         method: "get"
       })
@@ -414,7 +431,10 @@ export default {
     //导出并发症统计分析表格
     exportComplication() {
       this.$http({
-        url: "/api" + "/excel/exportComplication",
+        url:
+          "/api" +
+          "/excel/exportComplication?templateType=" +
+          this.filters.templateType1,
         responseType: "blob",
         method: "get"
       })

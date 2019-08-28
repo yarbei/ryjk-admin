@@ -13,17 +13,18 @@
         <div class="text item grtz_content">
           <h2>随访建议 :</h2>
           <ul class="text item">
-            <li :v-show="item.visitContent.drug">用药建议： {{item.visitContent.drug}}</li>
-            <li :v-show="item.visitContent.diet">饮食建议： {{item.visitContent.diet}}</li>
-            <li :v-show="item.visitContent.motion">运动建议： {{item.visitContent.motion}}</li>
-            <li :v-show="item.visitContent.smok">戒烟限酒建议： {{item.visitContent.smok}}</li>
-            <li :v-show="item.visitContent.psychology">心理建议： {{item.visitContent.psychology}}</li>
-            <li :v-show="item.visitContent.recovery">康复建议： {{item.visitContent.recovery}}</li>
-            <li :v-show="item.visitContent.other">其他建议： {{item.visitContent.other}}</li>
+            <li :v-show="item.visitContent.drug"><div class="proposal">用药建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.drug}}</li>
+            <li :v-show="item.visitContent.diet"><div class="proposal">饮食建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.diet}}</li>
+            <li :v-show="item.visitContent.motion"><div class="proposal">运动建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.motion}}</li>
+            <li :v-show="item.visitContent.smok"><div class="proposal">戒烟限酒建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.smok}}</li>
+            <li :v-show="item.visitContent.psychology"><div class="proposal">心理建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.psychology}}</li>
+            <li :v-show="item.visitContent.recovery"><div class="proposal">康复建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.recovery}}</li>
+            <li :v-show="item.visitContent.other"><div class="proposal">其他建议<i></i></div>:  &nbsp;&nbsp;{{item.visitContent.other}}</li>
           </ul>
         </div>
         <div class="jhxx_btn">
           <el-row>
+            <el-button class="f-right"  type="success" @click="back">返回</el-button>
             <el-button
               class="f-right"
               type="primary"
@@ -37,10 +38,12 @@
         <h2 style="text-align: center; color: #999; font-size: 21px; line-height: 60px">暂无数据！</h2>
         <div class="jhxx_btn">
           <el-row>
+            <el-button class="f-right" type="success" @click="back">返回</el-button>
             <el-button class="f-right" type="primary" @click="createVisit">去随访</el-button>
           </el-row>
         </div>
       </el-card>
+
       <!-- <el-pagination
         @size-change="handlePageSizeChange"
         @current-change="handlePageCurrentChange"
@@ -150,6 +153,10 @@ export default {
           patientType: this.$route.query.patientType
         }
       });
+    },
+    //返回
+    back(){
+      this.$router.go(-1)
     }
   }
 };
@@ -295,5 +302,22 @@ export default {
 
 .suggest-list {
   font-size: 14px;
+}
+.f-right{
+  margin-right: 20px;
+}
+.grtz_content ul li {
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+}
+.proposal{
+  width: 90px;
+  text-align: justify;
+}
+.proposal  i{
+  content:'';
+  display:inline-block;
+  width:100%;
 }
 </style>

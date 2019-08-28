@@ -10,7 +10,7 @@
       </el-card>
       <el-card>
         <div slot="header">
-          <h2>管理随访总数</h2>
+          <h2>管理随访总次数</h2>
         </div>
         <el-select
           v-model="dose"
@@ -36,7 +36,7 @@
                 placeholder="选择日期"
                 :disabled="isEdit"
               ></el-date-picker>
-              <el-button @click="openVisitAdvice(item.visitContent.id)">查看详细建议</el-button>
+              <el-button @click="openVisitAdvice(item.visitContent.id)">编辑具体建议内容</el-button>
             </el-form-item>
           </el-col>
         </el-row>

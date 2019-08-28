@@ -35,14 +35,14 @@
           >
             <i class="el-icon-edit-outline" style="margin-right: 5px"></i>修改广告
           </el-button>
-          <el-button
+          <!-- <el-button
             round
             type="text"
             style="color: #e15939"
             @click="delDepartment(scope.$index, scope.row)"
           >
             <i class="el-icon-delete" style="margin-right: 5px"></i>删除广告
-          </el-button>
+          </el-button> -->
         </template>
       </el-table-column>
     </el-table>
@@ -140,7 +140,6 @@ export default {
       that.$http
         .get("/api" + `/advertisement/getAdvertisementList`)
         .then(res => {
-          console.log(res.data, "获取广告列表");
           that.ggArray = res.data;
         })
         .catch(err => {
@@ -176,8 +175,6 @@ export default {
     },
     // 修改广告弹窗
     handleEdit: function(s1, s2) {
-      console.log(s2)
-      console.log("修改数据:---->" + s2.link);
       this.editFormVisible = true;
       this.editForm = s2;
       if(s2.link) {
@@ -188,22 +185,19 @@ export default {
         }
       }else{
         this.dialogImageUrl = s2.link;
-
       }
-
-
     },
     // 修改广告
     upDateDepartment() {
-      console.log(this.editForm);
-      const arr = this.editForm.link;
-      for (let i = 0; i < arr.length; i++) {
-        this.editForm.link = arr[i].response.data.url;
-      }
+      // const arr = this.editForm.link;
+      // console.log(arr)
+      // for (let i = 0; i < arr.length; i++) {
+      //   this.editForm.link = arr[i].res.data.url;
+      // }
       this.$http
         .post("/api" + `/advertisement/updateAdvertisement`, this.editForm)
         .then(res => {
-            console.log(res.data)
+            console.log(res)
           if (res.data) {
             this.$message.success("修改广告成功");
             this.getyyList();

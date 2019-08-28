@@ -14,14 +14,14 @@
       style="width: 100%;"
     >
       <el-table-column prop="name" align="center" label="名称" ></el-table-column>
-      <el-table-column label="头像">
+      <!-- <el-table-column label="头像">
         <template width="90" slot-scope="scope">
         <img style="width:80px;height:80px;border:none;" :src="scope.row.head">
-        </template> 
-      </el-table-column>
+        </template>
+      </el-table-column> -->
       <el-table-column prop="jobNum" align="center" label="工号"  ></el-table-column>
       <el-table-column prop="phone" align="center" label="手机号" sortable></el-table-column>
-      
+
       <el-table-column prop="hospitalName.name" align="center" label="所在医院" ></el-table-column>
       <el-table-column prop="description" align="center" label="简介" ></el-table-column>
       <!--<el-table-column align="center" width="420" fixed="right" label="操作">
@@ -77,7 +77,7 @@ export default {
       this.$http
         .get(
           "/api" +
-            `/doctor/getDoctorAll?hospitalId=1`    
+            `/doctor/getDoctorAll?hospitalId=1`
         )
         .then(res => {
           this.doctorArray = res.data;
