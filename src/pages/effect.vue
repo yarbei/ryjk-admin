@@ -403,7 +403,9 @@ export default {
           "/analysis/manager/1/discharge?startTime=" +
           this.leaveHospitalDate[0] +
           "&endTime=" +
-          this.leaveHospitalDate[1]
+          this.leaveHospitalDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           this.leaveHospitalTable = res.data; //出院/转出归属情况表格赋值
@@ -420,7 +422,9 @@ export default {
           "/analysis/manager/1/assessment?startTime=" +
           this.administrationDate[0] +
           "&endTime=" +
-          this.administrationDate[1]
+          this.administrationDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           if (res.data != null) {
@@ -440,7 +444,9 @@ export default {
           "/analysis/manager/1/reminderRevisit?startTime=" +
           this.reminderRevisitDate[0] +
           "&endTime=" +
-          this.reminderRevisitDate[1]
+          this.reminderRevisitDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           this.reminderRevisitTable = res.data; //复诊提醒率表格赋值
@@ -457,7 +463,9 @@ export default {
           "/analysis/manager/1/appointmentRevisit?startTime=" +
           this.appointmentRevisitDate[0] +
           "&endTime=" +
-          this.appointmentRevisitDate[1]
+          this.appointmentRevisitDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           this.appointmentRevisitTable = res.data; //复诊预约率表格赋值
@@ -474,7 +482,9 @@ export default {
           `/analysis/symptom?templateType=${this.filters.templateType1}&startTime=` +
           this.symptomDate[0] +
           "&endTime=" +
-          this.symptomDate[1]
+          this.symptomDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           this.symptomData = res.data;
@@ -490,7 +500,9 @@ export default {
           `/analysis/complication?templateType=${this.filters.templateType2}&startTime=` +
           this.complicationDate[0] +
           "&endTime=" +
-          this.complicationDate[1]
+          this.complicationDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           this.complicationData = res.data;
@@ -513,7 +525,9 @@ export default {
           "/analysis/manager/3?startTime=" +
           this.ComplianceDate[0] +
           "&endTime=" +
-          this.ComplianceDate[1]
+          this.ComplianceDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
         .then(res => {
           this.tableData = res.data;
@@ -530,7 +544,9 @@ export default {
           "/excel/exportCompliance?startTime=" +
           this.ComplianceDate[0] +
           "&endTime=" +
-          this.ComplianceDate[1],
+          this.ComplianceDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -556,7 +572,9 @@ export default {
           "&startTime=" +
           this.symptomDate[0] +
           "&endTime=" +
-          this.symptomDate[1],
+          this.symptomDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -582,7 +600,9 @@ export default {
           "&startTime=" +
           this.complicationDate[0] +
           "&endTime=" +
-          this.complicationDate[1],
+          this.complicationDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -601,7 +621,9 @@ export default {
           "/analysis/manager/1/discharge?startTime=" +
           this.leaveHospitalDate[0] +
           "&endTime=" +
-          this.leaveHospitalDate[1],
+          this.leaveHospitalDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -620,7 +642,9 @@ export default {
           "/analysis/manager/1/assessment?startTime=" +
           this.administrationDate[0] +
           "&endTime=" +
-          this.administrationDate[1],
+          this.administrationDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -639,7 +663,9 @@ export default {
           "/analysis/manager/1/reminderRevisit?startTime=" +
           this.reminderRevisitDate[0] +
           "&endTime=" +
-          this.reminderRevisitDate[1],
+          this.reminderRevisitDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -658,7 +684,9 @@ export default {
           "/analysis/manager/1/appointmentRevisit?startTime=" +
           this.appointmentRevisitDate[0] +
           "&endTime=" +
-          this.appointmentRevisitDate[1],
+          this.appointmentRevisitDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -725,7 +753,9 @@ export default {
         "/analysis/manager/3?startTime=" +
         this.ComplianceDate[0] +
         "&endTime=" +
-        this.ComplianceDate[1]
+        this.ComplianceDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
     )
       .then(res => {
         this.tableData = res.data;

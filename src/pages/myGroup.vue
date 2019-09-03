@@ -37,7 +37,9 @@
       style="width: 100%;"
     >
       <el-table-column align="center" type="index" label="编号" width="80"></el-table-column>
-      <el-table-column prop="groupName" align="center" label="工作组名称" width="500" sortable></el-table-column>
+      <el-table-column prop="groupName" align="center" label="工作组名称" width="300" sortable></el-table-column>
+      <el-table-column prop="groupUserCount" align="center" label="工作组人数" width="200" ></el-table-column>
+      <el-table-column prop="groupName" align="center" label="疾病管理师" width="200" sortable></el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
         <template slot-scope="scope">
           <el-button
@@ -55,6 +57,14 @@
             @click="deleteGroup(scope.$index, scope.row)"
           >
             <i class="el-icon-delete" style="margin-right: 5px"></i>删除工作组
+          </el-button>
+          <el-button
+            round
+            type="text"
+            style="color:blue"
+            @click="deleteGroup(scope.$index, scope.row)"
+          >
+            <i class="el-icon-chat-dot-square" style="margin-right: 5px"></i>联系
           </el-button>
         </template>
       </el-table-column>
@@ -150,11 +160,7 @@ export default {
       },
       groupList: [],
       //新增界面数据
-      addGroupForm: {
-        groupName: "",
-        diseaseManagerIds: [],
-        doctorIds: []
-      },
+      addGroupForm: {},
       diseaseManagerList: [],
       doctorList: [],
       addFormVisible: false, //新增界面是否显示
@@ -166,7 +172,9 @@ export default {
         diseaseManagerIds: [],
         doctorIds: []
       },
-      edit: false, // 新增界面是否显示
+      edit: false, // 
+      rolesort:"",
+      hospitalId: 1 ,
       addLoading: false,
       user: null
     };
@@ -221,8 +229,8 @@ export default {
     },
     // 显示新增界面
     addGroup: function() {
-      this.addGroupForm={groupName: "",diseaseManagerIds: [],doctorIds: []},
       this.addFormVisible = true;
+      this.addGroupForm = {};
       this.$http("/api" + "/user/users?userType=2")
         .then(res => {
           this.diseaseManagerList = res.data;
@@ -244,18 +252,25 @@ export default {
         this.$message.warning("请填写工作组名称！");
         return;
       }
+      if(!this.addGroupForm.diseaseManagerIds == ""){
       let arr = this.addGroupForm.diseaseManagerIds.join(",");
       this.addGroupForm.diseaseManagerIds = arr;
-      let arr1 = this.addGroupForm.doctorIds.join(",");
-      this.addGroupForm.doctorIds = arr1;
+      }
+      if(!this.addGroupForm.doctorIds == ""){
+        let arr1 = this.addGroupForm.doctorIds.join(",");
+        this.addGroupForm.doctorIds = arr1;
+      }
       this.addGroupForm.userId = this.$store.state.user.user.id;
       this.addGroupForm.hospitalId = 1;
+      console.log(this.addGroupForm);
       this.$http
         .post("api" + "/groups/addWorkGroup", this.addGroupForm)
         .then(res => {
+          console.log(res)
           if (res.data == true) {
             this.getGroup();
             this.$message.success(res.message);
+
           } else {
             this.$message.warning(res.message);
           }
@@ -311,7 +326,6 @@ export default {
           } else {
             this.$message.warning(res.message);
           }
-          this.editGroupForm = {};
           this.addClose();
         })
         .catch(err => {
@@ -325,35 +339,92 @@ export default {
     },
     //获取工作组列表
     getGroup() {
-      this.$http(
-        "/api" +
-          "/groups/getWorkGroupList?userId=" +
-          this.$store.state.user.user.id +
-          "&groupName=" +
-          this.filters.groupName
-      )
-        .then(res => {
+      if(this.rolesort="4"){
+        this.$http.get(
+          '/api' +
+            `/groups/getWorkGroupList?hospitalId=${this.hospitalId}&groupName=${this.filters.groupName}`
+            // this.$store.state.user.user.hospitalId.id +
+            // "&groupName=" +
+            // this.filters.groupName
+        ).then(res => {
+          console.log(res)
           this.groupList = res.data;
         })
         .catch(err => {
           console.log(err);
         });
+      }else if(this.rolesort="1"){
+          this.$http(
+            "/api" +
+              "/groups/getWorkGroupList" 
+          ).then(res => {
+          console.log(res)
+          this.groupList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }else if(this.rolesort="2"){
+        this.$http(
+          "/api" +
+            "/groups/getWorkGroupList?userId=" +
+            this.$store.state.user.user.id +
+            "&hospitalId=" +
+            this.hospitalId+
+            "&groupName=" +
+            this.filters.groupName
+        ).then(res => {
+          console.log(res)
+          this.groupList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }else if(this.rolesort="3"){
+        this.$http(
+          "/api" +
+            "/groups/getWorkGroupList?userId=" +
+            this.$store.state.user.user.id +
+            "&hospitalId=" +
+            this.hospitalId +
+            "&groupName=" +
+            this.filters.groupName
+        ).then(res => {
+          console.log(res)
+          this.groupList = res.data;
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }
+      
+        
     }
   },
   created() {
-    this.$http(
-      "/api" +
-        "/groups/getWorkGroupList?userId=" +
-        this.$store.state.user.user.id +
-        "&groupName=" +
-        this.filters.groupName
-    )
-      .then(res => {
-        this.groupList = res.data;
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    this.getGroup();
+    // this.$http(
+    //   "/api" +
+    //     "/groups/getWorkGroupList?userId=" +
+    //     this.$store.state.user.user.id +
+    //     "&groupName=" +
+    //     this.filters.groupName
+    // )
+    //   .then(res => {
+    //     this.groupList = res.data;
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
+    var loginUser =JSON.parse(sessionStorage.getItem('loginUser'));
+    this.rolesort=loginUser.type;
+    if(this.rolesort="1"){
+      this.hospitalId=null;
+      console.log(this.hospitalId);
+    }else{
+      this.hospitalId=loginUser.hospitalId.id;
+      console.log(this.hospitalId);
+    }
   }
 };
 </script>

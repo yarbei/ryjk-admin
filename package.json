@@ -31,6 +31,7 @@
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",
+    "webpack-dev-server": "^2.9.7",
     "xlsx": "^0.14.3"
   },
   "devDependencies": {
@@ -93,7 +94,6 @@
     "vue-template-compiler": "^2.6.10",
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.9.1",
     "webpack-merge": "^4.1.0"
   },
   "engines": {

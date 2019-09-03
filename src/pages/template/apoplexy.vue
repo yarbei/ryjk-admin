@@ -305,8 +305,8 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
+            <span style="float:right;margin-top:5px;line-height:1.2em;">（每日食盐摄入＜6克，为低盐饮食）</span>
             </el-form-item>
-            <span style="float:right;margin-top:-20px">（每日食盐摄入＜6克，为低盐饮食）</span>
           </el-col>
         </el-row>
         <el-row :gutter="0">

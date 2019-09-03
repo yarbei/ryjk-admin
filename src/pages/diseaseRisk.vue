@@ -5,6 +5,7 @@
       <el-date-picker
         v-model="riskDate"
         type="daterange"
+        default-value
         range-separator="至"
         start-placeholder="开始日期"
         end-placeholder="结束日期"
@@ -62,9 +63,9 @@
           <el-table-column prop="cerebralApoplexy2" align="center" label="占比"></el-table-column>
         </el-table-column>
         <el-table-column label="心血管疾病" align="center">
-          <el-table-column prop="cardiovascularTotal0" align="center" label="非常高危"></el-table-column>
+          <el-table-column prop="cardiovascularTotal0" align="center" label="高危"></el-table-column>
           <el-table-column prop="cardiovascular0" align="center" label="占比"></el-table-column>
-          <el-table-column prop="cardiovascularTotal1" align="center" label="高危"></el-table-column>
+          <el-table-column prop="cardiovascularTotal1" align="center" label="非常高危"></el-table-column>
           <el-table-column prop="cardiovascular1" align="center" label="占比"></el-table-column>
         </el-table-column>
       </el-table-column>
@@ -89,9 +90,12 @@ export default {
             "/analysis/questionnaire?startTime=" +
             this.riskDate[0] +
             "&endTime=" +
-            this.riskDate[1]
+            this.riskDate[1]+
+            "&userId=" +
+            this.$store.state.user.user.id
         )
         .then(res => {
+          console.log(res)
           this.diseaseRiskData = res.data;
           console.log(res);
         })
@@ -107,7 +111,9 @@ export default {
           "/excel/exportRisk?startTime=" +
           this.riskDate[0] +
           "&endTime=" +
-          this.riskDate[1],
+          this.riskDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id,
         responseType: "blob",
         method: "get"
       })
@@ -119,7 +125,7 @@ export default {
         });
     },
     // 下载文件
-    download(data) {
+    download(data, name) {
       if (!data) {
         return;
       }
@@ -128,7 +134,6 @@ export default {
       link.style.display = "none";
       link.href = url;
       link.setAttribute("download", name + ".xls");
-
       document.body.appendChild(link);
       link.click();
     },
@@ -136,6 +141,7 @@ export default {
     getDate() {
       //获取当前日期
       var myDate = new Date();
+      console.log(myDate);
       var nowY = myDate.getFullYear();
       var nowM = myDate.getMonth() + 1;
       var nowD = myDate.getDate();
@@ -169,7 +175,9 @@ export default {
           "/analysis/questionnaire?startTime=" +
           this.riskDate[0] +
           "&endTime=" +
-          this.riskDate[1]
+          this.riskDate[1]+
+          "&userId=" +
+          this.$store.state.user.user.id
       )
       .then(res => {
         this.diseaseRiskData = res.data;

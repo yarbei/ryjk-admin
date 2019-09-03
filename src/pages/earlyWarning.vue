@@ -85,6 +85,7 @@ export default {
       usersList: [],
       user: null,
       ewArray: [],
+      timer: '',
       status: false,
       datalength:''
     };
@@ -163,6 +164,7 @@ export default {
           this.ewArray = res.data.list;
 
           this.page.total = res.data.total;
+          this.editStorage(res.data.total)
         })
         .catch(err => {
           console.log(err);
