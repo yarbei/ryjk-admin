@@ -311,7 +311,7 @@ export default {
           "/analysis/work/3/sfrc?userRole=" +
           this.$store.state.user.user.type +
           "&userId=" +
-          this.userId +
+          this.$store.state.user.user.id +
           "&startTime=" +
           this.followUpVisitsDate[0] +
           "&endTime=" +
@@ -344,7 +344,7 @@ export default {
           "/analysis/work/3/tzyj?userRole=" +
           this.$store.state.user.user.type +
           "&userId=" +
-          this.userId +
+          this.$store.state.user.user.id +
           "&startTime=" +
           this.followUpVisitsDate[0] +
           "&endTime=" +
@@ -377,7 +377,7 @@ export default {
           "/analysis/work/3/sffs?userRole=" +
           this.$store.state.user.user.type +
           "&userId=" +
-          this.userId +
+          this.$store.state.user.user.id +
           "&startTime=" +
           this.visitTypeDate[0] +
           "&endTime=" +
