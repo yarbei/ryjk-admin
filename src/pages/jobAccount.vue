@@ -1,3 +1,4 @@
+
 <template>
   <div>
     <el-row :gutter="80">
@@ -654,3 +655,7 @@ export default {
   border-radius: 5px;
 }
 </style>
+<<<<<<< HEAD
+=======
+>>>>>>> 72e295baa15f9744ccc8021f7459c25f9a17f543
+>>>>>>> master
