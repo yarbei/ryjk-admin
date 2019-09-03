@@ -344,8 +344,8 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
+            <span style="float:right;margin-top:5px;line-height:1.2em;">（每日食盐摄入＜6克，为低盐饮食）</span>
             </el-form-item>
-            <span style="float:right;margin-top:-20px">（每日食盐摄入＜6克，为低盐饮食）</span>
           </el-col>
           <el-col :span="8">
             <el-form-item label="低脂饮食">
@@ -357,8 +357,8 @@
                   :value="item.value"
                 ></el-option>
               </el-select>
+            <span style="float:right;margin-top:5px;line-height:1.2em;">（每人每日摄入量＜25克[半两]）</span>
             </el-form-item>
-            <span style="float:right;margin-top:-20px">（每人每日摄入量＜25克[半两]）</span>
           </el-col>
         </el-row>
       </el-card>

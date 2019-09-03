@@ -4,7 +4,7 @@
     <el-col :span="24" class="toolbar toolbar_title" style="padding-bottom: 0px;">
       <h3>患者操作</h3>
       <el-form :inline="true" :model="filters" class="toolbar_form">
-        <!-- <el-select
+        <el-select
           v-model="groupNameChoose"
           clearable
           placeholder="选择组名"
@@ -17,9 +17,10 @@
             :label="item.groupName"
             :value="item.groupId"
           ></el-option>
-        </el-select>-->
+        </el-select>
 
         <el-select
+          v-if='rolesort ==="1" '
           v-model="hospitalNameChoose"
           clearable
           placeholder="选择医院"
@@ -86,7 +87,7 @@
     >
       <el-table-column align="center" type="selection"></el-table-column>
       <el-table-column prop="name" align="center" label="姓名" width="80" sortable></el-table-column>
-      <!-- <el-table-column prop="groupId.groupName" align="center" width="100" label="组名" sortable></el-table-column> -->
+      <el-table-column prop="groupName" align="center" width="100" label="组名" sortable></el-table-column>
       <el-table-column prop="idCard" align="center" label="身份证号" width="200"></el-table-column>
       <el-table-column
         prop="sex"
@@ -452,6 +453,7 @@ export default {
       addForm: {
         departmentName: []
       },
+      rolesort: "",
       user: null,
       newGroupName: "",
       getPatientId: null,
@@ -821,7 +823,7 @@ export default {
         this.$http
           .get(
             "/api" +
-              `/patient/getPatientList?hospitalId=1&groupId=${this.groupNameChoose}`
+              `/patient/getPatientList?hospitalId=1&groupId=${this.groupNameChoose}&type=`+this.$store.state.user.user.id
           )
           .then(res => {
             this.usersList = res.data.list;
@@ -950,6 +952,9 @@ export default {
     this.getUsers(this.page.current, this.page.size);
     this.getGroupName();
     this.getHospital();
+    var loginUser =JSON.parse(sessionStorage.getItem('loginUser'));
+    this.rolesort=loginUser.type;
+    console.log(this.rolesort);
   },
   mounted() {
     if (sessionStorage.getItem("sdkuid")) {
