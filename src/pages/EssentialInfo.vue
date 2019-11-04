@@ -778,10 +778,16 @@ export default {
     },
     // 获取随访记录列表
     getVisitRecord() {
+      let userId = '';
+      if(this.$store.state.user.user.type == 1 || this.$store.state.user.user.type  ==4){
+        userId  = "";
+      }else{
+        userId = this.$store.state.user.user.id;
+      }
       this.$http
         .get(
           "/api" +
-            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${this.$store.state.user.user.id}`
+            `/visitRecord/getVisitRecordListByVisitAuthor?patientId=${this.personInfo.id}&visitAuthorId=${userId}`
         )
         .then(res => {
           if (res.data.list.length == 0) {

@@ -11,6 +11,7 @@ export default {
   },
   data () {
     return {
+      show: false,
       form: {
         visitAuthor: '',
         patientId: '',
@@ -18,7 +19,8 @@ export default {
           reactions: { value: '', desc: '' }, // 药物不良反应
           rheumatoid: { value: '', desc: '' }, // 类风湿结节触及部位
           dosages: [{ value: '', frequency: 0, dose: 0 }] // 用药情况
-        }
+        },
+        // complicationCategory: ''
       },
       personInfoId: '', // 患者Id
       personInfo: {}, // 患者信息
@@ -33,6 +35,8 @@ export default {
           { value: 1, label: '有不良反应' }
         ]
       },
+      inputData3: null,
+      inputData4: "",
       // 类风湿结节触及部位传入子组件的数据
       rheumatoidData: {
         selectLabel: '类风湿结节部位', // select选择框的label值
@@ -41,8 +45,11 @@ export default {
         option: [
           { value: 0, label: '未触及' },
           { value: 1, label: '已触及' }
-        ]
+        ],
+        
       },
+      inputData: null,
+      inputData1: "",
       // 随访状态
       sfstatus: [{ value: 0, label: '未完成' }, { value: 1, label: '已完成' }],
       // 随访结果
@@ -68,13 +75,13 @@ export default {
       ],
       // 随访评估
       sfassessment: [
-        { value: 1, label: '控制满意' },
+        { value: 4, label: '控制满意' },
         {
-          value: 2,
+          value: 3,
           label: '控制不满意',
           children: [
-            { value: 3, label: '并发症' },
-            { value: 4, label: '相关指标控制不佳' },
+            { value: 1, label: '并发症' },
+            { value: 2, label: '相关指标控制不佳' },
             { value: 5, label: '不良生活方式未改善' }
           ]
         }
@@ -154,6 +161,7 @@ export default {
         { value: 2, label: '消瘦' },
         { value: 3, label: '其他' }
       ],
+      inputData2: 0,
       // 慢阻肺饮食情况
       sfbiteAndSup: [
         { value: 0, label: '普通饮食' },
@@ -404,61 +412,173 @@ export default {
       this.$http
         .get('/api' + '/visitRecord/getVisitRecordById?id=' + id)
         .then(res => {
-          this.form = res.data
-          this.form.visitRecordContent = JSON.parse(
-            res.data.visitRecordContent
-          )// 将visitRecordContent解析为object类型
-          if (res.data.department) {
-            this.form.department = Number(res.data.department)// 将科室由str变为num
-          }
-          if (res.data.symptom != null) {
-            this.form.symptom = res.data.symptom.split(',')// 将症状由str数组变为num数组
-          }
-          if (res.data.complication != null) {
-            this.form.complication = res.data.complication
-              .split(',')// 将并发症由str数组变为num数组
-          }
-          if (res.data.complicationCategory != null) {
-            res.data.complicationCategory = String(res.data.complicationCategory)
-          }
-          // 如果有症状将请求症状数据
-          if (this.form.visitRecordContent.issymptom === 1) {
-            this.$http
-              .get('/api' + `/common/getCommonDataList?dataType=0&sourceType=`)
-              .then(res => {
-                this.sfsymptomName = res.data
-              })
-              .catch(err => {
-                console.log(err)
-              })
-          }
-          // 如果有并发症将请求并发症的分类数据
-          if (this.form.visitRecordContent.iscomplication === 1) {
-            this.$http
-              .get('/api' + `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}`)
-              .then(res => {
-                this.sfbfz = res.data
-              })
-              .catch(err => {
-                console.log(err)
-              })
-            // 请求并发症具体数据
-            if (this.form.complicationCategory) {
+          if(res.error == 0) {
+            this.form = res.data
+            this.form.visitRecordContent = JSON.parse(
+              res.data.visitRecordContent
+            )// 将visitRecordContent解析为object类型
+            console.log(this.form.visitRecordContent, '99')
+            
+            if(this.form.visitRecordContent.rheumatoid) {
+              this.inputData1 = this.form.visitRecordContent.rheumatoid.desc
+              this.inputData = this.form.visitRecordContent.rheumatoid.value
+            }
+            // debugger
+            // if(res.error == 0) {
+              if(this.form.visitRecordContent.weightType) {
+                this.inputData2 = this.form.visitRecordContent.weightType
+              }
+              if(this.form.visitRecordContent.reactions) {
+                this.inputData3 = this.form.visitRecordContent.reactions.value
+                this.inputData4 = this.form.visitRecordContent.reactions.desc
+              }
+            // }
+            if (res.data.department) {
+              this.form.department = Number(res.data.department)// 将科室由str变为num
+            }
+            
+            if (res.data.complication != null) {
+              this.form.complication = res.data.complication
+                .split(',')// 将并发症由str数组变为num数组
+            }
+            if (res.data.complicationCategory != null) {
+              res.data.complicationCategory = String(res.data.complicationCategory)
+            }
+            // 如果有症状将请求症状数据symptom
+            // if(res.error ==  0) {
+              // if (this.form.visitRecordContent.issymptom === 1) {
+              //     this.$http
+              //       .get('/api' + `/common/getCommonDataList?dataType=0&sourceType=${this.form.templateType}`)
+              //       .then(res => {
+              //         if(res.error == 0) {
+              //           this.sfsymptomName = res.data
+              //           if (this.form.symptom != null) {
+              //             this.$set(this.form, 'symptom', this.form.symptom.split(','))
+              //             // this.form.symptom = this.form.symptom.split(',')// 将症状由str数组变为num数组
+              //           }
+              //         }
+              //       })
+              //       .catch(err => {
+              //         console.log(err)
+              //       })
+              //   }
+            // }
+            // 有症状和并发症
+            if (this.form.visitRecordContent.issymptom === 1 && this.form.visitRecordContent.iscomplication === 1) {
               this.$http
-                .get(
-                  '/api' +
-                  '/common/getCommonDataList?dataType=1&dataNum=' +
-                  this.form.complicationCategory
-                )
+                .get('/api' + `/common/getCommonDataList?dataType=0&sourceType=${this.form.templateType}`)
                 .then(res => {
-                  this.sfbfzName = res.data
+                  if(res.error == 0) {
+                    this.sfsymptomName = res.data
+                    if (this.form.symptom != null) {
+                      this.$set(this.form, 'symptom', this.form.symptom.split(','))
+                      // this.form.symptom = this.form.symptom.split(',')// 将症状由str数组变为num数组
+                    }
+                    // 如果有并发症将请求并发症的分类数据
+                    if (this.form.visitRecordContent.iscomplication === 1) {
+                      this.$http
+                        .get('/api' + `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}`)
+                        .then(res => {
+                          this.sfbfz = res.data
+                        })
+                        .catch(err => {
+                          console.log(err)
+                        })
+                      // 请求并发症具体数据
+                      if (this.form.complicationCategory) {
+                        this.$http
+                          .get(
+                            '/api' +
+                            `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}&dataNum=${
+                            this.form.complicationCategory}`
+                          )
+                          .then(res => {
+                            this.sfbfzName = res.data
 
+                          })
+                          .catch(err => {
+                            console.log(err)
+                          })
+                      }else {
+                        this.$http
+                          .get(
+                            '/api' +
+                            `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}`
+                          )
+                          .then(res => {
+                            this.sfbfzName = res.data
+
+                          })
+                          .catch(err => {
+                            console.log(err)
+                          })
+                      }
+                    }
+                  }
                 })
                 .catch(err => {
                   console.log(err)
                 })
+            }else if(this.form.visitRecordContent.issymptom === 1) {
+              // 有症状
+              this.$http
+                .get('/api' + `/common/getCommonDataList?dataType=0&sourceType=${this.form.templateType}`)
+                .then(res => {
+                  if(res.error == 0) {
+                    this.sfsymptomName = res.data
+                    if (this.form.symptom != null) {
+                      this.$set(this.form, 'symptom', this.form.symptom.split(','))
+                      // this.form.symptom = this.form.symptom.split(',')// 将症状由str数组变为num数组
+                    }
+                  }
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+          }else if(this.form.visitRecordContent.iscomplication === 1) {
+            //  如果有并发症将请求并发症的分类数据
+            if (this.form.visitRecordContent.iscomplication === 1) {
+              this.$http
+                .get('/api' + `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}`)
+                .then(res => {
+                  this.sfbfz = res.data
+                })
+                .catch(err => {
+                  console.log(err)
+                })
+              // 请求并发症具体数据
+              if (this.form.complicationCategory) {
+                this.$http
+                  .get(
+                    '/api' +
+                    `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}&dataNum=${
+                    this.form.complicationCategory}`
+                  )
+                  .then(res => {
+                    this.sfbfzName = res.data
+
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
+              }else {
+                this.$http
+                  .get(
+                    '/api' +
+                    `/common/getCommonDataList?dataType=1&sourceType=${this.form.templateType}`
+                  )
+                  .then(res => {
+                    this.sfbfzName = res.data
+
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
+              }
             }
           }
+          }
+          
         })
         .catch(err => {
           console.log(err)

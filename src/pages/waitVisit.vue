@@ -124,17 +124,26 @@ export default {
   },
   methods: {
     //点击完成随访
-    complete(index, row) {
+   complete(index, row) {
+      this.$http.post('/api/user/completeOperation',{id:row.id}).then(res=>{
+        this.editStorage(res.data)
+      }).catch(err=>{
+        console.log(err)
+      })
       this.$http
-        .post("/api/user/completeOperation", { id: row.id })
+        .post("/api" + `/notice/updateStatus`, { messageId: row.id })
         .then(res => {
-          this.editStorage(res.data)
-          this.getwVList()
-          this.$message.success('操作成功!')
+          if (res.data) {
+            this.$message.success("操作成功")
+            this.getwVList()
+          } else {
+            this.$message.error("操作失败")
+          }
         })
         .catch(err => {
           console.log(err);
         });
+      console.log(row)
     },
     // 打开聊天窗口
     openIM(index, row) {
@@ -185,6 +194,7 @@ export default {
     },
     // 获取待随访列表
     getwVList() {
+      // debugger;
       this.$http
         .get(
           "/api" +
@@ -197,10 +207,12 @@ export default {
             }&receiverRole=${this.$store.state.user.user.type}&noticeType=1`
         )
         .then(res => {
+          // debugger
           this.wvArray = res.data.list;
-          this.total = res.data.total;
-          this.size = res.data.size;
-          this.currentPage = res.data.pages;
+           //this.page.total = res.data.total
+          var count = res.data.total
+
+          this.editStorage(count)
         })
         .catch(err => {
           console.log(err);
@@ -209,8 +221,8 @@ export default {
     handleSizeChange() {},
     handleCurrentChange() {},
 
-    formatSatus(row, column) {
-      return row.status == 1 ? "待随访" : "已随访";
+     formatSatus(row) {
+      return row.status == 0 ? "已完成" : row.status == 1 ? "未完成" : "无";
     },
 
     editStorage(waitForCount) {

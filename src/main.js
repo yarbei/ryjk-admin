@@ -54,10 +54,13 @@ Vue.use(VCharts)
 // Vue.use(MLoader)
 // Vue.use(MContainer)
 
-
+function load(){
+  // window.location.reload();
+}
 
 var whiteList = ['admin', 'login']
 router.beforeEach((to, from, next) => {
+  // location.reload();
   NProgress.start()
   var token = sessionStorage.getItem('token')
   if (!token && whiteList.indexOf(to.name) === -1) {

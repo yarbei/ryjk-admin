@@ -75,13 +75,23 @@ export default {
       ],
       // 随访评估
       sfassessment: [
-        { value: 1, label: '控制满意' },
+        // { value: 1, label: '控制满意' },
+        // {
+        //   value: 2,
+        //   label: '控制不满意',
+        //   children: [
+        //     { value: 3, label: '并发症' },
+        //     { value: 4, label: '相关指标控制不佳' },
+        //     { value: 5, label: '不良生活方式未改善' }
+        //   ]
+        // }
+        { value: 4, label: '控制满意' },
         {
-          value: 2,
+          value: 3,
           label: '控制不满意',
           children: [
-            { value: 3, label: '并发症' },
-            { value: 4, label: '相关指标控制不佳' },
+            { value: 1, label: '并发症' },
+            { value: 2, label: '相关指标控制不佳' },
             { value: 5, label: '不良生活方式未改善' }
           ]
         }
@@ -566,13 +576,18 @@ export default {
         return
       }
       var formData = this.form
+      if(this.form.assessment === 4) {
+        formData.assessment = this.form.assessment
+      }else{
+        formData.assessment = this.form.assessment.pop()
+      }
       formData.patientId = this.personInfo.id // 患者ID，必传
       formData.visitAuthor = this.$store.state.user.user.id // 从store中获取用户ID，在这被作为随访人员ID
       formData.planId = parseInt(this.planId) // 计划Id
       formData.patientType = parseInt(this.patientType) // 患者类型
       formData.templateType = templateType // 模板Id
-      formData.assessment = this.form.assessment.pop()// 随访评估数组转数字
-      formData.managerId = this.$route.query.managerId
+      // formData.assessment = this.form.assessment.pop()// 随访评估数组转数字
+      formData.managerId = parseInt(this.$route.query.managerId)
       if (formData.complication && formData.complication instanceof Array) {
         formData.complication = this.form.complication.join(',')
       }

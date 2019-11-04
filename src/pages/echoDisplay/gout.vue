@@ -192,7 +192,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" v-if="form.visitRecordContent.smokingAmount">
             <el-form-item label="吸烟量">
               <el-input-number v-model="form.visitRecordContent.smokingAmount" :min="0" :max="9999"></el-input-number>
             </el-form-item>
@@ -225,7 +225,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="6" v-if="form.visitRecordContent.alcoholConsumptionAmount">
             <el-form-item label="饮酒量">
               <el-input-number
                 v-model="form.visitRecordContent.alcoholConsumptionAmount"
@@ -366,7 +366,7 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="8" v-if="form.templateType==0 || form.templateType==9">
             <el-form-item label="并发症">
               <el-select v-model="form.complicationCategory">
                 <el-option
@@ -458,11 +458,30 @@
         </el-row>
         <el-row></el-row>
         <!-- 药物不良反应 -->
-        <select-input
+        <!-- <select-input
           :selectInputData="reactionsData"
           @listenSelect="reactionsSelect"
           @listenInput="reactionsInput"
-        ></select-input>
+        ></select-input> -->
+        <el-row :gutter="0">
+          <el-col :span="8">
+            <el-form-item :label="reactionsData.selectLabel">
+              <el-select v-model="inputData3">
+                <el-option
+                  v-for="item in reactionsData.option"
+                  :key="item.value"
+                  :value="item.value"
+                  :label="item.label"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8">
+            <el-form-item :label="reactionsData.inputLabel">
+              <el-input v-model="inputData4" placeholder="请输入内容"></el-input>
+            </el-form-item>
+          </el-col>
+      </el-row>
       </el-card>
       <el-card>
         <div slot="header">

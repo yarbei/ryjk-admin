@@ -72,7 +72,6 @@
           <el-input v-model="editForm.imgPath" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item label="	广告地址" prop="link" style="position: relative;">
-
           <el-upload
             action="/api/common/upload"
             :show-file-list="istrue"
@@ -216,7 +215,7 @@ export default {
     handleAvatarSuccess(res, file, fileList) {
       this.dialogImageUrl = "";
       this.linkPic = fileList;
-      this.editForm.link = fileList;
+      this.editForm.link = fileList[0].response.data.url;
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;

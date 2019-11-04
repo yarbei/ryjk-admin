@@ -2,7 +2,7 @@
   <div class="cp_container">
     <tab-header :personInfo="personInfo"></tab-header>
     <el-form label-width="135px">
-      <el-card>
+      <el-card style="width: 100%;">
         <div slot="header">
           <h2>疾病计划名称</h2>
         </div>
@@ -251,9 +251,10 @@ export default {
         this.$message.warning("请选择必测体征项！");
         return;
       }
-      console.log(this.selectedBodySignList)
+      console.log(this.slectedBodySignList)
       var visitManager=JSON.parse(JSON.stringify(this.visit));
       const params = {
+        userId:0,
         departmentName: this.personInfo.departmentName,
         id: this.planId ? Number(this.planId) : null,
         name: this.name || "",
@@ -324,6 +325,9 @@ export default {
 </script>
 
 <style type="text/css">
+.el-card {
+  width: 100%;
+}
 .closeAdvise {
   float: right;
   cursor: pointer;
@@ -377,6 +381,7 @@ export default {
 }
 .el-card {
   margin-top: 10px;
+  width: 100%!important;
 }
   .el-form-item label:after {
     content: " ";

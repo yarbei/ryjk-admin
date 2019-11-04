@@ -766,7 +766,11 @@ export default {
     // 获取组名
     getGroupName() {
       this.$http
-        .get("/api" + `/groups/getGroupList`)
+        .get(
+          "/api/groups/getGroupList?type="+this.$store.state.user.user.type+
+          "&userId="+this.$store.state.user.user.id
+          
+          )
         .then(res => {
           this.groupNameList = res.data;
         })
@@ -820,10 +824,19 @@ export default {
       if (this.groupNameChoose === "") {
         this.getUsers();
       } else {
+        this.user = JSON.parse(sessionStorage.getItem("loginUser"));
+      if (
+        typeof this.$store.state.user.user.uniqueAccountId != "undefined" &&
+        typeof this.$store.state.user.user.type != "undefined"
+      ) {
+        this.uniqueAccountId = this.$store.state.user.user.uniqueAccountId;
+        this.type = this.$store.state.user.user.type;
+      }
+      this.type = parseInt(this.type);
         this.$http
           .get(
             "/api" +
-              `/patient/getPatientList?hospitalId=1&groupId=${this.groupNameChoose}&type=`+this.$store.state.user.user.id
+              `/patient/getPatientList?hospitalId=1&groupId=${this.groupNameChoose}&type=`+this.type+`&uniqueAccountId=`+this.uniqueAccountId
           )
           .then(res => {
             this.usersList = res.data.list;

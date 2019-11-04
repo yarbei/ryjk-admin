@@ -39,16 +39,11 @@
       <el-table-column align="center" type="index" label="编号" width="80"></el-table-column>
       <el-table-column prop="groupName" align="center" label="工作组名称" width="300" sortable></el-table-column>
       <el-table-column prop="groupUserCount" align="center" label="工作组人数" width="200" ></el-table-column>
-      <el-table-column prop="groupUserList" align="center" label="疾病管理师" width="200">
+      <el-table-column align="center" label="疾病管理师" width="200" sortable>
         <template slot-scope="scope">
-          
-            <div v-for="(item,index) in scope.row" :key="index" prop="userName"
-              @click="openIM(scope.$index, scope.row)"
-              style="margin-right: 5px;color:blue;">
-                <!-- <el-tooltip effect="dark" content="联系医生" placement="top"> -->
-                  <span class="item" v-for="(name,index) in item" :key="index">{{name.userName}} </span>
-                <!-- </el-tooltip> -->
-            </div>     
+          <span v-for="(v, i) in scope.row.groupUserList" :key="i" style="color:blue; cursor: pointer" @click="infoGroup(scope.$index, scope.row)">
+            {{v.userName}}
+          </span>
         </template>
       </el-table-column>
       <el-table-column align="center" label="操作" min-width="140">
@@ -170,7 +165,6 @@ export default {
         groupName: ""
       },
       groupList: [],
-      groupUserList:[],//医生信息
       //新增界面数据
       addGroupForm: {},
       diseaseManagerList: [],
@@ -188,8 +182,7 @@ export default {
       rolesort:"",
       hospitalId: 1 ,
       addLoading: false,
-      user: null,
-      hospital:""
+      user: null
     };
   },
   methods: {
@@ -202,48 +195,47 @@ export default {
       this.page.current = val;
       this.getUsers(this.page.current, this.page.size);
     },
-    // 打开聊天窗口
-    openIM(index, row) {
-        //location.href="../../static/IM/im/main.html";
-        sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
-        //获取计划列表
-        this.$http({
-          url: "/api/plan/getPlanByPatientId?patientId=" + row.id
-        })
-          .then(res => {
-            sessionStorage.setItem(
-              "openIMPlanList",
-              JSON.stringify(res.data.list)
-            );
-            var openIMVisitList = {};
-            res.data.list.forEach(item => {
-              // 获取随访列表
-              this.$http({
-                url:
-                  "/api" +
-                  "/visitRecord/getVisistManagerList?planId=" +
-                  item.planId
+    
+    infoGroup(index, row) {
+       sessionStorage.setItem("openIMPersonInfo", JSON.stringify(row));
+      //获取计划列表
+      this.$http({
+        url: "/api/plan/getPlanByPatientId?patientId=" + row.id
+      })
+        .then(res => {
+          sessionStorage.setItem(
+            "openIMPlanList",
+            JSON.stringify(res.data.list)
+          );
+          var openIMVisitList = {};
+          res.data.list.forEach(item => {
+            // 获取随访列表
+            this.$http({
+              url:
+                "/api" +
+                "/visitRecord/getVisistManagerList?planId=" +
+                item.planId
+            })
+              .then(res => {
+                sessionStorage.setItem(item.planId, JSON.stringify(res.data));
               })
-                .then(res => {
-                  sessionStorage.setItem(item.planId, JSON.stringify(res.data));
-                })
-                .catch(err => {
-                  console.log(err);
-                });
-            });
-          })
-          .catch(err => {
-            console.log(err);
+              .catch(err => {
+                console.log(err);
+              });
           });
-        let account = row.yunXinAccount;
-        if (account) {
-          window.open("../../static/IM/im/main.html?account=" + account);
-        } else {
-          //todo  删除
-          account = "test99";
-          window.open("../../static/IM/im/main.html?account=" + account);
-          this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
-        }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      let account = row.yunXinAccount;
+      if (account) {
+        window.open("../../static/IM/im/main.html?account=" + account);
+      } else {
+        //todo  删除
+        account = "test99";
+        window.open("../../static/IM/im/main.html?account=" + account);
+        this.$message.warning("患者云信账号信息为空，无法打开聊天界面！");
+      }
     },
     // 删除分组
     deleteGroup(index, row) {
@@ -393,102 +385,74 @@ export default {
       this.addFormVisible = false;
       this.editFormVisible = false;
     },
+
+    
+
+
     //获取工作组列表
     getGroup() {
-      if(this.rolesort==4){
-        this.$http.get(
-          '/api' +
-            `/groups/getWorkGroupList?hospitalId=${this.hospitalId}&groupName=${this.filters.groupName}`
-            // this.$store.state.user.user.hospitalId.id +
-            // "&groupName=" +
-            // this.filters.groupName
+      console.log(this)
+      let roleType = this.$store.state.user.user.type
+
+      let url;
+      if(roleType == 2 || roleType == 3){
+        url = "/api" +
+                    "/groups/getWorkGroupList?userId=" +
+                    this.$store.state.user.user.id +
+                    "&hospitalId=" +this.$store.state.user.user.hospitalId.id+
+                    "&type=" +roleType+
+                    "&groupName=" +
+                    this.filters.groupName
+      }else if(roleType == 1){
+        url = "/api" +
+                    "/groups/getWorkGroupList?groupName=" +
+                    "&type=" +roleType+
+                    this.filters.groupName
+      }else{
+        url = "/api" +
+                    "/groups/getWorkGroupList?hospitalId=" +
+                    this.$store.state.user.user.hospitalId+
+                    "&type=" +roleType+
+                    "&groupName=" +
+                    this.filters.groupName
+      }
+
+
+      this.$http(
+          url
         ).then(res => {
           console.log(res)
           this.groupList = res.data;
-          for (let i = 0; i < this.groupList.length; i++) {
-            if(this.groupList[i].groupUserList) {
-              this.groupUserList = this.groupList[i].groupUserList
-              console.log(1);
-            }
-          }
         })
         .catch(err => {
           console.log(err);
         });
-      }else if(this.rolesort==1){
-          this.$http(
-            "/api" +
-              "/groups/getWorkGroupList" 
-          ).then(res => {
-          console.log(res)
-          this.groupList = res.data;
-          for (let i = 0; i < this.groupList.length; i++) {
-            if(this.groupList[i].groupUserList) {
-              this.groupUserList = this.groupList[i].groupUserList
-              console.log(2);
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }else if(this.rolesort==2){
-        this.$http(
-          "/api" +
-            "/groups/getWorkGroupList?userId=" +
-            this.$store.state.user.user.id +
-            "&hospitalId=1" +
-            "&groupName=" +
-            this.filters.groupName
-        ).then(res => {
-          console.log(res)
-          this.groupList = res.data;
-          for (let i = 0; i < this.groupList.length; i++) {
-            if(this.groupList[i].groupUserList) {
-              this.groupUserList = this.groupList[i].groupUserList
-              console.log(3);
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }else if(this.rolesort==3){
-        this.$http(
-          "/api" +
-            "/groups/getWorkGroupList?userId=" +
-            this.$store.state.user.user.id +
-            "&hospitalId=1" +
-            "&groupName=" +
-            this.filters.groupName
-        ).then(res => {
-          console.log(res)
-          this.groupList = res.data;
-          this.groupUserList=groupList.groupUserList;
-          for (let i = 0; i < this.groupList.length; i++) {
-            if(this.groupList[i].groupUserList) {
-              this.groupUserList = this.groupList[i].groupUserList
-              console.log(4);
-            }
-          }
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }  
     }
   },
   created() {
+    this.getGroup();
+    // this.$http(
+    //   "/api" +
+    //     "/groups/getWorkGroupList?userId=" +
+    //     this.$store.state.user.user.id +
+    //     "&groupName=" +
+    //     this.filters.groupName
+    // )
+    //   .then(res => {
+    //     this.groupList = res.data;
+    //   })
+    //   .catch(err => {
+    //     console.log(err);
+    //   });
     var loginUser =JSON.parse(sessionStorage.getItem('loginUser'));
-    console.log(loginUser);
-      this.rolesort=loginUser.type;
-      if(this.rolesort == 1){
-      this.hospitalId = parseInt(this.hospital);
+    this.rolesort=loginUser.type;
+    if(this.rolesort="1"){
+      this.hospitalId=null;
+      console.log(this.hospitalId);
     }else{
       this.hospitalId=loginUser.hospitalId.id;
       console.log(this.hospitalId);
     }
-    this.getGroup();
   }
 };
 </script>
@@ -520,9 +484,6 @@ export default {
   margin-bottom: 30px;
 }
 .el-tooltip {
-  cursor: pointer;
-}
-span.item{
   cursor: pointer;
 }
 .table_container >>> .el-table__row--striped td {

@@ -13,7 +13,7 @@
       </el-form-item>
     </el-col>
     <el-col :span="8">
-      <el-form-item :label="selectInputData.inputLabel">
+      <el-form-item v-if="isshow" :label="selectInputData.inputLabel">
         <el-input v-model="inputData" placeholder="请输入内容"></el-input>
       </el-form-item>
     </el-col>
@@ -23,8 +23,8 @@
 export default {
   data() {
     return {
-      isshow: false,
-      selectData: "",
+      isshow: true,
+      selectData: null,
       inputData: ""
     };
   },
@@ -47,6 +47,23 @@ export default {
       this.$emit("listenInput", val);
     }
   },
+  mounted() {
+    // var arr = []
+    // this.isshow = false;
+    // this.$nextTick(() => {
+    //   this.isshow = true;
+    // //   if(this.selectInputData.inputData) {
+    // //   this.selectData = this.selectInputData.inputData.rheumatoid.value
+    // //   this.inputData = this.selectInputData.inputData.rheumatoid.desc
+    // // }
+    // if(this.selectInputData.inputData) {
+    //   this.inputData = this.selectInputData.inputData
+    //   console.log(this.selectInputData.inputData, '000')
+    // }
+    
+    // })
+    
+  }
 };
 </script>
 
